@@ -20,6 +20,8 @@ Ukoliko ipak zelite da downloadujete alat, to mozete uraditi na sajtu: https://w
 
 Admin: https://alek.invisionapp.com/public/prototype/skhankurq00a6sg01snqd56rf
 
-Autentifikovani korisnik:
+Autentifikovani korisnik: https://milena687285.invisionapp.com/prototype/ckhdpbbm400f0sg01dhmb2529/play
 
-Neautentifikovani korisnik:  (Demo logina i searcha) https://jasonjoy.invisionapp.com/prototype/admin-ckhdetdw70012il01i2hvjqx8/play/2e501ab7
+Neautentifikovani korisnik:  (Demo logina, registracije i search-a) https://milena687285.invisionapp.com/prototype/ckhdp8pxe00gn3401thw7o8r0/play?fbclid=IwAR0PTeItDbT9p2-S8lSj13oQZAITHHoYQe_Y-JkjwyX88iwRxfR3IzmxTjk
+
+
