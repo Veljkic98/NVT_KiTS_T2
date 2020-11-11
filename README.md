@@ -22,4 +22,4 @@ Admin: https://alek.invisionapp.com/public/prototype/skhankurq00a6sg01snqd56rf
 
 Autentifikovani korisnik:
 
-Neautentifikovani korisnik:  https://alek.invisionapp.com/public/prototype/skhankurq00a6sg01snqd56rf
+Neautentifikovani korisnik:  (Demo logina i searcha) https://jasonjoy.invisionapp.com/prototype/admin-ckhdetdw70012il01i2hvjqx8/play/2e501ab7
