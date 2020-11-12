@@ -18,7 +18,7 @@ Ukoliko ipak zelite da downloadujete alat, to mozete uraditi na sajtu: https://w
 
 #### linkovi do invision projekta podeljeni su prema korisnickim ulogama:
 
-Admin: https://milena687285.invisionapp.com/prototype/ckhdwjr63017794010qw8fy4c/play
+Admin: https://jasonjoy.invisionapp.com/prototype/ckhelduju0055w401n3b1tmhh/play
 
 Autentifikovani korisnik: https://milena687285.invisionapp.com/prototype/ckhdws0c401799401upjbfqoy/play
 
