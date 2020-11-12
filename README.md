@@ -18,10 +18,10 @@ Ukoliko ipak zelite da downloadujete alat, to mozete uraditi na sajtu: https://w
 
 #### linkovi do invision projekta podeljeni su prema korisnickim ulogama:
 
-Admin: https://alek.invisionapp.com/public/prototype/skhankurq00a6sg01snqd56rf
+Admin: https://milena687285.invisionapp.com/prototype/ckhdwjr63017794010qw8fy4c/play
 
-Autentifikovani korisnik: https://milena687285.invisionapp.com/prototype/ckhdpbbm400f0sg01dhmb2529/play
+Autentifikovani korisnik: https://milena687285.invisionapp.com/prototype/ckhdws0c401799401upjbfqoy/play
 
-Neautentifikovani korisnik:  (Demo logina, registracije i search-a) https://milena687285.invisionapp.com/prototype/ckhdp8pxe00gn3401thw7o8r0/play?fbclid=IwAR0PTeItDbT9p2-S8lSj13oQZAITHHoYQe_Y-JkjwyX88iwRxfR3IzmxTjk
+Neautentifikovani korisnik:  (Demo logina, registracije i search-a) https://milena687285.invisionapp.com/prototype/ckhdws0c401799401upjbfqoy/play
 
 
