@@ -20,7 +20,7 @@ Ukoliko ipak zelite da downloadujete alat, to mozete uraditi na sajtu: https://w
 
 Admin: https://jasonjoy.invisionapp.com/prototype/ckhelduju0055w401n3b1tmhh/play
 
-Autentifikovani korisnik: https://milena687285.invisionapp.com/prototype/ckhg2lmjj002l3401zj7raomj/play
+Autentifikovani korisnik: https://milena687285.invisionapp.com/prototype/ckhklg0en01bk940194khdx3v/play
 
 Neautentifikovani korisnik:  (Demo logina, registracije i search-a) https://milena687285.invisionapp.com/prototype/ckhdws0c401799401upjbfqoy/play
 
