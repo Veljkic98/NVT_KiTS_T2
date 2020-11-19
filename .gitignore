@@ -1,3 +1,5 @@
 ### VS Code ###
 .vscode/
-backend/CulturalHeritage/src/main/
+
+### application properties ###
+backend/CulturalHeritage/src/main/resources/application.properties
