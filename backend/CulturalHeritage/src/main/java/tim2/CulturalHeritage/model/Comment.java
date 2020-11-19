@@ -22,6 +22,9 @@ public class Comment {
     @ManyToOne
     private CulturalHeritage culturalHeritage;
 
+    @ManyToOne
+    private AuthenticatedUser authenticatedUser;
+
     //TODO: lista slika
 
     

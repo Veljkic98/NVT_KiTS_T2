@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -33,7 +34,10 @@ public class CulturalHeritage {
   private List<News> news;
   
   @OneToMany(mappedBy="culturalHeritage", cascade=CascadeType.ALL)
-	private List<Comment> comments;
+  private List<Comment> comments;
+  
+  @ManyToMany(mappedBy = "culturalHeritages")
+  private List<AuthenticatedUser> authenticatedUsers;
 
   // todo: dodati slike
 

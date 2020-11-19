@@ -20,38 +20,10 @@ public class Rating {
     @Column(name = "grade", nullable = false)
     private int grade;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private CulturalHeritage culturalHeritage;
 
-
-    public Rating(Long id, int grade, CulturalHeritage culturalHeritage) {
-        this.id = id;
-        this.grade = grade;
-        this.culturalHeritage = culturalHeritage;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getGrade() {
-        return this.grade;
-    }
-
-    public void setGrade(int grade) {
-        this.grade = grade;
-    }
-
-    public CulturalHeritage getCulturalHeritage() {
-        return this.culturalHeritage;
-    }
-
-    public void setCulturalHeritage(CulturalHeritage culturalHeritage) {
-        this.culturalHeritage = culturalHeritage;
-    }
+    @ManyToOne
+    private AuthenticatedUser authenticatedUser;
 
 }

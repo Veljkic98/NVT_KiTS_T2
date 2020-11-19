@@ -26,6 +26,9 @@ public class News {
     @ManyToOne(fetch = FetchType.LAZY)
     private CulturalHeritage culturalHeritage;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Admin admin;
+
     // TODO: picture attribute
 
     public News() {}
