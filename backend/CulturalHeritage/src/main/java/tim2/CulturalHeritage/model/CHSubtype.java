@@ -12,25 +12,24 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "chsubtype")
 public class CHSubtype {
-  
+
   @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name="name")
+  @Column(name = "name")
   private String name;
 
-  @ManyToOne(fetch=FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   private CHType chtype;
 
+  public CHSubtype() {
+  }
 
-  public CHSubtype() {}
-  
   public CHSubtype(Long id, String name) {
     this.id = id;
     this.name = name;
   }
-
 
   public Long getId() {
     return this.id;
