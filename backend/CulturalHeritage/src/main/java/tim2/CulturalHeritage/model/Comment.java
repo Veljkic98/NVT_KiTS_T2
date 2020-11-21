@@ -1,6 +1,10 @@
 package tim2.CulturalHeritage.model;
 
+import java.util.Map;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "comment")
 public class Comment {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -25,7 +29,57 @@ public class Comment {
     @ManyToOne
     private AuthenticatedUser authenticatedUser;
 
-    //TODO: lista slika
+    @ElementCollection
+    @CollectionTable(name = "images")
+    private Map<Long, byte[]> images;
 
-    
+    public Comment(long id, String content, CulturalHeritage culturalHeritage, AuthenticatedUser authenticatedUser,
+            Map<Long, byte[]> images) {
+        this.id = id;
+        this.content = content;
+        this.culturalHeritage = culturalHeritage;
+        this.authenticatedUser = authenticatedUser;
+        this.images = images;
+    }
+
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public CulturalHeritage getCulturalHeritage() {
+        return this.culturalHeritage;
+    }
+
+    public void setCulturalHeritage(CulturalHeritage culturalHeritage) {
+        this.culturalHeritage = culturalHeritage;
+    }
+
+    public AuthenticatedUser getAuthenticatedUser() {
+        return this.authenticatedUser;
+    }
+
+    public void setAuthenticatedUser(AuthenticatedUser authenticatedUser) {
+        this.authenticatedUser = authenticatedUser;
+    }
+
+    public Map<Long, byte[]> getImages() {
+        return this.images;
+    }
+
+    public void setImages(Map<Long, byte[]> images) {
+        this.images = images;
+    }
+
 }

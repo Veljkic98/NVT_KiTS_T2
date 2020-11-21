@@ -12,5 +12,5 @@ public class CHTypeController {
 
     @Autowired
     private CHTypeService chTypeService;
-    
+
 }

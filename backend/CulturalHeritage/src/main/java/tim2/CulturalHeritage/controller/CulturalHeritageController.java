@@ -12,5 +12,5 @@ public class CulturalHeritageController {
 
     @Autowired
     private CulturalHeritageService culturalHeritageService;
-    
+
 }

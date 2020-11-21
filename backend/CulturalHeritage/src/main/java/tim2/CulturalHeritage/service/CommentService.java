@@ -4,16 +4,15 @@ import java.util.List;
 
 import tim2.CulturalHeritage.model.Comment;
 
-
 public interface CommentService {
-    
-  public List<Comment> findAll();
 
-  public Comment findById(Long id);
+    public List<Comment> findAll();
 
-  public Comment add(Comment comment);
+    public Comment findById(Long id);
 
-  public Comment update(Comment comment);
+    public Comment add(Comment comment);
 
-  public void deleteById(Long id);
+    public Comment update(Comment comment);
+
+    public void deleteById(Long id);
 }

@@ -6,13 +6,13 @@ import tim2.CulturalHeritage.model.CHType;
 
 public interface CHTypeService {
 
-  public List<CHType> findAll();
+    public List<CHType> findAll();
 
-  public CHType findById(Long id);
+    public CHType findById(Long id);
 
-  public CHType add(CHType chType);
+    public CHType add(CHType chType);
 
-  public CHType update(CHType chType);
+    public CHType update(CHType chType);
 
-  public void deleteById(Long id);
+    public void deleteById(Long id);
 }

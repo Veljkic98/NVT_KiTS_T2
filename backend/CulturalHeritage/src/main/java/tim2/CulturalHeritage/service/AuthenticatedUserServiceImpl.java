@@ -11,32 +11,32 @@ import tim2.CulturalHeritage.repository.AuthenticatedUserRepository;
 @Service
 public class AuthenticatedUserServiceImpl implements AuthenticatedUserService {
 
-  @Autowired
-  private AuthenticatedUserRepository authenticatedUserRepository;
+    @Autowired
+    private AuthenticatedUserRepository authenticatedUserRepository;
 
-  @Override
-  public List<AuthenticatedUser> findAll() {
-    return authenticatedUserRepository.findAll();
-  }
+    @Override
+    public List<AuthenticatedUser> findAll() {
+        return authenticatedUserRepository.findAll();
+    }
 
-  @Override
-  public AuthenticatedUser findById(Long id) {
-    return authenticatedUserRepository.findById(id).orElse(null);
-  }
+    @Override
+    public AuthenticatedUser findById(Long id) {
+        return authenticatedUserRepository.findById(id).orElse(null);
+    }
 
-  @Override
-  public AuthenticatedUser add(AuthenticatedUser authenticatedUser) {
-    return authenticatedUserRepository.save(authenticatedUser);
-  }
+    @Override
+    public AuthenticatedUser add(AuthenticatedUser authenticatedUser) {
+        return authenticatedUserRepository.save(authenticatedUser);
+    }
 
-  @Override
-  public AuthenticatedUser update(AuthenticatedUser authenticatedUser) {
-    return authenticatedUserRepository.save(authenticatedUser);
-  }
+    @Override
+    public AuthenticatedUser update(AuthenticatedUser authenticatedUser) {
+        return authenticatedUserRepository.save(authenticatedUser);
+    }
 
-  @Override
-  public void deleteById(Long id) {
-    authenticatedUserRepository.deleteById(id);
-  }
-  
+    @Override
+    public void deleteById(Long id) {
+        authenticatedUserRepository.deleteById(id);
+    }
+
 }

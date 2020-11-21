@@ -5,14 +5,14 @@ import java.util.List;
 import tim2.CulturalHeritage.model.Admin;
 
 public interface AdminService {
-  
-  public List<Admin> findAll();
 
-  public Admin findById(Long id);
+    public List<Admin> findAll();
 
-  public Admin add(Admin admin);
+    public Admin findById(Long id);
 
-  public Admin update(Admin admin);
+    public Admin add(Admin admin);
 
-  public void deleteById(Long id);
+    public Admin update(Admin admin);
+
+    public void deleteById(Long id);
 }

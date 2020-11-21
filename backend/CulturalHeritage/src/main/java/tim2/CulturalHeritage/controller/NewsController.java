@@ -12,5 +12,5 @@ public class NewsController {
 
     @Autowired
     private NewsService newsService;
-    
+
 }

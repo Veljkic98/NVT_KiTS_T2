@@ -4,16 +4,15 @@ import java.util.List;
 
 import tim2.CulturalHeritage.model.CulturalHeritage;
 
-
 public interface CulturalHeritageService {
-    
-  public List<CulturalHeritage> findAll();
 
-  public CulturalHeritage findById(Long id);
+    public List<CulturalHeritage> findAll();
 
-  public CulturalHeritage add(CulturalHeritage culturalHeritage);
+    public CulturalHeritage findById(Long id);
 
-  public CulturalHeritage update(CulturalHeritage culturalHeritage);
+    public CulturalHeritage add(CulturalHeritage culturalHeritage);
 
-  public void deleteById(Long id);
+    public CulturalHeritage update(CulturalHeritage culturalHeritage);
+
+    public void deleteById(Long id);
 }

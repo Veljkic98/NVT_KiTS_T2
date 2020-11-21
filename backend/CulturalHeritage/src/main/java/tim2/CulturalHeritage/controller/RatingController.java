@@ -9,7 +9,7 @@ import tim2.CulturalHeritage.service.RatingService;
 @RestController
 @RequestMapping("/api/rating")
 public class RatingController {
-    
+
     @Autowired
     private RatingService ratingService;
 

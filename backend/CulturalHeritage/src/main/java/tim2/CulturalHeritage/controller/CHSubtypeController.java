@@ -12,5 +12,5 @@ public class CHSubtypeController {
 
     @Autowired
     private CHSubtypeService chSubtypeService;
-    
+
 }

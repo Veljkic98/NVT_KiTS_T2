@@ -11,32 +11,32 @@ import tim2.CulturalHeritage.repository.RatingRepository;
 @Service
 public class RatingServiceImpl implements RatingService {
 
-  @Autowired
-  private RatingRepository ratingRepository;
+    @Autowired
+    private RatingRepository ratingRepository;
 
-  @Override
-  public List<Rating> findAll() {
-    return ratingRepository.findAll();
-  }
+    @Override
+    public List<Rating> findAll() {
+        return ratingRepository.findAll();
+    }
 
-  @Override
-  public Rating findById(Long id) {
-    return ratingRepository.findById(id).orElse(null);
-  }
+    @Override
+    public Rating findById(Long id) {
+        return ratingRepository.findById(id).orElse(null);
+    }
 
-  @Override
-  public Rating add(Rating rating) {
-    return ratingRepository.save(rating);
-  }
+    @Override
+    public Rating add(Rating rating) {
+        return ratingRepository.save(rating);
+    }
 
-  @Override
-  public Rating update(Rating rating) {
-    return ratingRepository.save(rating);
-  }
+    @Override
+    public Rating update(Rating rating) {
+        return ratingRepository.save(rating);
+    }
 
-  @Override
-  public void deleteById(Long id) {
-    ratingRepository.deleteById(id);
-  }
-  
+    @Override
+    public void deleteById(Long id) {
+        ratingRepository.deleteById(id);
+    }
+
 }

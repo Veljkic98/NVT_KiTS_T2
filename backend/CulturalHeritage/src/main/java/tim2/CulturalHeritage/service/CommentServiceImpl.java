@@ -11,31 +11,32 @@ import tim2.CulturalHeritage.repository.CommentRepository;
 @Service
 public class CommentServiceImpl implements CommentService {
 
-  @Autowired
-  private CommentRepository commentRepository;
-  @Override
-  public List<Comment> findAll() {
-    return commentRepository.findAll();
-  }
+    @Autowired
+    private CommentRepository commentRepository;
 
-  @Override
-  public Comment findById(Long id) {
-    return commentRepository.findById(id).orElse(null);
-  }
+    @Override
+    public List<Comment> findAll() {
+        return commentRepository.findAll();
+    }
 
-  @Override
-  public Comment add(Comment comment) {
-    return commentRepository.save(comment);
-  }
+    @Override
+    public Comment findById(Long id) {
+        return commentRepository.findById(id).orElse(null);
+    }
 
-  @Override
-  public Comment update(Comment comment) {
-    return commentRepository.save(comment);
-  }
+    @Override
+    public Comment add(Comment comment) {
+        return commentRepository.save(comment);
+    }
 
-  @Override
-  public void deleteById(Long id) {
-    commentRepository.deleteById(id);
-  }
-  
+    @Override
+    public Comment update(Comment comment) {
+        return commentRepository.save(comment);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        commentRepository.deleteById(id);
+    }
+
 }

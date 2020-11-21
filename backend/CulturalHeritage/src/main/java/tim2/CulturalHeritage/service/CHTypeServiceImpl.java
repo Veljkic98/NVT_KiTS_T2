@@ -11,32 +11,32 @@ import tim2.CulturalHeritage.repository.CHTypeRepository;
 @Service
 public class CHTypeServiceImpl implements CHTypeService {
 
-  @Autowired
-  private CHTypeRepository chTypeRepository;
+    @Autowired
+    private CHTypeRepository chTypeRepository;
 
-  @Override
-  public List<CHType> findAll() {
-    return chTypeRepository.findAll();
-  }
+    @Override
+    public List<CHType> findAll() {
+        return chTypeRepository.findAll();
+    }
 
-  @Override
-  public CHType findById(Long id) {
-    return chTypeRepository.findById(id).orElse(null);
-  }
+    @Override
+    public CHType findById(Long id) {
+        return chTypeRepository.findById(id).orElse(null);
+    }
 
-  @Override
-  public CHType add(CHType chType) {
-   return chTypeRepository.save(chType);
-  }
+    @Override
+    public CHType add(CHType chType) {
+        return chTypeRepository.save(chType);
+    }
 
-  @Override
-  public CHType update(CHType chType) {
-    return chTypeRepository.save(chType);
-  }
+    @Override
+    public CHType update(CHType chType) {
+        return chTypeRepository.save(chType);
+    }
 
-  @Override
-  public void deleteById(Long id) {
-    chTypeRepository.deleteById(id);
-  }
-  
+    @Override
+    public void deleteById(Long id) {
+        chTypeRepository.deleteById(id);
+    }
+
 }

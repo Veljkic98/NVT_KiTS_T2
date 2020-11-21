@@ -11,32 +11,32 @@ import tim2.CulturalHeritage.repository.CulturalHeritageRepository;
 @Service
 public class CulturalHeritageServiceImpl implements CulturalHeritageService {
 
-  @Autowired
-  private CulturalHeritageRepository culturalHeritageRepository;
+    @Autowired
+    private CulturalHeritageRepository culturalHeritageRepository;
 
-  @Override
-  public List<CulturalHeritage> findAll() {
-    return culturalHeritageRepository.findAll();
-  }
+    @Override
+    public List<CulturalHeritage> findAll() {
+        return culturalHeritageRepository.findAll();
+    }
 
-  @Override
-  public CulturalHeritage findById(Long id) {
-    return culturalHeritageRepository.findById(id).orElse(null);
-  }
+    @Override
+    public CulturalHeritage findById(Long id) {
+        return culturalHeritageRepository.findById(id).orElse(null);
+    }
 
-  @Override
-  public CulturalHeritage add(CulturalHeritage culturalHeritage) {
-    return culturalHeritageRepository.save(culturalHeritage);
-  }
+    @Override
+    public CulturalHeritage add(CulturalHeritage culturalHeritage) {
+        return culturalHeritageRepository.save(culturalHeritage);
+    }
 
-  @Override
-  public CulturalHeritage update(CulturalHeritage culturalHeritage) {
-    return culturalHeritageRepository.save(culturalHeritage);
-  }
+    @Override
+    public CulturalHeritage update(CulturalHeritage culturalHeritage) {
+        return culturalHeritageRepository.save(culturalHeritage);
+    }
 
-  @Override
-  public void deleteById(Long id) {
-    culturalHeritageRepository.deleteById(id);
-  }
-  
+    @Override
+    public void deleteById(Long id) {
+        culturalHeritageRepository.deleteById(id);
+    }
+
 }

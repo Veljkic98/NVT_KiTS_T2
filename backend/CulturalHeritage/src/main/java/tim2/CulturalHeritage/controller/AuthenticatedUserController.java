@@ -12,5 +12,5 @@ public class AuthenticatedUserController {
 
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
-    
+
 }

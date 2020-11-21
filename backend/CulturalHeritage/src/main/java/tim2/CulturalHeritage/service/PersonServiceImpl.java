@@ -11,32 +11,32 @@ import tim2.CulturalHeritage.repository.PersonRepository;
 @Service
 public class PersonServiceImpl implements PersonService {
 
-  @Autowired
-  private PersonRepository personRepository;
+    @Autowired
+    private PersonRepository personRepository;
 
-  @Override
-  public List<Person> findAll() {
-    return personRepository.findAll();
-  }
+    @Override
+    public List<Person> findAll() {
+        return personRepository.findAll();
+    }
 
-  @Override
-  public Person findById(Long id) {
-    return personRepository.findById(id).orElse(null);
-  }
+    @Override
+    public Person findById(Long id) {
+        return personRepository.findById(id).orElse(null);
+    }
 
-  @Override
-  public Person add(Person person) {
-    return personRepository.save(person);
-  }
+    @Override
+    public Person add(Person person) {
+        return personRepository.save(person);
+    }
 
-  @Override
-  public Person update(Person person) {
-    return personRepository.save(person);
-  }
+    @Override
+    public Person update(Person person) {
+        return personRepository.save(person);
+    }
 
-  @Override
-  public void deleteById(Long id) {
-    personRepository.deleteById(id);
-  }
-  
+    @Override
+    public void deleteById(Long id) {
+        personRepository.deleteById(id);
+    }
+
 }

@@ -11,32 +11,32 @@ import tim2.CulturalHeritage.repository.NewsRepository;
 @Service
 public class NewsServiceImpl implements NewsService {
 
-  @Autowired
-  private NewsRepository newsRepository;
+    @Autowired
+    private NewsRepository newsRepository;
 
-  @Override
-  public List<News> findAll() {
-    return newsRepository.findAll();
-  }
+    @Override
+    public List<News> findAll() {
+        return newsRepository.findAll();
+    }
 
-  @Override
-  public News findById(Long id) {
-    return newsRepository.findById(id).orElse(null);
-  }
+    @Override
+    public News findById(Long id) {
+        return newsRepository.findById(id).orElse(null);
+    }
 
-  @Override
-  public News add(News news) {
-    return newsRepository.save(news);
-  }
+    @Override
+    public News add(News news) {
+        return newsRepository.save(news);
+    }
 
-  @Override
-  public News update(News news) {
-    return newsRepository.save(news);
-  }
+    @Override
+    public News update(News news) {
+        return newsRepository.save(news);
+    }
 
-  @Override
-  public void deleteById(Long id) {
-    newsRepository.deleteById(id);
-  }
-  
+    @Override
+    public void deleteById(Long id) {
+        newsRepository.deleteById(id);
+    }
+
 }

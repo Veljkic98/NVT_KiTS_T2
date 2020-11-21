@@ -11,8 +11,26 @@ import javax.persistence.JoinColumn;
 public class AuthenticatedUser extends Person {
 
     @ManyToMany
-    @JoinTable(name = "subscription",
-    	joinColumns = @JoinColumn(name = "authenticated_user_id", referencedColumnName = "id"),
-    	inverseJoinColumns = @JoinColumn(name = "cultural_heritage_id", referencedColumnName = "id"))
+    @JoinTable(name = "subscription", 
+        joinColumns = @JoinColumn(name = "authenticated_user_id", referencedColumnName = "id"), 
+        inverseJoinColumns = @JoinColumn(name = "cultural_heritage_id", referencedColumnName = "id"))
     private List<CulturalHeritage> culturalHeritages;
+
+    public AuthenticatedUser() {
+    }
+
+    public AuthenticatedUser(Long id, String firstName, String lastName, String email, Boolean approved,
+            Boolean isLoggedIn, List<CulturalHeritage> culturalHeritages) {
+        super(id, firstName, lastName, email, approved, isLoggedIn);
+        this.culturalHeritages = culturalHeritages;
+    }
+
+    public List<CulturalHeritage> getCulturalHeritages() {
+        return this.culturalHeritages;
+    }
+
+    public void setCulturalHeritages(List<CulturalHeritage> culturalHeritages) {
+        this.culturalHeritages = culturalHeritages;
+    }
+
 }
