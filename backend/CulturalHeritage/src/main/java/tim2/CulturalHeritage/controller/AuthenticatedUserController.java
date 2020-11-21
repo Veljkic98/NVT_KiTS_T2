@@ -1,10 +1,10 @@
-package tim2.CulturalHeritage.controler;
+package tim2.CulturalHeritage.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
 
-public class AuthenticatedUserControler {
+public class AuthenticatedUserController {
 
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
