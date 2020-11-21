@@ -28,6 +28,9 @@ public class CulturalHeritage {
   private String description;
 
   @ManyToOne
+  private Location Location;
+
+  @ManyToOne
   private CHSubtype chsubtype;
 
   @OneToMany(mappedBy="culturalHeritage", cascade=CascadeType.ALL)
@@ -35,9 +38,6 @@ public class CulturalHeritage {
   
   @OneToMany(mappedBy="culturalHeritage", cascade=CascadeType.ALL)
   private List<Comment> comments;
-  
-  @ManyToMany(mappedBy = "culturalHeritages")
-  private List<AuthenticatedUser> authenticatedUsers;
 
   // todo: dodati slike
 

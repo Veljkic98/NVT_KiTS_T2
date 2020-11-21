@@ -2,7 +2,6 @@ package tim2.CulturalHeritage.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,10 +22,10 @@ public class News {
     @Column(name = "content")
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private CulturalHeritage culturalHeritage;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Admin admin;
 
     // TODO: picture attribute
