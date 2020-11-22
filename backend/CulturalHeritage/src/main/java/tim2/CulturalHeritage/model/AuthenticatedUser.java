@@ -19,9 +19,9 @@ public class AuthenticatedUser extends Person {
     public AuthenticatedUser() {
     }
 
-    public AuthenticatedUser(Long id, String firstName, String lastName, String email, Boolean approved,
-            Boolean isLoggedIn, List<CulturalHeritage> culturalHeritages) {
-        super(id, firstName, lastName, email, approved, isLoggedIn);
+    public AuthenticatedUser(Long id, String firstName, String lastName, String email, Boolean approved, String password,
+    List<CulturalHeritage> culturalHeritages) {
+        super(id, firstName, lastName, email, approved, password);
         this.culturalHeritages = culturalHeritages;
     }
 

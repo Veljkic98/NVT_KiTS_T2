@@ -27,7 +27,7 @@ public class Location {
     @Column(name = "city")
     private String city;
 
-    @Column(name = "steet")
+    @Column(name = "street")
     private String street;
 
     public Location() {
