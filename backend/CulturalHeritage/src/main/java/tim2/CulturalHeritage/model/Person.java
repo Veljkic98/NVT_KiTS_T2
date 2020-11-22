@@ -1,0 +1,104 @@
+package tim2.CulturalHeritage.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
+@Entity
+// Ova klasa je koren hijerarhije koja koristi koncept - jedan tabela po
+// konkretnoj klasi
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Person {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
+
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    @Column(name = "approved")
+    private Boolean approved;
+
+    @Column(name = "is_logged_in")
+    private Boolean isLoggedIn;
+
+    public Person() {
+    }
+
+    public Person(Long id, String firstName, String lastName, String email, Boolean approved, Boolean isLoggedIn) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.approved = approved;
+        this.isLoggedIn = isLoggedIn;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean isApproved() {
+        return this.approved;
+    }
+
+    public Boolean getApproved() {
+        return this.approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
+
+    public Boolean isIsLoggedIn() {
+        return this.isLoggedIn;
+    }
+
+    public Boolean getIsLoggedIn() {
+        return this.isLoggedIn;
+    }
+
+    public void setIsLoggedIn(Boolean isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
+    }
+
+}
