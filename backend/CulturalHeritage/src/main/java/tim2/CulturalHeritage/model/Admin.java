@@ -14,9 +14,9 @@ public class Admin extends Person {
     public Admin() {
     }
 
-    public Admin(Long id, String firstName, String lastName, String email, Boolean approved, Boolean isLoggedIn,
+    public Admin(Long id, String firstName, String lastName, String email, Boolean approved, String password,
             List<News> news) {
-        super(id, firstName, lastName, email, approved, isLoggedIn);
+        super(id, firstName, lastName, email, approved, password);
         this.news = news;
     }
 

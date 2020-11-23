@@ -30,19 +30,19 @@ public abstract class Person {
     @Column(name = "approved")
     private Boolean approved;
 
-    @Column(name = "is_logged_in")
-    private Boolean isLoggedIn;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     public Person() {
     }
 
-    public Person(Long id, String firstName, String lastName, String email, Boolean approved, Boolean isLoggedIn) {
+    public Person(Long id, String firstName, String lastName, String email, Boolean approved, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.approved = approved;
-        this.isLoggedIn = isLoggedIn;
+        this.password = password;
     }
 
     public Long getId() {
@@ -89,16 +89,11 @@ public abstract class Person {
         this.approved = approved;
     }
 
-    public Boolean isIsLoggedIn() {
-        return this.isLoggedIn;
+    public String getPassword() {
+        return this.password;
     }
 
-    public Boolean getIsLoggedIn() {
-        return this.isLoggedIn;
+    public void setPassword(String password) {
+        this.password = password;
     }
-
-    public void setIsLoggedIn(Boolean isLoggedIn) {
-        this.isLoggedIn = isLoggedIn;
-    }
-
 }
