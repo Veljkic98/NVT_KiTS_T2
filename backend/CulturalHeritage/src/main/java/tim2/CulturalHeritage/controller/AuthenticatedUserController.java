@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
 
 @RestController
-@RequestMapping("/api/authenticated-user")
+@RequestMapping("/api/authenticated-users")
 public class AuthenticatedUserController {
 
     @Autowired

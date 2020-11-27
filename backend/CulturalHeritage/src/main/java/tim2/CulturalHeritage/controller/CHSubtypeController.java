@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tim2.CulturalHeritage.service.CHSubtypeService;
 
 @RestController
-@RequestMapping("/api/ch-subtype")
+@RequestMapping("/api/ch-subtypes")
 public class CHSubtypeController {
 
     @Autowired

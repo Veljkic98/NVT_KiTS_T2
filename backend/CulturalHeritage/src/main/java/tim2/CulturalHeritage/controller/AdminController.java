@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tim2.CulturalHeritage.service.AdminService;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/admins")
 public class AdminController {
 
     @Autowired

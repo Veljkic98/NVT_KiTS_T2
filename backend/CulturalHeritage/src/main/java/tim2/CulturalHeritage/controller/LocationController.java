@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tim2.CulturalHeritage.service.LocationService;
 
 @RestController
-@RequestMapping("/api/location")
+@RequestMapping("/api/locations")
 public class LocationController {
 
     @Autowired

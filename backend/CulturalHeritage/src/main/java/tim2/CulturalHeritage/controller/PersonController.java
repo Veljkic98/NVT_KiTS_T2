@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tim2.CulturalHeritage.service.PersonService;
 
 @RestController
-@RequestMapping("/api/person")
+@RequestMapping("/api/persons")
 public class PersonController {
 
     @Autowired

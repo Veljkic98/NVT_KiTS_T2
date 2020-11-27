@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tim2.CulturalHeritage.service.RatingService;
 
 @RestController
-@RequestMapping("/api/rating")
+@RequestMapping("/api/ratings")
 public class RatingController {
 
     @Autowired
