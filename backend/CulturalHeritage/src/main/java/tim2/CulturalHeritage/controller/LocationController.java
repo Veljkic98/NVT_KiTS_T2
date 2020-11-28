@@ -46,15 +46,15 @@ public class LocationController {
 
         locationService.add(location);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(location, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody Location location) {
+    public ResponseEntity<Location> update(@RequestBody Location location) {
 
         try {
             locationService.update(location);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(location, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

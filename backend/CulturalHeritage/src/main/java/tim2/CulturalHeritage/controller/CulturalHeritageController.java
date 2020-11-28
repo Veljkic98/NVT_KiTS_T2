@@ -46,15 +46,15 @@ public class CulturalHeritageController {
 
         culturalHeritageService.add(culturalHeritage);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(culturalHeritage, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody CulturalHeritage culturalHeritage) {
+    public ResponseEntity<CulturalHeritage> update(@RequestBody CulturalHeritage culturalHeritage) {
 
         try {
             culturalHeritageService.update(culturalHeritage);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(culturalHeritage, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

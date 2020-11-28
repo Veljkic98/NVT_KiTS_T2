@@ -46,15 +46,15 @@ public class RatingController {
 
         ratingService.add(rating);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(rating, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody Rating rating) {
+    public ResponseEntity<Rating> update(@RequestBody Rating rating) {
 
         try {
             ratingService.update(rating);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(rating, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

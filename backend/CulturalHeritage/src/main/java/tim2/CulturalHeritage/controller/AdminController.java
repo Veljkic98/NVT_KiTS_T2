@@ -46,15 +46,15 @@ public class AdminController {
 
         adminService.add(admin);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(admin, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody Admin admin) {
+    public ResponseEntity<Admin> update(@RequestBody Admin admin) {
 
         try {
             adminService.update(admin);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(admin, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

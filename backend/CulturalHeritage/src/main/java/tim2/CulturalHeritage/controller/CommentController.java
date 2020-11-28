@@ -46,15 +46,15 @@ public class CommentController {
 
         commentService.add(comment);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody Comment comment) {
+    public ResponseEntity<Comment> update(@RequestBody Comment comment) {
 
         try {
             commentService.update(comment);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(comment, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

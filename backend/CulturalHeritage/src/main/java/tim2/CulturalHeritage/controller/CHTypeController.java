@@ -46,15 +46,15 @@ public class CHTypeController {
 
         chTypeService.add(chType);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(chType, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody CHType chType) {
+    public ResponseEntity<CHType> update(@RequestBody CHType chType) {
 
         try {
             chTypeService.update(chType);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(chType, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -46,15 +46,15 @@ public class AuthenticatedUserController {
 
         authenticatedUserService.add(authenticatedUser);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(authenticatedUser, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody AuthenticatedUser authenticatedUser) {
+    public ResponseEntity<AuthenticatedUser> update(@RequestBody AuthenticatedUser authenticatedUser) {
 
         try {
             authenticatedUserService.update(authenticatedUser);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(authenticatedUser, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

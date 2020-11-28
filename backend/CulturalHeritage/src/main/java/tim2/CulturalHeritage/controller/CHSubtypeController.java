@@ -46,15 +46,15 @@ public class CHSubtypeController {
 
         chSubtypeService.add(chSubtype);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(chSubtype, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody CHSubtype chSubtype) {
+    public ResponseEntity<CHSubtype> update(@RequestBody CHSubtype chSubtype) {
 
         try {
             chSubtypeService.update(chSubtype);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(chSubtype, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
