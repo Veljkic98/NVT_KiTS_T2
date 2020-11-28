@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +41,7 @@ public class CulturalHeritageController {
         }
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public ResponseEntity<CulturalHeritage> add(@RequestBody CulturalHeritage culturalHeritage) {
 
         culturalHeritageService.add(culturalHeritage);
@@ -50,7 +49,7 @@ public class CulturalHeritageController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping
     public ResponseEntity<Void> update(@RequestBody CulturalHeritage culturalHeritage) {
 
         try {
