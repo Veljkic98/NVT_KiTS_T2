@@ -33,6 +33,9 @@ public class Comment {
     @CollectionTable(name = "images")
     private Map<Long, byte[]> images;
 
+    public Comment() {
+    }
+
     public Comment(long id, String content, CulturalHeritage culturalHeritage, AuthenticatedUser authenticatedUser,
             Map<Long, byte[]> images) {
         this.id = id;
