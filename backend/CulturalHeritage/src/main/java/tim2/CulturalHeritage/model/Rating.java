@@ -25,6 +25,9 @@ public class Rating {
     @ManyToOne
     private AuthenticatedUser authenticatedUser;
 
+    public Rating() {
+    }
+
     public Rating(Long id, int grade, CulturalHeritage culturalHeritage, AuthenticatedUser authenticatedUser) {
         this.id = id;
         this.grade = grade;
