@@ -1,6 +1,6 @@
 package tim2.CulturalHeritage.dto;
 
-public class AdminDTO {
+public class UserResponseDTO {
 
     private Long id;
 
@@ -10,11 +10,14 @@ public class AdminDTO {
 
     private String email;
 
-    public AdminDTO(Long id, String firstName, String lastName, String email) {
+    private boolean approved;
+
+    public UserResponseDTO(Long id, String firstName, String lastName, String email, boolean approved) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.approved = approved;
     }
 
     public Long getId() {
@@ -47,5 +50,13 @@ public class AdminDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 }

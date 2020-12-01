@@ -1,19 +1,14 @@
 package tim2.CulturalHeritage.controller;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import tim2.CulturalHeritage.dto.AdminDTO;
 import tim2.CulturalHeritage.model.Admin;
 import tim2.CulturalHeritage.service.AdminService;
 
@@ -24,10 +19,12 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @GetMapping
-    public ResponseEntity<List<Admin>> findAll() {
+    @GetMapping(params = { "page", "size" })
+    public ResponseEntity<List<AdminDTO>> findAll(@RequestParam("page") int page,
+                                                  @RequestParam("size") int size) {
 
-        return new ResponseEntity<>(adminService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(adminService.findAll(Integer.parseInt(String.valueOf(page)),
+                Integer.parseInt(String.valueOf(size))), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")

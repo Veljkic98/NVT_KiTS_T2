@@ -2,11 +2,12 @@ package tim2.CulturalHeritage.service;
 
 import java.util.List;
 
+import tim2.CulturalHeritage.dto.AdminDTO;
 import tim2.CulturalHeritage.model.Admin;
 
 public interface AdminService {
 
-    public List<Admin> findAll();
+    public List<AdminDTO> findAll(int page, int size);
 
     public Admin findById(Long id);
 

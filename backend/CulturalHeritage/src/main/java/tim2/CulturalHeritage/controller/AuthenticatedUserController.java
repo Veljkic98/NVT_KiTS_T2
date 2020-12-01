@@ -1,19 +1,20 @@
 package tim2.CulturalHeritage.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import tim2.CulturalHeritage.dto.UserResponseDTO;
+import tim2.CulturalHeritage.helper.UserMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
 
@@ -24,10 +25,21 @@ public class AuthenticatedUserController {
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
 
-    @GetMapping
-    public ResponseEntity<List<AuthenticatedUser>> findAll() {
+    private UserMapper userMapper = new UserMapper();
 
-        return new ResponseEntity<>(authenticatedUserService.findAll(), HttpStatus.OK);
+    @GetMapping(params = { "page", "size" })
+    public ResponseEntity<Page<UserResponseDTO>> findAll(@RequestParam("page") int page,
+                                              @RequestParam("size") int size) {
+
+        Pageable pageObj = PageRequest.of(page, size);
+        Page<AuthenticatedUser> resultPage = authenticatedUserService.findAll(pageObj);
+        List<UserResponseDTO> usersDTO = new ArrayList<>();
+        for(AuthenticatedUser u: resultPage.toList()){
+            usersDTO.add(userMapper.toDto(u));
+        }
+        Page<UserResponseDTO> pageUserDTO = new PageImpl<>(usersDTO, resultPage.getPageable(), resultPage.getTotalElements());
+
+        return new ResponseEntity<>(pageUserDTO, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
