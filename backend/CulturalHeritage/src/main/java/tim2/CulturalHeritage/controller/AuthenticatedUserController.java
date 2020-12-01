@@ -33,10 +33,7 @@ public class AuthenticatedUserController {
 
         Pageable pageObj = PageRequest.of(page, size);
         Page<AuthenticatedUser> resultPage = authenticatedUserService.findAll(pageObj);
-        List<UserResponseDTO> usersDTO = new ArrayList<>();
-        for(AuthenticatedUser u: resultPage.toList()){
-            usersDTO.add(userMapper.toDto(u));
-        }
+        List<UserResponseDTO> usersDTO = userMapper.toDtoList(resultPage.toList());
         Page<UserResponseDTO> pageUserDTO = new PageImpl<>(usersDTO, resultPage.getPageable(), resultPage.getTotalElements());
 
         return new ResponseEntity<>(pageUserDTO, HttpStatus.OK);
