@@ -1,4 +1,4 @@
-package tim2.CulturalHeritage.dto.requestDTO;
+package tim2.CulturalHeritage.dto.responseDTO;
 
 public class AuthUserResponseDTO {
 
