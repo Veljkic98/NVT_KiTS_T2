@@ -1,6 +1,7 @@
-package tim2.CulturalHeritage.dto;
+package tim2.CulturalHeritage.dto.responseDTO;
 
 
+import tim2.CulturalHeritage.dto.CHSubtypeDTO;
 import tim2.CulturalHeritage.dto.responseDTO.LocationResponseDTO;
 import tim2.CulturalHeritage.model.CHSubtype;
 import tim2.CulturalHeritage.model.CulturalHeritage;
@@ -8,7 +9,7 @@ import tim2.CulturalHeritage.model.Location;
 
 import javax.validation.constraints.NotBlank;
 
-public class CulturalHeritageDTO {
+public class CulturalHeritageResponseDTO {
     private long id;
 
     @NotBlank(message="Name cannot be blank")
@@ -24,9 +25,9 @@ public class CulturalHeritageDTO {
     private CHSubtypeDTO chsubtype;
     // news, comments, images later
 
-    public CulturalHeritageDTO(){}
+    public CulturalHeritageResponseDTO(){}
 
-    public CulturalHeritageDTO(long id, String name, String description, Location location, CHSubtypeDTO chsubtype){
+    public CulturalHeritageResponseDTO(long id, String name, String description, Location location, CHSubtypeDTO chsubtype){
         this.id = id;
         this.name = name;
         this.description = description;

@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import tim2.CulturalHeritage.dto.CulturalHeritageDTO;
+import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
 import tim2.CulturalHeritage.helper.CulturalHeritageMapper;
 import tim2.CulturalHeritage.model.CulturalHeritage;
 import tim2.CulturalHeritage.service.CulturalHeritageService;
@@ -31,10 +31,10 @@ public class CulturalHeritageController {
     }
 
     @RequestMapping(value="/by-page", method= RequestMethod.GET)
-    public ResponseEntity<Page<CulturalHeritageDTO>> getAllCulturalHeritages(Pageable pageable){
+    public ResponseEntity<Page<CulturalHeritageResponseDTO>> getAllCulturalHeritages(Pageable pageable){
         Page<CulturalHeritage> page = culturalHeritageService.findAll(pageable);
-        List<CulturalHeritageDTO> DTOs = mapper.toDtoList(page.toList());
-        Page<CulturalHeritageDTO> pageResponse =  new PageImpl<>(DTOs,page.getPageable(),page.getTotalElements());
+        List<CulturalHeritageResponseDTO> DTOs = mapper.toDtoList(page.toList());
+        Page<CulturalHeritageResponseDTO> pageResponse =  new PageImpl<>(DTOs,page.getPageable(),page.getTotalElements());
 
         return new ResponseEntity<>(pageResponse, HttpStatus.OK);
     }
@@ -42,7 +42,7 @@ public class CulturalHeritageController {
 
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<CulturalHeritageDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<CulturalHeritageResponseDTO> findById(@PathVariable Long id) {
 
 
         CulturalHeritage ch = culturalHeritageService.findById(id);

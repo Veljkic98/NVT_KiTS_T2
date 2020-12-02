@@ -1,24 +1,24 @@
 package tim2.CulturalHeritage.helper;
 
-import tim2.CulturalHeritage.dto.CommentDTO;
+import tim2.CulturalHeritage.dto.responseDTO.CommentResponseDTO;
 import tim2.CulturalHeritage.model.Comment;
 
 import java.util.List;
 
-public class CommentMapper implements MapperInterface<Comment, CommentDTO> {
+public class CommentMapper implements MapperInterface<Comment, CommentResponseDTO> {
 
     @Override
-    public Comment toEntity(CommentDTO dto) {
+    public Comment toEntity(CommentResponseDTO dto) {
         return null;
     }
 
     @Override
-    public CommentDTO toDto(Comment entity) {
+    public CommentResponseDTO toDto(Comment entity) {
         return null;
     }
 
     @Override
-    public List<CommentDTO> toDtoList(List<Comment> entityList) {
+    public List<CommentResponseDTO> toDtoList(List<Comment> entityList) {
         return null;
     }
 }

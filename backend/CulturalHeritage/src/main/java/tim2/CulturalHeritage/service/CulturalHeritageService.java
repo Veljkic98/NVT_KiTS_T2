@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import tim2.CulturalHeritage.dto.CulturalHeritageDTO;
 import tim2.CulturalHeritage.model.CulturalHeritage;
 
 public interface CulturalHeritageService {

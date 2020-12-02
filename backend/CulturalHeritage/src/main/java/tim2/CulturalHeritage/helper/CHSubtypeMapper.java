@@ -10,7 +10,12 @@ public class CHSubtypeMapper implements MapperInterface<CHSubtype, CHSubtypeDTO>
 
     @Override
     public CHSubtype toEntity(CHSubtypeDTO dto) {
-        return null;
+
+        CHSubtype subtype = new CHSubtype();
+        subtype.setId(dto.getId());
+        subtype.setName(dto.getName());
+
+        return subtype;
     }
 
     @Override

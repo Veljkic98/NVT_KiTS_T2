@@ -1,16 +1,16 @@
-package tim2.CulturalHeritage.dto;
+package tim2.CulturalHeritage.dto.responseDTO;
 
-import tim2.CulturalHeritage.dto.requestDTO.AuthUserResponseDTO;
+import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 
-public class CommentDTO {
+public class CommentResponseDTO {
     private long id;
     private String content;
     private AuthUserResponseDTO author;
     // images?
 
-    public CommentDTO(){}
+    public CommentResponseDTO(){}
 
-    public CommentDTO(long id, String content, AuthUserResponseDTO author) {
+    public CommentResponseDTO(long id, String content, AuthUserResponseDTO author) {
         this.id = id;
         this.content = content;
         this.author = author;
