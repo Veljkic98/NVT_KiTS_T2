@@ -3,7 +3,7 @@ package tim2.CulturalHeritage.dto.requestDTO;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-public class AuthUserRequestDTO {
+public class AdminRequestDTO {
 
     @NotBlank(message="Name cannot be blank")
     private String firstName;
@@ -17,7 +17,8 @@ public class AuthUserRequestDTO {
     @NotBlank(message="Password cannot be blank")
     private String password;
 
-    public AuthUserRequestDTO(String firstName, String lastName, String email, String password) {
+
+    public AdminRequestDTO(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

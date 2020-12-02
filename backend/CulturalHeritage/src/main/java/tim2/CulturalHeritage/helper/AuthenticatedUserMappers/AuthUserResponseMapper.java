@@ -1,9 +1,7 @@
-package tim2.CulturalHeritage.helper;
+package tim2.CulturalHeritage.helper.AuthenticatedUserMappers;
 
-
-import tim2.CulturalHeritage.dto.responseDTO.AdminResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
-import tim2.CulturalHeritage.model.Admin;
+import tim2.CulturalHeritage.helper.MapperInterface;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 
 import java.util.ArrayList;

@@ -2,11 +2,13 @@ package tim2.CulturalHeritage.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import tim2.CulturalHeritage.model.Location;
 
 public interface LocationService {
 
-    public List<Location> findAll();
+    public Page<Location> findAll(Pageable pageable);
 
     public Location findById(Long id);
 

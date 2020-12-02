@@ -2,6 +2,7 @@ package tim2.CulturalHeritage.dto.responseDTO;
 
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 
+
 public class CommentResponseDTO {
     private long id;
     private String content;
