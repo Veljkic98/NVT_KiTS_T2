@@ -15,7 +15,7 @@ public class CHTypeMapper implements MapperInterface<CHType, CHTypeDTO> {
 
     @Override
     public CHTypeDTO toDto(CHType entity) {
-        return new CHTypeDTO(entity.getId(), entity.getName(), entity.getSubtypes());
+        return new CHTypeDTO(entity.getId(), entity.getName());
     }
 
     @Override

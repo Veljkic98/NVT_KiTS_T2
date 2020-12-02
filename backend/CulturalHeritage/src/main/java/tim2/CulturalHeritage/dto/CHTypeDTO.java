@@ -7,14 +7,14 @@ import java.util.List;
 public class CHTypeDTO {
     private long id;
     private String name;
-    private List<CHSubtype> subtypes;
+    //private List<CHSubtype> subtypes;
 
     public CHTypeDTO(){}
 
-    public CHTypeDTO(long id, String name, List<CHSubtype> subtypes) {
+    public CHTypeDTO(long id, String name ) {
         this.id = id;
         this.name = name;
-        this.subtypes = subtypes;
+
     }
 
     public long getId() {
@@ -33,11 +33,5 @@ public class CHTypeDTO {
         this.name = name;
     }
 
-    public List<CHSubtype> getSubtypes() {
-        return subtypes;
-    }
 
-    public void setSubtypes(List<CHSubtype> subtypes) {
-        this.subtypes = subtypes;
-    }
 }

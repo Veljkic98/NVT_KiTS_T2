@@ -1,7 +1,8 @@
 package tim2.CulturalHeritage.helper.RatingMappers;
 
-import tim2.CulturalHeritage.dto.CulturalHeritageDTO;
+
 import tim2.CulturalHeritage.dto.requestDTO.RatingRequestDTO;
+import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
 import tim2.CulturalHeritage.helper.CulturalHeritageMapper;
 import tim2.CulturalHeritage.helper.MapperInterface;
 import tim2.CulturalHeritage.model.CulturalHeritage;
@@ -26,7 +27,7 @@ public class RatingRequestMapper  implements MapperInterface<Rating, RatingReque
 
     @Override
     public RatingRequestDTO toDto(Rating entity) {
-        CulturalHeritageDTO chDTO = chMapper.toDto(entity.getCulturalHeritage());
+        CulturalHeritageResponseDTO chDTO = chMapper.toDto(entity.getCulturalHeritage());
 
         return new RatingRequestDTO(entity.getGrade(),chDTO);
     }

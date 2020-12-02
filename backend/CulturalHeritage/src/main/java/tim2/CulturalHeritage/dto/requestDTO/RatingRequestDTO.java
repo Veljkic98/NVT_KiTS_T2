@@ -1,7 +1,8 @@
 package tim2.CulturalHeritage.dto.requestDTO;
 
-import tim2.CulturalHeritage.dto.CulturalHeritageDTO;
+
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
+import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
 
 import javax.validation.constraints.NotBlank;
 
@@ -10,9 +11,9 @@ public class RatingRequestDTO {
     @NotBlank(message="Grade can not be blank")
     private int grade;
 
-    private CulturalHeritageDTO culturalHeritage;
+    private CulturalHeritageResponseDTO culturalHeritage;
 
-    public RatingRequestDTO(int grade,CulturalHeritageDTO culturalHeritage) {
+    public RatingRequestDTO(int grade, CulturalHeritageResponseDTO culturalHeritage) {
         this.grade = grade;
         this.culturalHeritage = culturalHeritage;
     }
@@ -25,11 +26,11 @@ public class RatingRequestDTO {
         this.grade = grade;
     }
 
-    public CulturalHeritageDTO getCulturalHeritage() {
+    public CulturalHeritageResponseDTO getCulturalHeritage() {
         return culturalHeritage;
     }
 
-    public void setCulturalHeritage(CulturalHeritageDTO culturalHeritage) {
+    public void setCulturalHeritage(CulturalHeritageResponseDTO culturalHeritage) {
         this.culturalHeritage = culturalHeritage;
     }
 }
