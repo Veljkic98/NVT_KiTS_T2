@@ -33,4 +33,5 @@ public class AuthenticatedUser extends Person {
         this.culturalHeritages = culturalHeritages;
     }
 
+
 }

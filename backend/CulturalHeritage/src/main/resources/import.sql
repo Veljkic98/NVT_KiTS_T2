@@ -31,19 +31,19 @@ INSERT INTO chsubtype ( name, chtype_id) VALUES ( 'national park', 3);
 INSERT INTO chsubtype (name, chtype_id) VALUES ( 'monastery', 3);
 
 --ADMIN
-INSERT INTO admin ( first_name, last_name, email, password, approved) VALUES ( 'John', 'Smith', 'admin@gmail.com', 'admin', 'true');
+INSERT INTO admin (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'John', 'Smith', 'admin@gmail.com', 'admin', 'true');
 
 
 --USERS
-INSERT INTO authenticated_user ( first_name, last_name, email, password, approved) VALUES ('Helen', 'York', 'helen@hotmail.com', '123', 'true');
-INSERT INTO authenticated_user (first_name, last_name, email, password, approved) VALUES ('Sima', 'Matas', 'sima12@hotmail.com', '123', 'true');
-INSERT INTO authenticated_user ( first_name, last_name, email, password, approved) VALUES ('Margene', 'Weatherwax', 'Weatherwax12@gmail.com', '123', 'true');
-INSERT INTO authenticated_user ( first_name, last_name, email, password, approved) VALUES ('Everette', 'Desch', 'heldesch123en@hotmail.com', '123', 'true');
-INSERT INTO authenticated_user ( first_name, last_name, email, password, approved) VALUES ('Doyle', 'Mormon', 'doyle@hotmail.com', '123', 'true');
-INSERT INTO authenticated_user ( first_name, last_name, email, password, approved) VALUES ('Krysta', 'Brooking', 'krystbrooking@hotmail.com', '123', 'true');
-INSERT INTO authenticated_user ( first_name, last_name, email, password) VALUES ('Ossie', 'Dudas', 'ossie12@hotmail.com', '123');
-INSERT INTO authenticated_user ( first_name, last_name, email, password) VALUES ('Hilario', 'Elliot', 'elliorhilario@hotmail.com', '123');
-INSERT INTO authenticated_user ( first_name, last_name, email, password, approved) VALUES ('Inell', 'Becton', 'Inell@hotmail.com', '123', 'false');
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'Helen', 'York', 'helen@hotmail.com', '123', 'true');
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Sima', 'Matas', 'sima12@hotmail.com', '123', 'true');
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Margene', 'Weatherwax', 'Weatherwax12@gmail.com', '123', 'true');
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Everette', 'Desch', 'heldesch123en@hotmail.com', '123', 'true');
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Doyle', 'Mormon', 'doyle@hotmail.com', '123', 'true');
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Krysta', 'Brooking', 'krystbrooking@hotmail.com', '123', 'true');
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Ossie', 'Dudas', 'ossie12@hotmail.com', '123', 'true');
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Hilario', 'Elliot', 'elliorhilario@hotmail.com', '123', 'false');
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Inell', 'Becton', 'Inell@hotmail.com', '123', 'false');
 
 
 --LOCATIONS 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import tim2.CulturalHeritage.dto.responseDTO.AdminResponseDTO;
 import tim2.CulturalHeritage.model.Admin;
+import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.repository.AdminRepository;
 
 @Service
@@ -20,17 +21,7 @@ public class AdminServiceImpl implements AdminService {
     private AdminRepository adminRepository;
 
     @Override
-    public List<AdminResponseDTO> findAll(int page, int size) {
-        Pageable firstPageWithTwoElements = PageRequest.of(page, size);
-        Page<Admin> admins =  adminRepository.findAll(firstPageWithTwoElements);
-        List<AdminResponseDTO> results = new ArrayList<>();
-
-        for (Admin admin: admins){
-            results.add(new AdminResponseDTO(admin.getId(), admin.getFirstName(), admin.getLastName(), admin.getEmail()));
-        }
-        System.out.println(results.size());
-        return results;
-    }
+    public Page<Admin> findAll(Pageable pageable) { return adminRepository.findAll(pageable); }
 
     @Override
     public Admin findById(Long id) {

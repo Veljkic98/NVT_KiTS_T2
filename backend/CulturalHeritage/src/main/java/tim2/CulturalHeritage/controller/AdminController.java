@@ -3,12 +3,20 @@ package tim2.CulturalHeritage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import tim2.CulturalHeritage.dto.responseDTO.AdminResponseDTO;
+import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
+import tim2.CulturalHeritage.helper.AdminResponseMapper;
+import tim2.CulturalHeritage.helper.AuthUserResponseMapper;
 import tim2.CulturalHeritage.model.Admin;
+import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.service.AdminService;
 
 @RestController
@@ -18,13 +26,18 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @GetMapping(params = { "page", "size" })
-    public ResponseEntity<List<AdminResponseDTO>> findAll(@RequestParam("page") int page,
-                                                          @RequestParam("size") int size) {
+    private AdminResponseMapper adminMapper = new AdminResponseMapper();
 
-        return new ResponseEntity<>(adminService.findAll(Integer.parseInt(String.valueOf(page)),
-                Integer.parseInt(String.valueOf(size))), HttpStatus.OK);
+    @RequestMapping(value="/by-page", method= RequestMethod.GET)
+    public ResponseEntity<Page<AdminResponseDTO>> findAll(Pageable pageable) {
+
+        Page<Admin> resultPage = adminService.findAll(pageable);
+        List<AdminResponseDTO> adminsDTO = adminMapper.toDtoList(resultPage.toList());
+        Page<AdminResponseDTO> pageAdminsDTO = new PageImpl<>(adminsDTO, resultPage.getPageable(), resultPage.getTotalElements());
+
+        return new ResponseEntity<>(pageAdminsDTO, HttpStatus.OK);
     }
+
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Void> findById(@PathVariable Long id) {

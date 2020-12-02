@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import tim2.CulturalHeritage.dto.requestDTO.AuthUserResponseDTO;
+import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 import tim2.CulturalHeritage.helper.AuthUserResponseMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
@@ -25,11 +25,10 @@ public class AuthenticatedUserController {
 
     private AuthUserResponseMapper userMapper = new AuthUserResponseMapper();
 
-    @GetMapping(params = { "page", "size" })
-    public ResponseEntity<Page<AuthUserResponseDTO>> findAll(@RequestParam("page") int page, @RequestParam("size") int size) {
+    @RequestMapping(value="/by-page", method= RequestMethod.GET)
+    public ResponseEntity<Page<AuthUserResponseDTO>> findAll(Pageable pageable) {
 
-        Pageable pageObj = PageRequest.of(page, size);
-        Page<AuthenticatedUser> resultPage = authenticatedUserService.findAll(pageObj);
+        Page<AuthenticatedUser> resultPage = authenticatedUserService.findAll(pageable);
         List<AuthUserResponseDTO> usersDTO = userMapper.toDtoList(resultPage.toList());
         Page<AuthUserResponseDTO> pageUserDTO = new PageImpl<>(usersDTO, resultPage.getPageable(), resultPage.getTotalElements());
 
@@ -71,7 +70,7 @@ public class AuthenticatedUserController {
 
         try {
             authenticatedUserService.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
