@@ -1,15 +1,24 @@
 package tim2.CulturalHeritage.dto.requestDTO;
 
+import org.springframework.format.annotation.NumberFormat;
+
+import javax.validation.constraints.NotBlank;
+
 public class LocationRequestDTO {
 
+    @NotBlank(message="Latitude can not be blank")
     private String latitude;
 
+    @NotBlank(message="Longitude can not be blank")
     private String longitude;
 
+    @NotBlank(message="Country can not be blank")
     private String country;
 
+    @NotBlank(message="City can not be blank")
     private String city;
 
+    @NotBlank(message="Street can not be blank")
     private String street;
 
     public LocationRequestDTO(String latitude, String longitude, String country, String city, String street) {
