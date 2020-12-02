@@ -29,6 +29,7 @@ public abstract class Person {
     private String password;
 
     public Person() {
+        approved = false;
     }
 
     public Person(Long id, String firstName, String lastName, String email, Boolean approved, String password) {
@@ -92,15 +93,4 @@ public abstract class Person {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", approved=" + approved +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }

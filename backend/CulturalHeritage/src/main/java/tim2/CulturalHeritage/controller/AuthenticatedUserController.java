@@ -5,16 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import tim2.CulturalHeritage.dto.requestDTO.AuthUserRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
-import tim2.CulturalHeritage.helper.AuthUserResponseMapper;
+import tim2.CulturalHeritage.helper.AuthenticatedUserMappers.AuthUserRequestMapper;
+import tim2.CulturalHeritage.helper.AuthenticatedUserMappers.AuthUserResponseMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/authenticated-users")
@@ -23,49 +26,60 @@ public class AuthenticatedUserController {
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
 
-    private AuthUserResponseMapper userMapper = new AuthUserResponseMapper();
+    private AuthUserResponseMapper userResponseMapper = new AuthUserResponseMapper();
+
+    private AuthUserRequestMapper userRequestMapper = new AuthUserRequestMapper();
 
     @RequestMapping(value="/by-page", method= RequestMethod.GET)
     public ResponseEntity<Page<AuthUserResponseDTO>> findAll(Pageable pageable) {
 
         Page<AuthenticatedUser> resultPage = authenticatedUserService.findAll(pageable);
-        List<AuthUserResponseDTO> usersDTO = userMapper.toDtoList(resultPage.toList());
+        List<AuthUserResponseDTO> usersDTO = userResponseMapper.toDtoList(resultPage.toList());
         Page<AuthUserResponseDTO> pageUserDTO = new PageImpl<>(usersDTO, resultPage.getPageable(), resultPage.getTotalElements());
 
         return new ResponseEntity<>(pageUserDTO, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Void> findById(@PathVariable Long id) {
+    public ResponseEntity<AuthUserResponseDTO> findById(@PathVariable Long id) {
 
         try {
-            authenticatedUserService.findById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            AuthenticatedUser user = authenticatedUserService.findById(id);
+
+            return new ResponseEntity<>(userResponseMapper.toDto(user), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
-    public ResponseEntity<AuthenticatedUser> add(@RequestBody AuthenticatedUser authenticatedUser) {
-
-        authenticatedUserService.add(authenticatedUser);
-
-        return new ResponseEntity<>(authenticatedUser, HttpStatus.CREATED);
-    }
-
-    @PutMapping
-    public ResponseEntity<AuthenticatedUser> update(@RequestBody AuthenticatedUser authenticatedUser) {
+    public ResponseEntity<?> add(@Valid @RequestBody AuthUserRequestDTO authenticatedUser) {
 
         try {
-            authenticatedUserService.update(authenticatedUser);
-            return new ResponseEntity<>(authenticatedUser, HttpStatus.OK);
+            AuthenticatedUser user = userRequestMapper.toEntity(authenticatedUser);
+            authenticatedUserService.add(user);
+
+            return new ResponseEntity<>(userResponseMapper.toDto(user), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Not valid data", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody AuthUserRequestDTO authenticatedUser) {
+
+        try {
+            AuthenticatedUser user = userRequestMapper.toEntity(authenticatedUser);
+            user.setId(id);
+            authenticatedUserService.update(user);
+
+            return new ResponseEntity<>(userResponseMapper.toDto(user), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping(path = "/{id}")
+    @RequestMapping(value="/{id}", method= RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         try {

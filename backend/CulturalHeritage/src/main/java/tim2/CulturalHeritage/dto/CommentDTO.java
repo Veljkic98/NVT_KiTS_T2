@@ -1,6 +1,7 @@
 package tim2.CulturalHeritage.dto;
 
-import tim2.CulturalHeritage.dto.requestDTO.AuthUserResponseDTO;
+import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
+import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 
 public class CommentDTO {
     private long id;
