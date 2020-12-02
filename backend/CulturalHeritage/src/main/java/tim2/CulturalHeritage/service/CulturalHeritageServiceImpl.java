@@ -3,6 +3,8 @@ package tim2.CulturalHeritage.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import tim2.CulturalHeritage.model.CulturalHeritage;
@@ -18,6 +20,11 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
     public List<CulturalHeritage> findAll() {
         return culturalHeritageRepository.findAll();
     }
+
+    public Page<CulturalHeritage> findAll(Pageable pageable) {
+        return culturalHeritageRepository.findAll(pageable);
+    }
+
 
     @Override
     public CulturalHeritage findById(Long id) {

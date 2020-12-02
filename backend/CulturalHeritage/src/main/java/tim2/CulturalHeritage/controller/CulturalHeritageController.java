@@ -3,17 +3,15 @@ package tim2.CulturalHeritage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import tim2.CulturalHeritage.dto.CulturalHeritageDTO;
+import tim2.CulturalHeritage.helper.CulturalHeritageMapper;
 import tim2.CulturalHeritage.model.CulturalHeritage;
 import tim2.CulturalHeritage.service.CulturalHeritageService;
 
@@ -24,21 +22,36 @@ public class CulturalHeritageController {
     @Autowired
     private CulturalHeritageService culturalHeritageService;
 
+    private CulturalHeritageMapper mapper;
+
     @GetMapping
     public ResponseEntity<List<CulturalHeritage>> findAll() {
 
         return new ResponseEntity<>(culturalHeritageService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<Void> findById(@PathVariable Long id) {
+    @RequestMapping(value="/by-page", method= RequestMethod.GET)
+    public ResponseEntity<Page<CulturalHeritageDTO>> getAllCulturalHeritages(Pageable pageable){
+        Page<CulturalHeritage> page = culturalHeritageService.findAll(pageable);
+        List<CulturalHeritageDTO> DTOs = mapper.toDtoList(page.toList());
+        Page<CulturalHeritageDTO> pageResponse =  new PageImpl<>(DTOs,page.getPageable(),page.getTotalElements());
 
-        try {
-            culturalHeritageService.findById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+        return new ResponseEntity<>(pageResponse, HttpStatus.OK);
+    }
+
+
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<CulturalHeritageDTO> findById(@PathVariable Long id) {
+
+
+        CulturalHeritage ch = culturalHeritageService.findById(id);
+        if(ch == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        return new ResponseEntity<>(mapper.toDto(ch), HttpStatus.OK);
+
     }
 
     @PostMapping
@@ -65,7 +78,7 @@ public class CulturalHeritageController {
 
         try {
             culturalHeritageService.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
