@@ -1,6 +1,7 @@
-package tim2.CulturalHeritage.helper;
+package tim2.CulturalHeritage.helper.AdminMappers;
 
 import tim2.CulturalHeritage.dto.responseDTO.AdminResponseDTO;
+import tim2.CulturalHeritage.helper.MapperInterface;
 import tim2.CulturalHeritage.model.Admin;
 
 import java.util.ArrayList;
