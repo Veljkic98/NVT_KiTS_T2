@@ -1,6 +1,6 @@
-package tim2.CulturalHeritage.dto;
+package tim2.CulturalHeritage.dto.requestDTO;
 
-public class UserResponseDTO {
+public class AuthUserResponseDTO {
 
     private Long id;
 
@@ -12,7 +12,7 @@ public class UserResponseDTO {
 
     private boolean approved;
 
-    public UserResponseDTO(Long id, String firstName, String lastName, String email, boolean approved) {
+    public AuthUserResponseDTO(Long id, String firstName, String lastName, String email, boolean approved) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

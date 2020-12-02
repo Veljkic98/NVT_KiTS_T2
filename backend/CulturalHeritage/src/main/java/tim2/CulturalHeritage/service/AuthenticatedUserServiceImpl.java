@@ -1,14 +1,10 @@
 package tim2.CulturalHeritage.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import tim2.CulturalHeritage.dto.UserResponseDTO;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.repository.AuthenticatedUserRepository;
 

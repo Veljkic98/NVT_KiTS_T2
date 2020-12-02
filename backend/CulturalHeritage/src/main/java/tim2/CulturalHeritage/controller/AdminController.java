@@ -1,6 +1,5 @@
 package tim2.CulturalHeritage.controller;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import tim2.CulturalHeritage.dto.AdminDTO;
+import tim2.CulturalHeritage.dto.responseDTO.AdminResponseDTO;
 import tim2.CulturalHeritage.model.Admin;
 import tim2.CulturalHeritage.service.AdminService;
 
@@ -20,8 +19,8 @@ public class AdminController {
     private AdminService adminService;
 
     @GetMapping(params = { "page", "size" })
-    public ResponseEntity<List<AdminDTO>> findAll(@RequestParam("page") int page,
-                                                  @RequestParam("size") int size) {
+    public ResponseEntity<List<AdminResponseDTO>> findAll(@RequestParam("page") int page,
+                                                          @RequestParam("size") int size) {
 
         return new ResponseEntity<>(adminService.findAll(Integer.parseInt(String.valueOf(page)),
                 Integer.parseInt(String.valueOf(size))), HttpStatus.OK);

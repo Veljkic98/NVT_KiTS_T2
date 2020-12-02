@@ -1,6 +1,6 @@
-package tim2.CulturalHeritage.dto;
+package tim2.CulturalHeritage.dto.responseDTO;
 
-public class AdminDTO {
+public class AdminResponseDTO {
 
     private Long id;
 
@@ -10,7 +10,7 @@ public class AdminDTO {
 
     private String email;
 
-    public AdminDTO(Long id, String firstName, String lastName, String email) {
+    public AdminResponseDTO(Long id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
