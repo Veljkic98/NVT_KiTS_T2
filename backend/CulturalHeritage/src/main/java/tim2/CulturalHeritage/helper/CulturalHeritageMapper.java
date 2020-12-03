@@ -53,7 +53,7 @@ public class CulturalHeritageMapper implements MapperInterfaceEnhanced<CulturalH
         List<CulturalHeritageResponseDTO> results = new ArrayList<>();
 
         for(CulturalHeritage ch: entityList ){
-            results.add(new CulturalHeritageResponseDTO(ch.getId(), ch.getName(), ch.getDescription(), subtypeMapper.toDto(ch.getChsubtype())));
+            results.add(toDto(ch));
         }
 
         return results;
