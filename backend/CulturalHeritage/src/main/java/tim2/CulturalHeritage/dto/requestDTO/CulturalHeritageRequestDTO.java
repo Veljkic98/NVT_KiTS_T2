@@ -1,7 +1,7 @@
 package tim2.CulturalHeritage.dto.requestDTO;
 
 
-import tim2.CulturalHeritage.dto.CHSubtypeDTO;
+import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
 import tim2.CulturalHeritage.model.Location;
 
 import javax.validation.constraints.NotBlank;
@@ -17,12 +17,12 @@ public class CulturalHeritageRequestDTO {
     private Location location;
 
     @NotBlank(message="Subtype cannot be blank")
-    private CHSubtypeDTO chsubtype;
+    private CHSubtypeResponseDTO chsubtype;
     // news, comments, images later
 
     public CulturalHeritageRequestDTO(){}
 
-    public CulturalHeritageRequestDTO(String name, String description, Location location, CHSubtypeDTO chsubtype){
+    public CulturalHeritageRequestDTO(String name, String description, Location location, CHSubtypeResponseDTO chsubtype){
         this.name = name;
         this.description = description;
         this.location = location;
@@ -53,11 +53,11 @@ public class CulturalHeritageRequestDTO {
         this.location = location;
     }
 
-    public CHSubtypeDTO getChsubtype() {
+    public CHSubtypeResponseDTO getChsubtype() {
         return chsubtype;
     }
 
-    public void setChsubtype(CHSubtypeDTO chsubtype) {
+    public void setChsubtype(CHSubtypeResponseDTO chsubtype) {
         this.chsubtype = chsubtype;
     }
 

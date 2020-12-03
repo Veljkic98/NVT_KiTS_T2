@@ -1,15 +1,15 @@
 package tim2.CulturalHeritage.helper;
 
-import tim2.CulturalHeritage.dto.CHSubtypeDTO;
+import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
 import tim2.CulturalHeritage.model.CHSubtype;
 
 import java.util.List;
 
-public class CHSubtypeMapper implements MapperInterface<CHSubtype, CHSubtypeDTO>{
+public class CHSubtypeMapper implements MapperInterface<CHSubtype, CHSubtypeResponseDTO>{
 
 
     @Override
-    public CHSubtype toEntity(CHSubtypeDTO dto) {
+    public CHSubtype toEntity(CHSubtypeResponseDTO dto) {
 
         CHSubtype subtype = new CHSubtype();
         subtype.setId(dto.getId());
@@ -19,13 +19,13 @@ public class CHSubtypeMapper implements MapperInterface<CHSubtype, CHSubtypeDTO>
     }
 
     @Override
-    public CHSubtypeDTO toDto(CHSubtype entity) {
+    public CHSubtypeResponseDTO toDto(CHSubtype entity) {
 
-        return new CHSubtypeDTO(entity.getId(),entity.getName());
+        return new CHSubtypeResponseDTO(entity.getId(),entity.getName());
     }
 
     @Override
-    public List<CHSubtypeDTO> toDtoList(List<CHSubtype> entityList) {
+    public List<CHSubtypeResponseDTO> toDtoList(List<CHSubtype> entityList) {
         return null;
     }
 }
