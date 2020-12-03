@@ -14,9 +14,6 @@ public class CHSubtype {
     @Column(name = "name", unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "chsubtype", cascade = CascadeType.ALL)
-    private List<CulturalHeritage> culturalHeritages;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private CHType chtype;
 
