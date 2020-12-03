@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
+import tim2.CulturalHeritage.helper.CHSubtypeMapper;
 import tim2.CulturalHeritage.model.CHSubtype;
 import tim2.CulturalHeritage.service.CHSubtypeService;
 
@@ -23,6 +25,7 @@ public class CHSubtypeController {
 
     @Autowired
     private CHSubtypeService chSubtypeService;
+    private CHSubtypeMapper mapper = new CHSubtypeMapper();
 
     @GetMapping
     public ResponseEntity<List<CHSubtype>> findAll() {
@@ -31,11 +34,17 @@ public class CHSubtypeController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Void> findById(@PathVariable Long id) {
+    public ResponseEntity<CHSubtypeResponseDTO> findById(@PathVariable Long id) {
 
         try {
-            chSubtypeService.findById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            CHSubtype subtype = chSubtypeService.findById(id);
+
+            if(subtype == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+
+            return new ResponseEntity<>(mapper.toDto(subtype), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

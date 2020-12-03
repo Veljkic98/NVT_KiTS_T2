@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import tim2.CulturalHeritage.dto.requestDTO.CulturalHeritageRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
 import tim2.CulturalHeritage.helper.CulturalHeritageMapper;
 import tim2.CulturalHeritage.model.CulturalHeritage;
@@ -22,7 +23,7 @@ public class CulturalHeritageController {
     @Autowired
     private CulturalHeritageService culturalHeritageService;
 
-    private CulturalHeritageMapper mapper;
+    private CulturalHeritageMapper mapper = new CulturalHeritageMapper();
 
     @GetMapping
     public ResponseEntity<List<CulturalHeritageResponseDTO>> findAll() {
@@ -55,19 +56,20 @@ public class CulturalHeritageController {
     }
 
     @PostMapping
-    public ResponseEntity<CulturalHeritage> add(@RequestBody CulturalHeritage culturalHeritage) {
+    public ResponseEntity<CulturalHeritageResponseDTO> add(@RequestBody CulturalHeritageRequestDTO culturalHeritage) {
+        CulturalHeritage ch = mapper.toEntity(culturalHeritage);
+        culturalHeritageService.add(ch);
 
-        culturalHeritageService.add(culturalHeritage);
-
-        return new ResponseEntity<>(culturalHeritage, HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.toDto(ch), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<CulturalHeritage> update(@RequestBody CulturalHeritage culturalHeritage) {
+    public ResponseEntity<CulturalHeritageResponseDTO> update(@RequestBody CulturalHeritageRequestDTO culturalHeritage) {
 
         try {
-            culturalHeritageService.update(culturalHeritage);
-            return new ResponseEntity<>(culturalHeritage, HttpStatus.OK);
+            CulturalHeritage ch = mapper.toEntity(culturalHeritage);
+            culturalHeritageService.update(ch);
+            return new ResponseEntity<>(mapper.toDto(ch), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

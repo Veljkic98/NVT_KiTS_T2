@@ -29,7 +29,7 @@ public class RatingRequestMapper  implements MapperInterface<Rating, RatingReque
     public RatingRequestDTO toDto(Rating entity) {
         CulturalHeritageResponseDTO chDTO = chMapper.toDto(entity.getCulturalHeritage());
 
-        return new RatingRequestDTO(entity.getGrade(),chDTO);
+        return new RatingRequestDTO(entity.getGrade(), chDTO);
     }
 
     @Override

@@ -1,19 +1,18 @@
-package tim2.CulturalHeritage.dto;
-
-import tim2.CulturalHeritage.model.CHSubtype;
+package tim2.CulturalHeritage.dto.responseDTO;
 
 import java.util.List;
 
-public class CHTypeDTO {
+public class CHTypeResponseDTO {
     private long id;
     private String name;
-    //private List<CHSubtype> subtypes;
+    private List<CHSubtypeResponseDTO> subtypes;
 
-    public CHTypeDTO(){}
+    public CHTypeResponseDTO(){}
 
-    public CHTypeDTO(long id, String name ) {
+    public CHTypeResponseDTO(long id, String name, List<CHSubtypeResponseDTO> subs ) {
         this.id = id;
         this.name = name;
+        this.subtypes = subs;
 
     }
 

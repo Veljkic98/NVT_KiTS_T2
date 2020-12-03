@@ -1,15 +1,13 @@
-package tim2.CulturalHeritage.dto;
+package tim2.CulturalHeritage.dto.requestDTO;
 
-import tim2.CulturalHeritage.model.CHSubtype;
-
-public class CHSubtypeDTO {
+public class CHSubtypeRequestDTO {
     private long id;
     private String name;
 
 
-    public CHSubtypeDTO(){}
+    public CHSubtypeRequestDTO(){}
 
-    public CHSubtypeDTO(long id, String name) {
+    public CHSubtypeRequestDTO(long id, String name) {
         this.id = id;
         this.name = name;
     }
