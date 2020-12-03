@@ -29,18 +29,18 @@ public class NewsController {
     @RequestMapping(value="/by-page", method= RequestMethod.GET)
     public ResponseEntity<Page<NewsResponseDTO>> findAll(Pageable pageable) {
         Page<News> resultPage = newsService.findAll(pageable);
-        List<LocationResponseDTO> locationsDTO = locationResponseMapper.toDtoList(resultPage.toList());
-        Page<LocationResponseDTO> pageLocationsDTO = new PageImpl<>(locationsDTO, resultPage.getPageable(), resultPage.getTotalElements());
+        List<NewsResponseDTO> newsDTO = newsMapper.toDtoList(resultPage.toList());
+        Page<NewsResponseDTO> newsDTOPage = new PageImpl<>(newsDTO, resultPage.getPageable(), resultPage.getTotalElements());
 
-        return new ResponseEntity<>(pageLocationsDTO, HttpStatus.OK);
+        return new ResponseEntity<>(newsDTOPage, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Void> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
 
         try {
-            newsService.findById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            News news = newsService.findById(id);
+            return new ResponseEntity<>(newsMapper.toDto(news), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
