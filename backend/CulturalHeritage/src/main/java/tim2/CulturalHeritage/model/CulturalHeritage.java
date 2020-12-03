@@ -41,6 +41,9 @@ public class CulturalHeritage {
     @OneToMany(mappedBy = "culturalHeritage", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "culturalHeritage", cascade = CascadeType.ALL)
+    private List<Rating> ratings;
+
     @ElementCollection
     @CollectionTable(name = "images")
     private Map<Long, byte[]> images;

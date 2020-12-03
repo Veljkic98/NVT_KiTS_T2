@@ -57,19 +57,20 @@ public class CHTypeController {
     }
 
     @PostMapping
-    public ResponseEntity<CHType> add(@RequestBody CHType chType) {
+    public ResponseEntity<CHTypeResponseDTO> add(@RequestBody CHTypeRequestDTO typeDTO) {
+        CHType type = mapper.toEntity(typeDTO);
+        chTypeService.add(type);
 
-        chTypeService.add(chType);
-
-        return new ResponseEntity<>(chType, HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.toDto(type), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<CHType> update(@RequestBody CHType chType) {
+    public ResponseEntity<CHTypeResponseDTO> update(@RequestBody CHTypeResponseDTO reqDTO) {
 
         try {
-            chTypeService.update(chType);
-            return new ResponseEntity<>(chType, HttpStatus.OK);
+            CHType type = mapper.toEntity(reqDTO);
+            chTypeService.update(type);
+            return new ResponseEntity<>(mapper.toDto(type), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
