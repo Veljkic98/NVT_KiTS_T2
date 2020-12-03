@@ -25,7 +25,6 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
         return culturalHeritageRepository.findAll(pageable);
     }
 
-
     @Override
     public CulturalHeritage findById(Long id) {
         return culturalHeritageRepository.findById(id).orElse(null);

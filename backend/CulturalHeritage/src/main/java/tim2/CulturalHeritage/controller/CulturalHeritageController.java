@@ -64,7 +64,7 @@ public class CulturalHeritageController {
     }
 
     @PutMapping
-    public ResponseEntity<CulturalHeritageResponseDTO> update(@RequestBody CulturalHeritageRequestDTO culturalHeritage) {
+    public ResponseEntity<CulturalHeritageResponseDTO> update(@RequestBody CulturalHeritageResponseDTO culturalHeritage) {
 
         try {
             CulturalHeritage ch = mapper.toEntity(culturalHeritage);

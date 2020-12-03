@@ -32,7 +32,7 @@ public class CulturalHeritage {
     @ManyToOne
     private Location Location;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private CHSubtype chsubtype;
 
     @OneToMany(mappedBy = "culturalHeritage", cascade = CascadeType.ALL)

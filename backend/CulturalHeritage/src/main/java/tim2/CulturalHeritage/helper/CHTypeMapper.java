@@ -20,6 +20,15 @@ public class CHTypeMapper implements MapperInterfaceEnhanced<CHType, CHTypeRespo
         return type;
     }
 
+    public CHType toEntity(CHTypeResponseDTO dto) {
+        CHType type = new CHType();
+        type.setId(dto.getId());
+        type.setName(dto.getName());
+
+        return type;
+    }
+
+
     @Override
     public CHTypeResponseDTO toDto(CHType entity) {
 

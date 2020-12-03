@@ -32,5 +32,11 @@ public class CHTypeResponseDTO {
         this.name = name;
     }
 
+    public List<CHSubtypeResponseDTO> getSubtypes() {
+        return subtypes;
+    }
 
+    public void setSubtypes(List<CHSubtypeResponseDTO> subtypes) {
+        this.subtypes = subtypes;
+    }
 }
