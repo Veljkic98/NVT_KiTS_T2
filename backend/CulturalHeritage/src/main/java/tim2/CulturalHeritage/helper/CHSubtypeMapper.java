@@ -1,5 +1,6 @@
 package tim2.CulturalHeritage.helper;
 
+import tim2.CulturalHeritage.dto.requestDTO.CHSubtypeRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CHTypeResponseDTO;
 import tim2.CulturalHeritage.model.CHSubtype;
@@ -18,8 +19,21 @@ public class CHSubtypeMapper implements MapperInterface<CHSubtype, CHSubtypeResp
         subtype.setId(dto.getId());
         subtype.setName(dto.getName());
 
+
         return subtype;
     }
+
+
+    public CHSubtype toEntity(CHSubtypeRequestDTO dto) {
+
+        CHSubtype subtype = new CHSubtype();
+        subtype.setName(dto.getName());
+
+        return subtype;
+    }
+
+
+
 
     @Override
     public CHSubtypeResponseDTO toDto(CHSubtype entity) {
