@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "392d6a17-2a93-436f-8b1c-f799d6d8aada",
+		"_postman_id": "547c826c-8bd8-4a8f-b0a8-d5a55eb0bd93",
 		"name": "NVTKTS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -280,8 +280,17 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"NEW subtype\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8080/api/cultural-heritages",
+							"raw": "http://localhost:8080/api/ch-subtypes",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -289,7 +298,7 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"cultural-heritages"
+								"ch-subtypes"
 							]
 						}
 					},
@@ -436,234 +445,6 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Ratings",
-			"item": [
-				{
-					"name": "DELETE RATING",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8090/api/ratings/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8090",
-							"path": [
-								"api",
-								"ratings",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT RATING",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"grade\" : 3,\r\n    \"culturalHeritage\" : {\r\n        \"id\":\"31\",\r\n        \"name\":\"La Mahal basic\",\r\n        \"description\":\"This is just some dummy text i guess\"\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8090/api/ratings",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8090",
-							"path": [
-								"api",
-								"ratings"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST RATING",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"grade\" : 5,\r\n    \"culturalHeritage\" : {\r\n        \"id\":\"31\",\r\n        \"name\":\"La Mahal basic\",\r\n        \"description\":\"This is just some dummy text i guess\"\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8090/api/ratings",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8090",
-							"path": [
-								"api",
-								"ratings"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "Locations",
-			"item": [
-				{
-					"name": "GET ALL LOCATIONS",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8090/api/locations/by-page/?page=0&size=3&sort=id,ASC",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8090",
-							"path": [
-								"api",
-								"locations",
-								"by-page",
-								""
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "0"
-								},
-								{
-									"key": "size",
-									"value": "3"
-								},
-								{
-									"key": "sort",
-									"value": "id,ASC"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET LOCATION",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8090/api/locations/22",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8090",
-							"path": [
-								"api",
-								"locations",
-								"22"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE LOCATION",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/cultural-heritages",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"cultural-heritages"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT LOCATION",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"latitude\" : 1,\r\n    \"longitude\": 1,\r\n    \"country\" : \"Name\",\r\n    \"city\": \"city\",\r\n    \"street\": \"street name\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8090/api/locations/22",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8090",
-							"path": [
-								"api",
-								"locations",
-								"22"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST LOCATION",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"latitude\" : 1,\r\n    \"longitude\": 1,\r\n    \"country\" : \"Name\",\r\n    \"city\": \"city\",\r\n    \"street\": \"street name\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8090/api/locations/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8090",
-							"path": [
-								"api",
-								"locations",
-								""
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
 			"name": "Users",
 			"item": [
 				{
@@ -675,12 +456,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8090/api/authenticated-users/by-page/?page=0&size=10&sort=id,ASC",
+									"raw": "http://localhost:8080/api/authenticated-users/by-page/?page=0&size=10&sort=id,ASC",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8090",
+									"port": "8080",
 									"path": [
 										"api",
 										"authenticated-users",
@@ -711,12 +492,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8090/api/authenticated-users/3",
+									"raw": "http://localhost:8080/api/authenticated-users/3",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8090",
+									"port": "8080",
 									"path": [
 										"api",
 										"authenticated-users",
@@ -732,12 +513,12 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8090/api/authenticated-users/4",
+									"raw": "http://localhost:8080/api/authenticated-users/4",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8090",
+									"port": "8080",
 									"path": [
 										"api",
 										"authenticated-users",
@@ -762,12 +543,12 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8090/api/authenticated-users/3",
+									"raw": "http://localhost:8080/api/authenticated-users/3",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8090",
+									"port": "8080",
 									"path": [
 										"api",
 										"authenticated-users",
@@ -809,12 +590,12 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8090/api/authenticated-users",
+									"raw": "http://localhost:8080/api/authenticated-users",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8090",
+									"port": "8080",
 									"path": [
 										"api",
 										"authenticated-users"
@@ -836,12 +617,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8090/api/admins/by-page/?page=0&size=10&sort=id,ASC",
+									"raw": "http://localhost:8080/api/admins/by-page/?page=0&size=10&sort=id,ASC",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8090",
+									"port": "8080",
 									"path": [
 										"api",
 										"admins",
@@ -872,12 +653,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8090/api/admins/1",
+									"raw": "http://localhost:8080/api/admins/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8090",
+									"port": "8080",
 									"path": [
 										"api",
 										"admins",
@@ -893,12 +674,12 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8090/api/admins/1",
+									"raw": "http://localhost:8080/api/admins/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8090",
+									"port": "8080",
 									"path": [
 										"api",
 										"admins",
@@ -923,12 +704,12 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8090/api/admins/",
+									"raw": "http://localhost:8080/api/admins/",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8090",
+									"port": "8080",
 									"path": [
 										"api",
 										"admins",
@@ -953,12 +734,12 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8090/api/admins/1",
+									"raw": "http://localhost:8080/api/admins/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8090",
+									"port": "8080",
 									"path": [
 										"api",
 										"admins",
@@ -971,6 +752,235 @@
 					],
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Locations",
+			"item": [
+				{
+					"name": "GET ALL LOCATIONS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/locations/by-page/?page=0&size=3&sort=id,ASC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"locations",
+								"by-page",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								},
+								{
+									"key": "sort",
+									"value": "id,ASC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET LOCATION",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/locations/22",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"locations",
+								"22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE LOCATION",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/locations/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"locations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT LOCATION",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"latitude\" : 1,\r\n    \"longitude\": 1,\r\n    \"country\" : \"Name\",\r\n    \"city\": \"city\",\r\n    \"street\": \"street name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/locations/22",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"locations",
+								"22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST LOCATION",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"latitude\" : 1,\r\n    \"longitude\": 1,\r\n    \"country\" : \"Name\",\r\n    \"city\": \"city\",\r\n    \"street\": \"street name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/locations/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"locations",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Ratings",
+			"item": [
+				{
+					"name": "DELETE RATING",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/ratings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"ratings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT RATING",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"grade\" : 3,\r\n    \"culturalHeritage\" : {\r\n        \"id\":\"31\",\r\n        \"name\":\"La Mahal basic\",\r\n        \"description\":\"This is just some dummy text i guess\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST RATING",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"grade\" : 5,\r\n    \"culturalHeritage\" : {\r\n        \"id\":\"31\",\r\n        \"name\":\"La Mahal basic\",\r\n        \"description\":\"This is just some dummy text i guess\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/ratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"ratings"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
