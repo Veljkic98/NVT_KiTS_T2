@@ -23,7 +23,8 @@ public class CommentRequestMapper implements MapperInterface<Comment, CommentReq
 
     @Override
     public CommentRequestDTO toDto(Comment entity) {
-       return new CommentRequestDTO(entity.getContent(), entity.getCulturalHeritage().getId());
+
+       return null;
     }
 
     @Override

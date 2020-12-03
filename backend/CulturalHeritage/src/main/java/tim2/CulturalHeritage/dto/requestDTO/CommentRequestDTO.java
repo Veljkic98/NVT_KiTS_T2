@@ -10,11 +10,6 @@ public class CommentRequestDTO {
     public CommentRequestDTO() {
     }
 
-    public CommentRequestDTO(String content, long CHid) {
-        this.content = content;
-        this.culturalHeritageID = CHid;
-    }
-
     public String getContent() {
         return content;
     }

@@ -43,7 +43,7 @@ public class CHTypeMapper implements MapperInterfaceEnhanced<CHType, CHTypeRespo
 
         for(CHType ch: entityList ){
             List<CHSubtypeResponseDTO> subs = subtypeMapper.toDtoList(ch.getSubtypes());
-            results.add(toDto(ch));
+            results.add(new CHTypeResponseDTO(ch.getId(), ch.getName(), subs));
         }
 
         return results;

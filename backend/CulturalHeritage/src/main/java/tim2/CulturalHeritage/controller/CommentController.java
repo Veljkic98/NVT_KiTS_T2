@@ -44,15 +44,10 @@ public class CommentController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<CommentResponseDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
 
         try {
             Comment com = commentService.findById(id);
-
-            if(com == null){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
             return new ResponseEntity<>(commentResponseMapper.toDto(com), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -75,7 +70,7 @@ public class CommentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CommentResponseDTO> update(@PathVariable Long id, @RequestBody CommentRequestDTO commentRequest) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CommentRequestDTO commentRequest) {
 
         try {
             Comment com = commentService.findById(id);
