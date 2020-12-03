@@ -178,6 +178,8 @@ insert into comment (cultural_heritage_id, authenticated_user_id, content) value
 insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 10, 'Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.');
 insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 6, 'Fusce posuere felis sed lacus.');
 
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj', 'Naslov', 3, 1);
+
 
 
 
