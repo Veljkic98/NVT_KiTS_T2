@@ -68,9 +68,8 @@ public class RatingController {
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody RatingRequestDTO ratingRequest) {
 
         try {
-            //ovde bi trebalo preuzeti id ulogovanog korisnika i setovati u novom rating objektu
-            Rating rating = ratingRequestMapper.toEntity(ratingRequest);
-            rating.setId(id);
+            Rating rating = ratingService.findById(id);
+            rating.setGrade(ratingRequest.getGrade());
             ratingService.update(rating);
 
             return new ResponseEntity<>(ratingResponseMapper.toDto(rating), HttpStatus.OK);
