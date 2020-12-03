@@ -12,12 +12,14 @@ import java.util.List;
 public class CHSubtypeMapper implements MapperInterface<CHSubtype, CHSubtypeResponseDTO>{
 
 
+
     @Override
     public CHSubtype toEntity(CHSubtypeResponseDTO dto) {
 
         CHSubtype subtype = new CHSubtype();
         subtype.setId(dto.getId());
         subtype.setName(dto.getName());
+
 
 
         return subtype;
@@ -28,6 +30,9 @@ public class CHSubtypeMapper implements MapperInterface<CHSubtype, CHSubtypeResp
 
         CHSubtype subtype = new CHSubtype();
         subtype.setName(dto.getName());
+
+        //CHTypeMapper typeMapper = new CHTypeMapper();
+        //subtype.setChtype(typeMapper.toEntity(dto.getType()));
 
         return subtype;
     }
@@ -50,7 +55,7 @@ public class CHSubtypeMapper implements MapperInterface<CHSubtype, CHSubtypeResp
         }
 
         for(CHSubtype subtype: entityList ){
-            results.add(new CHSubtypeResponseDTO(subtype.getId(), subtype.getName()));
+            results.add(toDto(subtype));
         }
 
         return results;
