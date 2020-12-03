@@ -282,7 +282,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/ch-subtypes/1/",
+							"raw": "http://localhost:8080/api/ch-subtypes/6/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -291,7 +291,7 @@
 							"path": [
 								"api",
 								"ch-subtypes",
-								"1",
+								"6",
 								""
 							]
 						}

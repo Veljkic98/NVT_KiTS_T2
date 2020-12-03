@@ -32,7 +32,7 @@ public class CulturalHeritage {
     @ManyToOne
     private Location Location;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private CHSubtype chsubtype;
 
     @OneToMany(mappedBy = "culturalHeritage", cascade = CascadeType.ALL)
@@ -40,6 +40,9 @@ public class CulturalHeritage {
 
     @OneToMany(mappedBy = "culturalHeritage", cascade = CascadeType.ALL)
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "culturalHeritage", cascade = CascadeType.ALL)
+    private List<Rating> ratings;
 
     @ElementCollection
     @CollectionTable(name = "images")

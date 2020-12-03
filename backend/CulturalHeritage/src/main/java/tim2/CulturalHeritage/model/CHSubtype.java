@@ -1,6 +1,7 @@
 package tim2.CulturalHeritage.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "chsubtype")
@@ -13,8 +14,13 @@ public class CHSubtype {
     @Column(name = "name", unique = true)
     private String name;
 
+    @OneToMany(mappedBy = "chsubtype", cascade = CascadeType.ALL)
+    private List<CulturalHeritage> culturalHeritages;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private CHType chtype;
+
+
 
     public CHSubtype() {
     }
