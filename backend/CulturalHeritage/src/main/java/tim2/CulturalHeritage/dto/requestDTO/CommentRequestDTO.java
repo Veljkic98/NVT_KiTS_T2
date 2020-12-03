@@ -1,17 +1,13 @@
 package tim2.CulturalHeritage.dto.requestDTO;
 
-import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 
 public class CommentRequestDTO {
+
     private String content;
-    private String author;
-    // images?
 
-    public CommentRequestDTO(){}
+    private long culturalHeritageID;
 
-    public CommentRequestDTO(String content, String author) {
-        this.content = content;
-        this.author = author;
+    public CommentRequestDTO() {
     }
 
     public String getContent() {
@@ -22,11 +18,11 @@ public class CommentRequestDTO {
         this.content = content;
     }
 
-    public String getAuthor() {
-        return author;
+    public long getCulturalHeritageID() {
+        return culturalHeritageID;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setCulturalHeritageID(long culturalHeritageID) {
+        this.culturalHeritageID = culturalHeritageID;
     }
 }

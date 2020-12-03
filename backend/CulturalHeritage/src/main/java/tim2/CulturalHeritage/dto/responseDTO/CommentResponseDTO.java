@@ -5,16 +5,20 @@ import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 
 public class CommentResponseDTO {
     private long id;
+
     private String content;
+
     private AuthUserResponseDTO author;
-    // images?
+
+    private long culturaHeritageID;
 
     public CommentResponseDTO(){}
 
-    public CommentResponseDTO(long id, String content, AuthUserResponseDTO author) {
+    public CommentResponseDTO(long id, String content, AuthUserResponseDTO author, long culturaHeritageID) {
         this.id = id;
         this.content = content;
         this.author = author;
+        this.culturaHeritageID = culturaHeritageID;
     }
 
     public long getId() {
@@ -39,5 +43,13 @@ public class CommentResponseDTO {
 
     public void setAuthor(AuthUserResponseDTO author) {
         this.author = author;
+    }
+
+    public long getCulturaHeritageID() {
+        return culturaHeritageID;
+    }
+
+    public void setCulturaHeritageID(long culturaHeritageID) {
+        this.culturaHeritageID = culturaHeritageID;
     }
 }

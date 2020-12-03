@@ -138,4 +138,48 @@ INSERT INTO cultural_heritage ( name, location_id, chsubtype_id, description) VA
 INSERT INTO cultural_heritage ( name, location_id, chsubtype_id, description) VALUES ( 'The Metropolitan Museum of Art', 15, 3, 'The largest and most popular art gallery in the United States is The Metropolitan Museum of Art in New York City, commonly known as The Met, which had 6.3 million visitors in 2014. The Met’s permanent collection holds more than 2 million works spanning 5,000 years from ancient Egypt to Europe’s classics to American and modern work. The main building was founded in 1870 and is located on Central Park along Manhattan’s Museum Mile.');
 INSERT INTO cultural_heritage ( name, location_id, chsubtype_id, description) VALUES ( 'National Palace Museum', 16, 3, 'The National Palace Museum in Taiwan boasted 5.4 million visitors in 2014 who came to view the collection of ancient Chinese art and artefacts. The museum’s permanent collection includes around 700,000 works of art. This museum shares a history with the Palace Museum in Beijing, the old Palace Museum split in two after the Chinese Civil War when the Republic of China of Taiwan was formed. The collection includes paintings, jades, ceramics, bronzes, rare books, calligraphy, and more.');
 
+
+--GRADES
 INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (3, 3, 3);
+
+
+--COMMENTS
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 4, 'Duis at velit eu est congue elementum. In hac habitasse platea dictumst.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 3, 'Duis bibendum.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 5, 'Duis bibendum.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 7, 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 10, 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 11, 'Duis consequat dui nec nisi volutpat eleifend.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 3, Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 5, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 10, 'Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 10,  'In congue. Etiam justo.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 10,  'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 10,  'Integer a nibh. In quis justo.');
+
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 4, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 5, 'Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 7, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 7, 'Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 8, 'Curabitur in libero ut massa volutpat convallis.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 10, 'Maecenas pulvinar lobortis est. Phasellus sit amet erat.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 10, 'Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 6, 'Fusce posuere felis sed lacus.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 8, 'Curabitur in libero ut massa volutpat convallis.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 10, 'Maecenas pulvinar lobortis est. Phasellus sit amet erat.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 10, 'Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 6, 'Fusce posuere felis sed lacus.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 8, 'Curabitur in libero ut massa volutpat convallis.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 10, 'Maecenas pulvinar lobortis est. Phasellus sit amet erat.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 10, 'Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 6, 'Fusce posuere felis sed lacus.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 8, 'Curabitur in libero ut massa volutpat convallis.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 10, 'Maecenas pulvinar lobortis est. Phasellus sit amet erat.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 10, 'Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 6, 'Fusce posuere felis sed lacus.');
+
+
+
+
+
+
