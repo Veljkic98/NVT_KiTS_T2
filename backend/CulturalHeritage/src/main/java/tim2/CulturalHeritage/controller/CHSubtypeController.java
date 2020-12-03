@@ -18,7 +18,7 @@ import tim2.CulturalHeritage.model.CHSubtype;
 import tim2.CulturalHeritage.service.CHSubtypeService;
 
 @RestController
-@RequestMapping("/api/ch-w")
+@RequestMapping("/api/ch-subtypes")
 public class CHSubtypeController {
 
     @Autowired

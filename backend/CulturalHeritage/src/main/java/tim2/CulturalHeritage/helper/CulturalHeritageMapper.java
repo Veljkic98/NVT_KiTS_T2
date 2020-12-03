@@ -1,6 +1,7 @@
 package tim2.CulturalHeritage.helper;
 
 import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
+import tim2.CulturalHeritage.helper.LocationMappers.LocationResponseMapper;
 import tim2.CulturalHeritage.model.CHSubtype;
 import tim2.CulturalHeritage.model.CulturalHeritage;
 
@@ -10,9 +11,11 @@ import java.util.List;
 public class CulturalHeritageMapper implements MapperInterface<CulturalHeritage, CulturalHeritageResponseDTO> {
 
     private CHSubtypeMapper subtypeMapper = new CHSubtypeMapper();
+    private LocationResponseMapper locationMapper = new LocationResponseMapper();
 
     public CulturalHeritageMapper(){
         CHSubtypeMapper subTypeMapper = new CHSubtypeMapper();
+        LocationResponseMapper locationMapper = new LocationResponseMapper();
     }
 
     @Override
@@ -21,7 +24,7 @@ public class CulturalHeritageMapper implements MapperInterface<CulturalHeritage,
         ch.setName(dto.getName());
         ch.setDescription(dto.getDescription());
         ch.setChsubtype(subtypeMapper.toEntity(dto.getChsubtype()));
-        ch.setLocation(dto.getLocation());
+        //ch.setLocation(locationMapper.toEntity(dto.getLocation()));
 
         return ch;
     }
@@ -29,7 +32,7 @@ public class CulturalHeritageMapper implements MapperInterface<CulturalHeritage,
     @Override
     public CulturalHeritageResponseDTO toDto(CulturalHeritage entity) {
         // location i subtype dtos su isti kao entiteti?
-        return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(), entity.getLocation(), subtypeMapper.toDto(entity.getChsubtype()));
+        return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(), subtypeMapper.toDto(entity.getChsubtype()));
     }
 
     @Override
@@ -37,9 +40,9 @@ public class CulturalHeritageMapper implements MapperInterface<CulturalHeritage,
         List<CulturalHeritageResponseDTO> results = new ArrayList<>();
 
         for(CulturalHeritage ch: entityList ){
-            results.add(new CulturalHeritageResponseDTO(ch.getId(), ch.getName(), ch.getDescription(), ch.getLocation(), subtypeMapper.toDto(ch.getChsubtype())));
+            results.add(new CulturalHeritageResponseDTO(ch.getId(), ch.getName(), ch.getDescription(), subtypeMapper.toDto(ch.getChsubtype())));
         }
 
-        return null;
+        return results;
     }
 }

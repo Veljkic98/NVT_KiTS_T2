@@ -16,7 +16,7 @@ public class LocationResponseMapper implements MapperInterface<Location, Locatio
             location.setCountry(dto.getCountry());
             location.setLatitude(dto.getLatitude());
             location.setLongitude(dto.getLongitude());
-            location.setStreet(dto.getStreet());
+            //location.setStreet(dto.getStreet());
             location.setId(dto.getId());
 
             return location;

@@ -25,9 +25,9 @@ public class CulturalHeritageController {
     private CulturalHeritageMapper mapper;
 
     @GetMapping
-    public ResponseEntity<List<CulturalHeritage>> findAll() {
+    public ResponseEntity<List<CulturalHeritageResponseDTO>> findAll() {
 
-        return new ResponseEntity<>(culturalHeritageService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toDtoList(culturalHeritageService.findAll()), HttpStatus.OK);
     }
 
     @RequestMapping(value="/by-page", method= RequestMethod.GET)

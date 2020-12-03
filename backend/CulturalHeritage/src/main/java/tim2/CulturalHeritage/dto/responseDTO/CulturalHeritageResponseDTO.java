@@ -19,7 +19,7 @@ public class CulturalHeritageResponseDTO {
     private String description;
 
     @NotBlank(message="Location cannot be blank")
-    private Location location;
+    //private LocationResponseDTO location;
 
     @NotBlank(message="Subtype cannot be blank")
     private CHSubtypeDTO chsubtype;
@@ -27,11 +27,11 @@ public class CulturalHeritageResponseDTO {
 
     public CulturalHeritageResponseDTO(){}
 
-    public CulturalHeritageResponseDTO(long id, String name, String description, Location location, CHSubtypeDTO chsubtype){
+    public CulturalHeritageResponseDTO(long id, String name, String description, CHSubtypeDTO chsubtype){
         this.id = id;
         this.name = name;
         this.description = description;
-        this.location = location;
+        //this.location = location;
         this.chsubtype = chsubtype;
     }
 
@@ -59,13 +59,13 @@ public class CulturalHeritageResponseDTO {
         this.description = description;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
+//    public LocationResponseDTO getLocation() {
+//        return location;
+//    }
+//
+//    public void setLocation(LocationResponseDTO location) {
+//        this.location = location;
+//    }
 
     public CHSubtypeDTO getChsubtype() {
         return chsubtype;
