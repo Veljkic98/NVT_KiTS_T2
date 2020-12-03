@@ -12,7 +12,22 @@ import java.util.List;
 public class NewsMapper implements MapperInterfaceEnhanced<News, NewsResponseDTO, NewsRequestDTO >{
     @Override
     public News toEntity(NewsRequestDTO dto) {
-        return null;
+        News news = new News();
+        // zavisi da li cemo pri kreiranju slati samo ID admina i CHa ili mozda cijeli DTO
+        news.setContent(dto.getContent());
+        news.setHeading(dto.getHeading());
+
+        return news;
+    }
+
+    public News toEntity(NewsResponseDTO dto) {
+        News news = new News();
+        news.setId(dto.getId());
+        // zavisi da li cemo pri kreiranju slati samo ID admina i CHa ili mozda cijeli DTO
+        news.setContent(dto.getContent());
+        news.setHeading(dto.getHeading());
+
+        return news;
     }
 
     @Override

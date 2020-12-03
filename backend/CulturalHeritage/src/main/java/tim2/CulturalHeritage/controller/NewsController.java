@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.LocationResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.NewsResponseDTO;
 import tim2.CulturalHeritage.helper.NewsMapper;
@@ -47,19 +48,20 @@ public class NewsController {
     }
 
     @PostMapping
-    public ResponseEntity<News> add(@RequestBody News news) {
-
-        newsService.add(news);
+    public ResponseEntity<NewsRequestDTO> add(@RequestBody NewsRequestDTO news) {
+        News entity = newsMapper.toEntity(news);
+        newsService.add(entity);
 
         return new ResponseEntity<>(news, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<News> update(@RequestBody News news) {
+    public ResponseEntity<NewsResponseDTO> update(@RequestBody NewsResponseDTO news) {
 
         try {
-            newsService.update(news);
-            return new ResponseEntity<>(news, HttpStatus.OK);
+            News updatedNews = newsMapper.toEntity(news);
+            newsService.update(updatedNews);
+            return new ResponseEntity<>(newsMapper.toDto(updatedNews), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
