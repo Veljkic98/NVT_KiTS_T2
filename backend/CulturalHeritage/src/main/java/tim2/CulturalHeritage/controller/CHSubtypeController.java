@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import tim2.CulturalHeritage.dto.requestDTO.CHSubtypeRequestDTO;
+import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
+import tim2.CulturalHeritage.helper.CHSubtypeMapper;
 import tim2.CulturalHeritage.model.CHSubtype;
 import tim2.CulturalHeritage.service.CHSubtypeService;
 
@@ -23,38 +26,49 @@ public class CHSubtypeController {
 
     @Autowired
     private CHSubtypeService chSubtypeService;
+    private CHSubtypeMapper mapper = new CHSubtypeMapper();
 
     @GetMapping
-    public ResponseEntity<List<CHSubtype>> findAll() {
+    public ResponseEntity<List<CHSubtypeResponseDTO>> findAll() {
 
-        return new ResponseEntity<>(chSubtypeService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toDtoList(chSubtypeService.findAll()), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Void> findById(@PathVariable Long id) {
+    public ResponseEntity<CHSubtypeResponseDTO> findById(@PathVariable Long id) {
 
         try {
-            chSubtypeService.findById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            CHSubtype subtype = chSubtypeService.findById(id);
+
+            if(subtype == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+
+            return new ResponseEntity<>(mapper.toDto(subtype), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
-    public ResponseEntity<CHSubtype> add(@RequestBody CHSubtype chSubtype) {
+    public ResponseEntity<CHSubtypeResponseDTO> add(@RequestBody CHSubtypeRequestDTO chSubtype) {
+        CHSubtype subtype = mapper.toEntity(chSubtype);
+        chSubtypeService.add(subtype);
 
-        chSubtypeService.add(chSubtype);
 
-        return new ResponseEntity<>(chSubtype, HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.toDto(subtype), HttpStatus.CREATED);
     }
 
+
     @PutMapping
-    public ResponseEntity<CHSubtype> update(@RequestBody CHSubtype chSubtype) {
+    public ResponseEntity<CHSubtypeResponseDTO> update(@RequestBody CHSubtypeResponseDTO chSubtype) {
 
         try {
-            chSubtypeService.update(chSubtype);
-            return new ResponseEntity<>(chSubtype, HttpStatus.OK);
+            CHSubtype subtype = mapper.toEntity(chSubtype);
+            chSubtypeService.update(subtype);
+
+            return new ResponseEntity<>(mapper.toDto(subtype), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -1,8 +1,8 @@
 package tim2.CulturalHeritage.service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import tim2.CulturalHeritage.model.Location;
@@ -15,8 +15,8 @@ public class LocationServiceImpl implements LocationService {
     private LocationRepository locationRepository;
 
     @Override
-    public List<Location> findAll() {
-        return locationRepository.findAll();
+    public Page<Location> findAll(Pageable pageable) {
+        return locationRepository.findAll(pageable);
     }
 
     @Override

@@ -3,58 +3,80 @@ package tim2.CulturalHeritage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import tim2.CulturalHeritage.dto.requestDTO.CommentRequestDTO;
+import tim2.CulturalHeritage.dto.responseDTO.CommentResponseDTO;
+import tim2.CulturalHeritage.helper.CommentMappers.CommentRequestMapper;
+import tim2.CulturalHeritage.helper.CommentMappers.CommentResponseMapper;
 import tim2.CulturalHeritage.model.Comment;
+import tim2.CulturalHeritage.model.CulturalHeritage;
 import tim2.CulturalHeritage.service.CommentService;
+import tim2.CulturalHeritage.service.CulturalHeritageService;
 
 @RestController
 @RequestMapping("/api/comments")
 public class CommentController {
 
+    private CommentResponseMapper commentResponseMapper = new CommentResponseMapper();
+
+    private CommentRequestMapper commentRequestMapper = new CommentRequestMapper();
+
     @Autowired
     private CommentService commentService;
 
-    @GetMapping
-    public ResponseEntity<List<Comment>> findAll() {
+    @Autowired
+    private CulturalHeritageService culturalHeritageService;
 
-        return new ResponseEntity<>(commentService.findAll(), HttpStatus.OK);
+    @RequestMapping(value="/by-page", method= RequestMethod.GET)
+    public ResponseEntity<Page<CommentResponseDTO>> findAll(Pageable pageable) {
+
+        Page<Comment> resultPage = commentService.findAll(pageable);
+        List<CommentResponseDTO> commentsDTO = commentResponseMapper.toDtoList(resultPage.toList());
+        Page<CommentResponseDTO> pageCommentsDTO = new PageImpl<>(commentsDTO, resultPage.getPageable(), resultPage.getTotalElements());
+
+        return new ResponseEntity<>(pageCommentsDTO, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Void> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
 
         try {
-            commentService.findById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            Comment com = commentService.findById(id);
+            return new ResponseEntity<>(commentResponseMapper.toDto(com), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
-    public ResponseEntity<Comment> add(@RequestBody Comment comment) {
+    public ResponseEntity<?> add(@RequestBody CommentRequestDTO commentRequest) {
+        try {
+            Comment com = commentRequestMapper.toEntity(commentRequest);
+            //ovde bi trebalo na com objekat dodati usera koji je ulogovan
+            CulturalHeritage ch = culturalHeritageService.findById(commentRequest.getCulturalHeritageID());
+            com.setCulturalHeritage(ch);
+            commentService.add(com);
 
-        commentService.add(comment);
-
-        return new ResponseEntity<>(comment, HttpStatus.CREATED);
+            return new ResponseEntity<>(commentResponseMapper.toDto(com), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PutMapping
-    public ResponseEntity<Comment> update(@RequestBody Comment comment) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CommentRequestDTO commentRequest) {
 
         try {
-            commentService.update(comment);
-            return new ResponseEntity<>(comment, HttpStatus.OK);
+            Comment com = commentService.findById(id);
+            com.setContent(commentRequest.getContent());
+            commentService.update(com);
+            return new ResponseEntity<>(commentResponseMapper.toDto(com), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

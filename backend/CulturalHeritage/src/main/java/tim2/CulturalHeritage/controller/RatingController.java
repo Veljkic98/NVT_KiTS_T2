@@ -14,8 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import tim2.CulturalHeritage.dto.requestDTO.RatingRequestDTO;
+import tim2.CulturalHeritage.helper.RatingMappers.RatingRequestMapper;
+import tim2.CulturalHeritage.helper.RatingMappers.RatingResponseMapper;
+import tim2.CulturalHeritage.model.Location;
 import tim2.CulturalHeritage.model.Rating;
 import tim2.CulturalHeritage.service.RatingService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/ratings")
@@ -23,6 +29,10 @@ public class RatingController {
 
     @Autowired
     private RatingService ratingService;
+
+    private RatingRequestMapper ratingRequestMapper = new RatingRequestMapper();
+
+    private RatingResponseMapper ratingResponseMapper = new RatingResponseMapper();
 
     @GetMapping
     public ResponseEntity<List<Rating>> findAll() {
@@ -42,19 +52,27 @@ public class RatingController {
     }
 
     @PostMapping
-    public ResponseEntity<Rating> add(@RequestBody Rating rating) {
+    public ResponseEntity<?> add(@RequestBody RatingRequestDTO ratingRequest) {
 
-        ratingService.add(rating);
+        //ovde bi trebalo preuzeti id ulogovanog korisnika i setovati u novom rating objektu
+        try {
+            Rating rating = ratingService.add(ratingRequestMapper.toEntity(ratingRequest));
 
-        return new ResponseEntity<>(rating, HttpStatus.CREATED);
+            return new ResponseEntity<>(ratingResponseMapper.toDto(rating), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PutMapping
-    public ResponseEntity<Rating> update(@RequestBody Rating rating) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody RatingRequestDTO ratingRequest) {
 
         try {
+            Rating rating = ratingService.findById(id);
+            rating.setGrade(ratingRequest.getGrade());
             ratingService.update(rating);
-            return new ResponseEntity<>(rating, HttpStatus.OK);
+
+            return new ResponseEntity<>(ratingResponseMapper.toDto(rating), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

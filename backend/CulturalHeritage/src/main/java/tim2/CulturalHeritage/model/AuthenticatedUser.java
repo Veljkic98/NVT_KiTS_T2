@@ -17,6 +17,7 @@ public class AuthenticatedUser extends Person {
     private List<CulturalHeritage> culturalHeritages;
 
     public AuthenticatedUser() {
+        super();
     }
 
     public AuthenticatedUser(Long id, String firstName, String lastName, String email, Boolean approved, String password,
@@ -32,5 +33,6 @@ public class AuthenticatedUser extends Person {
     public void setCulturalHeritages(List<CulturalHeritage> culturalHeritages) {
         this.culturalHeritages = culturalHeritages;
     }
+
 
 }

@@ -1,8 +1,8 @@
 package tim2.CulturalHeritage.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import tim2.CulturalHeritage.model.Admin;
@@ -15,9 +15,7 @@ public class AdminServiceImpl implements AdminService {
     private AdminRepository adminRepository;
 
     @Override
-    public List<Admin> findAll() {
-        return adminRepository.findAll();
-    }
+    public Page<Admin> findAll(Pageable pageable) { return adminRepository.findAll(pageable); }
 
     @Override
     public Admin findById(Long id) {

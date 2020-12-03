@@ -1,12 +1,6 @@
 package tim2.CulturalHeritage.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 
 @Entity
 // Ova klasa je koren hijerarhije koja koristi koncept - jedan tabela po
@@ -15,7 +9,8 @@ import javax.persistence.InheritanceType;
 public abstract class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PERSON_SEQ")
+    @SequenceGenerator(sequenceName = "person_seq", name = "PERSON_SEQ", allocationSize = 1)
     private Long id;
 
     @Column(name = "first_name", nullable = false)
@@ -34,6 +29,7 @@ public abstract class Person {
     private String password;
 
     public Person() {
+        approved = false;
     }
 
     public Person(Long id, String firstName, String lastName, String email, Boolean approved, String password) {
@@ -96,4 +92,5 @@ public abstract class Person {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
