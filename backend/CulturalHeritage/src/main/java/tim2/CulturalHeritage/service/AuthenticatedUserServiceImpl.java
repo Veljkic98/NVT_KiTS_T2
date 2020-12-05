@@ -17,7 +17,7 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService {
     @Autowired
     private EmailService emailService;
 
-    private final String linkBase = "http://localhost:8080/api/authenticated-users/verify/";
+    private final String linkBase = "http://localhost:4200/verify/";
 
     @Override
     public Page<AuthenticatedUser> findAll(Pageable pageable) { return authenticatedUserRepository.findAll(pageable); }
