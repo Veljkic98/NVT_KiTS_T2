@@ -1,17 +1,18 @@
 package tim2.CulturalHeritage.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
+import tim2.CulturalHeritage.helper.ApiErrors;
 import tim2.CulturalHeritage.helper.AuthenticatedUserMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
@@ -50,15 +51,17 @@ public class AuthenticatedUserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> add(@Valid @RequestBody AuthUserRequestDTO authenticatedUser) {
-
+    public ResponseEntity<?> add(@Valid @RequestBody AuthUserRequestDTO authenticatedUser, Errors errors) {
+        if (errors.hasErrors()) {
+            return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
+        }
         try {
             AuthenticatedUser user = userMapper.toEntity(authenticatedUser);
             authenticatedUserService.add(user);
 
             return new ResponseEntity<>(userMapper.toDto(user), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>("Not valid data", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ApiErrors("User with given email already exists"), HttpStatus.BAD_REQUEST);
         }
     }
 
