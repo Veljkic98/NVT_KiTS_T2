@@ -50,6 +50,15 @@ public class AuthenticatedUserController {
         }
     }
 
+    @GetMapping(path = "/verify/{id}")
+    public void verify(@PathVariable long id) {
+        AuthenticatedUser user = authenticatedUserService.findById(id);
+        if (user != null) {
+            authenticatedUserService.setVerified(user);
+        }
+    }
+
+
     @PostMapping
     public ResponseEntity<?> add(@Valid @RequestBody AuthUserRequestDTO authenticatedUser, Errors errors) {
         if (errors.hasErrors()) {
