@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
-import tim2.CulturalHeritage.helper.AuthenticatedUserMappers.AuthUserRequestMapper;
-import tim2.CulturalHeritage.helper.AuthenticatedUserMappers.AuthUserResponseMapper;
+import tim2.CulturalHeritage.helper.AuthenticatedUserMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
 
@@ -26,15 +25,13 @@ public class AuthenticatedUserController {
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
 
-    private AuthUserResponseMapper userResponseMapper = new AuthUserResponseMapper();
-
-    private AuthUserRequestMapper userRequestMapper = new AuthUserRequestMapper();
+    private AuthenticatedUserMapper userMapper = new AuthenticatedUserMapper();
 
     @RequestMapping(value="/by-page", method= RequestMethod.GET)
     public ResponseEntity<Page<AuthUserResponseDTO>> findAll(Pageable pageable) {
 
         Page<AuthenticatedUser> resultPage = authenticatedUserService.findAll(pageable);
-        List<AuthUserResponseDTO> usersDTO = userResponseMapper.toDtoList(resultPage.toList());
+        List<AuthUserResponseDTO> usersDTO = userMapper.toDtoList(resultPage.toList());
         Page<AuthUserResponseDTO> pageUserDTO = new PageImpl<>(usersDTO, resultPage.getPageable(), resultPage.getTotalElements());
 
         return new ResponseEntity<>(pageUserDTO, HttpStatus.OK);
@@ -46,7 +43,7 @@ public class AuthenticatedUserController {
         try {
             AuthenticatedUser user = authenticatedUserService.findById(id);
 
-            return new ResponseEntity<>(userResponseMapper.toDto(user), HttpStatus.OK);
+            return new ResponseEntity<>(userMapper.toDto(user), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -56,10 +53,10 @@ public class AuthenticatedUserController {
     public ResponseEntity<?> add(@Valid @RequestBody AuthUserRequestDTO authenticatedUser) {
 
         try {
-            AuthenticatedUser user = userRequestMapper.toEntity(authenticatedUser);
+            AuthenticatedUser user = userMapper.toEntity(authenticatedUser);
             authenticatedUserService.add(user);
 
-            return new ResponseEntity<>(userResponseMapper.toDto(user), HttpStatus.CREATED);
+            return new ResponseEntity<>(userMapper.toDto(user), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("Not valid data", HttpStatus.BAD_REQUEST);
         }
@@ -69,11 +66,11 @@ public class AuthenticatedUserController {
     public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody AuthUserRequestDTO authenticatedUser) {
 
         try {
-            AuthenticatedUser user = userRequestMapper.toEntity(authenticatedUser);
+            AuthenticatedUser user = userMapper.toEntity(authenticatedUser);
             user.setId(id);
             authenticatedUserService.update(user);
 
-            return new ResponseEntity<>(userResponseMapper.toDto(user), HttpStatus.OK);
+            return new ResponseEntity<>(userMapper.toDto(user), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

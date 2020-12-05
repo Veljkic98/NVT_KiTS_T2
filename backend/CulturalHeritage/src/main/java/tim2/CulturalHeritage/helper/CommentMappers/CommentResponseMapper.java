@@ -2,7 +2,8 @@ package tim2.CulturalHeritage.helper.CommentMappers;
 
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CommentResponseDTO;
-import tim2.CulturalHeritage.helper.AuthenticatedUserMappers.AuthUserResponseMapper;
+
+import tim2.CulturalHeritage.helper.AuthenticatedUserMapper;
 import tim2.CulturalHeritage.helper.MapperInterface;
 import tim2.CulturalHeritage.model.Comment;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class CommentResponseMapper implements MapperInterface<Comment, CommentResponseDTO> {
 
-    private AuthUserResponseMapper userMapper = new AuthUserResponseMapper();
+    private AuthenticatedUserMapper userMapper = new AuthenticatedUserMapper();
 
     @Override
     public Comment toEntity(CommentResponseDTO dto) {

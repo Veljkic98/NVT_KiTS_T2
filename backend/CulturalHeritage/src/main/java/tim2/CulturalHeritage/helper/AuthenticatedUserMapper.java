@@ -1,22 +1,21 @@
-package tim2.CulturalHeritage.helper.AuthenticatedUserMappers;
+package tim2.CulturalHeritage.helper;
 
+import tim2.CulturalHeritage.dto.requestDTO.AuthUserRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
-import tim2.CulturalHeritage.helper.MapperInterface;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuthUserResponseMapper implements MapperInterface<AuthenticatedUser, AuthUserResponseDTO> {
+public class AuthenticatedUserMapper implements  MapperInterfaceEnhanced<AuthenticatedUser, AuthUserResponseDTO, AuthUserRequestDTO> {
 
     @Override
-    public AuthenticatedUser toEntity(AuthUserResponseDTO dto) {
+    public AuthenticatedUser toEntity(AuthUserRequestDTO dto) {
         AuthenticatedUser user = new AuthenticatedUser();
-        user.setId(dto.getId());
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setEmail(dto.getEmail());
-        user.setApproved(dto.isApproved());
+        user.setPassword(dto.getPassword());
 
         return user;
     }
