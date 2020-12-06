@@ -7,7 +7,7 @@ export class AuthService {
     constructor(private http: HttpClient) { }
 
     register(user) {
-        return this.http.post(`${environment.apiUrl}/authenticated-user`, user);
+        return this.http.post(`${environment.apiUrl}/authenticated-users`, user);
     }
 
     login() {

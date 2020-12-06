@@ -1,41 +1,52 @@
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-<h2>Register</h2>
+<div class="root">
+<mat-card class="root-card">
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <h1>Create new account</h1>
     <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
-        <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-            <div *ngIf="f.firstName.errors.required">First Name is required</div>
-        </div>
+        <mat-form-field class="input-field" appearance="fill">
+            <mat-label>First name</mat-label>
+            <input matInput placeholder="First name" type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+            <mat-error *ngIf="submitted && f.firstName.errors">First name is required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="input-field" appearance="fill">
+            <mat-label>Last name</mat-label>
+            <input matInput placeholder="Last name" type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+            <mat-error *ngIf="submitted && f.lastName.errors">Last name is required</mat-error>
+        </mat-form-field>
     </div>
     <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-        <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-            <div *ngIf="f.lastName.errors.required">Last Name is required</div>
-        </div>
+        <mat-form-field class="input-field-full" appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email address" type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors">
+                <mat-error *ngIf="submitted && f.email.errors.required">Email address is required</mat-error>
+                <mat-error *ngIf="submitted && f.email.errors.email">Email address must be valie email</mat-error>
+            </div>
+        </mat-form-field>
     </div>
     <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Password is required</div>
-            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-        </div>
+        <mat-form-field class="input-field" appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors">
+                <mat-error *ngIf="submitted && f.password.errors.required">Password is required</mat-error>
+                <mat-error *ngIf="submitted && f.password.errors.minlength">Password must be at least 8 characters</mat-error>
+            </div>
+        </mat-form-field>
+        <mat-form-field class="input-field" appearance="fill">
+            <mat-label>Confirm password</mat-label>
+            <input matInput placeholder="Confirm pass" type="password" formControlName="confirmPass" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" pattern="{{ f.password.value }}"/>
+            <div *ngIf="submitted && f.confirmPass.errors">
+                <mat-error *ngIf="submitted && f.confirmPass.errors.required">Confirm password is required</mat-error>
+                <mat-error *ngIf="submitted && f.confirmPass.errors.pattern"> Password & Confirm Password does not match.</mat-error>
+            </div>
+        </mat-form-field>
     </div>
     <div class="form-group">
-        <label for="confirmPass">Confirm password</label>
-        <input type="password" formControlName="confirmPass" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" pattern="{{ f.password.value }}"/>
-        <div *ngIf="submitted && f.confirmPass.errors" class="invalid-feedback">
-            <div *ngIf="f.confirmPass.errors.required">Confirm password is required</div>
-            <div *ngIf="f.confirmPass.errors.pattern"> Password & Confirm Password does not match.</div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div><a routerLink="/login" class="btn btn-link">Already have account? Sign in!</a></div>
-        <button [disabled]="loading" class="btn btn-primary">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Register
-        </button>
+        <div><a mat-button routerLink="/login">Already have account? Sign in!</a></div>
+        <button mat-raised-button color="primary">Register</button>
     </div>
     </form>
+</mat-card>
+</div>

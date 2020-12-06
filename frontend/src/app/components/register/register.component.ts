@@ -29,7 +29,8 @@ export class RegisterComponent implements OnInit {
       this.registerForm = this.formBuilder.group({
           firstName: ['', Validators.required],
           lastName: ['', Validators.required],
-          password: ['', [Validators.required, Validators.minLength(6)]],
+          email: ['', [Validators.email, Validators.required]],
+          password: ['', [Validators.required, Validators.minLength(8)]],
           confirmPass: ['', Validators.required]
       });
   }
@@ -39,7 +40,7 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
+    console.log(this.registerForm)
     if (this.registerForm.invalid) {
         return;
     }

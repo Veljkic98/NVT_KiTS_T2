@@ -9,7 +9,9 @@ import { MapsComponent } from 'src/app/components/maps/maps.component';
 import { MyProfileComponent } from 'src/app/components/my-profile/my-profile.component';
 import { RegisterComponent } from '../../components/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     imports: [
@@ -18,6 +20,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
+        MatCardModule, 
+        MatInputModule,
+        MatButtonModule
     ],
     declarations: [
         HomePageComponent,
