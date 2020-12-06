@@ -12,6 +12,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @NgModule({
     imports: [
@@ -22,7 +24,8 @@ import { MatButtonModule } from '@angular/material/button';
         ReactiveFormsModule,
         MatCardModule, 
         MatInputModule,
-        MatButtonModule
+        MatButtonModule,
+        MatProgressSpinnerModule
     ],
     declarations: [
         HomePageComponent,

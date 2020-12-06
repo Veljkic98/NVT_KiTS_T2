@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   loading = false;
   submitted = false;
   error: string;
+  success = false;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -40,20 +41,24 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.registerForm)
+
     if (this.registerForm.invalid) {
         return;
     }
 
     this.loading = true;
+    this.success = false;
+    this.error = '';
     this.authService.register(this.registerForm.value)
         .subscribe(
             data => {
-                this.router.navigate(['/login'], { queryParams: { registered: true }});
+                this.loading = false;
+                this.success = true;
             },
             error => {
-                this.error = error;
-                this.loading = false;
+                this.error = error.error.messages[0];
+                ;
+                this.loading = false; 
             });
 }
 }
