@@ -13,6 +13,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { VerificationPageComponent } from '../../components/verification-page/verification-page.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         NotificationsComponent,
         MapsComponent,
         MyProfileComponent,
-        RegisterComponent
+        RegisterComponent,
+        VerificationPageComponent
     ]
 })
 

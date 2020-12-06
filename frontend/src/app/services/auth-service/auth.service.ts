@@ -18,4 +18,8 @@ export class AuthService {
         //ovo izmeniti da proverava postojanje JWT tokena
         return false;
     }
+
+    verify(id) {
+        return this.http.get(`${environment.apiUrl}/authenticated-users/verify/${id}`)
+    }
 }

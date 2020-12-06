@@ -52,10 +52,13 @@ public class AuthenticatedUserController {
     }
 
     @GetMapping(path = "/verify/{id}")
-    public void verify(@PathVariable long id) {
+    public ResponseEntity<?> verify(@PathVariable long id) {
         AuthenticatedUser user = authenticatedUserService.findById(id);
         if (user != null) {
             authenticatedUserService.setVerified(user);
+            return new ResponseEntity<>("", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         }
     }
 
