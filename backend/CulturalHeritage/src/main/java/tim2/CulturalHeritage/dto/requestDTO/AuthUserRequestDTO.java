@@ -29,6 +29,8 @@ public class AuthUserRequestDTO {
         this.password = password;
     }
 
+    public AuthUserRequestDTO() {}
+
     public String getFirstName() {
         return firstName;
     }
