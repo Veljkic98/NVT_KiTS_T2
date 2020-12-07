@@ -14,6 +14,11 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService {
     @Autowired
     private AuthenticatedUserRepository authenticatedUserRepository;
 
+    @Autowired
+    private EmailService emailService;
+
+    private final String linkBaseURL = "http://localhost:4200/verify/";
+
     @Override
     public Page<AuthenticatedUser> findAll(Pageable pageable) { return authenticatedUserRepository.findAll(pageable); }
 
@@ -24,7 +29,15 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService {
 
     @Override
     public AuthenticatedUser add(AuthenticatedUser authenticatedUser) {
-        return authenticatedUserRepository.save(authenticatedUser);
+
+       AuthenticatedUser user = authenticatedUserRepository.save(authenticatedUser);
+       try {
+           String link = linkBaseURL + user.getId();
+           emailService.sendVerificationLink(link, user.getEmail());
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+       return user;
     }
 
     @Override
@@ -35,6 +48,12 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService {
     @Override
     public void deleteById(Long id) {
         authenticatedUserRepository.deleteById(id);
+    }
+
+    @Override
+    public void setVerified(AuthenticatedUser user) {
+        user.setApproved(true);
+        authenticatedUserRepository.save(user);
     }
 
 }

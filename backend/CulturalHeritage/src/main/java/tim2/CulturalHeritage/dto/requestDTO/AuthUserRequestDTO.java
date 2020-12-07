@@ -2,10 +2,11 @@ package tim2.CulturalHeritage.dto.requestDTO;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 public class AuthUserRequestDTO {
 
-    @NotBlank(message="Name cannot be blank")
+    @NotBlank(message="First name cannot be blank")
     private String firstName;
 
     @NotBlank(message="Last name cannot be blank")
@@ -15,6 +16,10 @@ public class AuthUserRequestDTO {
     private String email;
 
     @NotBlank(message="Password cannot be blank")
+    @Size(
+            min = 8,
+            message = "Password must be at least 8 characters"
+    )
     private String password;
 
     public AuthUserRequestDTO(String firstName, String lastName, String email, String password) {
@@ -23,6 +28,8 @@ public class AuthUserRequestDTO {
         this.email = email;
         this.password = password;
     }
+
+    public AuthUserRequestDTO() {}
 
     public String getFirstName() {
         return firstName;

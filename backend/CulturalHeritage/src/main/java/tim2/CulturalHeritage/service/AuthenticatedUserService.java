@@ -16,4 +16,6 @@ public interface AuthenticatedUserService {
     public AuthenticatedUser update(AuthenticatedUser authenticatedUser);
 
     public void deleteById(Long id);
+
+    void setVerified(AuthenticatedUser user);
 }

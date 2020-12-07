@@ -4,6 +4,8 @@ import { MapsComponent } from './components/maps/maps.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { HomePageComponent } from './layouts/home-page/home-page.component';
+import { RegisterComponent } from './components/register/register.component';
+import { VerificationPageComponent } from './components/verification-page/verification-page.component';
 
 const routes: Routes = [
   {
@@ -13,6 +15,8 @@ const routes: Routes = [
       { path: 'notifications', component: NotificationsComponent },
       { path: 'myProfile', component: MyProfileComponent },
       { path: 'maps', component: MapsComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: 'verify/:id', component: VerificationPageComponent }
     ]
   }
 ];
