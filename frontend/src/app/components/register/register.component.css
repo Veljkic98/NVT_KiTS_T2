@@ -1,0 +1,43 @@
+.root-card {
+  width: 50%;
+  margin: 0 auto;
+  background:  #e6eeff;
+  padding: 20px;
+  color: black;
+}
+.root {
+  margin : 10px;
+}
+.input-field {
+  margin: 3%;
+  width: 40%
+}
+.input-field-full {
+  width: 86%
+}
+.spinner {
+  margin: 0 auto;
+  width: 20%
+}
+.success {
+  background-color: #87ff93;
+  color: white;
+  height: 30px;
+  text-align: center;
+}
+.error {
+  background-color: #ff5e5e;
+  color: white;
+  height: 30px;
+  text-align: center;
+}
+a {
+  margin: 10px;
+}
+label {
+ text-align: justify;
+}
+h1 { text-align: center;}
+.form-group {
+  text-align: center;
+}

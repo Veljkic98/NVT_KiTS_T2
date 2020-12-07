@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -51,10 +52,13 @@ public class AuthenticatedUserController {
     }
 
     @GetMapping(path = "/verify/{id}")
-    public void verify(@PathVariable long id) {
+    public ResponseEntity<?> verify(@PathVariable long id) {
         AuthenticatedUser user = authenticatedUserService.findById(id);
         if (user != null) {
             authenticatedUserService.setVerified(user);
+            return new ResponseEntity<>("", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         }
     }
 

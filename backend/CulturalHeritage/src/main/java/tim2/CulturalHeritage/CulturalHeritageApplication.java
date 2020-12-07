@@ -14,15 +14,4 @@ public class CulturalHeritageApplication {
         SpringApplication.run(CulturalHeritageApplication.class, args);
     }
 
-    // CORS for frontend
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api").allowedOrigins("http://localhost:4200");
-            }
-        };
-    }
-
 }
