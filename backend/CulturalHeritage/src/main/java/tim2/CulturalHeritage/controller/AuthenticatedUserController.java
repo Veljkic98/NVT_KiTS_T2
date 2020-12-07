@@ -28,7 +28,7 @@ public class AuthenticatedUserController {
 
     private AuthenticatedUserMapper userMapper = new AuthenticatedUserMapper();
 
-    @RequestMapping(value="/by-page", method= RequestMethod.GET)
+    @GetMapping(path = "/by-page")
     public ResponseEntity<Page<AuthUserResponseDTO>> findAll(Pageable pageable) {
 
         Page<AuthenticatedUser> resultPage = authenticatedUserService.findAll(pageable);
