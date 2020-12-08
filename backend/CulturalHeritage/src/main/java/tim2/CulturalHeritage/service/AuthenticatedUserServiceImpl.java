@@ -3,21 +3,44 @@ package tim2.CulturalHeritage.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.repository.AuthenticatedUserRepository;
 
 @Service
-public class AuthenticatedUserServiceImpl implements AuthenticatedUserService {
+public class AuthenticatedUserServiceImpl implements UserDetailsService, AuthenticatedUserService {
 
     @Autowired
     private AuthenticatedUserRepository authenticatedUserRepository;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
     private EmailService emailService;
 
     private final String linkBaseURL = "http://localhost:4200/verify/";
+
+
+    public AuthenticatedUser loadUserByUsername(String email) throws UsernameNotFoundException {
+        // ako se ne radi nasledjivanje, paziti gde sve treba da se proveri email
+        AuthenticatedUser user = authenticatedUserRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", email));
+        } else {
+            return user;
+        }
+    }
+
 
     @Override
     public Page<AuthenticatedUser> findAll(Pageable pageable) { return authenticatedUserRepository.findAll(pageable); }

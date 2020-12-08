@@ -1,11 +1,15 @@
 package tim2.CulturalHeritage.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
-public class AuthenticatedUser extends Person {
+public class AuthenticatedUser extends Person implements UserDetails {
 
     @ManyToMany
     @JoinTable(name = "subscription", 
@@ -38,4 +42,33 @@ public class AuthenticatedUser extends Person {
     }
 
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

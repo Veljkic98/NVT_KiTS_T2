@@ -1,7 +1,5 @@
 package tim2.CulturalHeritage.config;
 
-
-import com.kts.cultural_content.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +17,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import tim2.CulturalHeritage.security.TokenUtils;
 import tim2.CulturalHeritage.security.auth.RestAuthenticationEntryPoint;
 import tim2.CulturalHeritage.security.auth.TokenAuthenticationFilter;
+import tim2.CulturalHeritage.service.AuthenticatedUserService;
+import tim2.CulturalHeritage.service.AuthenticatedUserServiceImpl;
 
 @Configuration
 // Ukljucivanje podrske za anotacije "@Pre*" i "@Post*" koje ce aktivirati autorizacione provere za svaki pristup metodi
@@ -34,7 +34,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     // Servis koji se koristi za citanje podataka o korisnicima aplikacije
     @Autowired
-    private CustomUserDetailsService jwtUserDetailsService;
+    private AuthenticatedUserServiceImpl jwtUserDetailsService;
 
     // Handler za vracanje 401 kada klijent sa neodogovarajucim korisnickim imenom i lozinkom pokusa da pristupi resursu
     @Autowired

@@ -9,21 +9,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import tim2.CulturalHeritage.dto.requestDTO.AuthUserLoginDTO;
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserRequestDTO;
+import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 import tim2.CulturalHeritage.helper.ApiErrors;
 import tim2.CulturalHeritage.helper.AuthenticatedUserMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
+import tim2.CulturalHeritage.security.TokenUtils;
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/authenticated-users")
 public class AuthenticatedUserController {
+
+    @Autowired
+    private TokenUtils tokenUtils;
 
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
@@ -34,6 +44,25 @@ public class AuthenticatedUserController {
     private AuthenticationManager authenticationManager;
 
 
+    @PostMapping("/log-in")
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthUserLoginDTO authenticationRequest,
+                                                       HttpServletResponse response) {
+
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
+                        authenticationRequest.getPassword()));
+
+        // Ubaci korisnika u trenutni security kontekst
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // Kreiraj token za tog korisnika
+        AuthenticatedUser user = (AuthenticatedUser) authentication.getPrincipal();
+        String jwt = tokenUtils.generateToken(user.getEmail()); // prijavljujemo se na sistem sa email adresom
+        int expiresIn = tokenUtils.getExpiredIn();
+
+        // Vrati token kao odgovor na uspesnu autentifikaciju
+        return ResponseEntity.ok(new AuthUserLoginResponseDTO(jwt, expiresIn));
+    }
 
     @GetMapping(path = "/by-page")
     public ResponseEntity<Page<AuthUserResponseDTO>> findAll(Pageable pageable) {

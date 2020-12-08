@@ -1,10 +1,10 @@
 package tim2.CulturalHeritage.security.auth;
 
-import com.kts.cultural_content.security.TokenUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
+import tim2.CulturalHeritage.security.TokenUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
