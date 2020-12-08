@@ -34,8 +34,8 @@ INSERT INTO chsubtype (name, chtype_id) VALUES ( 'monastery', 3);
 INSERT INTO admin (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'John', 'Smith', 'admin@gmail.com', 'admin', 'true');
 
 
---USERS
-INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'Helen', 'York', 'helen@hotmail.com', '123', 'true');
+--USERS    PASSWORD je svuda 123, samo je Bcrypt hashovan
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'Helen', 'York', 'helen@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
 INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Sima', 'Matas', 'sima12@hotmail.com', '123', 'true');
 INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Margene', 'Weatherwax', 'Weatherwax12@gmail.com', '123', 'true');
 INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Everette', 'Desch', 'heldesch123en@hotmail.com', '123', 'true');

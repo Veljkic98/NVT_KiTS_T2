@@ -53,7 +53,8 @@ public class AuthenticatedUserServiceImpl implements UserDetailsService, Authent
     @Override
     public AuthenticatedUser add(AuthenticatedUser authenticatedUser) {
 
-       AuthenticatedUser user = authenticatedUserRepository.save(authenticatedUser);
+        authenticatedUser.setPassword(passwordEncoder.encode(authenticatedUser.getPassword()));
+        AuthenticatedUser user = authenticatedUserRepository.save(authenticatedUser);
        try {
            String link = linkBaseURL + user.getId();
            emailService.sendVerificationLink(link, user.getEmail());
