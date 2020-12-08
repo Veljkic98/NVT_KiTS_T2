@@ -36,8 +36,6 @@ public class AuthenticationController {
 
     private AuthenticatedUserMapper userMapper;
 
-    // Prvi endpoint koji pogadja korisnik kada se loguje.
-    // Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthUserLoginDTO authenticationRequest,
                                                                     HttpServletResponse response) {
