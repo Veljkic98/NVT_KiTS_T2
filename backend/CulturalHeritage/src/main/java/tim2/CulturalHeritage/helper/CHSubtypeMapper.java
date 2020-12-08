@@ -16,7 +16,7 @@ public class CHSubtypeMapper implements MapperInterface<CHSubtype, CHSubtypeResp
     public CHSubtype toEntity(CHSubtypeResponseDTO dto) {
 
         CHSubtype subtype = new CHSubtype();
-        subtype.setId(dto.getId());
+        //subtype.setId(dto.getId());
         subtype.setName(dto.getName());
 
 
