@@ -32,34 +32,13 @@ import javax.validation.Valid;
 @RequestMapping("/api/authenticated-users")
 public class AuthenticatedUserController {
 
-    @Autowired
-    private TokenUtils tokenUtils;
 
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
 
     private AuthenticatedUserMapper userMapper = new AuthenticatedUserMapper();
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
-
-    @PostMapping("/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthUserLoginDTO authenticationRequest,
-                                                       HttpServletResponse response) {
-
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
-                        authenticationRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        AuthenticatedUser user = (AuthenticatedUser) authentication.getPrincipal();
-        String jwt = tokenUtils.generateToken(user.getEmail()); // prijavljujemo se na sistem sa email adresom
-        int expiresIn = tokenUtils.getExpiredIn();
-
-        return ResponseEntity.ok(new AuthUserLoginResponseDTO(jwt, expiresIn));
-    }
 
     @GetMapping(path = "/by-page")
     public ResponseEntity<Page<AuthUserResponseDTO>> findAll(Pageable pageable) {

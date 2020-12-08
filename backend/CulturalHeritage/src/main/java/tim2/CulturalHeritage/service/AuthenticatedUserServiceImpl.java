@@ -30,7 +30,7 @@ public class AuthenticatedUserServiceImpl implements UserDetailsService, Authent
 
     private final String linkBaseURL = "http://localhost:4200/verify/";
 
-
+    @Override
     public AuthenticatedUser loadUserByUsername(String email) throws UsernameNotFoundException {
         // ako se ne radi nasledjivanje, paziti gde sve treba da se proveri email
         AuthenticatedUser user = authenticatedUserRepository.findByEmail(email);
