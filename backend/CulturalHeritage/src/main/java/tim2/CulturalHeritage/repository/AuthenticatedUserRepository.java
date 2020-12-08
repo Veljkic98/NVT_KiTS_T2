@@ -11,4 +11,6 @@ import tim2.CulturalHeritage.model.AuthenticatedUser;
 public interface AuthenticatedUserRepository extends JpaRepository<AuthenticatedUser, Long> {
 
     Page<AuthenticatedUser> findAll(Pageable pageable);
+
+    AuthenticatedUser findByEmail(String email);
 }

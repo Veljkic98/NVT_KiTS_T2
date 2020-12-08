@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,11 @@ public class AuthenticatedUserController {
     private AuthenticatedUserService authenticatedUserService;
 
     private AuthenticatedUserMapper userMapper = new AuthenticatedUserMapper();
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+
 
     @GetMapping(path = "/by-page")
     public ResponseEntity<Page<AuthUserResponseDTO>> findAll(Pageable pageable) {
