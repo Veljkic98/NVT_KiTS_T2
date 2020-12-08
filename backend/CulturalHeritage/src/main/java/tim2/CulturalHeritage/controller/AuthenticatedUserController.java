@@ -44,7 +44,7 @@ public class AuthenticatedUserController {
     private AuthenticationManager authenticationManager;
 
 
-    @PostMapping("/log-in")
+    @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthUserLoginDTO authenticationRequest,
                                                        HttpServletResponse response) {
 
@@ -52,15 +52,12 @@ public class AuthenticatedUserController {
                 .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                         authenticationRequest.getPassword()));
 
-        // Ubaci korisnika u trenutni security kontekst
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Kreiraj token za tog korisnika
         AuthenticatedUser user = (AuthenticatedUser) authentication.getPrincipal();
         String jwt = tokenUtils.generateToken(user.getEmail()); // prijavljujemo se na sistem sa email adresom
         int expiresIn = tokenUtils.getExpiredIn();
 
-        // Vrati token kao odgovor na uspesnu autentifikaciju
         return ResponseEntity.ok(new AuthUserLoginResponseDTO(jwt, expiresIn));
     }
 
