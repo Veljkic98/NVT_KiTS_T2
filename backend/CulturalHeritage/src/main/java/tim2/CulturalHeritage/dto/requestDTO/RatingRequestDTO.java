@@ -1,22 +1,23 @@
 package tim2.CulturalHeritage.dto.requestDTO;
 
+import org.hibernate.annotations.NotFound;
 
-import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
-import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
-
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class RatingRequestDTO {
 
-    @NotBlank(message="Grade can not be blank")
+    @NotNull(message="Grade can not be blank")
     private int grade;
 
-    private CulturalHeritageResponseDTO culturalHeritage;
+    @NotNull(message="Cultural heritage id cannot be blank")
+    private long culturalHeritageId;
 
-    public RatingRequestDTO(int grade, CulturalHeritageResponseDTO culturalHeritage) {
+    public RatingRequestDTO(int grade, long culturalHeritageId) {
         this.grade = grade;
-        this.culturalHeritage = culturalHeritage;
+        this.culturalHeritageId = culturalHeritageId;
     }
+
+    public RatingRequestDTO() {}
 
     public int getGrade() {
         return grade;
@@ -26,11 +27,11 @@ public class RatingRequestDTO {
         this.grade = grade;
     }
 
-    public CulturalHeritageResponseDTO getCulturalHeritage() {
-        return culturalHeritage;
+    public long getCulturalHeritageId() {
+        return culturalHeritageId;
     }
 
-    public void setCulturalHeritage(CulturalHeritageResponseDTO culturalHeritage) {
-        this.culturalHeritage = culturalHeritage;
+    public void setCulturalHeritageId(long culturalHeritageId) {
+        this.culturalHeritageId = culturalHeritageId;
     }
 }

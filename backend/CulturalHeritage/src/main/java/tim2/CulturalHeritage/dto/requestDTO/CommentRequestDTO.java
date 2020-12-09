@@ -1,10 +1,15 @@
 package tim2.CulturalHeritage.dto.requestDTO;
 
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class CommentRequestDTO {
 
+    @NotBlank(message="Comment content cannot be blank")
     private String content;
 
+    @NotNull(message="Cultural heritage id cannot be blank")
     private long culturalHeritageID;
 
     public CommentRequestDTO() {
@@ -30,4 +35,5 @@ public class CommentRequestDTO {
     public void setCulturalHeritageID(long culturalHeritageID) {
         this.culturalHeritageID = culturalHeritageID;
     }
+
 }
