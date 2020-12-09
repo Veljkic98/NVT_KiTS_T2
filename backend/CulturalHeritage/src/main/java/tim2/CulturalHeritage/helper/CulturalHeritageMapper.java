@@ -24,7 +24,6 @@ public class CulturalHeritageMapper implements MapperInterfaceEnhanced<CulturalH
         CulturalHeritage ch = new CulturalHeritage();
         ch.setName(dto.getName());
         ch.setDescription(dto.getDescription());
-        ch.setChsubtype(subtypeMapper.toEntity(dto.getChsubtype()));
         //ch.setLocation(locationMapper.toEntity(dto.getLocation()));
 
         return ch;
@@ -35,7 +34,8 @@ public class CulturalHeritageMapper implements MapperInterfaceEnhanced<CulturalH
         ch.setId(dto.getId());
         ch.setName(dto.getName());
         ch.setDescription(dto.getDescription());
-        ch.setChsubtype(subtypeMapper.toEntity(dto.getChsubtype()));
+        CHSubtype sub = subtypeMapper.toEntity(dto.getChsubtype());
+        ch.setChsubtype(sub);
         //ch.setLocation(locationMapper.toEntity(dto.getLocation()));
 
         return ch;

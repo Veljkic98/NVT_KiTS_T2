@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import tim2.CulturalHeritage.dto.requestDTO.CulturalHeritageRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
 import tim2.CulturalHeritage.helper.CulturalHeritageMapper;
+import tim2.CulturalHeritage.model.CHSubtype;
 import tim2.CulturalHeritage.model.CulturalHeritage;
+import tim2.CulturalHeritage.repository.CHSubtypeRepository;
+import tim2.CulturalHeritage.service.CHSubtypeService;
+import tim2.CulturalHeritage.service.CHSubtypeServiceImpl;
 import tim2.CulturalHeritage.service.CulturalHeritageService;
 
 @RestController
@@ -22,6 +26,9 @@ public class CulturalHeritageController {
 
     @Autowired
     private CulturalHeritageService culturalHeritageService;
+
+    @Autowired
+    private CHSubtypeService subtypeService;
 
     private CulturalHeritageMapper mapper = new CulturalHeritageMapper();
 
@@ -58,6 +65,8 @@ public class CulturalHeritageController {
     @PostMapping
     public ResponseEntity<CulturalHeritageResponseDTO> add(@RequestBody CulturalHeritageRequestDTO culturalHeritage) {
         CulturalHeritage ch = mapper.toEntity(culturalHeritage);
+        CHSubtype sub = subtypeService.findById(culturalHeritage.getChsubtype().getId());
+        ch.setChsubtype(sub);
         culturalHeritageService.add(ch);
 
         return new ResponseEntity<>(mapper.toDto(ch), HttpStatus.CREATED);
@@ -67,10 +76,14 @@ public class CulturalHeritageController {
     public ResponseEntity<CulturalHeritageResponseDTO> update(@RequestBody CulturalHeritageResponseDTO culturalHeritage) {
 
         try {
+
             CulturalHeritage ch = mapper.toEntity(culturalHeritage);
+            CHSubtype sub = subtypeService.findById(culturalHeritage.getChsubtype().getId());
+            ch.setChsubtype(sub);
             culturalHeritageService.update(ch);
             return new ResponseEntity<>(mapper.toDto(ch), HttpStatus.OK);
         } catch (Exception e) {
+            System.out.println("GRESKA "+ e);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
