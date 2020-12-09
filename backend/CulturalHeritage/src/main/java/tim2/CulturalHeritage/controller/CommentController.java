@@ -8,12 +8,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import tim2.CulturalHeritage.dto.requestDTO.CommentRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CommentResponseDTO;
 import tim2.CulturalHeritage.helper.CommentMappers.CommentRequestMapper;
 import tim2.CulturalHeritage.helper.CommentMappers.CommentResponseMapper;
+import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.model.Comment;
 import tim2.CulturalHeritage.model.CulturalHeritage;
 import tim2.CulturalHeritage.service.CommentService;
@@ -54,11 +57,14 @@ public class CommentController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity<?> add(@RequestBody CommentRequestDTO commentRequest) {
         try {
             Comment com = commentRequestMapper.toEntity(commentRequest);
-            //ovde bi trebalo na com objekat dodati usera koji je ulogovan
+
+            AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            com.setAuthenticatedUser(user);
             CulturalHeritage ch = culturalHeritageService.findById(commentRequest.getCulturalHeritageID());
             com.setCulturalHeritage(ch);
             commentService.add(com);
