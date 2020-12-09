@@ -30,20 +30,44 @@ INSERT INTO chsubtype ( name, chtype_id) VALUES ( 'library', 2);
 INSERT INTO chsubtype ( name, chtype_id) VALUES ( 'national park', 3);
 INSERT INTO chsubtype (name, chtype_id) VALUES ( 'monastery', 3);
 
+--AUTHORITY
+
+INSERT INTO authority (name) VALUES ('ROLE_ADMIN');
+INSERT INTO authority (name) VALUES ('ROLE_USER');
+
 --ADMIN
 INSERT INTO admin (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'John', 'Smith', 'admin@gmail.com', 'admin', 'true');
 
+insert into user_authority (user_id, authority_id) values (1, 1);  -- samo je admin ROLE_ADMIN, svi ispod samo smrtnici
 
 --USERS    PASSWORD je svuda 123, samo je Bcrypt hashovan
 INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'Helen', 'York', 'helen@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
-INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Sima', 'Matas', 'sima12@hotmail.com', '123', 'true');
-INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Margene', 'Weatherwax', 'Weatherwax12@gmail.com', '123', 'true');
-INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Everette', 'Desch', 'heldesch123en@hotmail.com', '123', 'true');
-INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Doyle', 'Mormon', 'doyle@hotmail.com', '123', 'true');
-INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Krysta', 'Brooking', 'krystbrooking@hotmail.com', '123', 'true');
-INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Ossie', 'Dudas', 'ossie12@hotmail.com', '123', 'true');
-INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Hilario', 'Elliot', 'elliorhilario@hotmail.com', '123', 'false');
-INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Inell', 'Becton', 'Inell@hotmail.com', '123', 'false');
+insert into user_authority (user_id, authority_id) values (2, 2)
+
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Sima', 'Matas', 'sima12@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
+insert into user_authority (user_id, authority_id) values (3, 2)
+
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Margene', 'Weatherwax', 'Weatherwax12@gmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
+insert into user_authority (user_id, authority_id) values (4, 2)
+
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Everette', 'Desch', 'heldesch123en@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
+insert into user_authority (user_id, authority_id) values (5, 2)
+
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Doyle', 'Mormon', 'doyle@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
+insert into user_authority (user_id, authority_id) values (6, 2)
+
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Krysta', 'Brooking', 'krystbrooking@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
+insert into user_authority (user_id, authority_id) values (7, 2)
+
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Ossie', 'Dudas', 'ossie12@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
+insert into user_authority (user_id, authority_id) values (8, 2)
+
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Hilario', 'Elliot', 'elliorhilario@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'false');
+insert into user_authority (user_id, authority_id) values (9, 2)
+
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Inell', 'Becton', 'Inell@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'false');
+insert into user_authority (user_id, authority_id) values (10, 2)
+
 
 
 --LOCATIONS 
