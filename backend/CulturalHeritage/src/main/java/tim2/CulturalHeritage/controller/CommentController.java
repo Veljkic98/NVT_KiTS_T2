@@ -75,11 +75,15 @@ public class CommentController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CommentRequestDTO commentRequest) {
-
+        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         try {
             Comment com = commentService.findById(id);
+            if (com.getAuthenticatedUser().getId() != user.getId()) {
+                return new ResponseEntity<>("", HttpStatus.FORBIDDEN);
+            }
             com.setContent(commentRequest.getContent());
             commentService.update(com);
             return new ResponseEntity<>(commentResponseMapper.toDto(com), HttpStatus.OK);
@@ -88,10 +92,15 @@ public class CommentController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-
+        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         try {
+            Comment com = commentService.findById(id);
+            if (com.getAuthenticatedUser().getId() != user.getId()) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
             commentService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
