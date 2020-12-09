@@ -44,12 +44,19 @@ public class AuthenticationController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthUserLoginDTO authenticationRequest,
                                                                     HttpServletResponse response) {
 
+
         Authentication authentication = authenticationManager.
                 authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         AuthenticatedUser user = (AuthenticatedUser) authentication.getPrincipal();
+
+        if(!user.getApproved())
+        {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         String jwt = tokenUtils.generateToken(user.getEmail()); // prijavljujemo se na sistem sa email adresom
         int expiresIn = tokenUtils.getExpiredIn();
 
