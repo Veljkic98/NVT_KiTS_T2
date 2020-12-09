@@ -13,10 +13,8 @@ public class CulturalHeritageRequestDTO {
     @NotBlank(message="Description cannot be blank")
     private String description;
 
-    @NotBlank(message="Location cannot be blank")
     private Location location;
 
-    @NotBlank(message="Subtype cannot be blank")
     private CHSubtypeResponseDTO chsubtype;
     // news, comments, images later
 

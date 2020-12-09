@@ -10,24 +10,26 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 import tim2.CulturalHeritage.helper.ApiErrors;
 import tim2.CulturalHeritage.helper.AuthenticatedUserMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
-
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/authenticated-users")
 public class AuthenticatedUserController {
 
+
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
 
     private AuthenticatedUserMapper userMapper = new AuthenticatedUserMapper();
+
+
 
     @GetMapping(path = "/by-page")
     public ResponseEntity<Page<AuthUserResponseDTO>> findAll(Pageable pageable) {

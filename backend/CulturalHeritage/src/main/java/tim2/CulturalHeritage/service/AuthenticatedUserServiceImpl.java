@@ -3,21 +3,47 @@ package tim2.CulturalHeritage.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.repository.AuthenticatedUserRepository;
 
 @Service
-public class AuthenticatedUserServiceImpl implements AuthenticatedUserService {
+public class AuthenticatedUserServiceImpl implements UserDetailsService, AuthenticatedUserService {
 
     @Autowired
     private AuthenticatedUserRepository authenticatedUserRepository;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
     private EmailService emailService;
 
     private final String linkBaseURL = "http://localhost:4200/verify/";
+
+    @Override
+    public AuthenticatedUser loadUserByUsername(String email) throws UsernameNotFoundException {
+        // ako se ne radi nasledjivanje, paziti gde sve treba da se proveri email
+        AuthenticatedUser user = authenticatedUserRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", email));
+        } else {
+            return user;
+        }
+    }
+
 
     @Override
     public Page<AuthenticatedUser> findAll(Pageable pageable) { return authenticatedUserRepository.findAll(pageable); }
@@ -30,7 +56,11 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService {
     @Override
     public AuthenticatedUser add(AuthenticatedUser authenticatedUser) {
 
-       AuthenticatedUser user = authenticatedUserRepository.save(authenticatedUser);
+        authenticatedUser.setPassword(passwordEncoder.encode(authenticatedUser.getPassword()));
+        AuthenticatedUser user = authenticatedUserRepository.save(authenticatedUser);
+
+        // Treba dodat i Authority isto
+
        try {
            String link = linkBaseURL + user.getId();
            emailService.sendVerificationLink(link, user.getEmail());
@@ -53,6 +83,23 @@ public class AuthenticatedUserServiceImpl implements AuthenticatedUserService {
     @Override
     public void setVerified(AuthenticatedUser user) {
         user.setApproved(true);
+        authenticatedUserRepository.save(user);
+    }
+
+    public void changePassword(String oldPassword, String newPassword) {
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String username = ((AuthenticatedUser) currentUser.getPrincipal()).getEmail();
+
+        if (authenticationManager != null) {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
+        } else {
+            return;
+        }
+        AuthenticatedUser user = (AuthenticatedUser) loadUserByUsername(username);
+
+
+        user.setPassword(passwordEncoder.encode(newPassword));
         authenticatedUserRepository.save(user);
     }
 
