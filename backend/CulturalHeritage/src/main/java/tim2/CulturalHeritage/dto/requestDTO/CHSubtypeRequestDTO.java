@@ -7,7 +7,7 @@ public class CHSubtypeRequestDTO {
 
     public CHSubtypeRequestDTO(){}
 
-    public CHSubtypeRequestDTO(long id, String name) {
+    public CHSubtypeRequestDTO(String name) {
         this.name = name;
     }
 

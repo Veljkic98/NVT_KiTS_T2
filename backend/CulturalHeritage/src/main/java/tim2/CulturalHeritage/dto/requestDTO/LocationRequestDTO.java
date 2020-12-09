@@ -29,6 +29,8 @@ public class LocationRequestDTO {
         this.street = street;
     }
 
+    public LocationRequestDTO() {}
+
     public String getLatitude() {
         return latitude;
     }

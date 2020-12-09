@@ -12,7 +12,7 @@ public class LocationResponseDTO {
 
     private String city;
 
-    //private String street;
+    private String street;
 
     public LocationResponseDTO(Long id, String latitude, String longitude, String country, String city, String street) {
         this.id = id;
@@ -20,7 +20,7 @@ public class LocationResponseDTO {
         this.longitude = longitude;
         this.country = country;
         this.city = city;
-        //this.street = street;
+        this.street = street;
     }
 
     public Long getId() {
@@ -63,11 +63,11 @@ public class LocationResponseDTO {
         this.city = city;
     }
 
-//    public String getStreet() {
-//        return street;
-//    }
-//
-//    public void setStreet(String street) {
-//        this.street = street;
-//    }
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
 }

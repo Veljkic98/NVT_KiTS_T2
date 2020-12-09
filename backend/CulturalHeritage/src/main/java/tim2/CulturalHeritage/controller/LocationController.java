@@ -8,14 +8,16 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import tim2.CulturalHeritage.dto.requestDTO.LocationRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.LocationResponseDTO;
-import tim2.CulturalHeritage.helper.LocationMappers.LocationRequestMapper;
-import tim2.CulturalHeritage.helper.LocationMappers.LocationResponseMapper;
+import tim2.CulturalHeritage.helper.LocationMapper;
 import tim2.CulturalHeritage.model.Location;
 import tim2.CulturalHeritage.service.LocationService;
+import tim2.CulturalHeritage.helper.ApiErrors;
 
 import javax.validation.Valid;
 
@@ -26,15 +28,13 @@ public class LocationController {
     @Autowired
     private LocationService locationService;
 
-    private LocationRequestMapper locationRequestMapper = new LocationRequestMapper();
-
-    private LocationResponseMapper locationResponseMapper = new LocationResponseMapper();
+    private LocationMapper locationMapper = new LocationMapper();
 
     @RequestMapping(value="/by-page", method= RequestMethod.GET)
     public ResponseEntity<Page<LocationResponseDTO>>  findAll(Pageable pageable) {
 
         Page<Location> resultPage = locationService.findAll(pageable);
-        List<LocationResponseDTO> locationsDTO = locationResponseMapper.toDtoList(resultPage.toList());
+        List<LocationResponseDTO> locationsDTO = locationMapper.toDtoList(resultPage.toList());
         Page<LocationResponseDTO> pageLocationsDTO = new PageImpl<>(locationsDTO, resultPage.getPageable(), resultPage.getTotalElements());
 
         return new ResponseEntity<>(pageLocationsDTO, HttpStatus.OK);
@@ -45,19 +45,22 @@ public class LocationController {
 
         try {
             Location location = locationService.findById(id);
-            return new ResponseEntity<>(locationResponseMapper.toDto(location), HttpStatus.OK);
+            return new ResponseEntity<>(locationMapper.toDto(location), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<?> add(@Valid @RequestBody LocationRequestDTO locationRequest) {
-
+    public ResponseEntity<?> add(@Valid @RequestBody LocationRequestDTO locationRequest, Errors errors) {
+        if (errors.hasErrors()) {
+            return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
+        }
         try {
-            Location location = locationService.add(locationRequestMapper.toEntity(locationRequest));
+            Location location = locationService.add(locationMapper.toEntity(locationRequest));
 
-            return new ResponseEntity<>(locationResponseMapper.toDto(location), HttpStatus.CREATED);
+            return new ResponseEntity<>(locationMapper.toDto(location), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -67,11 +70,11 @@ public class LocationController {
     public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody LocationRequestDTO locationRequest) {
 
         try {
-            Location location = locationRequestMapper.toEntity(locationRequest);
+            Location location = locationMapper.toEntity(locationRequest);
             location.setId(id);
             locationService.update(location);
 
-            return new ResponseEntity<>(locationResponseMapper.toDto(location), HttpStatus.OK);
+            return new ResponseEntity<>(locationMapper.toDto(location), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

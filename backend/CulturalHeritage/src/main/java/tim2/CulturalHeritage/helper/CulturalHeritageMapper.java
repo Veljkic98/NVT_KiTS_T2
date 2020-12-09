@@ -2,7 +2,6 @@ package tim2.CulturalHeritage.helper;
 
 import tim2.CulturalHeritage.dto.requestDTO.CulturalHeritageRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
-import tim2.CulturalHeritage.helper.LocationMappers.LocationResponseMapper;
 import tim2.CulturalHeritage.model.CHSubtype;
 import tim2.CulturalHeritage.model.CulturalHeritage;
 
@@ -12,11 +11,11 @@ import java.util.List;
 public class CulturalHeritageMapper implements MapperInterfaceEnhanced<CulturalHeritage, CulturalHeritageResponseDTO, CulturalHeritageRequestDTO> {
 
     private CHSubtypeMapper subtypeMapper = new CHSubtypeMapper();
-    private LocationResponseMapper locationMapper = new LocationResponseMapper();
+    private LocationMapper locationMapper = new LocationMapper();
 
     public CulturalHeritageMapper(){
         CHSubtypeMapper subTypeMapper = new CHSubtypeMapper();
-        LocationResponseMapper locationMapper = new LocationResponseMapper();
+        LocationMapper locationMapper = new LocationMapper();
     }
 
     @Override
