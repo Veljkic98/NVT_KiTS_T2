@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -55,6 +58,9 @@ public class AuthenticatedUserServiceImpl implements UserDetailsService, Authent
 
         authenticatedUser.setPassword(passwordEncoder.encode(authenticatedUser.getPassword()));
         AuthenticatedUser user = authenticatedUserRepository.save(authenticatedUser);
+
+        // Treba dodat i Authority isto
+
        try {
            String link = linkBaseURL + user.getId();
            emailService.sendVerificationLink(link, user.getEmail());
@@ -77,6 +83,23 @@ public class AuthenticatedUserServiceImpl implements UserDetailsService, Authent
     @Override
     public void setVerified(AuthenticatedUser user) {
         user.setApproved(true);
+        authenticatedUserRepository.save(user);
+    }
+
+    public void changePassword(String oldPassword, String newPassword) {
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String username = ((AuthenticatedUser) currentUser.getPrincipal()).getEmail();
+
+        if (authenticationManager != null) {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
+        } else {
+            return;
+        }
+        AuthenticatedUser user = (AuthenticatedUser) loadUserByUsername(username);
+
+
+        user.setPassword(passwordEncoder.encode(newPassword));
         authenticatedUserRepository.save(user);
     }
 

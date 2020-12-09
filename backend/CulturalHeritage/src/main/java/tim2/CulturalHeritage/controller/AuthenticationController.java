@@ -17,7 +17,11 @@ import tim2.CulturalHeritage.helper.AuthenticatedUserMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.security.TokenUtils;
 import tim2.CulturalHeritage.service.AuthenticatedUserServiceImpl;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -43,68 +47,49 @@ public class AuthenticationController {
         Authentication authentication = authenticationManager.
                 authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 
-        // Ubaci korisnika u trenutni security kontekst
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Kreiraj token za tog korisnika
         AuthenticatedUser user = (AuthenticatedUser) authentication.getPrincipal();
         String jwt = tokenUtils.generateToken(user.getEmail()); // prijavljujemo se na sistem sa email adresom
         int expiresIn = tokenUtils.getExpiredIn();
 
-        // Vrati token kao odgovor na uspesnu autentifikaciju
         return ResponseEntity.ok(new AuthUserLoginResponseDTO(jwt, expiresIn));
     }
 
-    // Endpoint za registraciju novog korisnika
-//    @PostMapping("/sign-up")
-//    public ResponseEntity<?> addUser(@RequestBody UserDTO userRequest) throws Exception {
-//
-//        User existUser = this.userService.findByEmail(userRequest.getEmail());
-//        if (existUser != null) {
-//            throw new Exception("Username already exists");
-//        }
-//
-//        try {
-//            existUser = userService.create(userMapper.toEntity(userRequest));
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-//        }
-//        return new ResponseEntity<>(userMapper.toDto(existUser), HttpStatus.CREATED);
-//    }
 
-    // U slucaju isteka vazenja JWT tokena, endpoint koji se poziva da se token osvezi
-//    @PostMapping(value = "/refresh")
-//    public ResponseEntity<AuthUserLoginResponseDTO> refreshAuthenticationToken(HttpServletRequest request) {
-//
-//        String token = tokenUtils.getToken(request);
-//        String username = this.tokenUtils.getUsernameFromToken(token);
-//        AuthenticatedUser user = (AuthenticatedUser) this.userDetailsService.loadUserByUsername(username);
-//
-//        if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
-//            String refreshedToken = tokenUtils.refreshToken(token);
-//            int expiresIn = tokenUtils.getExpiredIn();
-//
-//            return ResponseEntity.ok(new UserTokenStateDTO(refreshedToken, expiresIn));
-//        } else {
-//            AuthUserLoginResponseDTO userTokenState = new AuthUserLoginResponseDTO();
-//            return ResponseEntity.badRequest().body(userTokenState);
-//        }
-//    }
+    // Trebamo dodat u Usera lastPasswordResetDate
+    @PostMapping(value = "/refresh")
+    public ResponseEntity<AuthUserLoginResponseDTO> refreshAuthenticationToken(HttpServletRequest request) {
 
-//    @RequestMapping(value = "/change-password", method = RequestMethod.POST)
-//    @PreAuthorize("hasRole('ROLE_USER')")
-//    public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
-//        userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
-//
-//        Map<String, String> result = new HashMap<>();
-//        result.put("result", "success");
-//        return ResponseEntity.accepted().body(result);
-//    }
-//
-//    static class PasswordChanger {
-//        public String oldPassword;
-//        public String newPassword;
-//    }
+        String token = tokenUtils.getToken(request);
+        String username = this.tokenUtils.getUsernameFromToken(token);
+        AuthenticatedUser user = (AuthenticatedUser) this.userDetailsService.loadUserByUsername(username);
+
+        if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
+            String refreshedToken = tokenUtils.refreshToken(token);
+            int expiresIn = tokenUtils.getExpiredIn();
+
+            return ResponseEntity.ok(new AuthUserLoginResponseDTO(refreshedToken, expiresIn));
+        } else {
+            AuthUserLoginResponseDTO userTokenState = new AuthUserLoginResponseDTO();
+            return ResponseEntity.badRequest().body(userTokenState);
+        }
+    }
+
+    @RequestMapping(value = "/change-password", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
+        userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+
+        Map<String, String> result = new HashMap<>();
+        result.put("result", "success");
+        return ResponseEntity.accepted().body(result);
+    }
+
+    static class PasswordChanger {
+        public String oldPassword;
+        public String newPassword;
+    }
 
     public AuthenticationController() {
         userMapper = new AuthenticatedUserMapper();
