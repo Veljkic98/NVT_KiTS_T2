@@ -21,6 +21,8 @@ public class RatingResponseDTO {
         this.userID = userID;
     }
 
+    public RatingResponseDTO() {}
+
     public int getGrade() {
         return grade;
     }

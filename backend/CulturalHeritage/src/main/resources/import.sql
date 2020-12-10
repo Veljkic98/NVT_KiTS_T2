@@ -36,13 +36,14 @@ INSERT INTO authority (name) VALUES ('ROLE_ADMIN');
 INSERT INTO authority (name) VALUES ('ROLE_USER');
 
 --ADMIN
-INSERT INTO admin (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'John', 'Smith', 'admin@gmail.com', 'admin', 'true');
+INSERT INTO admin (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'John', 'Smith', 'admin@gmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
 
-insert into user_authority (user_id, authority_id) values (1, 1);  -- samo je admin ROLE_ADMIN, svi ispod samo smrtnici
+insert into user_authority (user_id, authority_id) values (2, 1);  -- samo je admin ROLE_ADMIN, svi ispod samo smrtnici
 
 --USERS    PASSWORD je svuda 123, samo je Bcrypt hashovan
 INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'Helen', 'York', 'helen@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
-insert into user_authority (user_id, authority_id) values (2, 2)
+--insert into user_authority (user_id, authority_id) values (2, 2)
+insert into user_authority (user_id, authority_id) values (2, 1);
 
 INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Sima', 'Matas', 'sima12@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
 insert into user_authority (user_id, authority_id) values (3, 2)

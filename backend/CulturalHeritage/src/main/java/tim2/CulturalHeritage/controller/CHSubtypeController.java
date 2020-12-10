@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,7 +51,8 @@ public class CHSubtypeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<CHSubtypeResponseDTO> add(@RequestBody CHSubtypeRequestDTO chSubtype) {
         CHSubtype subtype = mapper.toEntity(chSubtype);
@@ -60,7 +62,7 @@ public class CHSubtypeController {
         return new ResponseEntity<>(mapper.toDto(subtype), HttpStatus.CREATED);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping
     public ResponseEntity<CHSubtypeResponseDTO> update(@RequestBody CHSubtypeResponseDTO chSubtype) {
 
@@ -74,6 +76,7 @@ public class CHSubtypeController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 

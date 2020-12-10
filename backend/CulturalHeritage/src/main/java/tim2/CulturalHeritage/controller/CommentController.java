@@ -8,16 +8,23 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import tim2.CulturalHeritage.dto.requestDTO.CommentRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CommentResponseDTO;
+import tim2.CulturalHeritage.helper.ApiErrors;
 import tim2.CulturalHeritage.helper.CommentMappers.CommentRequestMapper;
 import tim2.CulturalHeritage.helper.CommentMappers.CommentResponseMapper;
+import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.model.Comment;
 import tim2.CulturalHeritage.model.CulturalHeritage;
 import tim2.CulturalHeritage.service.CommentService;
 import tim2.CulturalHeritage.service.CulturalHeritageService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/comments")
@@ -54,11 +61,17 @@ public class CommentController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
-    public ResponseEntity<?> add(@RequestBody CommentRequestDTO commentRequest) {
+    public ResponseEntity<?> add(@Valid @RequestBody CommentRequestDTO commentRequest, Errors errors) {
+        if (errors.hasErrors()) {
+            return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
+        }
         try {
             Comment com = commentRequestMapper.toEntity(commentRequest);
-            //ovde bi trebalo na com objekat dodati usera koji je ulogovan
+
+            AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            com.setAuthenticatedUser(user);
             CulturalHeritage ch = culturalHeritageService.findById(commentRequest.getCulturalHeritageID());
             com.setCulturalHeritage(ch);
             commentService.add(com);
@@ -69,11 +82,18 @@ public class CommentController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CommentRequestDTO commentRequest) {
-
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody CommentRequestDTO commentRequest, Errors errors) {
+        if (errors.hasErrors()) {
+            return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
+        }
+        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         try {
             Comment com = commentService.findById(id);
+            if (com.getAuthenticatedUser().getId() != user.getId()) {
+                return new ResponseEntity<>("", HttpStatus.FORBIDDEN);
+            }
             com.setContent(commentRequest.getContent());
             commentService.update(com);
             return new ResponseEntity<>(commentResponseMapper.toDto(com), HttpStatus.OK);
@@ -82,10 +102,15 @@ public class CommentController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-
+        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         try {
+            Comment com = commentService.findById(id);
+            if (com.getAuthenticatedUser().getId() != user.getId()) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
             commentService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {

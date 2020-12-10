@@ -1,14 +1,13 @@
-package tim2.CulturalHeritage.helper.LocationMappers;
+package tim2.CulturalHeritage.helper;
 
 import tim2.CulturalHeritage.dto.requestDTO.LocationRequestDTO;
-import tim2.CulturalHeritage.helper.MapperInterface;
+import tim2.CulturalHeritage.dto.responseDTO.LocationResponseDTO;
 import tim2.CulturalHeritage.model.Location;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationRequestMapper implements MapperInterface<Location, LocationRequestDTO> {
-
+public class LocationMapper implements  MapperInterfaceEnhanced<Location, LocationResponseDTO, LocationRequestDTO> {
     @Override
     public Location toEntity(LocationRequestDTO dto) {
         Location location = new Location();
@@ -22,14 +21,13 @@ public class LocationRequestMapper implements MapperInterface<Location, Location
     }
 
     @Override
-    public LocationRequestDTO toDto(Location entity) {
-
-        return new LocationRequestDTO(entity.getLatitude(), entity.getLongitude(), entity.getCountry(), entity.getCity(), entity.getStreet());
+    public LocationResponseDTO toDto(Location entity) {
+        return new LocationResponseDTO(entity.getId(), entity.getLatitude(), entity.getLongitude(), entity.getCountry(), entity.getCity(), entity.getStreet());
     }
 
     @Override
-    public List<LocationRequestDTO> toDtoList(List<Location> entityList) {
-        List<LocationRequestDTO> locationsDTOlist = new ArrayList<>();
+    public List<LocationResponseDTO> toDtoList(List<Location> entityList) {
+        List<LocationResponseDTO> locationsDTOlist = new ArrayList<>();
         for (Location u : entityList) {
             locationsDTOlist.add(toDto(u));
         }
