@@ -67,6 +67,7 @@ public class LocationController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody LocationRequestDTO locationRequest) {
 
         try {
@@ -81,6 +82,7 @@ public class LocationController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         System.out.print(id);
