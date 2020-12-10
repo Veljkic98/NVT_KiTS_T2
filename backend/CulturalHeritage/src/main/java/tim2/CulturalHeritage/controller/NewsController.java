@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.LocationResponseDTO;
@@ -55,16 +56,22 @@ public class NewsController {
         }
     }
 
+
     @PostMapping
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<NewsRequestDTO> add(@RequestPart("file") MultipartFile file, @RequestPart("news") NewsRequestDTO news) {
-        System.out.println("--------------------------");
-        System.out.println(news);
-        // News entity = newsMapper.toEntity(news);
-        // newsService.add(entity);
+    public ResponseEntity<?> add(@RequestPart("file") MultipartFile file, @RequestPart("news") NewsRequestDTO news) {
+        // System.out.println("--------------------------");
+        // System.out.println(news);
+        News entity = newsMapper.toEntity(news);
+        entity = newsService.add(entity, file);
+        
+        String fileDownloadUri = ServletUriComponentsBuilder
+        .fromCurrentContextPath()
+        .path("api/news/")
+        .path(entity.getId() + "")
+        .toUriString();
 
-        // return new ResponseEntity<>(news, HttpStatus.CREATED);
-        return null;
+        return new ResponseEntity<>(entity, HttpStatus.CREATED);
     }
 
     @PutMapping

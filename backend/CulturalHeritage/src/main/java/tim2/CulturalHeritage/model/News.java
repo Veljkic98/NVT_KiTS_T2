@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -32,15 +33,13 @@ public class News {
     @ManyToOne
     private Admin admin;
 
-    @ElementCollection
-    @CollectionTable(name = "images")
-    private Map<Long, byte[]> images;
+    @Lob
+    private byte[] images;
 
     public News() {
     }
 
-    public News(Long id, String heading, String content, CulturalHeritage culturalHeritage, Admin admin,
-            Map<Long, byte[]> images) {
+    public News(Long id, String heading, String content, CulturalHeritage culturalHeritage, Admin admin, byte[] images) {
         this.id = id;
         this.heading = heading;
         this.content = content;
@@ -89,11 +88,11 @@ public class News {
         this.admin = admin;
     }
 
-    public Map<Long, byte[]> getImages() {
+    public byte[] getImages() {
         return this.images;
     }
 
-    public void setImages(Map<Long, byte[]> images) {
+    public void setImages( byte[] images) {
         this.images = images;
     }
 

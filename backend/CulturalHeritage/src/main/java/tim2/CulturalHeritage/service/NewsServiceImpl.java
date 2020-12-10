@@ -1,11 +1,12 @@
 package tim2.CulturalHeritage.service;
 
-import java.util.List;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import tim2.CulturalHeritage.model.News;
 import tim2.CulturalHeritage.repository.NewsRepository;
@@ -27,7 +28,12 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public News add(News news) {
+    public News add(News news, MultipartFile file) {
+        try {
+            news.setImages(file.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return newsRepository.save(news);
     }
 
