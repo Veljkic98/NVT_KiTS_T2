@@ -75,6 +75,7 @@ public class CulturalHeritageController {
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CulturalHeritageResponseDTO> update(@RequestBody CulturalHeritageResponseDTO culturalHeritage) {
 
         try {
@@ -91,6 +92,7 @@ public class CulturalHeritageController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         try {

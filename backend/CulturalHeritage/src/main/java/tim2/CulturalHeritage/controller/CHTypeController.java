@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import tim2.CulturalHeritage.dto.requestDTO.CHTypeRequestDTO;
@@ -56,6 +57,7 @@ public class CHTypeController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<CHTypeResponseDTO> add(@RequestBody CHTypeRequestDTO typeDTO) {
         CHType type = mapper.toEntity(typeDTO);
@@ -64,6 +66,7 @@ public class CHTypeController {
         return new ResponseEntity<>(mapper.toDto(type), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping
     public ResponseEntity<CHTypeResponseDTO> update(@RequestBody CHTypeResponseDTO reqDTO) {
 
@@ -76,6 +79,7 @@ public class CHTypeController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 

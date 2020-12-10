@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
@@ -48,6 +49,7 @@ public class NewsController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<NewsRequestDTO> add(@RequestBody NewsRequestDTO news) {
         News entity = newsMapper.toEntity(news);
         newsService.add(entity);
@@ -56,6 +58,7 @@ public class NewsController {
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<NewsResponseDTO> update(@RequestBody NewsResponseDTO news) {
 
         try {
@@ -68,6 +71,7 @@ public class NewsController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         try {
