@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,10 @@ import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.LocationResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.NewsResponseDTO;
 import tim2.CulturalHeritage.helper.NewsMapper;
+import tim2.CulturalHeritage.model.FileDB;
 import tim2.CulturalHeritage.model.Location;
 import tim2.CulturalHeritage.model.News;
+import tim2.CulturalHeritage.repository.FileDBRepository;
 import tim2.CulturalHeritage.service.NewsService;
 
 @RestController
@@ -32,6 +35,9 @@ public class NewsController {
 
     @Autowired
     private NewsService newsService;
+
+    @Autowired
+    private FileDBRepository fileDBRepository;
 
     private NewsMapper newsMapper = new NewsMapper();
 
@@ -67,11 +73,20 @@ public class NewsController {
         
         String fileDownloadUri = ServletUriComponentsBuilder
         .fromCurrentContextPath()
-        .path("api/news/")
-        .path(entity.getId() + "")
+        .path("api/news/image/")
+        .path(entity.getImages().getId() + "")
         .toUriString();
 
-        return new ResponseEntity<>(entity, HttpStatus.CREATED);
+        return new ResponseEntity<>(fileDownloadUri, HttpStatus.CREATED);
+    }
+
+    @GetMapping(path = "/image/{id}")
+    public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
+        FileDB fileDB = fileDBRepository.findById(id).orElse(null);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
+                .body(fileDB.getData());
     }
 
     @PutMapping

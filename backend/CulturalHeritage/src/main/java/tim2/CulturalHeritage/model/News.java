@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -33,13 +34,13 @@ public class News {
     @ManyToOne
     private Admin admin;
 
-    @Lob
-    private byte[] images;
+    @OneToOne
+    private FileDB images;
 
     public News() {
     }
 
-    public News(Long id, String heading, String content, CulturalHeritage culturalHeritage, Admin admin, byte[] images) {
+    public News(Long id, String heading, String content, CulturalHeritage culturalHeritage, Admin admin, FileDB images) {
         this.id = id;
         this.heading = heading;
         this.content = content;
@@ -88,11 +89,11 @@ public class News {
         this.admin = admin;
     }
 
-    public byte[] getImages() {
+    public FileDB getImages() {
         return this.images;
     }
 
-    public void setImages( byte[] images) {
+    public void setImages( FileDB images) {
         this.images = images;
     }
 
