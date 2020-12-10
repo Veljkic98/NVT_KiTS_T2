@@ -2,14 +2,20 @@ package tim2.CulturalHeritage.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.LocationResponseDTO;
@@ -28,11 +34,12 @@ public class NewsController {
 
     private NewsMapper newsMapper = new NewsMapper();
 
-    @RequestMapping(value="/by-page", method= RequestMethod.GET)
+    @RequestMapping(value = "/by-page", method = RequestMethod.GET)
     public ResponseEntity<Page<NewsResponseDTO>> findAll(Pageable pageable) {
         Page<News> resultPage = newsService.findAll(pageable);
         List<NewsResponseDTO> newsDTO = newsMapper.toDtoList(resultPage.toList());
-        Page<NewsResponseDTO> newsDTOPage = new PageImpl<>(newsDTO, resultPage.getPageable(), resultPage.getTotalElements());
+        Page<NewsResponseDTO> newsDTOPage = new PageImpl<>(newsDTO, resultPage.getPageable(),
+                resultPage.getTotalElements());
 
         return new ResponseEntity<>(newsDTOPage, HttpStatus.OK);
     }
@@ -49,12 +56,15 @@ public class NewsController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<NewsRequestDTO> add(@RequestBody NewsRequestDTO news) {
-        News entity = newsMapper.toEntity(news);
-        newsService.add(entity);
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<NewsRequestDTO> add(@RequestPart("file") MultipartFile file, @RequestPart("news") NewsRequestDTO news) {
+        System.out.println("--------------------------");
+        System.out.println(news);
+        // News entity = newsMapper.toEntity(news);
+        // newsService.add(entity);
 
-        return new ResponseEntity<>(news, HttpStatus.CREATED);
+        // return new ResponseEntity<>(news, HttpStatus.CREATED);
+        return null;
     }
 
     @PutMapping

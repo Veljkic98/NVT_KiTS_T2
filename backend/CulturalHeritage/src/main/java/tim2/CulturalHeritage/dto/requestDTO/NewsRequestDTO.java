@@ -10,6 +10,8 @@ public class NewsRequestDTO {
 
     private long adminID;
 
+    public NewsRequestDTO() {}
+
     public NewsRequestDTO(Long id, String heading, String content, long culturalHeritageID, long adminID) {
         this.heading = heading;
         this.content = content;
@@ -48,6 +50,18 @@ public class NewsRequestDTO {
     public void setAdminID(long adminID) {
         this.adminID = adminID;
     }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " heading='" + getHeading() + "'" +
+            ", content='" + getContent() + "'" +
+            ", culturalHeritageID='" + getCulturalHeritageID() + "'" +
+            ", adminID='" + getAdminID() + "'" +
+            "}";
+    }
+
 }
 
 
