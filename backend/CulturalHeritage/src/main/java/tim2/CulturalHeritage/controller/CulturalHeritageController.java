@@ -16,9 +16,7 @@ import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
 import tim2.CulturalHeritage.helper.CulturalHeritageMapper;
 import tim2.CulturalHeritage.model.CHSubtype;
 import tim2.CulturalHeritage.model.CulturalHeritage;
-import tim2.CulturalHeritage.repository.CHSubtypeRepository;
 import tim2.CulturalHeritage.service.CHSubtypeService;
-import tim2.CulturalHeritage.service.CHSubtypeServiceImpl;
 import tim2.CulturalHeritage.service.CulturalHeritageService;
 
 @RestController

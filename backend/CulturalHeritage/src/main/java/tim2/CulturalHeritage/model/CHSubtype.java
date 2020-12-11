@@ -1,7 +1,7 @@
 package tim2.CulturalHeritage.model;
 
 import javax.persistence.*;
-import java.util.List;
+
 
 @Entity
 @Table(name = "chsubtype")

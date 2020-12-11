@@ -1,50 +1,47 @@
 package tim2.CulturalHeritage.helper;
 
 import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
-import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.NewsResponseDTO;
-import tim2.CulturalHeritage.model.CHSubtype;
 import tim2.CulturalHeritage.model.News;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsMapper implements MapperInterfaceEnhanced<News, NewsResponseDTO, NewsRequestDTO >{
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+public class NewsMapper implements MapperInterfaceEnhanced<News, NewsResponseDTO, NewsRequestDTO> {
+
     @Override
-    public News toEntity(NewsRequestDTO dto) {
-        News news = new News();
-        // zavisi da li cemo pri kreiranju slati samo ID admina i CHa ili mozda cijeli DTO
-        news.setContent(dto.getContent());
-        news.setHeading(dto.getHeading());
+    public News toEntity(NewsRequestDTO newsRequestDTO) {
 
-        return news;
-    }
-
-    public News toEntity(NewsResponseDTO dto) {
         News news = new News();
-        news.setId(dto.getId());
-        // zavisi da li cemo pri kreiranju slati samo ID admina i CHa ili mozda cijeli DTO
-        news.setContent(dto.getContent());
-        news.setHeading(dto.getHeading());
+        news.setContent(newsRequestDTO.getContent());
+        news.setHeading(newsRequestDTO.getHeading());
 
         return news;
     }
 
     @Override
     public NewsResponseDTO toDto(News entity) {
+
+        String imageUri = ServletUriComponentsBuilder
+        .fromCurrentContextPath()
+        .path("api/news/images/")
+        .path(entity.getImages().getId() + "")
+        .toUriString();
+
         return new NewsResponseDTO(entity.getId(), entity.getHeading(), entity.getContent(),
-                entity.getCulturalHeritage().getId(), entity.getAdmin().getId());
+                entity.getAdmin().getId(), entity.getCulturalHeritage().getId(), imageUri);
     }
 
     @Override
     public List<NewsResponseDTO> toDtoList(List<News> entityList) {
         List<NewsResponseDTO> results = new ArrayList<>();
 
-        if(entityList == null){
+        if (entityList == null) {
             return results;
         }
 
-        for(News news: entityList ){
+        for (News news : entityList) {
             results.add(toDto(news));
         }
 

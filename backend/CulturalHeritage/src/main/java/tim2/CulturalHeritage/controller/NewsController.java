@@ -2,29 +2,21 @@ package tim2.CulturalHeritage.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
-import tim2.CulturalHeritage.dto.responseDTO.LocationResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.NewsResponseDTO;
 import tim2.CulturalHeritage.helper.NewsMapper;
 import tim2.CulturalHeritage.model.FileDB;
-import tim2.CulturalHeritage.model.Location;
 import tim2.CulturalHeritage.model.News;
 import tim2.CulturalHeritage.repository.FileDBRepository;
 import tim2.CulturalHeritage.service.NewsService;
@@ -39,10 +31,11 @@ public class NewsController {
     @Autowired
     private FileDBRepository fileDBRepository;
 
-    private NewsMapper newsMapper = new NewsMapper();
+    private static NewsMapper newsMapper = new NewsMapper();
 
     @RequestMapping(value = "/by-page", method = RequestMethod.GET)
     public ResponseEntity<Page<NewsResponseDTO>> findAll(Pageable pageable) {
+
         Page<News> resultPage = newsService.findAll(pageable);
         List<NewsResponseDTO> newsDTO = newsMapper.toDtoList(resultPage.toList());
         Page<NewsResponseDTO> newsDTOPage = new PageImpl<>(newsDTO, resultPage.getPageable(),
@@ -62,26 +55,21 @@ public class NewsController {
         }
     }
 
-
     @PostMapping
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> add(@RequestPart("file") MultipartFile file, @RequestPart("news") NewsRequestDTO news) {
-        // System.out.println("--------------------------");
-        // System.out.println(news);
-        News entity = newsMapper.toEntity(news);
-        entity = newsService.add(entity, file);
-        
-        String fileDownloadUri = ServletUriComponentsBuilder
-        .fromCurrentContextPath()
-        .path("api/news/image/")
-        .path(entity.getImages().getId() + "")
-        .toUriString();
+    public ResponseEntity<?> add(@RequestPart("file") MultipartFile file,
+            @RequestPart("news") NewsRequestDTO newsRequestDTO) {
 
-        return new ResponseEntity<>(fileDownloadUri, HttpStatus.CREATED);
+        News news = newsService.add(newsRequestDTO, file);
+
+        NewsResponseDTO newsResponseDTO = newsMapper.toDto(news);
+
+        return new ResponseEntity<>(newsResponseDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/image/{id}")
+    @GetMapping(path = "/images/{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
+
         FileDB fileDB = fileDBRepository.findById(id).orElse(null);
 
         return ResponseEntity.ok()
@@ -91,11 +79,11 @@ public class NewsController {
 
     @PutMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<NewsResponseDTO> update(@RequestBody NewsResponseDTO news) {
+    public ResponseEntity<?> update(@RequestBody NewsRequestDTO newsRequestDTO) {
 
         try {
-            News updatedNews = newsMapper.toEntity(news);
-            newsService.update(updatedNews);
+            News updatedNews = newsMapper.toEntity(newsRequestDTO);
+            updatedNews = newsService.update(updatedNews);
             return new ResponseEntity<>(newsMapper.toDto(updatedNews), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

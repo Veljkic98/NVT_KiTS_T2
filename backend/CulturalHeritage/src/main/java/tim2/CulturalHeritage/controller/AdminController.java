@@ -15,7 +15,6 @@ import tim2.CulturalHeritage.dto.responseDTO.AdminResponseDTO;
 import tim2.CulturalHeritage.helper.AdminMappers.AdminRequestMapper;
 import tim2.CulturalHeritage.helper.AdminMappers.AdminResponseMapper;
 import tim2.CulturalHeritage.model.Admin;
-import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.service.AdminService;
 
 import javax.validation.Valid;

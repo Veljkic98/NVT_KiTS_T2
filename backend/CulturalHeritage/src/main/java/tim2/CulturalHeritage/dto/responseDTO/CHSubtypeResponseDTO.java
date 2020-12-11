@@ -1,6 +1,5 @@
 package tim2.CulturalHeritage.dto.responseDTO;
 
-import tim2.CulturalHeritage.model.CHSubtype;
 
 public class CHSubtypeResponseDTO {
     private long id;

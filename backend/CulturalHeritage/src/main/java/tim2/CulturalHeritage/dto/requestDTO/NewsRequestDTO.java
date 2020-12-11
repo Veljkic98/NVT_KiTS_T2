@@ -3,11 +3,8 @@ package tim2.CulturalHeritage.dto.requestDTO;
 public class NewsRequestDTO {
 
     private String heading;
-
     private String content;
-
     private long culturalHeritageID;
-
     private long adminID;
 
     public NewsRequestDTO() {}

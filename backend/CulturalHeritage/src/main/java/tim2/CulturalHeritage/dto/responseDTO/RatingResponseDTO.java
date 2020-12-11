@@ -1,6 +1,5 @@
 package tim2.CulturalHeritage.dto.responseDTO;
 
-import javax.validation.constraints.NotBlank;
 
 public class RatingResponseDTO {
 

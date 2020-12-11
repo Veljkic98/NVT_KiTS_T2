@@ -22,7 +22,6 @@ import tim2.CulturalHeritage.helper.ApiErrors;
 import tim2.CulturalHeritage.helper.RatingMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.model.CulturalHeritage;
-import tim2.CulturalHeritage.model.Location;
 import tim2.CulturalHeritage.model.Rating;
 import tim2.CulturalHeritage.service.CulturalHeritageService;
 import tim2.CulturalHeritage.service.RatingService;

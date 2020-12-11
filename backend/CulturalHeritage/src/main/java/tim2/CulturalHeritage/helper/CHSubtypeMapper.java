@@ -2,9 +2,7 @@ package tim2.CulturalHeritage.helper;
 
 import tim2.CulturalHeritage.dto.requestDTO.CHSubtypeRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
-import tim2.CulturalHeritage.dto.responseDTO.CHTypeResponseDTO;
 import tim2.CulturalHeritage.model.CHSubtype;
-import tim2.CulturalHeritage.model.CHType;
 
 import java.util.ArrayList;
 import java.util.List;
