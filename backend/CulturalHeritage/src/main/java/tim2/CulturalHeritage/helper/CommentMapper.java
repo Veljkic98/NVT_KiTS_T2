@@ -2,12 +2,14 @@ package tim2.CulturalHeritage.helper;
 
 import tim2.CulturalHeritage.dto.requestDTO.CommentRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CommentResponseDTO;
+import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.model.Comment;
 import tim2.CulturalHeritage.model.CulturalHeritage;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public class CommentMapper implements MapperInterfaceEnhanced<Comment, CommentResponseDTO, CommentRequestDTO> {
@@ -20,6 +22,9 @@ public class CommentMapper implements MapperInterfaceEnhanced<Comment, CommentRe
         CulturalHeritage ch = new CulturalHeritage();
         ch.setId(commentRequestDTO.getCulturalHeritageID());
         comment.setCulturalHeritage(ch);
+        //authenticated user
+        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        comment.setAuthenticatedUser(user);
         return comment;
     }
 

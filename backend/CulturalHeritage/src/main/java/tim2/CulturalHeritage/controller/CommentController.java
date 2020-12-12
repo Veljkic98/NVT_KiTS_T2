@@ -66,8 +66,6 @@ public class CommentController {
         }
         try {
             Comment comment = commentMapper.toEntity(commentRequestDTO);
-            AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            comment.setAuthenticatedUser(user);
             comment = commentService.add(comment, file);
             CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
             return new ResponseEntity<>(commentResponseDTO, HttpStatus.CREATED);

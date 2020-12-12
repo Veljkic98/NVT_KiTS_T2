@@ -27,10 +27,6 @@ public class NewsController {
 
     @Autowired
     private NewsService newsService;
-
-    @Autowired
-    private FileDBRepository fileDBRepository;
-
     private static NewsMapper newsMapper = new NewsMapper();
 
     @RequestMapping(value = "/by-page", method = RequestMethod.GET)
@@ -68,15 +64,6 @@ public class NewsController {
         return new ResponseEntity<>(newsResponseDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/images/{id}")
-    public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
-
-        FileDB fileDB = fileDBRepository.findById(id).orElse(null);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
-                .body(fileDB.getData());
-    }
 
     @PutMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
