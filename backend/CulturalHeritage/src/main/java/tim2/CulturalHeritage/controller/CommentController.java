@@ -22,6 +22,7 @@ import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.model.Comment;
 import tim2.CulturalHeritage.service.CommentService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 @RestController
@@ -71,8 +72,11 @@ public class CommentController {
 
     // @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{id}")
-    public ResponseEntity<CommentResponseDTO> update(@PathVariable Long id,
-            @Valid @RequestBody CommentRequestDTO commentRequestDTO, Errors errors) {
+    public ResponseEntity<CommentResponseDTO> update(
+            @RequestPart("file") MultipartFile file,
+            @Valid @RequestPart("comment") CommentRequestDTO commentRequestDTO, 
+            @PathVariable Long id,
+            Errors errors) {
 
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
@@ -80,14 +84,14 @@ public class CommentController {
         try {
             Comment comment = commentMapper.toEntity(commentRequestDTO);
             comment.setId(id);
-            comment = commentService.update(comment);
-            if(null == comment){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            
+            comment = commentService.update(comment, file);
             CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
             return new ResponseEntity<CommentResponseDTO>(commentResponseDTO, HttpStatus.OK);
-        } catch (Exception e) {
+        }
+        catch(EntityNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

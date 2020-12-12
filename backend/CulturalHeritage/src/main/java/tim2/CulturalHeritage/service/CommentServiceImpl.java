@@ -1,5 +1,7 @@
 package tim2.CulturalHeritage.service;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,10 +39,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment update(Comment comment) {
+    public Comment update(Comment comment, MultipartFile file) {
         if(null == commentRepository.findById(comment.getId()).orElse(null)){
-            return null;
+            throw new EntityNotFoundException();
         }
+        FileDB fileDB = fileDBService.add(file);
+        comment.setImages(fileDB);
         return commentRepository.save(comment);
     }
 
