@@ -28,14 +28,15 @@ public class LocationController {
     @Autowired
     private LocationService locationService;
 
-    private LocationMapper locationMapper = new LocationMapper();
+    private static LocationMapper locationMapper = new LocationMapper();
 
-    @RequestMapping(value="/by-page", method= RequestMethod.GET)
-    public ResponseEntity<Page<LocationResponseDTO>>  findAll(Pageable pageable) {
+    @RequestMapping(value = "/by-page", method = RequestMethod.GET)
+    public ResponseEntity<Page<LocationResponseDTO>> findAll(Pageable pageable) {
 
         Page<Location> resultPage = locationService.findAll(pageable);
         List<LocationResponseDTO> locationsDTO = locationMapper.toDtoList(resultPage.toList());
-        Page<LocationResponseDTO> pageLocationsDTO = new PageImpl<>(locationsDTO, resultPage.getPageable(), resultPage.getTotalElements());
+        Page<LocationResponseDTO> pageLocationsDTO = new PageImpl<>(locationsDTO, resultPage.getPageable(),
+                resultPage.getTotalElements());
 
         return new ResponseEntity<>(pageLocationsDTO, HttpStatus.OK);
     }
@@ -54,6 +55,7 @@ public class LocationController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<?> add(@Valid @RequestBody LocationRequestDTO locationRequest, Errors errors) {
+
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }

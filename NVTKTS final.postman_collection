@@ -155,6 +155,42 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "POST COMMENT WITH IMAGE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Veljko/Desktop/cultural-heritage-management.jpg"
+								},
+								{
+									"key": "comment",
+									"value": "{\n    \"content\":\"NEW COMMENT\",\n    \"culturalHeritageID\": 1\n}",
+									"contentType": "application/json",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/comments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -798,7 +834,7 @@
 					"response": []
 				},
 				{
-					"name": "POST NEWS",
+					"name": "POST NEWS WITH IMAGE",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {}
 					},
@@ -965,11 +1001,23 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"id\":\"31\",\r\n    \"name\":\"La Mahal basic\",\r\n    \"description\":\"This is just some dummy text i guess\"\r\n}",
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Veljko/Desktop/cultural-heritage-management.jpg"
+								},
+								{
+									"key": "culturalHeritageRequestDTO",
+									"value": "{\n    \"name\": \"naziv\",\n    \"description\": \"This is just some dummy text i guess\",\n    \"locationID\": 1,\n    \"chsubtypeID\": 1\n}",
+									"contentType": "application/json",
+									"type": "text"
+								}
+							],
 							"options": {
 								"raw": {
-									"language": "json"
+									"language": "text"
 								}
 							}
 						},
@@ -1230,10 +1278,10 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Image upload",
+			"name": "Images",
 			"item": [
 				{
-					"name": "upload image",
+					"name": "UPLOAD IMAGE",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1270,7 +1318,7 @@
 					"response": []
 				},
 				{
-					"name": "get all",
+					"name": "GET ALL",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1284,6 +1332,27 @@
 							"path": [
 								"api",
 								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/files/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"files",
+								"1"
 							]
 						}
 					},

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import tim2.CulturalHeritage.dto.requestDTO.CulturalHeritageRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
@@ -29,62 +30,65 @@ public class CulturalHeritageController {
     @Autowired
     private CHSubtypeService subtypeService;
 
-    private CulturalHeritageMapper mapper = new CulturalHeritageMapper();
+    private static CulturalHeritageMapper chMapper = new CulturalHeritageMapper();
 
     @GetMapping
     public ResponseEntity<List<CulturalHeritageResponseDTO>> findAll() {
 
-        return new ResponseEntity<>(mapper.toDtoList(culturalHeritageService.findAll()), HttpStatus.OK);
+        return new ResponseEntity<>(chMapper.toDtoList(culturalHeritageService.findAll()), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/by-page", method= RequestMethod.GET)
-    public ResponseEntity<Page<CulturalHeritageResponseDTO>> getAllCulturalHeritages(Pageable pageable){
+    @RequestMapping(value = "/by-page", method = RequestMethod.GET)
+    public ResponseEntity<Page<CulturalHeritageResponseDTO>> getAllCulturalHeritages(Pageable pageable) {
+
         Page<CulturalHeritage> page = culturalHeritageService.findAll(pageable);
-        List<CulturalHeritageResponseDTO> DTOs = mapper.toDtoList(page.toList());
-        Page<CulturalHeritageResponseDTO> pageResponse =  new PageImpl<>(DTOs,page.getPageable(),page.getTotalElements());
+        List<CulturalHeritageResponseDTO> DTOs = chMapper.toDtoList(page.toList());
+        Page<CulturalHeritageResponseDTO> pageResponse = new PageImpl<>(DTOs, page.getPageable(),
+                page.getTotalElements());
 
         return new ResponseEntity<>(pageResponse, HttpStatus.OK);
     }
 
-
-
     @GetMapping(path = "/{id}")
     public ResponseEntity<CulturalHeritageResponseDTO> findById(@PathVariable Long id) {
 
-
         CulturalHeritage ch = culturalHeritageService.findById(id);
-        if(ch == null){
+        if (ch == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(mapper.toDto(ch), HttpStatus.OK);
+        return new ResponseEntity<>(chMapper.toDto(ch), HttpStatus.OK);
 
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<CulturalHeritageResponseDTO> add(@RequestBody CulturalHeritageRequestDTO culturalHeritage) {
-        CulturalHeritage ch = mapper.toEntity(culturalHeritage);
-        CHSubtype sub = subtypeService.findById(culturalHeritage.getChsubtype().getId());
-        ch.setChsubtype(sub);
-        culturalHeritageService.add(ch);
+    public ResponseEntity<CulturalHeritageResponseDTO> add(@RequestPart("file") MultipartFile file,
+            @RequestPart("culturalHeritageRequestDTO") CulturalHeritageRequestDTO culturalHeritageRequestDTO) {
 
-        return new ResponseEntity<>(mapper.toDto(ch), HttpStatus.CREATED);
+        CulturalHeritage ch = chMapper.toEntity(culturalHeritageRequestDTO);
+        culturalHeritageService.add(ch, file);
+
+        CulturalHeritageResponseDTO response = new CulturalHeritageResponseDTO();
+        response = chMapper.toDto(ch);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CulturalHeritageResponseDTO> update(@RequestBody CulturalHeritageResponseDTO culturalHeritage) {
+    public ResponseEntity<CulturalHeritageResponseDTO> update(
+            @RequestBody CulturalHeritageRequestDTO culturalHeritageRequestDTO) {
 
         try {
 
-            CulturalHeritage ch = mapper.toEntity(culturalHeritage);
-            CHSubtype sub = subtypeService.findById(culturalHeritage.getChsubtype().getId());
+            CulturalHeritage ch = chMapper.toEntity(culturalHeritageRequestDTO);
+            CHSubtype sub = subtypeService.findById(culturalHeritageRequestDTO.getChsubtypeID());
             ch.setChsubtype(sub);
             culturalHeritageService.update(ch);
-            return new ResponseEntity<>(mapper.toDto(ch), HttpStatus.OK);
+            return new ResponseEntity<>(chMapper.toDto(ch), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("GRESKA "+ e);
+            System.out.println("GRESKA " + e);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
