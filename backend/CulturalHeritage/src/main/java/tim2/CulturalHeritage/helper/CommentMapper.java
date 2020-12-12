@@ -15,7 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class CommentMapper implements MapperInterfaceEnhanced<Comment, CommentResponseDTO, CommentRequestDTO> {
 
     @Override
-    public Comment toEntity(CommentRequestDTO commentRequestDTO) {
+    public Comment toEntity(CommentRequestDTO commentRequestDTO) throws ClassCastException{
         Comment comment = new Comment();
         comment.setContent(commentRequestDTO.getContent());
         //ch
@@ -30,11 +30,18 @@ public class CommentMapper implements MapperInterfaceEnhanced<Comment, CommentRe
 
     @Override
     public CommentResponseDTO toDto(Comment comment) {
-        String imageUri = ServletUriComponentsBuilder
-        .fromCurrentContextPath()
-        .path("api/files/")
-        .path(comment.getImages().getId() + "")
-        .toUriString();
+        String imageUri;
+        try{
+            imageUri = ServletUriComponentsBuilder
+            .fromCurrentContextPath()
+            .path("api/files/")
+            .path(comment.getImages().getId() + "")
+            .toUriString();
+
+        }catch(NullPointerException e){
+            imageUri = null;
+        }
+
         
         return new CommentResponseDTO(comment.getId(), comment.getContent(), 
             comment.getAuthenticatedUser().getId(), comment.getCulturalHeritage().getId(), imageUri);

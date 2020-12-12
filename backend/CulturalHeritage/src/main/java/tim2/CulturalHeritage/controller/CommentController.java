@@ -57,40 +57,39 @@ public class CommentController {
 
     
     @PostMapping
-    // @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> add(@RequestPart("file") MultipartFile file,
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<CommentResponseDTO> add(@RequestPart("file") MultipartFile file,
         @Valid @RequestPart("comment") CommentRequestDTO commentRequestDTO , Errors errors) {
         
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
-        try {
-            Comment comment = commentMapper.toEntity(commentRequestDTO);
-            comment = commentService.add(comment, file);
-            CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
-            return new ResponseEntity<>(commentResponseDTO, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        Comment comment = commentMapper.toEntity(commentRequestDTO);
+        comment = commentService.add(comment, file);
+        CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
+        return new ResponseEntity<CommentResponseDTO>(commentResponseDTO, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    // @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody CommentRequestDTO commentRequest, Errors errors) {
+    public ResponseEntity<CommentResponseDTO> update(@PathVariable Long id, @Valid @RequestBody CommentRequestDTO commentRequestDTO, Errors errors) {
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
-        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        try {
-            Comment com = commentService.findById(id);
-            if (com.getAuthenticatedUser().getId() != user.getId()) {
-                return new ResponseEntity<>("", HttpStatus.FORBIDDEN);
-            }
-            com.setContent(commentRequest.getContent());
-            commentService.update(com);
-            return new ResponseEntity<>(commentMapper.toDto(com), HttpStatus.OK);
-        } catch (Exception e) {
+
+        Comment comment = commentService.findById(id);
+        if(null == comment){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        try{
+            comment = commentMapper.toEntity(commentRequestDTO);
+            comment.setId(id);
+            comment = commentService.update(comment);
+            CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
+            return new ResponseEntity<CommentResponseDTO>(commentResponseDTO, HttpStatus.OK);
+        }
+        catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
