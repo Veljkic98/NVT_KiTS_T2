@@ -21,34 +21,31 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Page<Comment> findAll(Pageable pageable) {
-
         return commentRepository.findAll(pageable);
     }
 
     @Override
     public Comment findById(Long id) {
-
         return commentRepository.findById(id).orElse(null);
     }
 
     @Override
     public Comment add(Comment comment, MultipartFile file) {
-
         FileDB fileDB = fileDBService.add(file);
         comment.setImages(fileDB);
-
         return commentRepository.save(comment);
     }
 
     @Override
     public Comment update(Comment comment) {
-
+        if(null == commentRepository.findById(comment.getId()).orElse(null)){
+            return null;
+        }
         return commentRepository.save(comment);
     }
 
     @Override
     public void deleteById(Long id) {
-        
         commentRepository.deleteById(id);
     }
 

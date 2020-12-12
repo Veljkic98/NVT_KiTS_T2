@@ -77,15 +77,14 @@ public class CommentController {
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
-
-        Comment comment = commentService.findById(id);
-        if (null == comment) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         try {
-            comment = commentMapper.toEntity(commentRequestDTO);
+            Comment comment = commentMapper.toEntity(commentRequestDTO);
             comment.setId(id);
             comment = commentService.update(comment);
+            if(null == comment){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            
             CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
             return new ResponseEntity<CommentResponseDTO>(commentResponseDTO, HttpStatus.OK);
         } catch (Exception e) {
