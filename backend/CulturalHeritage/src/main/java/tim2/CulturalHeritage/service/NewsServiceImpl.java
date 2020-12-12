@@ -4,13 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
-import tim2.CulturalHeritage.helper.NewsMapper;
-import tim2.CulturalHeritage.model.Admin;
-import tim2.CulturalHeritage.model.CulturalHeritage;
 import tim2.CulturalHeritage.model.FileDB;
 import tim2.CulturalHeritage.model.News;
 import tim2.CulturalHeritage.repository.NewsRepository;
@@ -37,25 +32,33 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public News add(News news, MultipartFile file) {
 
-        try {
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            FileDB fileDB = new FileDB(fileName, file.getContentType(), file.getBytes());
-            news.setImages(fileDB);
-            fileDBService.add(fileDB);
-        } catch (Exception e) {
-            e.printStackTrace();
+        FileDB fileDB;
+        fileDB = fileDBService.add(file);
+        news.setImages(fileDB);
+
+        return newsRepository.save(news);
+    }
+
+    @Override
+    public News update(News news, MultipartFile file) {
+
+        FileDB fileDB;
+        fileDB = fileDBService.add(file);
+        news.setImages(fileDB);
+
+        if (null == newsRepository.findById(news.getId())) {
+            throw new IllegalArgumentException("There is no news with id: " + news.getId() + ".");
         }
 
         return newsRepository.save(news);
     }
 
     @Override
-    public News update(News news) {
-        return newsRepository.save(news);
-    }
-
-    @Override
     public void deleteById(Long id) {
+
+        if (id == null)
+            throw new IllegalArgumentException("Id cannot be null");
+
         newsRepository.deleteById(id);
     }
 

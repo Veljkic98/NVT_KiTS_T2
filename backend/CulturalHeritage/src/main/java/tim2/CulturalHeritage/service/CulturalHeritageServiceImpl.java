@@ -40,16 +40,10 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
     @Override
     public CulturalHeritage add(CulturalHeritage culturalHeritage, MultipartFile file) {
 
-        try {
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            FileDB fileDB = new FileDB(fileName, file.getContentType(), file.getBytes());
-
-            culturalHeritage.setImages(fileDB);
-            
-            fileDBService.add(fileDB);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileDB fileDB;
+        fileDB = fileDBService.add(file);
+        culturalHeritage.setImages(fileDB);
+        
         return culturalHeritageRepository.save(culturalHeritage);
     }
 

@@ -32,11 +32,17 @@ public class NewsMapper implements MapperInterfaceEnhanced<News, NewsResponseDTO
     @Override
     public NewsResponseDTO toDto(News entity) {
 
-        String imageUri = ServletUriComponentsBuilder
-        .fromCurrentContextPath()
-        .path("api/files/")
-        .path(entity.getImages().getId() + "")
-        .toUriString();
+        String imageUri;
+        
+        try {
+            imageUri = ServletUriComponentsBuilder
+            .fromCurrentContextPath()
+            .path("api/files/")
+            .path(entity.getImages().getId() + "")
+            .toUriString();
+        } catch (NullPointerException e) {
+            imageUri = null;
+        }
 
         return new NewsResponseDTO(entity.getId(), entity.getHeading(), entity.getContent(),
                 entity.getAdmin().getId(), entity.getCulturalHeritage().getId(), imageUri);

@@ -3,22 +3,19 @@ package tim2.CulturalHeritage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.NewsResponseDTO;
 import tim2.CulturalHeritage.helper.NewsMapper;
-import tim2.CulturalHeritage.model.FileDB;
 import tim2.CulturalHeritage.model.News;
-import tim2.CulturalHeritage.repository.FileDBRepository;
 import tim2.CulturalHeritage.service.NewsService;
 
 @RestController
@@ -27,9 +24,6 @@ public class NewsController {
 
     @Autowired
     private NewsService newsService;
-
-    @Autowired
-    private FileDBRepository fileDBRepository;
 
     private static NewsMapper newsMapper = new NewsMapper();
 
@@ -45,60 +39,61 @@ public class NewsController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
+    public ResponseEntity<NewsResponseDTO> findById(@PathVariable Long id) {
 
-        try {
-            News news = newsService.findById(id);
-            return new ResponseEntity<>(newsMapper.toDto(news), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        System.out.println(id);
+        News news = newsService.findById(id);
+
+        if (null != news) {
+            NewsResponseDTO response = newsMapper.toDto(news);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> add(@RequestPart("file") MultipartFile file,
+    public ResponseEntity<NewsResponseDTO> add(@RequestPart("file") MultipartFile file,
             @RequestPart("news") NewsRequestDTO newsRequestDTO) {
-        
+
         News news = newsMapper.toEntity(newsRequestDTO);
         news = newsService.add(news, file);
 
-        NewsResponseDTO newsResponseDTO = newsMapper.toDto(news);
+        NewsResponseDTO response = newsMapper.toDto(news);
 
-        return new ResponseEntity<>(newsResponseDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/images/{id}")
-    public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
+    @PutMapping(path = "/{id}")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> update(@RequestPart("file") MultipartFile file,
+            @RequestPart("news") NewsRequestDTO newsRequestDTO, @PathVariable Long id) {
 
-        FileDB fileDB = fileDBRepository.findById(id).orElse(null);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
-                .body(fileDB.getData());
-    }
-
-    @PutMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> update(@RequestBody NewsRequestDTO newsRequestDTO) {
+        News updatedNews = newsMapper.toEntity(newsRequestDTO);
+        updatedNews.setId(id);
 
         try {
-            News updatedNews = newsMapper.toEntity(newsRequestDTO);
-            updatedNews = newsService.update(updatedNews);
-            return new ResponseEntity<>(newsMapper.toDto(updatedNews), HttpStatus.OK);
-        } catch (Exception e) {
+            updatedNews = newsService.update(updatedNews, file);
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        NewsResponseDTO response = newsMapper.toDto(updatedNews);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         try {
             newsService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) { // if ID is null
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (EmptyResultDataAccessException e) { // if there isn't news with specific ID
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
