@@ -56,7 +56,7 @@ public class CulturalHeritageMapper
     @Override
     public CulturalHeritageResponseDTO toDto(CulturalHeritage entity) {
 
-        String imageUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("api/news/images/")
+        String imageUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("api/files/")
                 .path(entity.getImages().getId() + "").toUriString();
 
         return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(),

@@ -34,7 +34,7 @@ public class NewsMapper implements MapperInterfaceEnhanced<News, NewsResponseDTO
 
         String imageUri = ServletUriComponentsBuilder
         .fromCurrentContextPath()
-        .path("api/news/images/")
+        .path("api/files/")
         .path(entity.getImages().getId() + "")
         .toUriString();
 
