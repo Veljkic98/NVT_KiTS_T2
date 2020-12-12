@@ -1,34 +1,30 @@
 package tim2.CulturalHeritage.dto.requestDTO;
 
-
-import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
-import tim2.CulturalHeritage.model.Location;
-
 import javax.validation.constraints.NotBlank;
 
 public class CulturalHeritageRequestDTO {
-    @NotBlank(message="Name cannot be blank")
+
+    @NotBlank(message = "Name cannot be blank")
     private String name;
 
-    @NotBlank(message="Description cannot be blank")
+    @NotBlank(message = "Description cannot be blank")
     private String description;
 
-    private Location location;
+    private Long locationID;
 
-    private CHSubtypeResponseDTO chsubtype;
-    // news, comments, images later
+    private Long chsubtypeID;
 
-    public CulturalHeritageRequestDTO(){}
+    public CulturalHeritageRequestDTO() {}
 
-    public CulturalHeritageRequestDTO(String name, String description, Location location, CHSubtypeResponseDTO chsubtype){
+    public CulturalHeritageRequestDTO(String name, String description, Long locationID, Long chsubtypeID) {
         this.name = name;
         this.description = description;
-        this.location = location;
-        this.chsubtype = chsubtype;
+        this.locationID = locationID;
+        this.chsubtypeID = chsubtypeID;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -36,28 +32,37 @@ public class CulturalHeritageRequestDTO {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public Location getLocation() {
-        return location;
+    public Long getLocationID() {
+        return this.locationID;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLocationID(Long locationID) {
+        this.locationID = locationID;
     }
 
-    public CHSubtypeResponseDTO getChsubtype() {
-        return chsubtype;
+    public Long getChsubtypeID() {
+        return this.chsubtypeID;
     }
 
-    public void setChsubtype(CHSubtypeResponseDTO chsubtype) {
-        this.chsubtype = chsubtype;
+    public void setChsubtypeID(Long chsubtypeID) {
+        this.chsubtypeID = chsubtypeID;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+            " name='" + getName() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", locationID='" + getLocationID() + "'" +
+            ", chsubtypeID='" + getChsubtypeID() + "'" +
+            "}";
+    }
 
 }

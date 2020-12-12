@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+
 import tim2.CulturalHeritage.model.CulturalHeritage;
 
 public interface CulturalHeritageService {
@@ -14,7 +16,7 @@ public interface CulturalHeritageService {
 
     public CulturalHeritage findById(Long id);
 
-    public CulturalHeritage add(CulturalHeritage culturalHeritage);
+    public CulturalHeritage add(CulturalHeritage culturalHeritage, MultipartFile file);
 
     public CulturalHeritage update(CulturalHeritage culturalHeritage);
 
