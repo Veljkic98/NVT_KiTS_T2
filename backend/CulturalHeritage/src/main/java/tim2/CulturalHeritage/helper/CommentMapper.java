@@ -8,6 +8,8 @@ import tim2.CulturalHeritage.model.CulturalHeritage;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 public class CommentMapper implements MapperInterfaceEnhanced<Comment, CommentResponseDTO, CommentRequestDTO> {
 
     @Override
@@ -23,7 +25,14 @@ public class CommentMapper implements MapperInterfaceEnhanced<Comment, CommentRe
 
     @Override
     public CommentResponseDTO toDto(Comment comment) {
-        return new CommentResponseDTO(comment.getId(), comment.getContent(), comment.getAuthenticatedUser().getId(), comment.getCulturalHeritage().getId());
+        String imageUri = ServletUriComponentsBuilder
+        .fromCurrentContextPath()
+        .path("api/files/")
+        .path(comment.getImages().getId() + "")
+        .toUriString();
+        
+        return new CommentResponseDTO(comment.getId(), comment.getContent(), 
+            comment.getAuthenticatedUser().getId(), comment.getCulturalHeritage().getId(), imageUri);
     }
 
     @Override

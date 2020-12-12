@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import tim2.CulturalHeritage.dto.requestDTO.CommentRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CommentResponseDTO;
@@ -57,17 +58,17 @@ public class CommentController {
     
     @PostMapping
     // @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> add(@Valid @RequestBody CommentRequestDTO commentRequestDTO, Errors errors) {
+    public ResponseEntity<?> add(@RequestPart("file") MultipartFile file,
+        @Valid @RequestPart("comment") CommentRequestDTO commentRequestDTO , Errors errors) {
+        
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
         try {
             Comment comment = commentMapper.toEntity(commentRequestDTO);
-            // AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            AuthenticatedUser user = new AuthenticatedUser();
-            user.setId(5L);
+            AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             comment.setAuthenticatedUser(user);
-            comment = commentService.add(comment);
+            comment = commentService.add(comment, file);
             CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
             return new ResponseEntity<>(commentResponseDTO, HttpStatus.CREATED);
         } catch (Exception e) {
