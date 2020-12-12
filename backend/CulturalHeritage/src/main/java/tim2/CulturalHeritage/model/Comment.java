@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -29,15 +30,14 @@ public class Comment {
     @ManyToOne
     private AuthenticatedUser authenticatedUser;
 
-    @ElementCollection
-    @CollectionTable(name = "images")
-    private Map<Long, byte[]> images;
+    @OneToOne
+    private FileDB images;
 
     public Comment() {
     }
 
-    public Comment(long id, String content, CulturalHeritage culturalHeritage, AuthenticatedUser authenticatedUser,
-            Map<Long, byte[]> images) {
+    public Comment(long id, String content, CulturalHeritage culturalHeritage, 
+        AuthenticatedUser authenticatedUser, FileDB images) {
         this.id = id;
         this.content = content;
         this.culturalHeritage = culturalHeritage;
@@ -77,12 +77,14 @@ public class Comment {
         this.authenticatedUser = authenticatedUser;
     }
 
-    public Map<Long, byte[]> getImages() {
+
+    public FileDB getImages() {
         return this.images;
     }
 
-    public void setImages(Map<Long, byte[]> images) {
+    public void setImages(FileDB images) {
         this.images = images;
     }
+
 
 }

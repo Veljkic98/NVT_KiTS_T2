@@ -2,52 +2,52 @@ package tim2.CulturalHeritage.dto.responseDTO;
 
 
 public class CommentResponseDTO {
-    private long id;
+    private Long id;
 
     private String content;
 
-    private AuthUserResponseDTO author;
+    private Long authenticatedUserID;
 
-    private long culturaHeritageID;
+    private Long culturaHeritageID;
 
     public CommentResponseDTO(){}
 
-    public CommentResponseDTO(long id, String content, AuthUserResponseDTO author, long culturaHeritageID) {
+    public CommentResponseDTO(Long id, String content, Long authenticatedUserID, Long culturaHeritageID) {
         this.id = id;
         this.content = content;
-        this.author = author;
+        this.authenticatedUserID = authenticatedUserID;
         this.culturaHeritageID = culturaHeritageID;
     }
-
-    public long getId() {
-        return id;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     public String getContent() {
-        return content;
+        return this.content;
     }
 
     public void setContent(String content) {
         this.content = content;
     }
 
-    public AuthUserResponseDTO getAuthor() {
-        return author;
+    public Long getAuthenticatedUserID() {
+        return this.authenticatedUserID;
     }
 
-    public void setAuthor(AuthUserResponseDTO author) {
-        this.author = author;
+    public void setAuthenticatedUserID(Long authenticatedUserID) {
+        this.authenticatedUserID = authenticatedUserID;
     }
 
-    public long getCulturaHeritageID() {
-        return culturaHeritageID;
+    public Long getCulturaHeritageID() {
+        return this.culturaHeritageID;
     }
 
-    public void setCulturaHeritageID(long culturaHeritageID) {
+    public void setCulturaHeritageID(Long culturaHeritageID) {
         this.culturaHeritageID = culturaHeritageID;
     }
 }
+
