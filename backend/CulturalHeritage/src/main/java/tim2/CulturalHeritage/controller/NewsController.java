@@ -24,7 +24,6 @@ public class NewsController {
 
     @Autowired
     private NewsService newsService;
-
     private static NewsMapper newsMapper = new NewsMapper();
 
     @RequestMapping(value = "/by-page", method = RequestMethod.GET)

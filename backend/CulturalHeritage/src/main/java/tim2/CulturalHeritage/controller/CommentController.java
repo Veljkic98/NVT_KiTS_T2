@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import tim2.CulturalHeritage.dto.requestDTO.CommentRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CommentResponseDTO;
@@ -32,13 +33,13 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-
-    @RequestMapping(value="/by-page", method= RequestMethod.GET)
+    @RequestMapping(value = "/by-page", method = RequestMethod.GET)
     public ResponseEntity<Page<CommentResponseDTO>> findAll(Pageable pageable) {
 
         Page<Comment> resultPage = commentService.findAll(pageable);
         List<CommentResponseDTO> commentsDTO = commentMapper.toDtoList(resultPage.toList());
-        Page<CommentResponseDTO> pageCommentsDTO = new PageImpl<>(commentsDTO, resultPage.getPageable(), resultPage.getTotalElements());
+        Page<CommentResponseDTO> pageCommentsDTO = new PageImpl<>(commentsDTO, resultPage.getPageable(),
+                resultPage.getTotalElements());
 
         return new ResponseEntity<>(pageCommentsDTO, HttpStatus.OK);
     }
@@ -54,51 +55,50 @@ public class CommentController {
         }
     }
 
-    
     @PostMapping
     // @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> add(@Valid @RequestBody CommentRequestDTO commentRequestDTO, Errors errors) {
+    public ResponseEntity<CommentResponseDTO> add(@RequestPart("file") MultipartFile file,
+            @Valid @RequestPart("comment") CommentRequestDTO commentRequestDTO, Errors errors) {
+
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
+        Comment comment = commentMapper.toEntity(commentRequestDTO);
+        comment = commentService.add(comment, file);
+        CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
+        return new ResponseEntity<CommentResponseDTO>(commentResponseDTO, HttpStatus.CREATED);
+    }
+
+    // @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/{id}")
+    public ResponseEntity<CommentResponseDTO> update(@PathVariable Long id,
+            @Valid @RequestBody CommentRequestDTO commentRequestDTO, Errors errors) {
+
+        if (errors.hasErrors()) {
+            return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
+        }
+
+        Comment comment = commentService.findById(id);
+        if (null == comment) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         try {
-            Comment comment = commentMapper.toEntity(commentRequestDTO);
-            // AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            AuthenticatedUser user = new AuthenticatedUser();
-            user.setId(5L);
-            comment.setAuthenticatedUser(user);
-            comment = commentService.add(comment);
+            comment = commentMapper.toEntity(commentRequestDTO);
+            comment.setId(id);
+            comment = commentService.update(comment);
             CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
-            return new ResponseEntity<>(commentResponseDTO, HttpStatus.CREATED);
+            return new ResponseEntity<CommentResponseDTO>(commentResponseDTO, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody CommentRequestDTO commentRequest, Errors errors) {
-        if (errors.hasErrors()) {
-            return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
-        }
-        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        try {
-            Comment com = commentService.findById(id);
-            if (com.getAuthenticatedUser().getId() != user.getId()) {
-                return new ResponseEntity<>("", HttpStatus.FORBIDDEN);
-            }
-            com.setContent(commentRequest.getContent());
-            commentService.update(com);
-            return new ResponseEntity<>(commentMapper.toDto(com), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
         try {
             Comment com = commentService.findById(id);
             if (com.getAuthenticatedUser().getId() != user.getId()) {
