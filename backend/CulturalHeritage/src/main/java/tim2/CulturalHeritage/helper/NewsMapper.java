@@ -2,6 +2,8 @@ package tim2.CulturalHeritage.helper;
 
 import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.NewsResponseDTO;
+import tim2.CulturalHeritage.model.Admin;
+import tim2.CulturalHeritage.model.CulturalHeritage;
 import tim2.CulturalHeritage.model.News;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,14 @@ public class NewsMapper implements MapperInterfaceEnhanced<News, NewsResponseDTO
         News news = new News();
         news.setContent(newsRequestDTO.getContent());
         news.setHeading(newsRequestDTO.getHeading());
-
+        //admin
+        Admin admin = new Admin();
+        admin.setId(newsRequestDTO.getAdminID());
+        news.setAdmin(admin);
+        //ch
+        CulturalHeritage ch = new CulturalHeritage();
+        ch.setId(newsRequestDTO.getCulturalHeritageID());
+        news.setCulturalHeritage(ch);
         return news;
     }
 

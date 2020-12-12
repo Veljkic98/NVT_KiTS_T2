@@ -24,12 +24,6 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private FileDBService fileDBService;
 
-    @Autowired
-    private AdminService adminService;
-
-    @Autowired
-    private CulturalHeritageService culturalHeritageService;
-
     @Override
     public Page<News> findAll(Pageable pageable) {
         return newsRepository.findAll(pageable);
@@ -41,23 +35,12 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public News add(NewsRequestDTO newsRequestDTO, MultipartFile file) {
-
-        NewsMapper newsMapper = new NewsMapper();
-        News news = new News();
+    public News add(News news, MultipartFile file) {
 
         try {
-            Admin admin = adminService.findById(newsRequestDTO.getAdminID());
-            CulturalHeritage culturalHeritage = culturalHeritageService.findById(newsRequestDTO.getCulturalHeritageID());
-
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             FileDB fileDB = new FileDB(fileName, file.getContentType(), file.getBytes());
-
-            news = newsMapper.toEntity(newsRequestDTO);
-            news.setAdmin(admin);
-            news.setCulturalHeritage(culturalHeritage);
             news.setImages(fileDB);
-
             fileDBService.add(fileDB);
         } catch (Exception e) {
             e.printStackTrace();

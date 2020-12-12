@@ -59,8 +59,9 @@ public class NewsController {
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> add(@RequestPart("file") MultipartFile file,
             @RequestPart("news") NewsRequestDTO newsRequestDTO) {
-
-        News news = newsService.add(newsRequestDTO, file);
+        
+        News news = newsMapper.toEntity(newsRequestDTO);
+        news = newsService.add(news, file);
 
         NewsResponseDTO newsResponseDTO = newsMapper.toDto(news);
 

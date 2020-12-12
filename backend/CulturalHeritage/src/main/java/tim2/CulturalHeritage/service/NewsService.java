@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
-import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
 import tim2.CulturalHeritage.model.News;
 
 public interface NewsService {
@@ -15,7 +14,7 @@ public interface NewsService {
 
     public News findById(Long id);
 
-    public News add(NewsRequestDTO newsRequestDTO, MultipartFile file);
+    public News add(News newsRequestDTO, MultipartFile file);
 
     public News update(News news);
 
