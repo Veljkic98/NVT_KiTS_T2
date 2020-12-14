@@ -19,6 +19,7 @@ import tim2.CulturalHeritage.model.Location;
 import tim2.CulturalHeritage.service.LocationService;
 import tim2.CulturalHeritage.helper.ApiErrors;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 @RestController
@@ -42,7 +43,7 @@ public class LocationController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
+    public ResponseEntity<LocationResponseDTO> findById(@PathVariable Long id) {
 
         try {
             Location location = locationService.findById(id);
@@ -56,34 +57,42 @@ public class LocationController {
         }
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<?> add(@Valid @RequestBody LocationRequestDTO locationRequest, Errors errors) {
+    public ResponseEntity<LocationResponseDTO> add(@Valid @RequestBody LocationRequestDTO locationRequestDTO, Errors errors) {
 
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
         try {
-            Location location = locationService.add(locationMapper.toEntity(locationRequest));
-
-            return new ResponseEntity<>(locationMapper.toDto(location), HttpStatus.CREATED);
+            Location location = locationService.add(locationMapper.toEntity(locationRequestDTO));
+            LocationResponseDTO locationResponseDTO = locationMapper.toDto(location);
+            return new ResponseEntity<>(locationResponseDTO, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody LocationRequestDTO locationRequest) {
-
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<LocationResponseDTO> update(@Valid @RequestBody LocationRequestDTO locationRequest,
+        @PathVariable Long id,
+        Errors errors ) {
+        if (errors.hasErrors()) {
+            return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
+        }
         try {
             Location location = locationMapper.toEntity(locationRequest);
             location.setId(id);
-            locationService.update(location);
-
-            return new ResponseEntity<>(locationMapper.toDto(location), HttpStatus.OK);
-        } catch (Exception e) {
+            location = locationService.update(location);
+            LocationResponseDTO locationResponseDTO = locationMapper.toDto(location);
+            return new ResponseEntity<>(locationResponseDTO, HttpStatus.OK);
+        } 
+        catch(EntityNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

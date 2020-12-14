@@ -68,10 +68,16 @@ public class CommentController {
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
-        Comment comment = commentMapper.toEntity(commentRequestDTO);
-        comment = commentService.add(comment, file);
-        CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
-        return new ResponseEntity<CommentResponseDTO>(commentResponseDTO, HttpStatus.CREATED);
+        try{
+            Comment comment = commentMapper.toEntity(commentRequestDTO);
+            comment = commentService.add(comment, file);
+            CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
+            return new ResponseEntity<CommentResponseDTO>(commentResponseDTO, HttpStatus.CREATED);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     // @PreAuthorize("hasRole('ROLE_USER')")
