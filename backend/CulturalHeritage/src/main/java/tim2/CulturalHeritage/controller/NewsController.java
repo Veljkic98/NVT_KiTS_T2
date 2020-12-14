@@ -2,6 +2,8 @@ package tim2.CulturalHeritage.controller;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -76,6 +78,9 @@ public class NewsController {
             updatedNews = newsService.update(updatedNews, file);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            System.out.println("Greska: " + e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         NewsResponseDTO response = newsMapper.toDto(updatedNews);
@@ -90,10 +95,13 @@ public class NewsController {
         try {
             newsService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (IllegalArgumentException e) { // if ID is null
+        } catch (EntityNotFoundException e) { // if ID is null
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (EmptyResultDataAccessException e) { // if there isn't news with specific ID
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            System.out.println("Proveriti zato ide ovde: " + e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

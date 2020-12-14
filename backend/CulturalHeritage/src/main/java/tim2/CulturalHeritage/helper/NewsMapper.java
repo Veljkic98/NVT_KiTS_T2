@@ -19,6 +19,8 @@ public class NewsMapper implements MapperInterfaceEnhanced<News, NewsResponseDTO
         news.setContent(newsRequestDTO.getContent());
         news.setHeading(newsRequestDTO.getHeading());
         //admin
+        // TODO: admina ucitavam na nacin ispod
+        // Admin user = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Admin admin = new Admin();
         admin.setId(newsRequestDTO.getAdminID());
         news.setAdmin(admin);

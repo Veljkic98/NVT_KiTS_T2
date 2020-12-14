@@ -1,5 +1,7 @@
 package tim2.CulturalHeritage.service;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,9 +46,8 @@ public class NewsServiceImpl implements NewsService {
         FileDB fileDB = fileDBService.add(file);
         news.setImages(fileDB);
 
-        if (null == newsRepository.findById(news.getId()).orElse(null)) {
-            throw new IllegalArgumentException("There is no news with id: " + news.getId() + ".");
-        }
+        if (null == newsRepository.findById(news.getId()).orElse(null))
+            throw new EntityNotFoundException("There is no news with id: " + news.getId() + ".");
 
         return newsRepository.save(news);
     }
@@ -54,8 +55,8 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void deleteById(Long id) {
 
-        if (id == null)
-            throw new IllegalArgumentException("Id cannot be null");
+        // if (id == null)
+        //     throw new IllegalArgumentException("Id cannot be null");
 
         newsRepository.deleteById(id);
     }

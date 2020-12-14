@@ -56,8 +56,19 @@ public class CulturalHeritageMapper
     @Override
     public CulturalHeritageResponseDTO toDto(CulturalHeritage entity) {
 
-        String imageUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("api/files/")
-                .path(entity.getImages().getId() + "").toUriString();
+        // String imageUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("api/files/")
+        //         .path(entity.getImages().getId() + "").toUriString();
+        String imageUri;
+        
+        try {
+            imageUri = ServletUriComponentsBuilder
+            .fromCurrentContextPath()
+            .path("api/files/")
+            .path(entity.getImages().getId() + "")
+            .toUriString();
+        } catch (NullPointerException e) {
+            imageUri = null;
+        }
 
         return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(),
                 entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri);
@@ -65,11 +76,21 @@ public class CulturalHeritageMapper
 
     @Override
     public List<CulturalHeritageResponseDTO> toDtoList(List<CulturalHeritage> entityList) {
+        
         List<CulturalHeritageResponseDTO> results = new ArrayList<>();
+        
+        String imageUri;
 
         for(CulturalHeritage ch: entityList ){
-            String imageUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("api/news/images/")
-                .path(ch.getImages().getId() + "").toUriString();
+                try {
+                    imageUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("api/files/")
+                    .path(ch.getImages().getId() + "")
+                    .toUriString();
+                } catch (NullPointerException e) {
+                    imageUri = null;
+                }
                 
             results.add(new CulturalHeritageResponseDTO(ch.getId(), ch.getName(), ch.getDescription(), ch.getLocation().getId(), ch.getChsubtype().getId(), imageUri));
         }

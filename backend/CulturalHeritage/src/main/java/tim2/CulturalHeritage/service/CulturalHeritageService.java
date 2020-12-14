@@ -18,7 +18,7 @@ public interface CulturalHeritageService {
 
     public CulturalHeritage add(CulturalHeritage culturalHeritage, MultipartFile file);
 
-    public CulturalHeritage update(CulturalHeritage culturalHeritage);
+    public CulturalHeritage update(CulturalHeritage culturalHeritage, MultipartFile file);
 
     public void deleteById(Long id);
 }

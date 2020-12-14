@@ -116,6 +116,14 @@ public class CulturalHeritage {
         this.comments = comments;
     }
 
+    public List<Rating> getRatings() {
+        return this.ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
     public FileDB getImages() {
         return this.images;
     }
