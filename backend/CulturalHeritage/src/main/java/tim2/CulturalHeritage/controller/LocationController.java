@@ -3,6 +3,8 @@ package tim2.CulturalHeritage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -97,15 +99,28 @@ public class LocationController {
     }
 
     @DeleteMapping(path = "/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         System.out.print(id);
         try {
             locationService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
+        }
+        // if there's a CH in the database which has a reference to a given location
+        catch(DataIntegrityViolationException e){
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+        //if id == null
+        catch(IllegalArgumentException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        //if a location with a given id doesn't exist in the database
+        catch(EmptyResultDataAccessException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }
