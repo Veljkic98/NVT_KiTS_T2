@@ -51,8 +51,12 @@ public class CommentController {
         try {
             Comment com = commentService.findById(id);
             return new ResponseEntity<>(commentMapper.toDto(com), HttpStatus.OK);
-        } catch (Exception e) {
+        }
+        catch (NullPointerException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

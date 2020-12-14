@@ -47,8 +47,12 @@ public class LocationController {
         try {
             Location location = locationService.findById(id);
             return new ResponseEntity<>(locationMapper.toDto(location), HttpStatus.OK);
-        } catch (Exception e) {
+        }        
+        catch (NullPointerException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
