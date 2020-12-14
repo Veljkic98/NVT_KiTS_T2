@@ -3,6 +3,8 @@ package tim2.CulturalHeritage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,7 @@ import tim2.CulturalHeritage.model.Location;
 import tim2.CulturalHeritage.service.LocationService;
 import tim2.CulturalHeritage.helper.ApiErrors;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 @RestController
@@ -42,57 +45,82 @@ public class LocationController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
+    public ResponseEntity<LocationResponseDTO> findById(@PathVariable Long id) {
 
         try {
             Location location = locationService.findById(id);
             return new ResponseEntity<>(locationMapper.toDto(location), HttpStatus.OK);
-        } catch (Exception e) {
+        }        
+        catch (NullPointerException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<?> add(@Valid @RequestBody LocationRequestDTO locationRequest, Errors errors) {
+    public ResponseEntity<LocationResponseDTO> add(@Valid @RequestBody LocationRequestDTO locationRequestDTO, Errors errors) {
 
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
         try {
-            Location location = locationService.add(locationMapper.toEntity(locationRequest));
-
-            return new ResponseEntity<>(locationMapper.toDto(location), HttpStatus.CREATED);
+            Location location = locationService.add(locationMapper.toEntity(locationRequestDTO));
+            LocationResponseDTO locationResponseDTO = locationMapper.toDto(location);
+            return new ResponseEntity<>(locationResponseDTO, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody LocationRequestDTO locationRequest) {
-
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<LocationResponseDTO> update(@Valid @RequestBody LocationRequestDTO locationRequest,
+        @PathVariable Long id,
+        Errors errors ) {
+        if (errors.hasErrors()) {
+            return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
+        }
         try {
             Location location = locationMapper.toEntity(locationRequest);
             location.setId(id);
-            locationService.update(location);
-
-            return new ResponseEntity<>(locationMapper.toDto(location), HttpStatus.OK);
-        } catch (Exception e) {
+            location = locationService.update(location);
+            LocationResponseDTO locationResponseDTO = locationMapper.toDto(location);
+            return new ResponseEntity<>(locationResponseDTO, HttpStatus.OK);
+        } 
+        catch(EntityNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping(path = "/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         System.out.print(id);
         try {
             locationService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
+        }
+        // if there's a CH in the database which has a reference to a given location
+        catch(DataIntegrityViolationException e){
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+        //if id == null
+        catch(IllegalArgumentException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        //if a location with a given id doesn't exist in the database
+        catch(EmptyResultDataAccessException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -14,7 +14,7 @@ public interface CommentService {
 
     public Comment add(Comment comment, MultipartFile file);
 
-    public Comment update(Comment comment);
+    public Comment update(Comment comment, MultipartFile file);
 
     public void deleteById(Long id);
 }

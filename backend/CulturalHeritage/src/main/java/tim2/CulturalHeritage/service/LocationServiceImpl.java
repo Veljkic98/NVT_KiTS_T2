@@ -1,6 +1,9 @@
 package tim2.CulturalHeritage.service;
 
 import org.springframework.data.domain.Pageable;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,9 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Location update(Location location) {
+        if(null == locationRepository.findById(location.getId()).orElse(null)){
+            throw new EntityNotFoundException();
+        }
         return locationRepository.save(location);
     }
 

@@ -22,6 +22,7 @@ import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.model.Comment;
 import tim2.CulturalHeritage.service.CommentService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 @RestController
@@ -50,8 +51,12 @@ public class CommentController {
         try {
             Comment com = commentService.findById(id);
             return new ResponseEntity<>(commentMapper.toDto(com), HttpStatus.OK);
-        } catch (Exception e) {
+        }
+        catch (NullPointerException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -63,32 +68,40 @@ public class CommentController {
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
-        Comment comment = commentMapper.toEntity(commentRequestDTO);
-        comment = commentService.add(comment, file);
-        CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
-        return new ResponseEntity<CommentResponseDTO>(commentResponseDTO, HttpStatus.CREATED);
+        try{
+            Comment comment = commentMapper.toEntity(commentRequestDTO);
+            comment = commentService.add(comment, file);
+            CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
+            return new ResponseEntity<CommentResponseDTO>(commentResponseDTO, HttpStatus.CREATED);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     // @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{id}")
-    public ResponseEntity<CommentResponseDTO> update(@PathVariable Long id,
-            @Valid @RequestBody CommentRequestDTO commentRequestDTO, Errors errors) {
+    public ResponseEntity<CommentResponseDTO> update(
+            @RequestPart("file") MultipartFile file,
+            @Valid @RequestPart("comment") CommentRequestDTO commentRequestDTO, 
+            @PathVariable Long id,
+            Errors errors) {
 
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
-
-        Comment comment = commentService.findById(id);
-        if (null == comment) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         try {
-            comment = commentMapper.toEntity(commentRequestDTO);
+            Comment comment = commentMapper.toEntity(commentRequestDTO);
             comment.setId(id);
-            comment = commentService.update(comment);
+            comment = commentService.update(comment, file);
             CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
             return new ResponseEntity<CommentResponseDTO>(commentResponseDTO, HttpStatus.OK);
-        } catch (Exception e) {
+        }
+        catch(EntityNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
