@@ -1,5 +1,6 @@
 package tim2.CulturalHeritage.controller;
 
+import java.security.AccessControlException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +99,9 @@ public class CommentController {
             CommentResponseDTO commentResponseDTO = commentMapper.toDto(comment);
             return new ResponseEntity<CommentResponseDTO>(commentResponseDTO, HttpStatus.OK);
         }
+        catch(AccessControlException e){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         catch(EntityNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } 
@@ -110,17 +114,18 @@ public class CommentController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         
-        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
         try {
-            Comment com = commentService.findById(id);
-            if (com.getAuthenticatedUser().getId() != user.getId()) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
             commentService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+        }
+        catch(AccessControlException e){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } 
+        catch(EntityNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

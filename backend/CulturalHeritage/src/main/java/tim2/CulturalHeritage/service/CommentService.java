@@ -1,5 +1,7 @@
 package tim2.CulturalHeritage.service;
 
+import java.security.AccessControlException;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +16,7 @@ public interface CommentService {
 
     public Comment add(Comment comment, MultipartFile file);
 
-    public Comment update(Comment comment, MultipartFile file);
+    public Comment update(Comment comment, MultipartFile file) throws AccessControlException;
 
-    public void deleteById(Long id);
+    public void deleteById(Long id) throws AccessControlException;
 }
