@@ -10,7 +10,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class AuthenticatedUser extends Person implements UserDetails {
+public class AuthenticatedUser extends Person  {
 
     @ManyToMany
     @JoinTable(name = "subscription", 
@@ -18,14 +18,6 @@ public class AuthenticatedUser extends Person implements UserDetails {
         inverseJoinColumns = @JoinColumn(name = "cultural_heritage_id", referencedColumnName = "id"))
     private List<CulturalHeritage> culturalHeritages;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_authority",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
-
-    @Column(name = "last_password_reset_date")
-    private Timestamp lastPasswordResetDate;
 
     public AuthenticatedUser() {
         super();
@@ -47,11 +39,6 @@ public class AuthenticatedUser extends Person implements UserDetails {
 
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    @Override
     public String getUsername() {
         return this.getEmail();
     }
@@ -59,14 +46,6 @@ public class AuthenticatedUser extends Person implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
         return true;
-    }
-
-    public Timestamp getLastPasswordResetDate() {
-        return lastPasswordResetDate;
-    }
-
-    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
-        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
     @Override
@@ -83,4 +62,8 @@ public class AuthenticatedUser extends Person implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+
+
 }

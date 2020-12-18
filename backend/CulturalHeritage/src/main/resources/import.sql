@@ -37,8 +37,8 @@ INSERT INTO authority (name) VALUES ('ROLE_USER');
 
 --ADMIN
 INSERT INTO admin (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'John', 'Smith', 'admin@gmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
+insert into user_authority (user_id, authority_id) values (1, 1);
 
--- insert into user_authority (user_id, authority_id) values (2, 1);  
 
 --USERS    PASSWORD je svuda 123, samo je Bcrypt hashovan
 INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'Helen', 'York', 'helen@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
