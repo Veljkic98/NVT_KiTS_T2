@@ -1,21 +1,20 @@
-package tim2.CulturalHeritage.helper.AdminMappers;
+package tim2.CulturalHeritage.helper;
 
+import tim2.CulturalHeritage.dto.requestDTO.AdminRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AdminResponseDTO;
-import tim2.CulturalHeritage.helper.MapperInterface;
 import tim2.CulturalHeritage.model.Admin;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminResponseMapper  implements MapperInterface<Admin, AdminResponseDTO> {
-
+public class AdminMapper implements MapperInterface<Admin, AdminResponseDTO, AdminRequestDTO> {
     @Override
-    public Admin toEntity(AdminResponseDTO dto) {
+    public Admin toEntity(AdminRequestDTO dto) {
         Admin admin = new Admin();
-        admin.setId(dto.getId());
         admin.setFirstName(dto.getFirstName());
         admin.setLastName(dto.getLastName());
         admin.setEmail(dto.getEmail());
+        admin.setPassword(dto.getPassword());
 
         return admin;
     }
@@ -28,7 +27,7 @@ public class AdminResponseMapper  implements MapperInterface<Admin, AdminRespons
     @Override
     public List<AdminResponseDTO> toDtoList(List<Admin> entityList) {
         List<AdminResponseDTO> adminsDTOList = new ArrayList<>();
-        for(Admin u: entityList){
+        for (Admin u : entityList) {
             adminsDTOList.add(toDto(u));
         }
 

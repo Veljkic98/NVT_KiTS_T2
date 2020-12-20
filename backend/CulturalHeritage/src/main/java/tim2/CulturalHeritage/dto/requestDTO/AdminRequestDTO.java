@@ -25,6 +25,8 @@ public class AdminRequestDTO {
         this.password = password;
     }
 
+    public AdminRequestDTO() {};
+
     public String getFirstName() {
         return firstName;
     }

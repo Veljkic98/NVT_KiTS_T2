@@ -12,7 +12,7 @@ import java.util.List;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-public class CommentMapper implements MapperInterfaceEnhanced<Comment, CommentResponseDTO, CommentRequestDTO> {
+public class CommentMapper implements MapperInterface<Comment, CommentResponseDTO, CommentRequestDTO> {
 
     @Override
     public Comment toEntity(CommentRequestDTO commentRequestDTO) throws ClassCastException{

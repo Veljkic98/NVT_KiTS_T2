@@ -7,20 +7,7 @@ import tim2.CulturalHeritage.model.CHSubtype;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CHSubtypeMapper implements MapperInterface<CHSubtype, CHSubtypeResponseDTO>{
-
-
-    @Override
-    public CHSubtype toEntity(CHSubtypeResponseDTO dto) {
-
-        CHSubtype subtype = new CHSubtype();
-        //subtype.setId(dto.getId());
-        subtype.setName(dto.getName());
-
-
-        return subtype;
-    }
-
+public class CHSubtypeMapper implements MapperInterface<CHSubtype, CHSubtypeResponseDTO, CHSubtypeRequestDTO>{
 
     public CHSubtype toEntity(CHSubtypeRequestDTO dto) {
 
@@ -29,8 +16,6 @@ public class CHSubtypeMapper implements MapperInterface<CHSubtype, CHSubtypeResp
 
         return subtype;
     }
-
-
 
 
     @Override

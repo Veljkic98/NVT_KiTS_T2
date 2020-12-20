@@ -12,7 +12,7 @@ import java.util.List;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public class CulturalHeritageMapper
-        implements MapperInterfaceEnhanced<CulturalHeritage, CulturalHeritageResponseDTO, CulturalHeritageRequestDTO> {
+        implements MapperInterface<CulturalHeritage, CulturalHeritageResponseDTO, CulturalHeritageRequestDTO> {
 
     private CHSubtypeMapper subtypeMapper = new CHSubtypeMapper();
     private LocationMapper locationMapper = new LocationMapper();

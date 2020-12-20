@@ -7,7 +7,7 @@ import tim2.CulturalHeritage.model.AuthenticatedUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuthenticatedUserMapper implements  MapperInterfaceEnhanced<AuthenticatedUser, AuthUserResponseDTO, AuthUserRequestDTO> {
+public class AuthenticatedUserMapper implements MapperInterface<AuthenticatedUser, AuthUserResponseDTO, AuthUserRequestDTO> {
 
     @Override
     public AuthenticatedUser toEntity(AuthUserRequestDTO dto) {

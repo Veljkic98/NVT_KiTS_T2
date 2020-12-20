@@ -7,7 +7,7 @@ import tim2.CulturalHeritage.model.Rating;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RatingMapper implements MapperInterfaceEnhanced<Rating, RatingResponseDTO, RatingRequestDTO> {
+public class RatingMapper implements MapperInterface<Rating, RatingResponseDTO, RatingRequestDTO> {
     @Override
     public Rating toEntity(RatingRequestDTO dto) {
         Rating rating = new Rating();

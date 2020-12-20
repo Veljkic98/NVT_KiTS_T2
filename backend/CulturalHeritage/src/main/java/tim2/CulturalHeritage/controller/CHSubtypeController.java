@@ -64,7 +64,7 @@ public class CHSubtypeController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping
-    public ResponseEntity<CHSubtypeResponseDTO> update(@RequestBody CHSubtypeResponseDTO chSubtype) {
+    public ResponseEntity<CHSubtypeResponseDTO> update(@RequestBody CHSubtypeRequestDTO chSubtype) {
 
         try {
             CHSubtype subtype = mapper.toEntity(chSubtype);

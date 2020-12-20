@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-public class NewsMapper implements MapperInterfaceEnhanced<News, NewsResponseDTO, NewsRequestDTO> {
+public class NewsMapper implements MapperInterface<News, NewsResponseDTO, NewsRequestDTO> {
 
     @Override
     public News toEntity(NewsRequestDTO newsRequestDTO) {
