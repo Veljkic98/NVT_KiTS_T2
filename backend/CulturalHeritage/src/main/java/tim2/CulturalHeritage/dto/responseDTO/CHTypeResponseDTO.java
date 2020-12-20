@@ -3,24 +3,25 @@ package tim2.CulturalHeritage.dto.responseDTO;
 import java.util.List;
 
 public class CHTypeResponseDTO {
-    private long id;
+    private Long id;
+
     private String name;
+
     private List<CHSubtypeResponseDTO> subtypes;
 
     public CHTypeResponseDTO(){}
 
-    public CHTypeResponseDTO(long id, String name, List<CHSubtypeResponseDTO> subs ) {
+    public CHTypeResponseDTO(Long id, String name, List<CHSubtypeResponseDTO> subs ) {
         this.id = id;
         this.name = name;
         this.subtypes = subs;
-
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

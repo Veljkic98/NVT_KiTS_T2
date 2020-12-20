@@ -100,6 +100,7 @@ public class CHTypeController {
 
         try {
             chTypeService.deleteById(id);
+
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

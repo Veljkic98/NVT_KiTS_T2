@@ -4,20 +4,19 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "chsubtype")
+@Table(name = "chsubtype",
+        uniqueConstraints = {@UniqueConstraint(columnNames={"chType_id", "name"})})
 public class CHSubtype {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private CHType chtype;
-
-
 
     public CHSubtype() {
     }
