@@ -54,7 +54,7 @@ public class CulturalHeritageController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<CulturalHeritageResponseDTO> add(@RequestPart("file") MultipartFile file,
             @RequestPart("culturalHeritageRequestDTO") CulturalHeritageRequestDTO culturalHeritageRequestDTO) {
@@ -69,7 +69,7 @@ public class CulturalHeritageController {
     }
 
     @PutMapping(path = "/{id}")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CulturalHeritageResponseDTO> update(@RequestPart("file") MultipartFile file,
             @RequestPart("culturalHeritageRequestDTO") CulturalHeritageRequestDTO culturalHeritageRequestDTO,
             @PathVariable Long id) {
@@ -94,7 +94,7 @@ public class CulturalHeritageController {
     }
 
     @DeleteMapping(path = "/{id}")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         try {

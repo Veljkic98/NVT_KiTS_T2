@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -54,7 +55,7 @@ public class NewsController {
     }
 
     @PostMapping
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<NewsResponseDTO> add(@RequestPart("file") MultipartFile file,
             @RequestPart("news") NewsRequestDTO newsRequestDTO) {
 
@@ -67,7 +68,7 @@ public class NewsController {
     }
 
     @PutMapping(path = "/{id}")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@RequestPart("file") MultipartFile file,
             @RequestPart("news") NewsRequestDTO newsRequestDTO, @PathVariable Long id) {
 
@@ -89,7 +90,7 @@ public class NewsController {
     }
 
     @DeleteMapping(path = "/{id}")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         try {

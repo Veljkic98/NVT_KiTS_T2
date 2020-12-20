@@ -62,7 +62,7 @@ public class CommentController {
     }
 
     @PostMapping
-    // @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<CommentResponseDTO> add(@RequestPart("file") MultipartFile file,
             @Valid @RequestPart("comment") CommentRequestDTO commentRequestDTO, Errors errors) {
 
@@ -81,7 +81,7 @@ public class CommentController {
 
     }
 
-    // @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{id}")
     public ResponseEntity<CommentResponseDTO> update(
             @RequestPart("file") MultipartFile file,

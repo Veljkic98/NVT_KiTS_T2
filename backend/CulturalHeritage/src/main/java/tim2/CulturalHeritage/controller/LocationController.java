@@ -59,7 +59,7 @@ public class LocationController {
         }
     }
 
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<LocationResponseDTO> add(@Valid @RequestBody LocationRequestDTO locationRequestDTO, Errors errors) {
 
@@ -76,7 +76,7 @@ public class LocationController {
     }
 
     @PutMapping("/{id}")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<LocationResponseDTO> update(@Valid @RequestBody LocationRequestDTO locationRequest,
         @PathVariable Long id,
         Errors errors ) {
@@ -99,7 +99,7 @@ public class LocationController {
     }
 
     @DeleteMapping(path = "/{id}")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         System.out.print(id);
