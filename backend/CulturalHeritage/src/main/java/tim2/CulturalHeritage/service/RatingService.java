@@ -1,5 +1,7 @@
 package tim2.CulturalHeritage.service;
 
+import java.security.AccessControlException;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,7 +15,7 @@ public interface RatingService {
 
     public Rating add(Rating rating);
 
-    public Rating update(Rating rating);
+    public Rating update(Rating rating) throws AccessControlException;
 
-    public void deleteById(Long id);
+    public void deleteById(Long id) throws AccessControlException;
 }

@@ -1,5 +1,6 @@
 package tim2.CulturalHeritage.controller;
 
+import java.security.AccessControlException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,15 +56,17 @@ public class RatingController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<RatingResponseDTO> findById(@PathVariable Long id) {
-
-        Rating rating = ratingService.findById(id);
-
-        if (null != rating) {
+        try{
+            Rating rating = ratingService.findById(id);
             RatingResponseDTO response = ratingMapper.toDto(rating);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
-
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        catch (NullPointerException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping
@@ -73,12 +76,15 @@ public class RatingController {
         if (errors.hasErrors())
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
 
-        Rating rating = ratingMapper.toEntity(ratingRequestDTO);
-        rating = ratingService.add(rating);
-
-        RatingResponseDTO response = ratingMapper.toDto(rating);
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        try{
+            Rating rating = ratingMapper.toEntity(ratingRequestDTO);
+            rating = ratingService.add(rating);
+            RatingResponseDTO response = ratingMapper.toDto(rating);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -95,10 +101,14 @@ public class RatingController {
             updatedRating = ratingService.update(updatedRating);
             RatingResponseDTO response = ratingMapper.toDto(updatedRating);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
+        }
+        catch(AccessControlException e){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        catch(EntityNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            System.out.println("Greska: " + e);
+        } 
+        catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -110,12 +120,14 @@ public class RatingController {
         try {
             ratingService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (EntityNotFoundException e) { // if ID is null
+        }
+        catch(AccessControlException e){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } 
+        catch(EntityNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (EmptyResultDataAccessException e) { // if there isn't news with specific ID
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            System.out.println("Proveriti zato ide ovde: " + e);
+        } 
+        catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

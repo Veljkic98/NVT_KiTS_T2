@@ -70,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
         }
 
 
-        //if one user is trying to update other user's comment
+        //if one user is trying to delete other user's comment
         AuthenticatedUser currentUser = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AuthenticatedUser userFromDB = commentRepository.findById(id).orElse(null).getAuthenticatedUser();
         if(currentUser.getId() != userFromDB.getId()){
