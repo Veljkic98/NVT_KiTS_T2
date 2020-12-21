@@ -1,8 +1,8 @@
 package tim2.CulturalHeritage.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import tim2.CulturalHeritage.model.Rating;
@@ -15,8 +15,8 @@ public class RatingServiceImpl implements RatingService {
     private RatingRepository ratingRepository;
 
     @Override
-    public List<Rating> findAll() {
-        return ratingRepository.findAll();
+    public Page<Rating> findAll(Pageable pageable) {
+        return ratingRepository.findAll(pageable);
     }
 
     @Override

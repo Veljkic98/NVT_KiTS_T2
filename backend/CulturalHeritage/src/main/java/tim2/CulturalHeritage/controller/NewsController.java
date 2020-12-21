@@ -29,7 +29,7 @@ public class NewsController {
     private NewsService newsService;
     private static NewsMapper newsMapper = new NewsMapper();
 
-    @RequestMapping(value = "/by-page", method = RequestMethod.GET)
+    @GetMapping(value = "/by-page")
     public ResponseEntity<Page<NewsResponseDTO>> findAll(Pageable pageable) {
 
         Page<News> resultPage = newsService.findAll(pageable);
@@ -43,7 +43,6 @@ public class NewsController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<NewsResponseDTO> findById(@PathVariable Long id) {
 
-        System.out.println(id);
         News news = newsService.findById(id);
 
         if (null != news) {
