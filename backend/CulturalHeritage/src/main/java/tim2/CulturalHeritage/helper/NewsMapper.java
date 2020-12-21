@@ -8,6 +8,7 @@ import tim2.CulturalHeritage.model.News;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public class NewsMapper implements MapperInterface<News, NewsResponseDTO, NewsRequestDTO> {
@@ -18,16 +19,14 @@ public class NewsMapper implements MapperInterface<News, NewsResponseDTO, NewsRe
         News news = new News();
         news.setContent(newsRequestDTO.getContent());
         news.setHeading(newsRequestDTO.getHeading());
-        //admin
-        // TODO: admina ucitavam na nacin ispod
-        // Admin user = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Admin admin = new Admin();
-        admin.setId(newsRequestDTO.getAdminID());
-        news.setAdmin(admin);
-        //ch
+
+        Admin user = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        news.setAdmin(user);
+
         CulturalHeritage ch = new CulturalHeritage();
         ch.setId(newsRequestDTO.getCulturalHeritageID());
         news.setCulturalHeritage(ch);
+        
         return news;
     }
 
