@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
+import tim2.CulturalHeritage.model.Person;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -95,11 +96,11 @@ public class TokenUtils {
 
     // Funkcija za validaciju JWT tokena
     public Boolean validateToken(String token, UserDetails userDetails) {
-        AuthenticatedUser user = (AuthenticatedUser) userDetails;
+        Person user = (Person) userDetails;
         final String username = getUsernameFromToken(token);
         final Date created = getIssuedAtDateFromToken(token);
 
-        return (username != null && username.equals(((AuthenticatedUser) userDetails).getEmail())
+        return (username != null && username.equals(((Person) userDetails).getEmail())
                 && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate()));
     }
 

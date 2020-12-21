@@ -1,24 +1,27 @@
 package tim2.CulturalHeritage.dto.responseDTO;
 
-import tim2.CulturalHeritage.model.CHSubtype;
 
 public class CHSubtypeResponseDTO {
-    private long id;
+
+    private Long id;
+
     private String name;
 
+    private Long chTypeID;
 
     public CHSubtypeResponseDTO(){}
 
-    public CHSubtypeResponseDTO(long id, String name) {
+    public CHSubtypeResponseDTO(Long id, String name, Long chTypeID) {
         this.id = id;
         this.name = name;
+        this.chTypeID = chTypeID;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -28,5 +31,13 @@ public class CHSubtypeResponseDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getChTypeID() {
+        return chTypeID;
+    }
+
+    public void setChTypeID(Long chTypeID) {
+        this.chTypeID = chTypeID;
     }
 }

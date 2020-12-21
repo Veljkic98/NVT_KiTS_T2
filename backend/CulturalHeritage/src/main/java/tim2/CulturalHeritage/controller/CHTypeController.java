@@ -9,13 +9,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import tim2.CulturalHeritage.dto.requestDTO.CHTypeRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CHTypeResponseDTO;
+import tim2.CulturalHeritage.helper.ApiErrors;
 import tim2.CulturalHeritage.helper.CHTypeMapper;
 import tim2.CulturalHeritage.model.CHType;
 import tim2.CulturalHeritage.service.CHTypeService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/ch-types")
@@ -59,20 +63,31 @@ public class CHTypeController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<CHTypeResponseDTO> add(@RequestBody CHTypeRequestDTO typeDTO) {
-        CHType type = mapper.toEntity(typeDTO);
-        chTypeService.add(type);
+    public ResponseEntity<CHTypeResponseDTO> add(@Valid @RequestBody CHTypeRequestDTO typeDTO, Errors errors) {
+        if (errors.hasErrors()) {
+            return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
+        }
+        try {
+            CHType type = mapper.toEntity(typeDTO);
+            chTypeService.add(type);
 
-        return new ResponseEntity<>(mapper.toDto(type), HttpStatus.CREATED);
+            return new ResponseEntity<>(mapper.toDto(type), HttpStatus.CREATED);
+        }  catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping
-    public ResponseEntity<CHTypeResponseDTO> update(@RequestBody CHTypeResponseDTO reqDTO) {
-
+    @PutMapping("/{id}")
+    public ResponseEntity<CHTypeResponseDTO> update(@PathVariable Long id, @Valid @RequestBody CHTypeRequestDTO reqDTO, Errors errors) {
+        if (errors.hasErrors()) {
+            return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
+        }
         try {
             CHType type = mapper.toEntity(reqDTO);
+            type.setId(id);
             chTypeService.update(type);
+
             return new ResponseEntity<>(mapper.toDto(type), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -85,6 +100,7 @@ public class CHTypeController {
 
         try {
             chTypeService.deleteById(id);
+
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

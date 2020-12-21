@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import tim2.CulturalHeritage.helper.ApiErrors;
 import tim2.CulturalHeritage.helper.AuthenticatedUserMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController

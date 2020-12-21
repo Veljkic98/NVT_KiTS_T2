@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6c2cbdba-73e7-4b49-9197-6ce4bd4539db",
+		"_postman_id": "33f29133-bd55-4d8b-aae9-95c7a8f32259",
 		"name": "NVTKTS final",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -102,8 +102,21 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"content\":\"NEW COMMENT\",\r\n    \"culturalHeritageID\": 1\r\n}",
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "comment",
+									"value": "{\n    \"content\":\"NEW COMMENT\",\n    \"culturalHeritageID\": 1\n}",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"contentType": "",
+									"type": "file",
+									"src": "/C:/Users/aleka/Documents/Faks/4. godina/KiTS/projekat/NVT_KiTS_T2/cultural-heritage-management.jpg"
+								}
+							],
 							"options": {
 								"raw": {
 									"language": "json"
@@ -128,6 +141,16 @@
 				{
 					"name": "DELETE COMMENT",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzcHJpbmctc2VjdXJpdHktZXhhbXBsZSIsInN1YiI6InNpbWExMkBob3RtYWlsLmNvbSIsImF1ZCI6IndlYiIsImlhdCI6MTYwNzgwNjE1NCwiZXhwIjoxNjA3ODA3OTU0fQ.EiU53FRcKCGIml3fMucrb8PNRXd7j2jSbPoxQ6gVbIoZBremlGwagnvg49M33h8mTJQEYut3NbHFbLoIzJaqwQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -156,8 +179,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Users",
@@ -319,9 +341,7 @@
 							},
 							"response": []
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				},
 				{
 					"name": "Admins",
@@ -464,12 +484,9 @@
 							},
 							"response": []
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Locations",
@@ -559,7 +576,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"latitude\" : 1,\r\n    \"longitude\": 1,\r\n    \"country\" : \"Name\",\r\n    \"city\": \"city\",\r\n    \"street\": \"street name\"\r\n}",
+							"raw": "{\r\n    \"latitude\" : 1,\r\n    \"longitude\": 1,\r\n    \"country\" : \"Name\",\r\n    \"city\": \"city\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -589,7 +606,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"latitude\" : 1,\r\n    \"longitude\": 1,\r\n    \"country\" : \"Name\",\r\n    \"city\": \"city\",\r\n    \"street\": \"street name\"\r\n}",
+							"raw": "{\r\n    \"latitude\" : 1,\r\n    \"longitude\": 1,\r\n    \"country\" : 5,\r\n    \"city\": \"city\",\r\n    \"street\": \"street name\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -612,12 +629,69 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Ratings",
 			"item": [
+				{
+					"name": "GET ALL RATINGS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/comments/by-page/?page=1&size=10&sort=id,ASC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments",
+								"by-page",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "id,ASC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET RATING",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/comments/4/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments",
+								"4",
+								""
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "DELETE RATING",
 					"request": {
@@ -698,8 +772,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "News",
@@ -763,9 +836,33 @@
 				},
 				{
 					"name": "POST NEWS",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Veljko/Desktop/cultural-heritage-management.jpg"
+								},
+								{
+									"key": "news",
+									"value": "{\n    \"heading\": \"Ide gassssss\",\n    \"content\": \"ide gas content\",\n    \"culturalHeritageID\": 1,\n    \"adminID\": 1\n}",
+									"contentType": "application/json",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://localhost:8080/api/news/",
 							"protocol": "http",
@@ -782,8 +879,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cultural Heritages",
@@ -898,9 +994,37 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "POST CH WITH IMAGE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"31\",\r\n    \"name\":\"La Mahal basic\",\r\n    \"description\":\"This is just some dummy text i guess\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cultural-heritages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cultural-heritages"
+							]
+						}
+					},
+					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "CH Types",
@@ -1028,8 +1152,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "CH Subtypes",
@@ -1137,12 +1260,72 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+		},
+		{
+			"name": "Image upload",
+			"item": [
+				{
+					"name": "upload image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Veljko/Desktop/cultural-heritage-management.jpg"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Veljko/Desktop/cultural-heritage-management (1).png",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/files/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"files",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/files",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"files"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
 		"type": "bearer"
-	},
-	"protocolProfileBehavior": {}
+	}
 }

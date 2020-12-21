@@ -2,7 +2,10 @@ package tim2.CulturalHeritage.controller;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -10,15 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import tim2.CulturalHeritage.dto.requestDTO.CulturalHeritageRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
 import tim2.CulturalHeritage.helper.CulturalHeritageMapper;
-import tim2.CulturalHeritage.model.CHSubtype;
 import tim2.CulturalHeritage.model.CulturalHeritage;
-import tim2.CulturalHeritage.repository.CHSubtypeRepository;
-import tim2.CulturalHeritage.service.CHSubtypeService;
-import tim2.CulturalHeritage.service.CHSubtypeServiceImpl;
 import tim2.CulturalHeritage.service.CulturalHeritageService;
 
 @RestController
@@ -28,66 +28,68 @@ public class CulturalHeritageController {
     @Autowired
     private CulturalHeritageService culturalHeritageService;
 
-    @Autowired
-    private CHSubtypeService subtypeService;
+    private static CulturalHeritageMapper chMapper = new CulturalHeritageMapper();
 
-    private CulturalHeritageMapper mapper = new CulturalHeritageMapper();
+    @GetMapping(path = "/by-page")
+    public ResponseEntity<Page<CulturalHeritageResponseDTO>> getAllCulturalHeritages(Pageable pageable) {
 
-    @GetMapping
-    public ResponseEntity<List<CulturalHeritageResponseDTO>> findAll() {
-
-        return new ResponseEntity<>(mapper.toDtoList(culturalHeritageService.findAll()), HttpStatus.OK);
-    }
-
-    @RequestMapping(value="/by-page", method= RequestMethod.GET)
-    public ResponseEntity<Page<CulturalHeritageResponseDTO>> getAllCulturalHeritages(Pageable pageable){
         Page<CulturalHeritage> page = culturalHeritageService.findAll(pageable);
-        List<CulturalHeritageResponseDTO> DTOs = mapper.toDtoList(page.toList());
-        Page<CulturalHeritageResponseDTO> pageResponse =  new PageImpl<>(DTOs,page.getPageable(),page.getTotalElements());
+        List<CulturalHeritageResponseDTO> DTOs = chMapper.toDtoList(page.toList());
+        Page<CulturalHeritageResponseDTO> pageResponse = new PageImpl<>(DTOs, page.getPageable(),
+                page.getTotalElements());
 
         return new ResponseEntity<>(pageResponse, HttpStatus.OK);
     }
 
-
-
     @GetMapping(path = "/{id}")
     public ResponseEntity<CulturalHeritageResponseDTO> findById(@PathVariable Long id) {
 
-
         CulturalHeritage ch = culturalHeritageService.findById(id);
-        if(ch == null){
+
+        if (ch == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
-        return new ResponseEntity<>(mapper.toDto(ch), HttpStatus.OK);
+        CulturalHeritageResponseDTO response = chMapper.toDto(ch);
 
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<CulturalHeritageResponseDTO> add(@RequestBody CulturalHeritageRequestDTO culturalHeritage) {
-        CulturalHeritage ch = mapper.toEntity(culturalHeritage);
-        CHSubtype sub = subtypeService.findById(culturalHeritage.getChsubtype().getId());
-        ch.setChsubtype(sub);
-        culturalHeritageService.add(ch);
+    public ResponseEntity<CulturalHeritageResponseDTO> add(@RequestPart("file") MultipartFile file,
+            @RequestPart("culturalHeritageRequestDTO") CulturalHeritageRequestDTO culturalHeritageRequestDTO) {
 
-        return new ResponseEntity<>(mapper.toDto(ch), HttpStatus.CREATED);
+        CulturalHeritage ch = chMapper.toEntity(culturalHeritageRequestDTO);
+        culturalHeritageService.add(ch, file);
+
+        CulturalHeritageResponseDTO response = new CulturalHeritageResponseDTO();
+        response = chMapper.toDto(ch);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping(path = "/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CulturalHeritageResponseDTO> update(@RequestBody CulturalHeritageResponseDTO culturalHeritage) {
+    public ResponseEntity<CulturalHeritageResponseDTO> update(@RequestPart("file") MultipartFile file,
+            @RequestPart("culturalHeritageRequestDTO") CulturalHeritageRequestDTO culturalHeritageRequestDTO,
+            @PathVariable Long id) {
+
+        CulturalHeritage culturalHeritage = chMapper.toEntity(culturalHeritageRequestDTO);
+        culturalHeritage.setId(id);
 
         try {
+            culturalHeritageService.update(culturalHeritage, file);
 
-            CulturalHeritage ch = mapper.toEntity(culturalHeritage);
-            CHSubtype sub = subtypeService.findById(culturalHeritage.getChsubtype().getId());
-            ch.setChsubtype(sub);
-            culturalHeritageService.update(ch);
-            return new ResponseEntity<>(mapper.toDto(ch), HttpStatus.OK);
-        } catch (Exception e) {
-            System.out.println("GRESKA "+ e);
+            CulturalHeritageResponseDTO response = chMapper.toDto(culturalHeritage);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (EntityNotFoundException e) { 
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            System.out.println("Greska: " + e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -98,8 +100,12 @@ public class CulturalHeritageController {
         try {
             culturalHeritageService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) { // if id is null
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (EmptyResultDataAccessException e) { // if there isn't specific id
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

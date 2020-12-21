@@ -3,12 +3,11 @@ package tim2.CulturalHeritage.dto.requestDTO;
 public class NewsRequestDTO {
 
     private String heading;
-
     private String content;
-
     private long culturalHeritageID;
-
     private long adminID;
+
+    public NewsRequestDTO() {}
 
     public NewsRequestDTO(Long id, String heading, String content, long culturalHeritageID, long adminID) {
         this.heading = heading;
@@ -48,6 +47,18 @@ public class NewsRequestDTO {
     public void setAdminID(long adminID) {
         this.adminID = adminID;
     }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " heading='" + getHeading() + "'" +
+            ", content='" + getContent() + "'" +
+            ", culturalHeritageID='" + getCulturalHeritageID() + "'" +
+            ", adminID='" + getAdminID() + "'" +
+            "}";
+    }
+
 }
 
 

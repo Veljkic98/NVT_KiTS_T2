@@ -8,7 +8,7 @@ import tim2.CulturalHeritage.model.CHType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CHTypeMapper implements MapperInterfaceEnhanced<CHType, CHTypeResponseDTO, CHTypeRequestDTO> {
+public class CHTypeMapper implements MapperInterface<CHType, CHTypeResponseDTO, CHTypeRequestDTO> {
 
     private CHSubtypeMapper subtypeMapper = new CHSubtypeMapper();
 

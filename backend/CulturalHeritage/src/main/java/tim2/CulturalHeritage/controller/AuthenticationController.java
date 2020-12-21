@@ -15,6 +15,7 @@ import tim2.CulturalHeritage.dto.requestDTO.AuthUserLoginDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
 import tim2.CulturalHeritage.helper.AuthenticatedUserMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
+import tim2.CulturalHeritage.model.Person;
 import tim2.CulturalHeritage.security.TokenUtils;
 import tim2.CulturalHeritage.service.AuthenticatedUserServiceImpl;
 
@@ -50,7 +51,7 @@ public class AuthenticationController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        AuthenticatedUser user = (AuthenticatedUser) authentication.getPrincipal();
+        Person user = (Person) authentication.getPrincipal();
 
         if(!user.getApproved())
         {
@@ -70,7 +71,7 @@ public class AuthenticationController {
 
         String token = tokenUtils.getToken(request);
         String username = this.tokenUtils.getUsernameFromToken(token);
-        AuthenticatedUser user = (AuthenticatedUser) this.userDetailsService.loadUserByUsername(username);
+        Person user = (Person) this.userDetailsService.loadUserByUsername(username);
 
         if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
             String refreshedToken = tokenUtils.refreshToken(token);

@@ -1,18 +1,21 @@
 package tim2.CulturalHeritage.service;
 
-import java.util.List;
+import java.security.AccessControlException;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import tim2.CulturalHeritage.model.Rating;
 
 public interface RatingService {
 
-    public List<Rating> findAll();
+    public Page<Rating> findAll(Pageable pageable);
 
     public Rating findById(Long id);
 
     public Rating add(Rating rating);
 
-    public Rating update(Rating rating);
+    public Rating update(Rating rating) throws AccessControlException;
 
-    public void deleteById(Long id);
+    public void deleteById(Long id) throws AccessControlException;
 }

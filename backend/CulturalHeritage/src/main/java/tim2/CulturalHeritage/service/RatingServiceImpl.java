@@ -1,10 +1,16 @@
 package tim2.CulturalHeritage.service;
 
-import java.util.List;
+import java.security.AccessControlException;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.model.Rating;
 import tim2.CulturalHeritage.repository.RatingRepository;
 
@@ -15,8 +21,8 @@ public class RatingServiceImpl implements RatingService {
     private RatingRepository ratingRepository;
 
     @Override
-    public List<Rating> findAll() {
-        return ratingRepository.findAll();
+    public Page<Rating> findAll(Pageable pageable) {
+        return ratingRepository.findAll(pageable);
     }
 
     @Override
@@ -30,12 +36,32 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public Rating update(Rating rating) {
+    public Rating update(Rating rating) throws AccessControlException{
+        //if id is not found in the db
+        if(null== ratingRepository.findById(rating.getId()).orElse(null)){
+            throw new EntityNotFoundException();
+        }
+        //if one user is trying to update other user's rating
+        AuthenticatedUser userFromDB = ratingRepository.findById(rating.getId()).orElse(null).getAuthenticatedUser();
+        if(rating.getAuthenticatedUser().getId() != userFromDB.getId()){
+            throw new AccessControlException("not allowed");
+        }
         return ratingRepository.save(rating);
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Long id) throws AccessControlException {
+        //if id is not found in the db
+        if(null == ratingRepository.findById(id).orElse(null)){
+            throw new EntityNotFoundException();
+        }
+
+        //if one user is trying to delete other user's rating
+        AuthenticatedUser currentUser = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AuthenticatedUser userFromDB = ratingRepository.findById(id).orElse(null).getAuthenticatedUser();
+        if(currentUser.getId() != userFromDB.getId()){
+            throw new AccessControlException("not allowed");
+        }
         ratingRepository.deleteById(id);
     }
 

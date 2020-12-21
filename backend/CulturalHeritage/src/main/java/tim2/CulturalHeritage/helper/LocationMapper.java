@@ -7,7 +7,7 @@ import tim2.CulturalHeritage.model.Location;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationMapper implements  MapperInterfaceEnhanced<Location, LocationResponseDTO, LocationRequestDTO> {
+public class LocationMapper implements MapperInterface<Location, LocationResponseDTO, LocationRequestDTO> {
     @Override
     public Location toEntity(LocationRequestDTO dto) {
         Location location = new Location();

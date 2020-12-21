@@ -1,12 +1,18 @@
 package tim2.CulturalHeritage.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 // Ova klasa je koren hijerarhije koja koristi koncept - jedan tabela po
 // konkretnoj klasi
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Person {
+public abstract class Person implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PERSON_SEQ")
@@ -27,6 +33,17 @@ public abstract class Person {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "last_password_reset_date")
+    private Timestamp lastPasswordResetDate;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_authority",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+    private List<Authority> authorities;
+
+
 
     public Person() {
         approved = false;
@@ -92,5 +109,23 @@ public abstract class Person {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Timestamp getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
 
 }

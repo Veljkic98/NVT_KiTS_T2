@@ -6,11 +6,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Pageable;
 
 import tim2.CulturalHeritage.model.Admin;
-
+import tim2.CulturalHeritage.model.AuthenticatedUser;
 
 
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, Long> {
 
     Page<Admin> findAll(Pageable pageable);
+
+    Admin findByEmail(String email);
 }

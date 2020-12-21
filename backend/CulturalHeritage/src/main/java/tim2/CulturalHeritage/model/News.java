@@ -1,15 +1,12 @@
 package tim2.CulturalHeritage.model;
 
-import java.util.Map;
-
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -32,15 +29,13 @@ public class News {
     @ManyToOne
     private Admin admin;
 
-    @ElementCollection
-    @CollectionTable(name = "images")
-    private Map<Long, byte[]> images;
+    @OneToOne
+    private FileDB images;
 
     public News() {
     }
 
-    public News(Long id, String heading, String content, CulturalHeritage culturalHeritage, Admin admin,
-            Map<Long, byte[]> images) {
+    public News(Long id, String heading, String content, CulturalHeritage culturalHeritage, Admin admin, FileDB images) {
         this.id = id;
         this.heading = heading;
         this.content = content;
@@ -89,11 +84,11 @@ public class News {
         this.admin = admin;
     }
 
-    public Map<Long, byte[]> getImages() {
+    public FileDB getImages() {
         return this.images;
     }
 
-    public void setImages(Map<Long, byte[]> images) {
+    public void setImages( FileDB images) {
         this.images = images;
     }
 

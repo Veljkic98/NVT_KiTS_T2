@@ -1,8 +1,13 @@
 package tim2.CulturalHeritage.controller;
 
+import java.security.AccessControlException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,15 +23,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tim2.CulturalHeritage.dto.requestDTO.RatingRequestDTO;
+import tim2.CulturalHeritage.dto.responseDTO.RatingResponseDTO;
 import tim2.CulturalHeritage.helper.ApiErrors;
 import tim2.CulturalHeritage.helper.RatingMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.model.CulturalHeritage;
-import tim2.CulturalHeritage.model.Location;
 import tim2.CulturalHeritage.model.Rating;
 import tim2.CulturalHeritage.service.CulturalHeritageService;
 import tim2.CulturalHeritage.service.RatingService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 @RestController
@@ -35,84 +41,94 @@ public class RatingController {
 
     @Autowired
     private RatingService ratingService;
-
-    @Autowired
-    private CulturalHeritageService culturalHeritageService;
-
     private RatingMapper ratingMapper = new RatingMapper();
 
-    @GetMapping
-    public ResponseEntity<List<Rating>> findAll() {
+    @GetMapping(value = "/by-page")
+    public ResponseEntity<Page<RatingResponseDTO>> findAll(Pageable pageable) {
 
-        return new ResponseEntity<>(ratingService.findAll(), HttpStatus.OK);
+        Page<Rating> resultPage = ratingService.findAll(pageable);
+        List<RatingResponseDTO> ratingsDTO = ratingMapper.toDtoList(resultPage.toList());
+        Page<RatingResponseDTO> ratingsDTOPage = new PageImpl<>(ratingsDTO, resultPage.getPageable(),
+                resultPage.getTotalElements());
+
+        return new ResponseEntity<>(ratingsDTOPage, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Void> findById(@PathVariable Long id) {
-
-        try {
-            ratingService.findById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+    public ResponseEntity<RatingResponseDTO> findById(@PathVariable Long id) {
+        try{
+            Rating rating = ratingService.findById(id);
+            RatingResponseDTO response = ratingMapper.toDto(rating);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        catch (NullPointerException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
-    public ResponseEntity<?> add(@Valid @RequestBody RatingRequestDTO ratingRequest, Errors errors) {
-        if (errors.hasErrors()) {
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<RatingResponseDTO> add(@Valid @RequestBody RatingRequestDTO ratingRequestDTO, Errors errors) {
+
+        if (errors.hasErrors())
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
+
+        try{
+            Rating rating = ratingMapper.toEntity(ratingRequestDTO);
+            rating = ratingService.add(rating);
+            RatingResponseDTO response = ratingMapper.toDto(rating);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
-        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        try {
-            Rating rating = ratingService.add(ratingMapper.toEntity(ratingRequest));
-            rating.setAuthenticatedUser(user);
-            CulturalHeritage ch = culturalHeritageService.findById(ratingRequest.getCulturalHeritageId());
-            rating.setCulturalHeritage(ch);
-            ratingService.add(rating);
-
-            return new ResponseEntity<>(ratingMapper.toDto(rating), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id,@Valid @RequestBody RatingRequestDTO ratingRequest, Errors errors) {
-        if (errors.hasErrors()) {
-            return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
-        }
-        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        try {
-            Rating rating = ratingService.findById(id);
-            if (rating.getAuthenticatedUser().getId() != user.getId()) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            rating.setGrade(ratingRequest.getGrade());
-            ratingService.update(rating);
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody RatingRequestDTO ratingRequestDTO,
+            Errors errors) {
 
-            return new ResponseEntity<>(ratingMapper.toDto(rating), HttpStatus.OK);
-        } catch (Exception e) {
+        if (errors.hasErrors())
+            return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
+
+        try {
+            Rating updatedRating = ratingMapper.toEntity(ratingRequestDTO);
+            updatedRating.setId(id);
+            updatedRating = ratingService.update(updatedRating);
+            RatingResponseDTO response = ratingMapper.toDto(updatedRating);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        catch(AccessControlException e){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        catch(EntityNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         try {
-            Rating rating = ratingService.findById(id);
-            if (rating.getAuthenticatedUser().getId() != user.getId()) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
             ratingService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+        }
+        catch(AccessControlException e){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } 
+        catch(EntityNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

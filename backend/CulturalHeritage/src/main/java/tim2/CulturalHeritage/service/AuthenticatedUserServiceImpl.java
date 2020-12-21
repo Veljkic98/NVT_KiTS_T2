@@ -7,13 +7,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import tim2.CulturalHeritage.model.Admin;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
+import tim2.CulturalHeritage.model.Person;
+import tim2.CulturalHeritage.repository.AdminRepository;
 import tim2.CulturalHeritage.repository.AuthenticatedUserRepository;
 
 @Service
@@ -21,6 +23,9 @@ public class AuthenticatedUserServiceImpl implements UserDetailsService, Authent
 
     @Autowired
     private AuthenticatedUserRepository authenticatedUserRepository;
+
+    @Autowired
+    private AdminRepository adminRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -34,13 +39,17 @@ public class AuthenticatedUserServiceImpl implements UserDetailsService, Authent
     private final String linkBaseURL = "http://localhost:4200/verify/";
 
     @Override
-    public AuthenticatedUser loadUserByUsername(String email) throws UsernameNotFoundException {
+    public Person loadUserByUsername(String email) throws UsernameNotFoundException {
         // ako se ne radi nasledjivanje, paziti gde sve treba da se proveri email
         AuthenticatedUser user = authenticatedUserRepository.findByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", email));
-        } else {
+        Admin admin = adminRepository.findByEmail(email);
+
+        if (admin != null) {
+            return admin;
+        } else if (user != null){
             return user;
+        }else{
+            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", email));
         }
     }
 

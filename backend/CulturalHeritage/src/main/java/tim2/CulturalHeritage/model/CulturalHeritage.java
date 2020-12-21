@@ -1,18 +1,16 @@
 package tim2.CulturalHeritage.model;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -44,15 +42,14 @@ public class CulturalHeritage {
     @OneToMany(mappedBy = "culturalHeritage", cascade = CascadeType.ALL)
     private List<Rating> ratings;
 
-    @ElementCollection
-    @CollectionTable(name = "images")
-    private Map<Long, byte[]> images;
+    @OneToOne
+    private FileDB images;
 
     public CulturalHeritage() {
     }
 
     public CulturalHeritage(Long id, String name, String description, Location Location, CHSubtype chsubtype,
-            List<News> news, List<Comment> comments, Map<Long, byte[]> images) {
+            List<News> news, List<Comment> comments, FileDB images) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -119,11 +116,19 @@ public class CulturalHeritage {
         this.comments = comments;
     }
 
-    public Map<Long, byte[]> getImages() {
+    public List<Rating> getRatings() {
+        return this.ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public FileDB getImages() {
         return this.images;
     }
 
-    public void setImages(Map<Long, byte[]> images) {
+    public void setImages(FileDB images) {
         this.images = images;
     }
 
