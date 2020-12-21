@@ -3,16 +3,13 @@ package tim2.CulturalHeritage.dto.responseDTO;
 
 public class RatingResponseDTO {
 
-    private long id;
-
+    private Long id;
     private int grade;
-
-    private long chID;
-
-    private long userID;
+    private Long chID;
+    private Long userID;
 
 
-    public RatingResponseDTO(long id, int grade, long chID, long userID) {
+    public RatingResponseDTO(Long id, int grade, Long chID, Long userID) {
         this.id = id;
         this.grade = grade;
         this.grade = grade;
@@ -30,27 +27,27 @@ public class RatingResponseDTO {
         this.grade = grade;
     }
 
-    public long getChID() {
+    public Long getChID() {
         return chID;
     }
 
-    public void setChID(long chID) {
+    public void setChID(Long chID) {
         this.chID = chID;
     }
 
-    public long getUserID() {
+    public Long getUserID() {
         return userID;
     }
 
-    public void setUserID(long userID) {
+    public void setUserID(Long userID) {
         this.userID = userID;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }
