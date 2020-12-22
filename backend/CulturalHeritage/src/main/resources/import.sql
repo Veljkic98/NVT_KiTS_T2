@@ -42,8 +42,7 @@ insert into user_authority (user_id, authority_id) values (1, 1);
 
 --USERS    PASSWORD je svuda 123, samo je Bcrypt hashovan
 INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'Helen', 'York', 'helen@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
---insert into user_authority (user_id, authority_id) values (2, 2)
-insert into user_authority (user_id, authority_id) values (2, 1);
+insert into user_authority (user_id, authority_id) values (2, 2);
 
 INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Sima', 'Matas', 'sima12@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
 insert into user_authority (user_id, authority_id) values (3, 2)
@@ -166,6 +165,16 @@ INSERT INTO cultural_heritage ( name, location_id, chsubtype_id, description) VA
 
 --GRADES
 INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (3, 3, 3);
+INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (4, 2, 3);
+INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (5, 3, 4);
+INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (1, 4, 4);
+INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (2, 5, 4);
+INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (3, 6, 3);
+INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (5, 6, 5);
+INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (4, 10, 3);
+INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (2, 2, 4);
+INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (5, 10, 5);
+
 
 
 --COMMENTS
@@ -175,6 +184,7 @@ insert into comment (cultural_heritage_id, authenticated_user_id, content) value
 insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 7, 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien.');
 insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 10, 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla.');
 
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 8, 'Duis consequat dui nec nisi volutpat eleifend.');
 insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 3, 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.');
 insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 5, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue.');
 insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 10, 'Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.');

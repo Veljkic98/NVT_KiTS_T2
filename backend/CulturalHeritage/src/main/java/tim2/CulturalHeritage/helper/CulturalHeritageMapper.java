@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tim2.CulturalHeritage.model.Rating;
 
 public class CulturalHeritageMapper
         implements MapperInterface<CulturalHeritage, CulturalHeritageResponseDTO, CulturalHeritageRequestDTO> {
@@ -41,23 +42,9 @@ public class CulturalHeritageMapper
         return ch;
     }
 
-    // public CulturalHeritage toEntity(CulturalHeritageResponseDTO dto) {
-    //     CulturalHeritage ch = new CulturalHeritage();
-    //     ch.setId(dto.getId());
-    //     ch.setName(dto.getName());
-    //     ch.setDescription(dto.getDescription());
-    //     CHSubtype sub = subtypeMapper.toEntity(dto.getChsubtype());
-    //     ch.setChsubtype(sub);
-    //     // ch.setLocation(locationMapper.toEntity(dto.getLocation()));
-
-    //     return ch;
-    // }
-
     @Override
     public CulturalHeritageResponseDTO toDto(CulturalHeritage entity) {
 
-        // String imageUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("api/files/")
-        //         .path(entity.getImages().getId() + "").toUriString();
         String imageUri;
         
         try {
@@ -69,32 +56,33 @@ public class CulturalHeritageMapper
         } catch (NullPointerException e) {
             imageUri = null;
         }
-
+        float avgRating = calcRating(entity.getRatings());
         return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(),
-                entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri);
+                entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating);
     }
 
     @Override
     public List<CulturalHeritageResponseDTO> toDtoList(List<CulturalHeritage> entityList) {
         
         List<CulturalHeritageResponseDTO> results = new ArrayList<>();
-        
-        String imageUri;
 
         for(CulturalHeritage ch: entityList ){
-                try {
-                    imageUri = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("api/files/")
-                    .path(ch.getImages().getId() + "")
-                    .toUriString();
-                } catch (NullPointerException e) {
-                    imageUri = null;
-                }
-                
-            results.add(new CulturalHeritageResponseDTO(ch.getId(), ch.getName(), ch.getDescription(), ch.getLocation().getId(), ch.getChsubtype().getId(), imageUri));
+               results.add(toDto(ch));
         }
 
         return results;
+    }
+
+    public float calcRating(List<Rating> list) {
+        int size = list.size();
+        if (size == 0) {
+            return 0;
+        } else {
+            float sum = 0;
+            for(Rating rate: list) {
+                sum += rate.getGrade();
+            }
+            return sum / size;
+        }
     }
 }
