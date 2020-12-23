@@ -1,6 +1,5 @@
 ### VS Code ###
 .vscode/
 ### IDEA ###
-.idea/
 ### application properties ###
 backend/CulturalHeritage/src/main/resources/application.properties
