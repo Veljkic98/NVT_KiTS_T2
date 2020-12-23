@@ -13,11 +13,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static tim2.CulturalHeritage.constants.NewsConstants.*;
 
+import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
 import tim2.CulturalHeritage.model.News;
 import tim2.CulturalHeritage.repository.NewsRepository;
 
@@ -34,20 +37,29 @@ public class NewsServiceUnit {
   @Before
   public void setup(){
     News news = new News();
-    news.setId(1L);
-    given(newsRepository.findById(1L)).willReturn(Optional.of(news));
-  }
-  @Test
-  public void test(){
-    assertNull(null);
+    News newsWithID = new News();
+    newsWithID.setId(NEWS_ID);
+
+    given(newsRepository.findById(NEWS_ID)).willReturn(Optional.of(newsWithID));
+    given(newsRepository.save(news)).willReturn(newsWithID);
+
   }
 
   @Test
   public void testFindById(){
-    News found = newsService.findById(1L);
-    System.out.println("==============================");
-    System.out.println(found);
-    verify(newsRepository, times(1)).findById(1L);
-    assertEquals(1L, found.getId());
+    News found = newsService.findById(NEWS_ID);
+    verify(newsRepository, times(1)).findById(NEWS_ID);
+    assertEquals(NEWS_ID, found.getId());
+  }
+
+  public void testAdd() throws Exception{
+    News news = new News();
+    news.setHeading(HEADING);
+    news.setContent(CONTENT);
+    MultipartFile file = null;
+    News newsFromDB = newsService.add(news, file);
+
+    verify(newsRepository, times(1)).save(news);
+    assertEquals(HEADING, newsFromDB.getHeading());
   }
 }

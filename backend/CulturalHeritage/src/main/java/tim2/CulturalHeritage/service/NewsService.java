@@ -12,7 +12,7 @@ public interface NewsService {
 
     public News findById(Long id);
 
-    public News add(News newsRequestDTO, MultipartFile file);
+    public News add(News news, MultipartFile file);
 
     public News update(News news, MultipartFile file);
 
