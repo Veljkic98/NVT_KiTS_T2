@@ -1,6 +1,15 @@
+-- CH TYPES  SIZE = 3
 INSERT INTO chtype ( name) VALUES  ( 'manifestation');
+INSERT INTO chtype ( name) VALUES ( 'institution');
+INSERT INTO chtype ( name) VALUES ( 'cultural heritage');
 
+--CH SUBTYPES  SIZE = 5
 INSERT INTO chsubtype ( name, chtype_id) VALUES ( 'festival', 1);
+INSERT INTO chsubtype ( name, chtype_id) VALUES ( 'fair', 1);
+INSERT INTO chsubtype ( name, chtype_id) VALUES( 'museum', 2);
+INSERT INTO chsubtype ( name, chtype_id) VALUES ( 'monument', 3);
+INSERT INTO chsubtype ( name, chtype_id) VALUES ( 'landmark', 3);
+
 
 INSERT INTO location (city, country, latitude, longitude) VALUES ( 'Louisville', 'Kentucky, USA', '38.256111', '-85.751389');
 

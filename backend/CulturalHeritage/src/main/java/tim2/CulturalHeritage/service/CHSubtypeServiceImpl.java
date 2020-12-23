@@ -3,6 +3,7 @@ package tim2.CulturalHeritage.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import tim2.CulturalHeritage.model.CHSubtype;
@@ -25,7 +26,11 @@ public class CHSubtypeServiceImpl implements CHSubtypeService {
     }
 
     @Override
-    public CHSubtype add(CHSubtype chSubtype) {
+    public CHSubtype add(CHSubtype chSubtype) throws DataIntegrityViolationException {
+        CHSubtype existName = chSubtypeRepository.findByName(chSubtype.getName());
+        if(existName != null) {
+            throw new DataIntegrityViolationException("Name must be unique");
+        }
         return chSubtypeRepository.save(chSubtype);
     }
 
