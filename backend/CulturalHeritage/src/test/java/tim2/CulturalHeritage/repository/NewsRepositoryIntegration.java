@@ -4,6 +4,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -22,14 +25,12 @@ public class NewsRepositoryIntegration {
   @Autowired
   private NewsRepository newsRepository;
 
-  //ovo mi ne treba
   @Test
   public void testFindById_ValidID(){
     News found = newsRepository.findById(NEWS_ID).orElse(null);
     assertEquals(NEWS_ID, found.getId()); 
   }
 
-  //ovo mi ne treba
   @Test
   public void testFindById_InvalidID(){
     News found = newsRepository.findById(NEWS_ID + 1L).orElse(null);
@@ -38,7 +39,9 @@ public class NewsRepositoryIntegration {
 
   @Test
   public void testFindAll(){
-    //TODO: URADITI
+    Pageable pageable = PageRequest.of(0, 5);
+    Page<News> found = newsRepository.findAll(pageable);
+    assertEquals(3, found.getNumberOfElements());
   }
 
 
