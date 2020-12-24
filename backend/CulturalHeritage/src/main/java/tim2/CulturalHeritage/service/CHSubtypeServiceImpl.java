@@ -39,6 +39,11 @@ public class CHSubtypeServiceImpl implements CHSubtypeService {
 
     @Override
     public CHSubtype update(CHSubtype chSubtype) {
+        CHSubtype entity = chSubtypeRepository.findByName(chSubtype.getName());
+        if(entity != null && entity.getId() != chSubtype.getId()) {
+            throw new DataIntegrityViolationException("Name must be unique");
+        }
+
         return chSubtypeRepository.save(chSubtype);
     }
 

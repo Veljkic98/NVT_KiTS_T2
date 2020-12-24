@@ -114,4 +114,37 @@ public class CHSubtypeControllerIntegrationTest {
 
         assertNull(created.getId());
     }
+
+    @Test
+    public void testUpdateValid(){
+        HttpEntity<Object> httpEntity = new HttpEntity<>(new CHSubtypeRequestDTO(NEW_VALID_SUBTYPE_NAME, EXIST_TYPE_ID), headers);
+        ResponseEntity<CHSubtypeResponseDTO> responseEntity =
+                restTemplate.exchange("/api/ch-subtypes/" + EXIST_SUBTYPE_ID, HttpMethod.PUT, httpEntity, CHSubtypeResponseDTO.class);
+        CHSubtypeResponseDTO updated = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(NEW_VALID_SUBTYPE_NAME, updated.getName());
+    }
+
+    @Test
+    public void testUpdateInvalidType(){
+        HttpEntity<Object> httpEntity = new HttpEntity<>(new CHSubtypeRequestDTO(NEW_VALID_SUBTYPE_NAME, NONEXIST_TYPE_ID), headers);
+        ResponseEntity<CHSubtypeResponseDTO> responseEntity =
+                restTemplate.exchange("/api/ch-subtypes/" + EXIST_SUBTYPE_ID, HttpMethod.PUT, httpEntity, CHSubtypeResponseDTO.class);
+        CHSubtypeResponseDTO updated = responseEntity.getBody();
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertNull(updated);
+    }
+
+    @Test
+    public void testUpdateInvalidName(){
+        HttpEntity<Object> httpEntity = new HttpEntity<>(new CHSubtypeRequestDTO(EXIST_SUBTYPE_NAME_IN_SAME_TYPE, EXIST_TYPE_ID), headers);
+        ResponseEntity<CHSubtypeResponseDTO> responseEntity =
+                restTemplate.exchange("/api/ch-subtypes/" + EXIST_SUBTYPE_ID, HttpMethod.PUT, httpEntity, CHSubtypeResponseDTO.class);
+        CHSubtypeResponseDTO updated = responseEntity.getBody();
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertNull(updated);
+    }
 }
