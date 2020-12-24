@@ -1,6 +1,7 @@
 package tim2.CulturalHeritage.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import tim2.CulturalHeritage.model.CHSubtype;
 import tim2.CulturalHeritage.repository.CHSubtypeRepository;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 public class CHSubtypeServiceImpl implements CHSubtypeService {
@@ -41,6 +44,11 @@ public class CHSubtypeServiceImpl implements CHSubtypeService {
 
     @Override
     public void deleteById(Long id) {
+        Optional<CHSubtype> exists = chSubtypeRepository.findById(id);
+        if(exists.isEmpty()) {
+            throw new EntityNotFoundException("There is no subtype with given id");
+        }
+
         chSubtypeRepository.deleteById(id);
     }
 

@@ -77,8 +77,10 @@ public class CHSubtypeServiceIntegrationTest {
         subtype.setChtype(type);
 
         assertThrows(DataIntegrityViolationException.class,() -> {
-            chSubtypeService.add(subtype);
+            CHSubtype saved = chSubtypeService.add(subtype);
+            chSubtypeService.deleteById(saved.getId());
         });
+
     }
 
     @Test

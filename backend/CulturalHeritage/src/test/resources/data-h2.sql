@@ -15,6 +15,12 @@ INSERT INTO location (city, country, latitude, longitude) VALUES ( 'Louisville',
 
 INSERT INTO cultural_heritage ( name, location_id, chsubtype_id, description) VALUES ( 'Venice Carnival', 1, 1,'The Carnival...');
 
+--AUTHORITY
+INSERT INTO authority (name) VALUES ('ROLE_ADMIN');
+INSERT INTO authority (name) VALUES ('ROLE_USER');
+
+--ADMIN
 INSERT INTO admin (id, first_name, last_name, email, password, approved) VALUES (1,'John', 'Smith', 'admin@gmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
+insert into user_authority (user_id, authority_id) values (1, 1);
 
 insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj', 'Naslov', 1, 1);
