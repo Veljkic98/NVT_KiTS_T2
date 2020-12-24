@@ -213,7 +213,12 @@ insert into comment (cultural_heritage_id, authenticated_user_id, content) value
 insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 10, 'Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.');
 insert into comment (cultural_heritage_id, authenticated_user_id, content) values (2, 6, 'Fusce posuere felis sed lacus.');
 
-insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj', 'Naslov', 3, 1);
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj1', 'Naslov1', 3, 1);
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj1_2', 'Naslov1_2', 3, 1);
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj2', 'Naslov2', 1, 1);
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj3', 'Naslov3', 1, 1);
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj4', 'Naslov4', 1, 1);
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj5', 'Naslov5', 1, 1);
 
 
 
