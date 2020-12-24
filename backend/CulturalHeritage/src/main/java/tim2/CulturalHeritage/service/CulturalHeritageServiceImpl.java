@@ -80,7 +80,7 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
 
         if(filterDTO.getType() == "name"){
             res = culturalHeritageRepository.findByName(filterDTO.getValue(), page);
-        }else if(filterDTO.getType() == "chsubtype"){
+        }else if(filterDTO.getType() == "chSubtypeName"){
             res = culturalHeritageRepository.findByChsubtypeName(filterDTO.getValue(), page);
         }else if(filterDTO.getType() == "locationCity"){
             res = culturalHeritageRepository.findByLocation_City(filterDTO.getValue(), page);
@@ -89,7 +89,6 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
         }else{
             res = culturalHeritageRepository.findAll(page);
         }
-
         return res;
     }
 
