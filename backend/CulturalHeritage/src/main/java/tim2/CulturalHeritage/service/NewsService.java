@@ -9,6 +9,8 @@ import tim2.CulturalHeritage.model.News;
 public interface NewsService {
 
     public Page<News> findAll(Pageable pageable);
+    
+    public Page<News> findAll(Pageable pageable, Long chID);
 
     public News findById(Long id);
 
