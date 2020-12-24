@@ -26,6 +26,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import javax.persistence.EntityNotFoundException;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:test.properties")
@@ -81,6 +83,33 @@ public class NewsServiceIntegration {
     News created = newsService.add(news, file);
   }
 
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void update_ValidID_ShouldRetunNews(){
+    News news = new News(NEWS_ID, HEADING, CONTENT, null, null, null);
+    MockMultipartFile file = null;
+    News updated = newsService.update(news, file);
+    assertEquals(HEADING, updated.getHeading());
+  }
 
+  @Test(expected = EntityNotFoundException.class)
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void update_InvalidID_ShouldThrowException(){
+    News news = new News(NEWS_ID_NOT_FOUND, HEADING, CONTENT, null, null, null);
+    MockMultipartFile file = null;
+    News updated = newsService.update(news, file);
+    assertEquals(HEADING, updated.getHeading());
+  }
 
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void delete_ValidID_ShouldDelete(){
+    newsService.deleteById(NEWS_ID);
+  }
+
+  @Test(expected = EntityNotFoundException.class)
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void delete_InvalidID_ShouldThrowException(){
+    newsService.deleteById(NEWS_ID_NOT_FOUND);
+  }
 }

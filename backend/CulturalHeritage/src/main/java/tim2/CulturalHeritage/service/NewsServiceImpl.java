@@ -55,8 +55,10 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void deleteById(Long id) {
 
-        // if (id == null)
-        //     throw new IllegalArgumentException("Id cannot be null");
+        if(null == newsRepository.findById(id).orElse(null)){
+            throw new EntityNotFoundException();
+        }
+        
 
         newsRepository.deleteById(id);
     }
