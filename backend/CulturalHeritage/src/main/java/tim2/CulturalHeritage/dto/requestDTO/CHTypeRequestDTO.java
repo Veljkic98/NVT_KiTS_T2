@@ -21,5 +21,4 @@ public class CHTypeRequestDTO {
         this.name = name;
     }
 
-
 }

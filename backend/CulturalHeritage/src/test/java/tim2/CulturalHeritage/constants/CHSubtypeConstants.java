@@ -7,6 +7,8 @@ public class CHSubtypeConstants {
     public static final long NONEXIST_SUTYPE_ID = 100;
     public static final String NEW_VALID_SUBTYPE_NAME = "New type";
     public static final String NEW_INVALID_SUBTYPE_NAME = "festival";
+    public static final String EXIST_SUBTYPE_NAME_IN_SAME_TYPE = "fair";              //this subtype belongs to type with id = 1
+
 
     //REPO
     public static final String EXIST_SUBTYPE_NAME = "festival";
@@ -15,4 +17,5 @@ public class CHSubtypeConstants {
     //TYPES
     public static final long EXIST_TYPE_ID = 1;
     public static final long NONEXIST_TYPE_ID = 100;
+    public static final long DIFFERENT_EXIST_TYPE_ID = 2;
 }
