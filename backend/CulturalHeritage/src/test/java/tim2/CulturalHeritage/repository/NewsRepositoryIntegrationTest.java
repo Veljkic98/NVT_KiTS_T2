@@ -20,7 +20,7 @@ import static tim2.CulturalHeritage.constants.NewsConstants.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:test.properties")
-public class NewsRepositoryIntegration {
+public class NewsRepositoryIntegrationTest {
   
   @Autowired
   private NewsRepository newsRepository;
@@ -33,7 +33,7 @@ public class NewsRepositoryIntegration {
 
   @Test
   public void testFindById_InvalidID(){
-    News found = newsRepository.findById(NEWS_ID + 1L).orElse(null);
+    News found = newsRepository.findById(NEWS_ID_NOT_FOUND).orElse(null);
     assertNull(found);
   }
 
@@ -43,6 +43,4 @@ public class NewsRepositoryIntegration {
     Page<News> found = newsRepository.findAll(pageable);
     assertEquals(3, found.getNumberOfElements());
   }
-
-
 }

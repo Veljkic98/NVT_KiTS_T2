@@ -31,7 +31,7 @@ import javax.persistence.EntityNotFoundException;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:test.properties")
-public class NewsServiceIntegration {
+public class NewsServiceIntegrationTest {
   @Autowired
   private NewsService newsService;
 
