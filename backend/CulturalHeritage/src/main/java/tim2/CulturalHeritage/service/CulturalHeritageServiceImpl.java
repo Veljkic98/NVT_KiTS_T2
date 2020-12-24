@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import tim2.CulturalHeritage.dto.requestDTO.FilterRequestDTO;
 import tim2.CulturalHeritage.model.CulturalHeritage;
 import tim2.CulturalHeritage.model.FileDB;
 import tim2.CulturalHeritage.repository.CulturalHeritageRepository;
@@ -70,6 +71,26 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
     @Override
     public void deleteById(Long id) {
         culturalHeritageRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<CulturalHeritage> filter(FilterRequestDTO filterDTO, Pageable page) {
+
+        Page<CulturalHeritage> res;
+
+        if(filterDTO.getType() == "name"){
+            res = culturalHeritageRepository.findByName(filterDTO.getValue(), page);
+        }else if(filterDTO.getType() == "chsubtype"){
+            res = culturalHeritageRepository.findByChsubtypeName(filterDTO.getValue(), page);
+        }else if(filterDTO.getType() == "locationCity"){
+            res = culturalHeritageRepository.findByLocation_City(filterDTO.getValue(), page);
+        }else if(filterDTO.getType() == "locationCountry"){
+            res = culturalHeritageRepository.findByLocation_Country(filterDTO.getValue(), page);
+        }else{
+            res = culturalHeritageRepository.findAll(page);
+        }
+
+        return res;
     }
 
 }
