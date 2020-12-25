@@ -42,10 +42,9 @@ public class CulturalHeritageController {
         return new ResponseEntity<>(pageResponse, HttpStatus.OK);
     }
 
-    // ZA FILTER ODJE MIJENJAJ
+    @PostMapping(path="/filtered")
+    public ResponseEntity<Page<CulturalHeritageResponseDTO>> filterCulturalHeritages(Pageable page, @RequestBody FilterRequestDTO filterDTO){
 
-    @GetMapping(path = "/filtered")
-    public ResponseEntity<Page<CulturalHeritageResponseDTO>> getFilteredCulturalHeritages(@RequestBody FilterRequestDTO filterDTO, Pageable page){
         Page<CulturalHeritage> chPage = culturalHeritageService.filter(filterDTO, page);
         List<CulturalHeritageResponseDTO> DTOs = chMapper.toDtoList(chPage.toList());
         Page<CulturalHeritageResponseDTO> pageResponse = new PageImpl<>(DTOs, chPage.getPageable(), chPage.getTotalElements());
@@ -97,7 +96,7 @@ public class CulturalHeritageController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (EntityNotFoundException e) { 
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             System.out.println("Greska: " + e);

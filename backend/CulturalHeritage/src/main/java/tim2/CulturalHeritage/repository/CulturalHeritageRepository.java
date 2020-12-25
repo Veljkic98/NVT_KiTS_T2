@@ -11,9 +11,9 @@ import tim2.CulturalHeritage.model.CulturalHeritage;
 @Repository
 public interface CulturalHeritageRepository extends JpaRepository<CulturalHeritage, Long> {
 
-    Page<CulturalHeritage> findByName(String name, Pageable page);
+    Page<CulturalHeritage> findByNameContains(String name, Pageable page);
 
-    Page<CulturalHeritage> findByChsubtypeName(String chSubtypeName, Pageable page);
+    Page<CulturalHeritage> findByChsubtypeNameContains(String chSubtypeName, Pageable page);
 
     Page<CulturalHeritage> findByLocation_City(String city, Pageable page);
 

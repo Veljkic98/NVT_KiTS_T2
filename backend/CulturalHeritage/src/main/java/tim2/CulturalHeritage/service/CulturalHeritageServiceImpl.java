@@ -78,13 +78,13 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
 
         Page<CulturalHeritage> res;
 
-        if(filterDTO.getType() == "name"){
-            res = culturalHeritageRepository.findByName(filterDTO.getValue(), page);
-        }else if(filterDTO.getType() == "chSubtypeName"){
-            res = culturalHeritageRepository.findByChsubtypeName(filterDTO.getValue(), page);
-        }else if(filterDTO.getType() == "locationCity"){
+        if(filterDTO.getType().equalsIgnoreCase( "name")){
+            res = culturalHeritageRepository.findByNameContains(filterDTO.getValue(), page);
+        }else if(filterDTO.getType().equalsIgnoreCase("chSubtypeName")){
+            res = culturalHeritageRepository.findByChsubtypeNameContains(filterDTO.getValue(), page);
+        }else if(filterDTO.getType().equalsIgnoreCase("locationCity")){
             res = culturalHeritageRepository.findByLocation_City(filterDTO.getValue(), page);
-        }else if(filterDTO.getType() == "locationCountry"){
+        }else if(filterDTO.getType().equals("locationCountry")){
             res = culturalHeritageRepository.findByLocation_Country(filterDTO.getValue(), page);
         }else{
             res = culturalHeritageRepository.findAll(page);
