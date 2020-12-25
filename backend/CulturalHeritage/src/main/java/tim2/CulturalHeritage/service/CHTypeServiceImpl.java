@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import tim2.CulturalHeritage.model.CHType;
 import tim2.CulturalHeritage.repository.CHTypeRepository;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class CHTypeServiceImpl implements CHTypeService {
 
@@ -30,6 +32,10 @@ public class CHTypeServiceImpl implements CHTypeService {
 
     @Override
     public CHType update(CHType chType) {
+        CHType type = chTypeRepository.findById(chType.getId()).orElse(null);
+        if (type == null) {
+            throw new EntityNotFoundException();
+        }
         return chTypeRepository.save(chType);
     }
 
