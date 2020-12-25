@@ -38,11 +38,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment add(Comment comment, MultipartFile file) {
-        FileDB fileDB = fileDBService.add(file);
-        comment.setImages(fileDB);
-        if (comment.getAuthenticatedUser() == null || comment.getCulturalHeritage() == null) {
+        if (comment.getCulturalHeritage() == null) {
             throw new NullPointerException();
         }
+        FileDB fileDB = fileDBService.add(file);
+        comment.setImages(fileDB);
         return commentRepository.save(comment);
     }
 
