@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -36,7 +37,6 @@ public class CHTypeServiceIntegrationTest {
     }
 
     @Test(expected = DataIntegrityViolationException.class)
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void add_chTypeNameExists_DataIntegrityViolationException() {
 
         CHType chType = new CHType();
@@ -55,4 +55,21 @@ public class CHTypeServiceIntegrationTest {
         chTypeService.add(chType);
     }
 
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testDeleteValid(){
+        chTypeService.deleteById(TYPE_ID_WITHOUT_SUBTYPES);
+    }
+
+    @Test(expected = EmptyResultDataAccessException.class)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testDeleteInvalidId(){
+        chTypeService.deleteById(TYPE_NONEXIST_ID);
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testDeleteInvalidTypeReferenced(){
+        chTypeService.deleteById(TYPE_ID_WITH_SUBTYPES);
+    }
 }
