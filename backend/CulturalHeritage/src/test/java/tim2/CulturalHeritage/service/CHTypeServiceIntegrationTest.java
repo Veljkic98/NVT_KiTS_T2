@@ -55,4 +55,21 @@ public class CHTypeServiceIntegrationTest {
         chTypeService.add(chType);
     }
 
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testDeleteValid(){
+        chTypeService.deleteById(TYPE_ID_WITHOUT_SUBTYPES);
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testDeleteInvalidId(){
+        chTypeService.deleteById(TYPE_NONEXIST_ID);
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testDeleteInvalidTypeReferenced(){
+        chTypeService.deleteById(TYPE_ID_WITH_SUBTYPES);
+    }
 }
