@@ -110,7 +110,7 @@ public class CulturalHeritageController {
 
         try {
             culturalHeritageService.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (IllegalArgumentException e) { // if id is null
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (EmptyResultDataAccessException e) { // if there isn't specific id

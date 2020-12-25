@@ -80,6 +80,7 @@ public class CulturalHeritageIntegrationTest {
     return new HttpEntity<>(params, headersAuth);
   }
 
+
   
   @Test
   public void update_ValidID_ShouldReturnCH(){
@@ -110,6 +111,36 @@ public class CulturalHeritageIntegrationTest {
     assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
   }
 
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void delete_NotLoggedIn_ShouldReturnUNAUTHORIZED(){
+    ResponseEntity<Void> responseEntity = 
+      restTemplate.exchange("/api/cultural-heritages/" + CH_ID, HttpMethod.DELETE, null, Void.class);
+    
+    assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+  }
 
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void delete_LoggedInValidID_ShouldDelete(){
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<>(null, authHeaders);
+    
+    ResponseEntity<Void> responseEntity = 
+      restTemplate.exchange("/api/cultural-heritages/" + CH_ID, HttpMethod.DELETE, requestEntity, Void.class);
 
+    assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void delete_InvalidID_ShouldNotDelete(){
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<Object>(null, authHeaders);
+    
+    ResponseEntity<Void> responseEntity = 
+      restTemplate.exchange("/api/cultural-heritages/" + CH_ID_NOT_FOUND, HttpMethod.DELETE, requestEntity, Void.class);
+    
+    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+  }
 }
