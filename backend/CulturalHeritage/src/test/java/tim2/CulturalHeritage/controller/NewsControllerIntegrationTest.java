@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.MethodMode;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
@@ -39,9 +41,6 @@ public class NewsControllerIntegrationTest {
 
   @Autowired
   private TestRestTemplate restTemplate;
-
-  @Autowired
-  private NewsService newsService;
 
   
   @Test
@@ -110,6 +109,7 @@ public class NewsControllerIntegrationTest {
   }
 
   @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
   public void add_WithFile_ShouldReturnNews(){
     NewsRequestDTO newsRequestDTO = new NewsRequestDTO(null, HEADING, CONTENT, 1, 1);
     String imgPath = "src/test/resources/cultural-heritage-management.jpg";
@@ -125,6 +125,7 @@ public class NewsControllerIntegrationTest {
   }
 
   @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
   public void add_WithoutFile_ShouldBadRequest(){
     NewsRequestDTO newsRequestDTO  = new NewsRequestDTO(null, HEADING, CONTENT, 1, 1);
 
@@ -137,6 +138,7 @@ public class NewsControllerIntegrationTest {
   }
 
   @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
   public void update_ValidID_ShouldReturnNews(){
     NewsRequestDTO newsRequestDTO  = new NewsRequestDTO(null, HEADING, CONTENT, 1, 1);
     String imgPath = "src/test/resources/cultural-heritage-management.jpg";
@@ -152,7 +154,8 @@ public class NewsControllerIntegrationTest {
   }
 
   @Test
-  public void update_InvalidID_ShouldThrowException(){
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void update_InvalidID_ShouldReturnNotFound(){
     NewsRequestDTO newsRequestDTO  = new NewsRequestDTO(null, HEADING, CONTENT, 1, 1);
     String imgPath = "src/test/resources/cultural-heritage-management.jpg";
 
@@ -164,6 +167,40 @@ public class NewsControllerIntegrationTest {
     assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
   }
 
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void delete_NotLoggedIn_ShouldReturnUNAUTHORIZED(){
+
+    ResponseEntity<Void> responseEntity = 
+      restTemplate.exchange("/api/news/" + NEWS_ID, HttpMethod.DELETE, null ,Void.class );
+    
+    assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void delete_LoggedInValidID_ShouldDelete(){
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<Object>(null, authHeaders);
+
+    ResponseEntity<Void> responseEntity = 
+    restTemplate.exchange("/api/news/" + NEWS_ID, HttpMethod.DELETE, requestEntity ,Void.class );
+  
+  assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void delete_InvalidID_ShouldNotDelete(){
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<Object>(null, authHeaders);
+
+    ResponseEntity<Void> responseEntity = 
+    restTemplate.exchange("/api/news/" + NEWS_ID_NOT_FOUND, HttpMethod.DELETE, requestEntity ,Void.class );
+  
+  assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+  }
 
 
 }
