@@ -74,6 +74,9 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
 
     @Override
     public void deleteById(Long id) {
+        if(null == culturalHeritageRepository.findById(id).orElse(null))
+            throw new EntityNotFoundException();
+            
         culturalHeritageRepository.deleteById(id);
     }
 

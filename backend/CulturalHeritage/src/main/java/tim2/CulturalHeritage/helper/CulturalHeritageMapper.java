@@ -74,6 +74,8 @@ public class CulturalHeritageMapper
     }
 
     public float calcRating(List<Rating> list) {
+        if(null == list)
+            return 0;
         int size = list.size();
         if (size == 0) {
             return 0;
