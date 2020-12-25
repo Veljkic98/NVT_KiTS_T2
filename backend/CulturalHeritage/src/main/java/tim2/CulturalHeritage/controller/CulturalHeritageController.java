@@ -71,7 +71,7 @@ public class CulturalHeritageController {
             @RequestPart("culturalHeritageRequestDTO") CulturalHeritageRequestDTO culturalHeritageRequestDTO) {
 
         CulturalHeritage ch = chMapper.toEntity(culturalHeritageRequestDTO);
-        culturalHeritageService.add(ch, file);
+        ch = culturalHeritageService.add(ch, file);
 
         CulturalHeritageResponseDTO response = new CulturalHeritageResponseDTO();
         response = chMapper.toDto(ch);

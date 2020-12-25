@@ -80,9 +80,35 @@ public class CulturalHeritageIntegrationTest {
     return new HttpEntity<>(params, headersAuth);
   }
 
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void add_WithFile_ShouldReturnCH(){
+    CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
+    String imgPath = "src/test/resources/cultural-heritage-management.jpg";
+
+    HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(chDTO, imgPath);
+
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = 
+    restTemplate.exchange("/api/cultural-heritages", HttpMethod.POST ,requestEntity, CulturalHeritageResponseDTO.class);
+
+    assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+  }
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void add_WithoutFile_ShouldBadRequest(){
+    CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
+
+    HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(chDTO, "");
+
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = 
+    restTemplate.exchange("/api/cultural-heritages", HttpMethod.POST ,requestEntity, CulturalHeritageResponseDTO.class);
+
+    assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+  }
 
   
   @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
   public void update_ValidID_ShouldReturnCH(){
     CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
     String imgPath = "src/test/resources/cultural-heritage-management.jpg";
