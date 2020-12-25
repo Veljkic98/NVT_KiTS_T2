@@ -31,6 +31,7 @@ import tim2.CulturalHeritage.restTemplateHelp.RestResponsePage;
 import tim2.CulturalHeritage.service.CulturalHeritageService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static tim2.CulturalHeritage.constants.CulturalHeritageConstants.*;
 import static tim2.CulturalHeritage.constants.LoginConstants.*;
 
@@ -198,5 +199,27 @@ public class CulturalHeritageIntegrationTest {
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(responseList.size(), size);
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void findById_ValidID_ShouldReturnCH(){
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity= 
+      restTemplate.getForEntity("/api/cultural-heritages/" + CH_ID, CulturalHeritageResponseDTO.class);
+
+    CulturalHeritageResponseDTO culturalHeritageResponseDTO = responseEntity.getBody();
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(CH_ID, culturalHeritageResponseDTO.getId());
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void findById_InvalidID_ShouldReturnNotFound(){
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity= 
+      restTemplate.getForEntity("/api/cultural-heritages/" + CH_ID_NOT_FOUND, CulturalHeritageResponseDTO.class);
+
+    CulturalHeritageResponseDTO culturalHeritageResponseDTO = responseEntity.getBody();
+    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    assertNull(culturalHeritageResponseDTO);
   }
 }
