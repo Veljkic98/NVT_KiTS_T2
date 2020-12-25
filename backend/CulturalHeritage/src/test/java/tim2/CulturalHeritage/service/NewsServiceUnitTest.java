@@ -46,7 +46,11 @@ public class NewsServiceUnitTest {
   @Before
   public void setup(){
     News news = new News(null, HEADING, CONTENT, null, null, null);
-    News newsWithID = new News(NEWS_ID, HEADING, CONTENT, null, null, null);
+    Admin admin = new Admin();
+    admin.setId(1L);
+    CulturalHeritage ch = new CulturalHeritage();
+    ch.setId(1L);
+    News newsWithID = new News(NEWS_ID, HEADING, CONTENT, ch, admin, null);
 
     given(newsRepository.findById(NEWS_ID)).willReturn(Optional.of(newsWithID));
     given(newsRepository.save(news)).willReturn(newsWithID);
@@ -63,9 +67,13 @@ public class NewsServiceUnitTest {
   //TODO: RESITI OVAJ TEST DA PROLAZI
   @Test
   public void add_WithoutFile_ShouldReturnNews() throws IOException {
-    News news = new News(null, HEADING, CONTENT, null, null, null);
-
-    News created = newsService.add(news, null);
+    Admin admin = new Admin();
+    admin.setId(1L);
+    CulturalHeritage ch = new CulturalHeritage();
+    ch.setId(1L);
+    News news = new News(null, HEADING, CONTENT, ch, admin, null);
+    MockMultipartFile file = null;
+    News created = newsService.add(news, file);
     verify(newsRepository, times(1)).save(news);
     assertEquals(HEADING, created.getHeading());
   }
