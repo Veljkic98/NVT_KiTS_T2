@@ -1,15 +1,10 @@
 package tim2.CulturalHeritage.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "rating")
+@Table(name = "rating",
+        uniqueConstraints = {@UniqueConstraint(columnNames={"authenticated_user_id", "cultural_heritage_id"})})
 public class Rating {
 
     @Id
