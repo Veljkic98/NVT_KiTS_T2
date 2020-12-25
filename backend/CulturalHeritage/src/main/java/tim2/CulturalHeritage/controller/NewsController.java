@@ -44,18 +44,23 @@ public class NewsController {
      * Find all news for specific Cultural Heritage.
      * 
      * @param pageable
-     * @param chId Cultural Heritage id
+     * @param chId     Cultural Heritage id
      * @return
      */
     @GetMapping(value = "/by-page/{chID}")
     public ResponseEntity<Page<NewsResponseDTO>> findAll(Pageable pageable, @PathVariable Long chID) {
 
-        Page<News> resultPage = newsService.findAll(pageable, chID);
-        List<NewsResponseDTO> newsDTO = newsMapper.toDtoList(resultPage.toList());
-        Page<NewsResponseDTO> newsDTOPage = new PageImpl<>(newsDTO, resultPage.getPageable(),
-                resultPage.getTotalElements());
-
-        return new ResponseEntity<>(newsDTOPage, HttpStatus.OK);
+        try {
+            Page<News> resultPage = newsService.findAll(pageable, chID);
+            List<NewsResponseDTO> newsDTO = newsMapper.toDtoList(resultPage.toList());
+            Page<NewsResponseDTO> newsDTOPage = new PageImpl<>(newsDTO, resultPage.getPageable(),
+                    resultPage.getTotalElements());
+            return new ResponseEntity<>(newsDTOPage, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping(path = "/{id}")
