@@ -1,8 +1,5 @@
 package tim2.CulturalHeritage.model;
 
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
