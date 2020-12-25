@@ -19,6 +19,9 @@ target/
 *.iml
 *.ipr
 
+
+backend/CulturalHeritage/src/test/resources/data-h2.sql
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

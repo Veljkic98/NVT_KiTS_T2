@@ -2,6 +2,12 @@ package tim2.CulturalHeritage.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static tim2.CulturalHeritage.constants.NewsConstants.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +21,9 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.MethodMode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -112,4 +121,32 @@ public class NewsServiceIntegrationTest {
   public void delete_InvalidID_ShouldThrowException(){
     newsService.deleteById(NEWS_ID_NOT_FOUND);
   }
+
+  @Test
+  public void findAllForCH_chIdOk_list() {
+
+      Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+
+      Page<News> newsPage = newsService.findAll(pageable, CH_ID);
+      
+      List<News> newsList = newsPage.getContent();
+      assertEquals(newsList.size(),3);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void findAllForCH_chIdNull_list() {
+
+      Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+
+      newsService.findAll(pageable, null);
+  }
+
+  @Test(expected = EntityNotFoundException.class)
+  public void findAllForCH_chIdNotExists_list() {
+
+      Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+
+      newsService.findAll(pageable, CH_ID_NOT_EXISTS);
+  }
+
 }

@@ -21,9 +21,24 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private FileDBService fileDBService;
 
+    @Autowired
+    private CulturalHeritageService chService;
+
     @Override
     public Page<News> findAll(Pageable pageable) {
         return newsRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<News> findAll(Pageable pageable, Long chID) {
+
+        if (chID == null)
+            throw new IllegalArgumentException();
+
+        if (null == chService.findById(chID))
+            throw new EntityNotFoundException();
+
+        return newsRepository.findAll(pageable, chID);
     }
 
     @Override

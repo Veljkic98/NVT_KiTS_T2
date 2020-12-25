@@ -1,5 +1,11 @@
 package tim2.CulturalHeritage.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static tim2.CulturalHeritage.constants.NewsConstants.*;
+
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +48,34 @@ public class NewsRepositoryIntegrationTest {
     Pageable pageable = PageRequest.of(0, 5);
     Page<News> found = newsRepository.findAll(pageable);
     assertEquals(3, found.getNumberOfElements());
+  }
+
+  @Test
+  public void findAllForCH_chIdOk_listOfNews() {
+
+      Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+      Page<News> newsPage = newsRepository.findAll(pageable, CH_ID);
+
+      assertEquals(newsPage.getNumberOfElements(), 3);
+  }
+
+  @Test
+  public void findAllForCH_chIdNull_emptyList() {
+
+      Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+      Page<News> newsPage = newsRepository.findAll(pageable, null);
+      List<News> newsList = newsPage.getContent();
+
+      assertTrue(newsList.isEmpty());
+  }
+
+  @Test
+  public void findAllForCH_chIdNotExists_emptyList() {
+
+      Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+      Page<News> newsPage = newsRepository.findAll(pageable, CH_ID_NOT_EXISTS);
+      List<News> newsList = newsPage.getContent();
+
+      assertTrue(newsList.isEmpty());
   }
 }

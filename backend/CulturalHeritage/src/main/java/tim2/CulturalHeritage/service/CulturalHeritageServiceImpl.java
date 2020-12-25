@@ -43,11 +43,15 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
     @Override
     public CulturalHeritage add(CulturalHeritage culturalHeritage, MultipartFile file) {
 
-        FileDB fileDB;
-        fileDB = fileDBService.add(file);
-        culturalHeritage.setImages(fileDB);
+        try {
+            FileDB fileDB;
+            fileDB = fileDBService.add(file);
+            culturalHeritage.setImages(fileDB);
 
-        return culturalHeritageRepository.save(culturalHeritage);
+            return culturalHeritageRepository.save(culturalHeritage);
+        } catch (NullPointerException e) {
+            return culturalHeritageRepository.save(culturalHeritage);
+        }
     }
 
     @Override
@@ -55,7 +59,7 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
 
         CulturalHeritage culturalHeritage2 = culturalHeritageRepository.findById(culturalHeritage.getId()).orElse(null);
 
-        if (null == culturalHeritage2) 
+        if (null == culturalHeritage2)
             throw new EntityNotFoundException("There is no CH with id: " + culturalHeritage.getId() + ".");
 
         FileDB fileDB = fileDBService.add(file);
