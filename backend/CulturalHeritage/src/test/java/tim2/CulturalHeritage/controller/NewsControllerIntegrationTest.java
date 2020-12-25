@@ -93,8 +93,14 @@ public class NewsControllerIntegrationTest {
     //params map should contains file (multipart file) and  news dto as json
     LinkedMultiValueMap<String, Object> params = new LinkedMultiValueMap<String, Object>();
 
-    //add multipart file to params (to form data when sending request)
-    params.add("file", new FileSystemResource(path));
+    //add multipart file to params (to form data when sending request) if file is passed
+    if(null == path || "".equals(path)){
+      params.add("file", null);
+     }
+    else{
+      params.add("file", new FileSystemResource(path));
+    }
+      
     //add dto obj to params (to form data when sending request)
     params.add("news", dto);
 
@@ -119,8 +125,15 @@ public class NewsControllerIntegrationTest {
   }
 
   @Test
-  public void add_WithoutFile_ShouldReturnNews(){
-    
+  public void add_WithoutFile_ShouldBadRequest(){
+    NewsRequestDTO newsRequestDTO  = new NewsRequestDTO(null, HEADING, CONTENT, 1, 1);
+
+    HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(newsRequestDTO, "");
+
+    ResponseEntity<NewsResponseDTO> responseEntity = 
+      restTemplate.postForEntity("/api/news", requestEntity, NewsResponseDTO.class);
+
+    assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
   }
 
 }
