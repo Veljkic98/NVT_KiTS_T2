@@ -42,12 +42,12 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public News update(News news, MultipartFile file) {
+        if (null == newsRepository.findById(news.getId()).orElse(null))
+            throw new EntityNotFoundException();
 
         FileDB fileDB = fileDBService.add(file);
         news.setImages(fileDB);
 
-        if (null == newsRepository.findById(news.getId()).orElse(null))
-            throw new EntityNotFoundException("There is no news with id: " + news.getId() + ".");
 
         return newsRepository.save(news);
     }

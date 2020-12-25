@@ -136,4 +136,34 @@ public class NewsControllerIntegrationTest {
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
   }
 
+  @Test
+  public void update_ValidID_ShouldReturnNews(){
+    NewsRequestDTO newsRequestDTO  = new NewsRequestDTO(null, HEADING, CONTENT, 1, 1);
+    String imgPath = "src/test/resources/cultural-heritage-management.jpg";
+
+    HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(newsRequestDTO, imgPath);
+
+    ResponseEntity<NewsResponseDTO> responseEntity = 
+    restTemplate.exchange("/api/news/" + NEWS_ID, HttpMethod.PUT ,requestEntity, NewsResponseDTO.class);
+
+    NewsResponseDTO newsResponseDTO = responseEntity.getBody();
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(HEADING, newsResponseDTO.getHeading());
+  }
+
+  @Test
+  public void update_InvalidID_ShouldThrowException(){
+    NewsRequestDTO newsRequestDTO  = new NewsRequestDTO(null, HEADING, CONTENT, 1, 1);
+    String imgPath = "src/test/resources/cultural-heritage-management.jpg";
+
+    HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(newsRequestDTO, imgPath);
+
+    ResponseEntity<NewsResponseDTO> responseEntity = 
+    restTemplate.exchange("/api/news/" + NEWS_ID_NOT_FOUND, HttpMethod.PUT ,requestEntity, NewsResponseDTO.class);
+
+    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+  }
+
+
+
 }
