@@ -108,4 +108,21 @@ public class CommentControllerInetgrationTest {
         assertNull(commentResponseDTO);
     }
 
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void addValidWithoutFile(){
+        CommentRequestDTO comDTO = new CommentRequestDTO(CONTENT, CH_ID);
+
+        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(comDTO, "");
+
+        ResponseEntity<CommentResponseDTO> responseEntity =
+                restTemplate.postForEntity("/api/comments", requestEntity, CommentResponseDTO.class);
+
+        CommentResponseDTO commentResponseDTO = responseEntity.getBody();
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertEquals(CONTENT, commentResponseDTO.getContent());
+        assertEquals(LOGGED_IN_USER_ID, commentResponseDTO.getAuthenticatedUserID());
+    }
+
+
 }
