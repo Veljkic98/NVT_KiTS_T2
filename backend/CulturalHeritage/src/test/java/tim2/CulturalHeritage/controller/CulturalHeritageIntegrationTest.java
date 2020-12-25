@@ -16,6 +16,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.MethodMode;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
@@ -78,16 +80,16 @@ public class CulturalHeritageIntegrationTest {
     } else {
       params.add("file", new FileSystemResource(path));
     }
-
-    // add dto obj to params (to form data when sending request)
-    params.add("news", dto);
+      
+    //add dto obj to params (to form data when sending request)
+    params.add("culturalHeritageRequestDTO", dto);
 
     // add authentication headers when sending request (add admin)
     HttpHeaders headersAuth = login();
     return new HttpEntity<>(params, headersAuth);
   }
 
-  // TODO: FIX TEST
+  
   @Test
   public void update_ValidID_ShouldReturnCH() {
     CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
@@ -100,9 +102,25 @@ public class CulturalHeritageIntegrationTest {
 
     CulturalHeritageResponseDTO chResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(NAME, chResponseDTO.getName());
   }
 
   @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void update_InvalidID_ShouldReturnNotFound(){
+    CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
+    String imgPath = "src/test/resources/cultural-heritage-management.jpg";
+
+    HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(chDTO, imgPath);
+
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = 
+    restTemplate.exchange("/api/cultural-heritages/" + CH_ID_NOT_FOUND, HttpMethod.PUT ,requestEntity, CulturalHeritageResponseDTO.class);
+
+    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+  }
+
+
+
   public void findAll_ok_listAndOk() {
 
     Pageable pageable = PageRequest.of(0, PAGE_SIZE);
