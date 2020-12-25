@@ -3,6 +3,7 @@ package tim2.CulturalHeritage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -30,17 +31,11 @@ public class CHTypeController {
 
     private CHTypeMapper mapper = new CHTypeMapper();
 
-    @GetMapping
-    public ResponseEntity<List<CHTypeResponseDTO>> findAll() {
-
-        return new ResponseEntity<>(mapper.toDtoList(chTypeService.findAll()), HttpStatus.OK);
-    }
-
-    @RequestMapping(value="/by-page", method= RequestMethod.GET)
-    public ResponseEntity<Page<CHTypeResponseDTO>> getAllCulturalHeritages(Pageable pageable){
+    @RequestMapping(value = "/by-page", method = RequestMethod.GET)
+    public ResponseEntity<Page<CHTypeResponseDTO>> getAllCulturalHeritages(Pageable pageable) {
         Page<CHType> page = chTypeService.findAll(pageable);
         List<CHTypeResponseDTO> DTOs = mapper.toDtoList(page.toList());
-        Page<CHTypeResponseDTO> pageResponse =  new PageImpl<>(DTOs,page.getPageable(),page.getTotalElements());
+        Page<CHTypeResponseDTO> pageResponse = new PageImpl<>(DTOs, page.getPageable(), page.getTotalElements());
 
         return new ResponseEntity<>(pageResponse, HttpStatus.OK);
     }
@@ -51,35 +46,41 @@ public class CHTypeController {
         try {
             CHType type = chTypeService.findById(id);
 
-            if(type == null){
+            if (type == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            return new ResponseEntity<>(mapper.toDto(type),HttpStatus.OK);
+            return new ResponseEntity<>(mapper.toDto(type), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<CHTypeResponseDTO> add(@Valid @RequestBody CHTypeRequestDTO typeDTO, Errors errors) {
-        if (errors.hasErrors()) {
+
+        if (errors.hasErrors())
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
-        }
+
         try {
             CHType type = mapper.toEntity(typeDTO);
             chTypeService.add(type);
 
             return new ResponseEntity<>(mapper.toDto(type), HttpStatus.CREATED);
-        }  catch (Exception e) {
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<CHTypeResponseDTO> update(@PathVariable Long id, @Valid @RequestBody CHTypeRequestDTO reqDTO, Errors errors) {
+    public ResponseEntity<CHTypeResponseDTO> update(@PathVariable Long id, @Valid @RequestBody CHTypeRequestDTO reqDTO,
+            Errors errors) {
         if (errors.hasErrors()) {
             return new ResponseEntity(new ApiErrors(errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }

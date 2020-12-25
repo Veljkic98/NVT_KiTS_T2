@@ -46,7 +46,7 @@ public class NewsMapper implements MapperInterface<News, NewsResponseDTO, NewsRe
         }
 
         return new NewsResponseDTO(entity.getId(), entity.getHeading(), entity.getContent(),
-                entity.getAdmin().getId(), entity.getCulturalHeritage().getId(), imageUri);
+                entity.getCulturalHeritage().getId(), entity.getAdmin().getId(), imageUri);
     }
 
     @Override

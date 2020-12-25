@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import tim2.CulturalHeritage.dto.requestDTO.CulturalHeritageRequestDTO;
+import tim2.CulturalHeritage.dto.requestDTO.FilterRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
 import tim2.CulturalHeritage.helper.CulturalHeritageMapper;
 import tim2.CulturalHeritage.model.CulturalHeritage;
@@ -37,6 +38,16 @@ public class CulturalHeritageController {
         List<CulturalHeritageResponseDTO> DTOs = chMapper.toDtoList(page.toList());
         Page<CulturalHeritageResponseDTO> pageResponse = new PageImpl<>(DTOs, page.getPageable(),
                 page.getTotalElements());
+
+        return new ResponseEntity<>(pageResponse, HttpStatus.OK);
+    }
+
+    @PostMapping(path="/filtered")
+    public ResponseEntity<Page<CulturalHeritageResponseDTO>> filterCulturalHeritages(Pageable page, @RequestBody FilterRequestDTO filterDTO){
+
+        Page<CulturalHeritage> chPage = culturalHeritageService.filter(filterDTO, page);
+        List<CulturalHeritageResponseDTO> DTOs = chMapper.toDtoList(chPage.toList());
+        Page<CulturalHeritageResponseDTO> pageResponse = new PageImpl<>(DTOs, chPage.getPageable(), chPage.getTotalElements());
 
         return new ResponseEntity<>(pageResponse, HttpStatus.OK);
     }
@@ -85,7 +96,7 @@ public class CulturalHeritageController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (EntityNotFoundException e) { 
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             System.out.println("Greska: " + e);
