@@ -71,7 +71,7 @@ public class CulturalHeritageIntegrationTest {
     }
       
     //add dto obj to params (to form data when sending request)
-    params.add("news", dto);
+    params.add("culturalHeritageRequestDTO", dto);
 
      //add authentication headers when sending request (add admin)
     HttpHeaders headersAuth = login();
@@ -79,7 +79,6 @@ public class CulturalHeritageIntegrationTest {
   }
 
   
-  //TODO: FIX TEST
   @Test
   public void update_ValidID_ShouldReturnCH(){
     CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
