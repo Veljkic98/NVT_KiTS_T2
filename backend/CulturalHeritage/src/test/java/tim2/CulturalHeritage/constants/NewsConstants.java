@@ -10,4 +10,7 @@ public class NewsConstants {
     // public static final
     // public static final
     
+  public static final Long NEWS_ID = 1L;
+  public static final String HEADING = "Vest za Test";
+  public static final String CONTENT = "Zavirite u istorijske spomenike 16.veka...";
 }

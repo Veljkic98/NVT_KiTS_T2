@@ -17,6 +17,11 @@ public class CHSubtypeRequestDTO {
         this.name = name;
     }
 
+    public CHSubtypeRequestDTO(String name, long chTypeID) {
+        this.name = name;
+        this.chTypeID = chTypeID;
+    }
+
     public String getName() {
         return name;
     }

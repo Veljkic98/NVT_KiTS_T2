@@ -8,4 +8,5 @@ import tim2.CulturalHeritage.model.CHSubtype;
 @Repository
 public interface CHSubtypeRepository extends JpaRepository<CHSubtype, Long> {
 
+    CHSubtype findByName(String name);
 }
