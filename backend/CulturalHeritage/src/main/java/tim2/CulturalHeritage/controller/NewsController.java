@@ -80,6 +80,7 @@ public class NewsController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<NewsResponseDTO> add(@RequestPart("file") MultipartFile file,
             @RequestPart("news") NewsRequestDTO newsRequestDTO) {
+        
 
         News news = newsMapper.toEntity(newsRequestDTO);
         news = newsService.add(news, file);
@@ -90,7 +91,7 @@ public class NewsController {
     }
 
     @PutMapping(path = "/{id}")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@RequestPart("file") MultipartFile file,
             @RequestPart("news") NewsRequestDTO newsRequestDTO, @PathVariable Long id) {
         try {
@@ -99,9 +100,11 @@ public class NewsController {
             updatedNews = newsService.update(updatedNews, file);
             NewsResponseDTO response = newsMapper.toDto(updatedNews);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
+        } 
+        catch(EntityNotFoundException e){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        catch (Exception e) {
             System.out.println("Greska: " + e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

@@ -20,7 +20,7 @@ target/
 *.ipr
 
 
-/backend/CulturalHeritage/src/test/resources/data-h2.sql
+backend/CulturalHeritage/src/test/resources/data-h2.sql
 
 ### NetBeans ###
 /nbproject/private/

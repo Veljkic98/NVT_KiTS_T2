@@ -30,11 +30,11 @@ INSERT INTO authenticated_user (id, first_name, last_name, email, password, appr
 insert into user_authority (user_id, authority_id) values (5, 2)
 
 
-insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzaj1', 'Naslov1', 1, 1);
-insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzaj2', 'Naslov2', 2, 1);
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj', 'Naslov1', 1, 1);
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj2', 'Naslov2', 1, 1);
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj3', 'Naslov3', 1, 1);
 
 --RATINGS  SIZE = 3  (2 grades for same ch, one for another)
 INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (3, 3, 1);
 INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (5, 4, 1);
 INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (5, 2, 2);
-

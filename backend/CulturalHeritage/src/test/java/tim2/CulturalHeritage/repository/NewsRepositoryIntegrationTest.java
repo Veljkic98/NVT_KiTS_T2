@@ -18,40 +18,64 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import tim2.CulturalHeritage.model.News;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static tim2.CulturalHeritage.constants.NewsConstants.*;
+
+
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:test.properties")
 public class NewsRepositoryIntegrationTest {
+  
+  @Autowired
+  private NewsRepository newsRepository;
 
-    @Autowired
-    private NewsRepository newsRepository;
+  @Test
+  public void testFindById_ValidID(){
+    News found = newsRepository.findById(NEWS_ID).orElse(null);
+    assertEquals(NEWS_ID, found.getId()); 
+  }
 
-    @Test
-    public void findAllForCH_chIdOk_listOfNews() {
+  @Test
+  public void testFindById_InvalidID(){
+    News found = newsRepository.findById(NEWS_ID_NOT_FOUND).orElse(null);
+    assertNull(found);
+  }
 
-        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
-        Page<News> newsPage = newsRepository.findAll(pageable, CH_ID);
+  @Test
+  public void testFindAll(){
+    Pageable pageable = PageRequest.of(0, 5);
+    Page<News> found = newsRepository.findAll(pageable);
+    assertEquals(3, found.getNumberOfElements());
+  }
 
-        assertEquals(newsPage.getNumberOfElements(), 1);
-    }
+  @Test
+  public void findAllForCH_chIdOk_listOfNews() {
 
-    @Test
-    public void findAllForCH_chIdNull_emptyList() {
+      Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+      Page<News> newsPage = newsRepository.findAll(pageable, CH_ID);
 
-        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
-        Page<News> newsPage = newsRepository.findAll(pageable, null);
-        List<News> newsList = newsPage.getContent();
+      assertEquals(newsPage.getNumberOfElements(), 3);
+  }
 
-        assertTrue(newsList.isEmpty());
-    }
+  @Test
+  public void findAllForCH_chIdNull_emptyList() {
 
-    @Test
-    public void findAllForCH_chIdNotExists_emptyList() {
+      Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+      Page<News> newsPage = newsRepository.findAll(pageable, null);
+      List<News> newsList = newsPage.getContent();
 
-        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
-        Page<News> newsPage = newsRepository.findAll(pageable, CH_ID_NOT_EXISTS);
-        List<News> newsList = newsPage.getContent();
+      assertTrue(newsList.isEmpty());
+  }
 
-        assertTrue(newsList.isEmpty());
-    }
+  @Test
+  public void findAllForCH_chIdNotExists_emptyList() {
+
+      Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+      Page<News> newsPage = newsRepository.findAll(pageable, CH_ID_NOT_EXISTS);
+      List<News> newsList = newsPage.getContent();
+
+      assertTrue(newsList.isEmpty());
+  }
 }
