@@ -5,6 +5,7 @@ import java.security.AccessControlException;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,6 +40,9 @@ public class CommentServiceImpl implements CommentService {
     public Comment add(Comment comment, MultipartFile file) {
         FileDB fileDB = fileDBService.add(file);
         comment.setImages(fileDB);
+        if (comment.getAuthenticatedUser() == null || comment.getCulturalHeritage() == null) {
+            throw new NullPointerException();
+        }
         return commentRepository.save(comment);
     }
 
