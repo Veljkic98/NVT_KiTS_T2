@@ -10,7 +10,6 @@ import java.nio.file.Files;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.apache.tomcat.util.http.parser.MediaType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,7 @@ public class CulturalHeritageServiceIntegrationTest {
     @Test
     @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
     public void add_WithFileValidParams_ShouldReturnCH() throws IOException{
-        CulturalHeritage ch = new CulturalHeritage(null, NAME, DESCRIPTION, null, null, null, null, null);
+        CulturalHeritage ch = new CulturalHeritage(null, NAME, DESCRIPTION, LOCATION, CH_SUBTYPE, null, null, null);
         File image = new File("src/test/resources/cultural-heritage-management.jpg");
         byte[] imageBytes = Files.readAllBytes(image.toPath());
         MockMultipartFile file = new MockMultipartFile("file", "image.jpg", org.springframework.http.MediaType.IMAGE_JPEG_VALUE, imageBytes);
@@ -69,7 +68,7 @@ public class CulturalHeritageServiceIntegrationTest {
     @Test(expected = DataIntegrityViolationException.class)
     @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
     public void add_WithoutName_ShouldThrowException(){
-        CulturalHeritage ch = new CulturalHeritage(null, null, DESCRIPTION, null, null, null, null, null);
+        CulturalHeritage ch = new CulturalHeritage(null, null, DESCRIPTION, LOCATION, CH_SUBTYPE, null, null, null);
         MockMultipartFile file = null;
         CulturalHeritage created = culturalHeritageService.add(ch, file);
     }
@@ -77,7 +76,7 @@ public class CulturalHeritageServiceIntegrationTest {
     @Test
     @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
     public void update_ValidID_ShouldReturnCH() throws IOException{
-        CulturalHeritage ch = new CulturalHeritage(CH_ID, NAME, DESCRIPTION, null, null, null, null, null);
+        CulturalHeritage ch = new CulturalHeritage(CH_ID, NAME, DESCRIPTION, LOCATION, CH_SUBTYPE, null, null, null);
         File image = new File("src/test/resources/cultural-heritage-management.jpg");
         byte[] imageBytes = Files.readAllBytes(image.toPath());
         MockMultipartFile file = new MockMultipartFile("file", "image.jpg", org.springframework.http.MediaType.IMAGE_JPEG_VALUE, imageBytes);
@@ -89,7 +88,7 @@ public class CulturalHeritageServiceIntegrationTest {
     @Test(expected = EntityNotFoundException.class)
     @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
     public void update_InvalidID_ShouldThrowException() throws IOException{
-        CulturalHeritage ch = new CulturalHeritage(CH_ID_NOT_FOUND, NAME, DESCRIPTION, null, null, null, null, null);
+        CulturalHeritage ch = new CulturalHeritage(CH_ID_NOT_FOUND, NAME, DESCRIPTION, LOCATION, CH_SUBTYPE, null, null, null);
         File image = new File("src/test/resources/cultural-heritage-management.jpg");
         byte[] imageBytes = Files.readAllBytes(image.toPath());
         MockMultipartFile file = new MockMultipartFile("file", "image.jpg", org.springframework.http.MediaType.IMAGE_JPEG_VALUE, imageBytes);
