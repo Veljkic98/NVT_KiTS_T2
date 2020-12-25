@@ -29,4 +29,25 @@ public class EmailService {
         javaMailSender.send(mail);
 
     }
+
+    /**
+     * Sending notification to all users which are subscribed to CH when
+     * new news is created. 
+     * 
+     * @param email
+     * @throws MailException
+     * @throws InterruptedException
+     */
+    @Async
+    public void sendNotification(String email, String chName) throws MailException, InterruptedException {
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(email);
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setSubject("Ch notification");
+        String text = "You have new news for Cultural Heritage: " + chName;
+        mail.setText(text);
+        javaMailSender.send(mail);
+
+    }
 }
