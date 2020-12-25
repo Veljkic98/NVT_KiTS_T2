@@ -5,7 +5,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,17 +25,20 @@ import tim2.CulturalHeritage.dto.requestDTO.CulturalHeritageRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
 import tim2.CulturalHeritage.model.CulturalHeritage;
+import tim2.CulturalHeritage.restTemplateHelp.RestResponsePage;
 import tim2.CulturalHeritage.service.CulturalHeritageService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static tim2.CulturalHeritage.constants.CulturalHeritageConstants.*;
 import static tim2.CulturalHeritage.constants.LoginConstants.*;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:test.properties")
 public class CulturalHeritageIntegrationTest {
-  
+
   @Autowired
   private TestRestTemplate restTemplate;
 
@@ -40,57 +47,79 @@ public class CulturalHeritageIntegrationTest {
 
   public HttpHeaders login() {
     ResponseEntity<AuthUserLoginResponseDTO> responseEntity = restTemplate.postForEntity("/auth/login",
-            new AuthUserLoginDTO(ADMIN_EMAIL, ADMIN_PASS), AuthUserLoginResponseDTO.class);
+        new AuthUserLoginDTO(ADMIN_EMAIL, ADMIN_PASS), AuthUserLoginResponseDTO.class);
 
     String accessToken = "Bearer " + responseEntity.getBody().getAccessToken();
 
     HttpHeaders authHeaders = new HttpHeaders();
     authHeaders.add("Authorization", accessToken);
-    //auth headers cant be json because of a file
+    // auth headers cant be json because of a file
     // authHeaders.setContentType(MediaType.APPLICATION_JSON);
     return authHeaders;
-}
-  private HttpEntity<LinkedMultiValueMap<String, Object>> createFormData( CulturalHeritageRequestDTO chDTO, String path){
+  }
 
-    //Dto is param -> body -> form data
-    // set JSON content type for dto. 
+  private HttpEntity<LinkedMultiValueMap<String, Object>> createFormData(CulturalHeritageRequestDTO chDTO,
+      String path) {
+
+    // Dto is param -> body -> form data
+    // set JSON content type for dto.
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<CulturalHeritageRequestDTO> dto = new HttpEntity<>(chDTO, headers);
 
-    //params map is corresponding to form data when sending request
-    //params map should contains file (multipart file) and  news dto as json
+    // params map is corresponding to form data when sending request
+    // params map should contains file (multipart file) and news dto as json
     LinkedMultiValueMap<String, Object> params = new LinkedMultiValueMap<String, Object>();
 
-    //add multipart file to params (to form data when sending request) if file is passed
-    if(null == path || "".equals(path)){
+    // add multipart file to params (to form data when sending request) if file is
+    // passed
+    if (null == path || "".equals(path)) {
       params.add("file", null);
-     }
-    else{
+    } else {
       params.add("file", new FileSystemResource(path));
     }
-      
-    //add dto obj to params (to form data when sending request)
+
+    // add dto obj to params (to form data when sending request)
     params.add("news", dto);
 
-     //add authentication headers when sending request (add admin)
+    // add authentication headers when sending request (add admin)
     HttpHeaders headersAuth = login();
     return new HttpEntity<>(params, headersAuth);
   }
 
-  
-  //TODO: FIX TEST
+  // TODO: FIX TEST
   @Test
-  public void update_ValidID_ShouldReturnCH(){
+  public void update_ValidID_ShouldReturnCH() {
     CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
     String imgPath = "src/test/resources/cultural-heritage-management.jpg";
 
     HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(chDTO, imgPath);
 
-    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = 
-    restTemplate.exchange("/api/cultural-heritages/" + CH_ID, HttpMethod.PUT ,requestEntity, CulturalHeritageResponseDTO.class);
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = restTemplate
+        .exchange("/api/cultural-heritages/" + CH_ID, HttpMethod.PUT, requestEntity, CulturalHeritageResponseDTO.class);
 
     CulturalHeritageResponseDTO chResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+  }
+
+  @Test
+  public void findAll_ok_listAndOk() {
+
+    Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+    Page<CulturalHeritage> chPage = culturalHeritageService.findAll(pageable);
+    List<CulturalHeritage> chList = chPage.getContent();
+
+    int size = chList.size();
+
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>() {
+    };
+
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity = restTemplate
+        .exchange("/api/cultural-heritages/by-page/?page=0&size=5&sort=id,ASC", HttpMethod.GET, null/* httpEntity */, responseType);
+
+    List<CulturalHeritageResponseDTO> responseList = responseEntity.getBody().getContent();
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(responseList.size(), size);
   }
 }
