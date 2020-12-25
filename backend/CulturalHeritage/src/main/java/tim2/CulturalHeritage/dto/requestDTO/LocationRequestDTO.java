@@ -1,7 +1,5 @@
 package tim2.CulturalHeritage.dto.requestDTO;
 
-import org.springframework.format.annotation.NumberFormat;
-
 import javax.validation.constraints.NotBlank;
 
 public class LocationRequestDTO {
