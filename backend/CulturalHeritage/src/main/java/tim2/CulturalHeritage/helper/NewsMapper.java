@@ -20,9 +20,9 @@ public class NewsMapper implements MapperInterface<News, NewsResponseDTO, NewsRe
         news.setContent(newsRequestDTO.getContent());
         news.setHeading(newsRequestDTO.getHeading());
 
-        // Admin admin = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Admin admin = new Admin();
-        admin.setId(newsRequestDTO.getAdminID());
+        Admin admin = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // Admin admin = new Admin();
+        // admin.setId(newsRequestDTO.getAdminID());
         news.setAdmin( admin);
 
         CulturalHeritage ch = new CulturalHeritage();

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -75,9 +76,8 @@ public class NewsControllerIntegrationTest {
 
     HttpHeaders authHeaders = new HttpHeaders();
     authHeaders.add("Authorization", accessToken);
-
-    authHeaders.setContentType(MediaType.APPLICATION_JSON);
-    authHeaders.add("Content-Type", "application/json");
+    //auth headers cant be json because of a file
+    // authHeaders.setContentType(MediaType.APPLICATION_JSON);
     return authHeaders;
 }
 
@@ -85,15 +85,9 @@ public class NewsControllerIntegrationTest {
 
     //Dto is param -> body -> form data
     // set JSON content type for dto. 
-    // HttpHeaders JsonHeaders = new HttpHeaders();
-    // JsonHeaders.setContentType(MediaType.APPLICATION_JSON);
-    // HttpEntity<NewsRequestDTO> dto = new HttpEntity<>(newsRequestDTO, JsonHeaders);
-
-    //add authentication headers when sending request (add admin)
-    HttpHeaders headers = login();
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<NewsRequestDTO> dto = new HttpEntity<>(newsRequestDTO, headers);
-
-    // Admin admin = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     //params map is corresponding to form data when sending request
     //params map should contains file (multipart file) and  news dto as json
@@ -104,20 +98,20 @@ public class NewsControllerIntegrationTest {
     //add dto obj to params (to form data when sending request)
     params.add("news", dto);
 
-    
-    return new HttpEntity<>(params);
+     //add authentication headers when sending request (add admin)
+    HttpHeaders headersAuth = login();
+    return new HttpEntity<>(params, headersAuth);
   }
 
-  //TODO: FIX AUTHORIZATION
   @Test
   public void add_WithFile_ShouldReturnNews(){
     NewsRequestDTO newsRequestDTO = new NewsRequestDTO(null, HEADING, CONTENT, 1, 1);
     String imgPath = "src/test/resources/cultural-heritage-management.jpg";
 
-    HttpEntity<LinkedMultiValueMap<String, Object>> entity = createFormData(newsRequestDTO, imgPath);
+    HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(newsRequestDTO, imgPath);
     
     ResponseEntity<NewsResponseDTO> responseEntity = 
-      restTemplate.postForEntity("/api/news", entity, NewsResponseDTO.class);
+      restTemplate.postForEntity("/api/news", requestEntity, NewsResponseDTO.class);
 
     NewsResponseDTO newsResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
