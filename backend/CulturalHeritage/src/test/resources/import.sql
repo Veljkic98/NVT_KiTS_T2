@@ -1,4 +1,5 @@
 INSERT INTO chtype (name) VALUES  ('masd');
+INSERT INTO chtype (name) VALUES  ('CH Type without subtypes, please dont add subtypes with this type.ty');
 
 INSERT INTO chsubtype (name, chtype_id) VALUES ('festival', 1);
 

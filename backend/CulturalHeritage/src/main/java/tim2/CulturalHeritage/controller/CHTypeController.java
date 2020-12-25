@@ -56,7 +56,7 @@ public class CHTypeController {
         }
     }
 
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<CHTypeResponseDTO> add(@Valid @RequestBody CHTypeRequestDTO typeDTO, Errors errors) {
 
