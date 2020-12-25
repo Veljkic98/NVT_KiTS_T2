@@ -69,4 +69,9 @@ public class NewsServiceUnitTest {
     verify(newsRepository, times(1)).save(news);
     assertEquals(HEADING, created.getHeading());
   }
+
+  //TODO: UPDATE TEST
+
+
+  //TODO: DELETE TEST
 }
