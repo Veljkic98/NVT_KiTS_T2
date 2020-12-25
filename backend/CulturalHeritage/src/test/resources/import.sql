@@ -39,3 +39,7 @@ insert into news (content, heading, cultural_heritage_id, admin_id) values ('sad
 INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (3, 3, 1);
 INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (5, 4, 1);
 INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (5, 2, 2);
+
+--COMMENTS
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 4, 'Duis at velit eu est congue elementum. In hac habitasse platea dictumst.');
+insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 3, 'Duis bibendum.');
