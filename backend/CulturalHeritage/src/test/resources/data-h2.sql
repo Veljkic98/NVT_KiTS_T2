@@ -15,5 +15,6 @@ INSERT INTO authority (name) VALUES ('ROLE_USER');
 INSERT INTO admin (id, first_name, last_name, email, password, approved) VALUES (1,'John', 'Smith', 'admin@gmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
 insert into user_authority (user_id, authority_id) values (1, 1);
 
-insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzaj1', 'Naslov1', 1, 1);
-insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzaj2', 'Naslov2', 2, 1);
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj', 'Naslov1', 1, 1);
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj2', 'Naslov2', 1, 1);
+insert into news (content, heading, cultural_heritage_id, admin_id) values ('sadrzajj3', 'Naslov3', 1, 1);

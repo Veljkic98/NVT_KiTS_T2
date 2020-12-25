@@ -24,7 +24,7 @@ public class FileDBServiceImpl implements FileDBService {
             FileDB fileDB = new FileDB(fileName, file.getContentType(), file.getBytes());
 
             return fileDBRepository.save(fileDB);
-        } catch (IOException e) {
+        } catch (Exception e) {
             return null;
         }
     }
