@@ -1,6 +1,7 @@
 package tim2.CulturalHeritage.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static tim2.CulturalHeritage.constants.CHTypeConstants.*;
 
 import javax.transaction.Transactional;
 
@@ -8,6 +9,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -23,19 +28,36 @@ public class CHTypeServiceIntegrationTest {
     private CHTypeService chTypeService;
 
     @Test
-    @Transactional
-    @Rollback(true)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void add_chTypeOk_true() {
+
         CHType chType = new CHType();
-        chType.setName("naziv");
-        int size = chTypeService.findAll().size();
+        chType.setName(NAME);
 
         CHType created = chTypeService.add(chType);
-        int newSize = chTypeService.findAll().size();
 
-        assertEquals(created.getId(), 2L);
+        assertEquals(created.getId(), NEW_CHTYPE_ID);
         assertEquals(chType.getName(), created.getName());
-        assertEquals(size + 1, newSize);
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void add_chTypeNameExists_DataIntegrityViolationException() {
+
+        CHType chType = new CHType();
+        chType.setName(NAME_EXISTS);
+
+        chTypeService.add(chType);
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void add_chTypeNameNull_DataIntegrityViolationException() {
+
+        CHType chType = new CHType();
+        // chType.setName(NAME_EXISTS);
+
+        chTypeService.add(chType);
     }
 
 }
