@@ -16,6 +16,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.MethodMode;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
@@ -29,6 +31,7 @@ import tim2.CulturalHeritage.restTemplateHelp.RestResponsePage;
 import tim2.CulturalHeritage.service.CulturalHeritageService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static tim2.CulturalHeritage.constants.CulturalHeritageConstants.*;
 import static tim2.CulturalHeritage.constants.LoginConstants.*;
 
@@ -78,17 +81,44 @@ public class CulturalHeritageIntegrationTest {
     } else {
       params.add("file", new FileSystemResource(path));
     }
-
-    // add dto obj to params (to form data when sending request)
-    params.add("news", dto);
+      
+    //add dto obj to params (to form data when sending request)
+    params.add("culturalHeritageRequestDTO", dto);
 
     // add authentication headers when sending request (add admin)
     HttpHeaders headersAuth = login();
     return new HttpEntity<>(params, headersAuth);
   }
 
-  // TODO: FIX TEST
   @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void add_WithFile_ShouldReturnCH(){
+    CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
+    String imgPath = "src/test/resources/cultural-heritage-management.jpg";
+
+    HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(chDTO, imgPath);
+
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = 
+    restTemplate.exchange("/api/cultural-heritages", HttpMethod.POST ,requestEntity, CulturalHeritageResponseDTO.class);
+
+    assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+  }
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void add_WithoutFile_ShouldBadRequest(){
+    CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
+
+    HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(chDTO, "");
+
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = 
+    restTemplate.exchange("/api/cultural-heritages", HttpMethod.POST ,requestEntity, CulturalHeritageResponseDTO.class);
+
+    assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+  }
+
+  
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
   public void update_ValidID_ShouldReturnCH() {
     CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
     String imgPath = "src/test/resources/cultural-heritage-management.jpg";
@@ -100,6 +130,54 @@ public class CulturalHeritageIntegrationTest {
 
     CulturalHeritageResponseDTO chResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(NAME, chResponseDTO.getName());
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void update_InvalidID_ShouldReturnNotFound(){
+    CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
+    String imgPath = "src/test/resources/cultural-heritage-management.jpg";
+
+    HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(chDTO, imgPath);
+
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = 
+    restTemplate.exchange("/api/cultural-heritages/" + CH_ID_NOT_FOUND, HttpMethod.PUT ,requestEntity, CulturalHeritageResponseDTO.class);
+
+    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void delete_NotLoggedIn_ShouldReturnUNAUTHORIZED(){
+    ResponseEntity<Void> responseEntity = 
+      restTemplate.exchange("/api/cultural-heritages/" + CH_ID, HttpMethod.DELETE, null, Void.class);
+    
+    assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void delete_LoggedInValidID_ShouldDelete(){
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<>(null, authHeaders);
+    
+    ResponseEntity<Void> responseEntity = 
+      restTemplate.exchange("/api/cultural-heritages/" + CH_ID, HttpMethod.DELETE, requestEntity, Void.class);
+
+    assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void delete_InvalidID_ShouldNotDelete(){
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<Object>(null, authHeaders);
+    
+    ResponseEntity<Void> responseEntity = 
+      restTemplate.exchange("/api/cultural-heritages/" + CH_ID_NOT_FOUND, HttpMethod.DELETE, requestEntity, Void.class);
+    
+    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
   }
 
   @Test
@@ -121,5 +199,27 @@ public class CulturalHeritageIntegrationTest {
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(responseList.size(), size);
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void findById_ValidID_ShouldReturnCH(){
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity= 
+      restTemplate.getForEntity("/api/cultural-heritages/" + CH_ID, CulturalHeritageResponseDTO.class);
+
+    CulturalHeritageResponseDTO culturalHeritageResponseDTO = responseEntity.getBody();
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(CH_ID, culturalHeritageResponseDTO.getId());
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void findById_InvalidID_ShouldReturnNotFound(){
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity= 
+      restTemplate.getForEntity("/api/cultural-heritages/" + CH_ID_NOT_FOUND, CulturalHeritageResponseDTO.class);
+
+    CulturalHeritageResponseDTO culturalHeritageResponseDTO = responseEntity.getBody();
+    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    assertNull(culturalHeritageResponseDTO);
   }
 }
