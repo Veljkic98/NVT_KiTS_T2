@@ -3,6 +3,7 @@ package tim2.CulturalHeritage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -29,12 +30,6 @@ public class CHTypeController {
     private CHTypeService chTypeService;
 
     private CHTypeMapper mapper = new CHTypeMapper();
-
-    @GetMapping
-    public ResponseEntity<List<CHTypeResponseDTO>> findAll() {
-
-        return new ResponseEntity<>(mapper.toDtoList(chTypeService.findAll()), HttpStatus.OK);
-    }
 
     @RequestMapping(value = "/by-page", method = RequestMethod.GET)
     public ResponseEntity<Page<CHTypeResponseDTO>> getAllCulturalHeritages(Pageable pageable) {
@@ -75,6 +70,8 @@ public class CHTypeController {
             return new ResponseEntity<>(mapper.toDto(type), HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
