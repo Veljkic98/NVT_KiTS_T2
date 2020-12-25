@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+import tim2.CulturalHeritage.dto.requestDTO.FilterRequestDTO;
 import tim2.CulturalHeritage.model.CulturalHeritage;
 
 public interface CulturalHeritageService {
@@ -21,4 +22,6 @@ public interface CulturalHeritageService {
     public CulturalHeritage update(CulturalHeritage culturalHeritage, MultipartFile file);
 
     public void deleteById(Long id);
+
+    public Page<CulturalHeritage> filter(FilterRequestDTO filterDTO, Pageable p);
 }
