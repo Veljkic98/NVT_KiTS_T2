@@ -43,4 +43,19 @@ public class EmailServiceTest {
         assertEquals(USER_EMAIL, current.getAllRecipients()[0].toString());
         assertTrue(String.valueOf(current.getContent()).contains(VERIFY_TEXT));
     }
+
+    @Test
+    public void testSendNotification() throws MessagingException, IOException {
+
+        emailService.sendNotification(USER_EMAIL, CH_TYPE_NAME);
+
+        MimeMessage[] receivedMessages = smtpServerRule.getMessages();
+
+        assertEquals(1, receivedMessages.length);
+
+        MimeMessage current = receivedMessages[0];
+
+        assertEquals(SUBJECT2, current.getSubject());
+        assertEquals(USER_EMAIL, current.getAllRecipients()[0].toString());
+    }
 }
