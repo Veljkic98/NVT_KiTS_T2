@@ -225,6 +225,26 @@ public class NewsControllerIntegrationTest {
   assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
   }
 
+  @Test
+  public void findAll_ok_listAndOk(){
+    Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+    Page<News> newsPage = newsService.findAll(pageable);
+    List<News> newsList = newsPage.getContent();
+
+    int size = newsList.size();
+
+    ParameterizedTypeReference<RestResponsePage<NewsResponseDTO>> responseType = 
+      new ParameterizedTypeReference<RestResponsePage<NewsResponseDTO>>() {};
+    
+    ResponseEntity<RestResponsePage<NewsResponseDTO>> responseEntity = restTemplate
+    .exchange("/api/news/by-page/?page=0&size=5&sort=id,ASC", HttpMethod.GET, null, responseType);
+
+    List<NewsResponseDTO> responseList = responseEntity.getBody().getContent();
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(responseList.size(), size);
+    
+  }
 
 
     @Test
