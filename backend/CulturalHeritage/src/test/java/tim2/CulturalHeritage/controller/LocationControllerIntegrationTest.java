@@ -156,6 +156,8 @@ public class LocationControllerIntegrationTest {
         locationRequestDTO.setCity(CITY);
         locationRequestDTO.setStreet(STREET);
 
+        int size = locationService.findAll(pageable).getNumberOfElements();
+
         HttpHeaders headers = login();
         HttpEntity<Object> httpEntity = new HttpEntity<>(locationRequestDTO, headers);
 
@@ -168,6 +170,7 @@ public class LocationControllerIntegrationTest {
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals(locationRequestDTO.getLatitude(), responseDTO.getLatitude());
         assertEquals(locationRequestDTO.getLongitude(), responseDTO.getLongitude());
+        assertEquals(locationService.findAll(pageable).getNumberOfElements(), size + 1);
     }
 
     @Test
@@ -180,6 +183,8 @@ public class LocationControllerIntegrationTest {
         locationRequestDTO.setCity(CITY);
         locationRequestDTO.setStreet(STREET);
 
+        int size = locationService.findAll(pageable).getNumberOfElements();
+
         HttpHeaders headers = login();
         HttpEntity<Object> httpEntity = new HttpEntity<>(locationRequestDTO, headers);
 
@@ -187,6 +192,7 @@ public class LocationControllerIntegrationTest {
                 LocationResponseDTO.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals(locationService.findAll(pageable).getNumberOfElements(), size);
     }
 
     @Test
@@ -199,6 +205,8 @@ public class LocationControllerIntegrationTest {
         locationRequestDTO.setCity(CITY);
         locationRequestDTO.setStreet(STREET);
 
+        int size = locationService.findAll(pageable).getNumberOfElements();
+
         HttpHeaders headers = login();
         HttpEntity<Object> httpEntity = new HttpEntity<>(locationRequestDTO, headers);
 
@@ -206,6 +214,7 @@ public class LocationControllerIntegrationTest {
                 LocationResponseDTO.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals(locationService.findAll(pageable).getNumberOfElements(), size);
     }
 
     @Test
@@ -218,6 +227,8 @@ public class LocationControllerIntegrationTest {
         locationRequestDTO.setCity(CITY);
         locationRequestDTO.setStreet(STREET);
 
+        int size = locationService.findAll(pageable).getNumberOfElements();
+
         HttpHeaders headers = login();
         HttpEntity<Object> httpEntity = new HttpEntity<>(locationRequestDTO, headers);
 
@@ -225,6 +236,7 @@ public class LocationControllerIntegrationTest {
                 LocationResponseDTO.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals(locationService.findAll(pageable).getNumberOfElements(), size);
     }
 
     @Test
@@ -237,6 +249,8 @@ public class LocationControllerIntegrationTest {
         locationRequestDTO.setCountry(COUNTRY);
         locationRequestDTO.setStreet(STREET);
 
+        int size = locationService.findAll(pageable).getNumberOfElements();
+
         HttpHeaders headers = login();
         HttpEntity<Object> httpEntity = new HttpEntity<>(locationRequestDTO, headers);
 
@@ -244,6 +258,7 @@ public class LocationControllerIntegrationTest {
                 LocationResponseDTO.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals(locationService.findAll(pageable).getNumberOfElements(), size);
     }
 
     @Test
@@ -256,6 +271,8 @@ public class LocationControllerIntegrationTest {
         locationRequestDTO.setCountry(COUNTRY);
         locationRequestDTO.setCity(CITY);
 
+        int size = locationService.findAll(pageable).getNumberOfElements();
+
         HttpHeaders headers = login();
         HttpEntity<Object> httpEntity = new HttpEntity<>(locationRequestDTO, headers);
 
@@ -263,6 +280,7 @@ public class LocationControllerIntegrationTest {
                 LocationResponseDTO.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals(locationService.findAll(pageable).getNumberOfElements(), size);
     }
 
     @Test
