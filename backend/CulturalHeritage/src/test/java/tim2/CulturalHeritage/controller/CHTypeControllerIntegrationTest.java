@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
@@ -35,6 +36,8 @@ import tim2.CulturalHeritage.dto.requestDTO.CHTypeRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CHTypeResponseDTO;
+import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
+import tim2.CulturalHeritage.restTemplateHelp.RestResponsePage;
 import tim2.CulturalHeritage.service.CHTypeService;
 
 import java.util.List;
@@ -169,17 +172,17 @@ public class CHTypeControllerIntegrationTest {
 
 
     @Test
-    public void testGetAllCHTypes() throws JsonProcessingException {
-        HttpEntity<Object> httpEntity = new HttpEntity<>(withoutTokenHeaders);
+    public void testGetAllCHTypesPageable() throws JsonProcessingException {
+        ParameterizedTypeReference<RestResponsePage<CHTypeResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CHTypeResponseDTO>>() {
+        };
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        ResponseEntity<RestResponsePage<CHTypeResponseDTO>> responseEntity = restTemplate
+                .exchange("/api/ch-types/by-page/?page=0&size=" + TYPES_ALL, HttpMethod.GET, null/* httpEntity */, responseType);
 
-        ResponseEntity<String> responseEntity =
-                restTemplate.exchange("/api/ch-types", HttpMethod.GET, httpEntity, String.class);
+        List<CHTypeResponseDTO> responseList = responseEntity.getBody().getContent();
 
-        List<CHTypeResponseDTO> subtypes = objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<CHTypeResponseDTO>>() {});
         Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        Assert.assertEquals(SUBTYPES_ALL, subtypes.size());
+        Assert.assertEquals(TYPES_ALL, responseList.size());
     }
 
     @Test

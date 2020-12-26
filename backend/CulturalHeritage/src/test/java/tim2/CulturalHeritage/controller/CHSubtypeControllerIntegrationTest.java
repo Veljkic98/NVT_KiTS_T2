@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -124,7 +125,7 @@ public class CHSubtypeControllerIntegrationTest {
     public void testDeleteSubtypeValid() throws Exception{
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<?> response = restTemplate.exchange("/api/ch-subtypes/" + EXIST_SUBTYPE_ID, HttpMethod.DELETE, httpEntity, String.class);
+        ResponseEntity<?> response = restTemplate.exchange("/api/ch-subtypes/" + CAN_DELETE_SUBTYPE_ID, HttpMethod.DELETE, httpEntity, String.class);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
@@ -132,11 +133,21 @@ public class CHSubtypeControllerIntegrationTest {
     @Test
     @Transactional
     @Rollback(true)
-    public void testDeleteSubtypeInvalid() throws Exception{
+    public void testDeleteSubtypeInvalidNotFound() throws Exception{
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<?> response = restTemplate.exchange("/api/ch-subtypes/" + NONEXIST_SUTYPE_ID, HttpMethod.DELETE, httpEntity, String.class);
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testDeleteSubtypeInvalidCHRelated() throws Exception{
+
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<?> response = restTemplate.exchange("/api/ch-subtypes/" + EXIST_SUBTYPE_ID, HttpMethod.DELETE, httpEntity, String.class);
 
     }
 

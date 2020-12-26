@@ -2,11 +2,15 @@ INSERT INTO chtype (name) VALUES  ('masd');
 INSERT INTO chtype (name) VALUES  ('CH Type without subtypes, please dont add subtypes with this type.ty');
 
 INSERT INTO chsubtype (name, chtype_id) VALUES ('festival', 1);
+INSERT INTO chsubtype (name, chtype_id) VALUES ('carnival', 1);
 
 INSERT INTO location (city, country, latitude, longitude) VALUES ('Louisville', 'Kentucky, USA', '38.256111', '-85.751389');
+INSERT INTO location (city, country, latitude, longitude) VALUES ('Novi Sad', 'Serbia', '11.256111', '3.751389');
 
 INSERT INTO cultural_heritage (name, location_id, chsubtype_id, description) VALUES ('CH1', 1, 1, 'The Carnival...');
 INSERT INTO cultural_heritage (name, location_id, chsubtype_id, description) VALUES ('CH2', 1, 1, 'The Carnival...');
+INSERT INTO cultural_heritage (name, location_id, chsubtype_id, description) VALUES ('Guca Festival', 2, 2, 'The Guca festival...');
+
 
 --AUTHORITY
 INSERT INTO authority (name) VALUES ('ROLE_ADMIN');
