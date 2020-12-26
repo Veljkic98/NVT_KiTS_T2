@@ -4,13 +4,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
-import tim2.CulturalHeritage.model.News;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -42,6 +43,36 @@ public class AuthUserServiceIntegrationTest {
         AuthenticatedUser found = authenticatedUserService.findById(NONEXIST_USER_ID);
         assertNull(found);
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testSaveOneValid() {
+        AuthenticatedUser user = new AuthenticatedUser();
+        user.setEmail(NEW_EMAIL);
+        user.setPassword(NEW_PASSWORD);
+        user.setFirstName(NEW_FIRST_NAME);
+        user.setLastName(NEW_LAST_NAME);
+        AuthenticatedUser saved = authenticatedUserService.add(user);
+
+        assertEquals(NEW_EMAIL, saved.getEmail());
+        assertEquals(NEW_FIRST_NAME, saved.getFirstName());
+        assertEquals(NEW_LAST_NAME, saved.getLastName());
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testSaveOneInvalidEmail() {
+    //    Email must be unique
+        AuthenticatedUser user = new AuthenticatedUser();
+        user.setEmail(EXIST_EMAIL);
+        user.setPassword(NEW_PASSWORD);
+        user.setFirstName(NEW_FIRST_NAME);
+        user.setLastName(NEW_LAST_NAME);
+        AuthenticatedUser saved = authenticatedUserService.add(user);
+
+        assertNull(saved);
+    }
+
 
 
 

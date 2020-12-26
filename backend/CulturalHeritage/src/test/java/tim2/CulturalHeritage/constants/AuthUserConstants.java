@@ -12,4 +12,9 @@ public class AuthUserConstants {
 
     public static final String EXIST_EMAIL = "helen@hotmail.com";
     public static final String NONEXIST_EMAIL = "AAA";
+
+    public static final String NEW_EMAIL = "somesome@gmail.com";
+    public static final String NEW_FIRST_NAME = "specnazm";
+    public static final String NEW_LAST_NAME = "specnazm";
+    public static final String NEW_PASSWORD = "12345678";
 }
