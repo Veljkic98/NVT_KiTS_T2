@@ -65,6 +65,8 @@ public class NewsControllerIntegrationTest {
   @Autowired
   private NewsService newsService;
 
+  private Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+
   
   @Test
   public void findById_ValidId_ShouldReturnNews(){
@@ -225,9 +227,9 @@ public class NewsControllerIntegrationTest {
   assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
   }
 
+  
   @Test
   public void findAll_ok_listAndOk(){
-    Pageable pageable = PageRequest.of(0, PAGE_SIZE);
     Page<News> newsPage = newsService.findAll(pageable);
     List<News> newsList = newsPage.getContent();
 
@@ -246,11 +248,8 @@ public class NewsControllerIntegrationTest {
     
   }
 
-
     @Test
     public void findAllForCH_chIdOk_listAndOk() {
-
-        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
         Page<News> newsPage = newsService.findAll(pageable, CH_ID);
         List<News> newsList = newsPage.getContent();
 
