@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
@@ -36,6 +38,8 @@ public class RatingControllerIntegrationTest {
     @Autowired
     RatingService ratingService;
 
+    private Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+
     @Before
     public void loginUser() {
         ResponseEntity<AuthUserLoginResponseDTO> responseEntity = restTemplate.postForEntity("/auth/login",
@@ -62,6 +66,7 @@ public class RatingControllerIntegrationTest {
         assertEquals(LOGGED_IN_USER_ID, created.getUserID());
         assertEquals(CH_ID, created.getChID());
         assertEquals(NEW_GRADE, created.getGrade());
+        assertEquals(NUMBER_OF_RATINGS_IN_DB + 1, ratingService.findAll(pageable).getNumberOfElements());
     }
 
     @Test
@@ -73,6 +78,7 @@ public class RatingControllerIntegrationTest {
         RatingResponseDTO created = responseEntity.getBody();
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertNull(created);
+        assertEquals(NUMBER_OF_RATINGS_IN_DB, ratingService.findAll(pageable).getNumberOfElements());
 
     }
 
@@ -87,5 +93,6 @@ public class RatingControllerIntegrationTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertNull(created);
+        assertEquals(NUMBER_OF_RATINGS_IN_DB, ratingService.findAll(pageable).getNumberOfElements());
     }
 }

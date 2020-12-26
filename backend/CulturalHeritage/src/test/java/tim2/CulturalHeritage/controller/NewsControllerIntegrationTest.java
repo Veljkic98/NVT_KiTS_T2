@@ -51,6 +51,9 @@ public class NewsControllerIntegrationTest {
   @Autowired
   private NewsService newsService;
 
+  private Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+
+  
   @Test
   public void findById_ValidId_ShouldReturnNews() {
 
@@ -128,6 +131,7 @@ public class NewsControllerIntegrationTest {
     NewsResponseDTO newsResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
     assertEquals(HEADING, newsResponseDTO.getHeading());
+    assertEquals(NUMBER_OF_NEWS_IN_DB + 1, newsService.findAll(pageable).getNumberOfElements());
   }
 
   @Test
@@ -142,6 +146,7 @@ public class NewsControllerIntegrationTest {
         NewsResponseDTO.class);
 
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    assertEquals(NUMBER_OF_NEWS_IN_DB, newsService.findAll(pageable).getNumberOfElements());
   }
 
   @Test
@@ -159,6 +164,7 @@ public class NewsControllerIntegrationTest {
     NewsResponseDTO newsResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(HEADING, newsResponseDTO.getHeading());
+    assertEquals(NUMBER_OF_NEWS_IN_DB, newsService.findAll(pageable).getNumberOfElements());
   }
 
   @Test
@@ -193,10 +199,11 @@ public class NewsControllerIntegrationTest {
     HttpHeaders authHeaders = login();
     HttpEntity<Object> requestEntity = new HttpEntity<Object>(null, authHeaders);
 
-    ResponseEntity<Void> responseEntity = restTemplate.exchange("/api/news/" + NEWS_ID, HttpMethod.DELETE,
-        requestEntity, Void.class);
-
+    ResponseEntity<Void> responseEntity = 
+      restTemplate.exchange("/api/news/" + NEWS_ID, HttpMethod.DELETE, requestEntity ,Void.class );
+  
     assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+    assertEquals(NUMBER_OF_NEWS_IN_DB -1, newsService.findAll(pageable).getNumberOfElements());
 
   }
 
@@ -207,11 +214,34 @@ public class NewsControllerIntegrationTest {
     HttpHeaders authHeaders = login();
     HttpEntity<Object> requestEntity = new HttpEntity<Object>(null, authHeaders);
 
-    ResponseEntity<Void> responseEntity = restTemplate.exchange("/api/news/" + NEWS_ID_NOT_FOUND, HttpMethod.DELETE,
-        requestEntity, Void.class);
-
-    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    ResponseEntity<Void> responseEntity = 
+    restTemplate.exchange("/api/news/" + NEWS_ID_NOT_FOUND, HttpMethod.DELETE, requestEntity ,Void.class );
+  
+  assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+  assertEquals(NUMBER_OF_NEWS_IN_DB , newsService.findAll(pageable).getNumberOfElements());
   }
+
+  
+  @Test
+  public void findAll_ok_listAndOk(){
+    Page<News> newsPage = newsService.findAll(pageable);
+    List<News> newsList = newsPage.getContent();
+
+    int size = newsList.size();
+
+    ParameterizedTypeReference<RestResponsePage<NewsResponseDTO>> responseType = 
+      new ParameterizedTypeReference<RestResponsePage<NewsResponseDTO>>() {};
+    
+    ResponseEntity<RestResponsePage<NewsResponseDTO>> responseEntity = restTemplate
+    .exchange("/api/news/by-page/?page=0&size=5&sort=id,ASC", HttpMethod.GET, null, responseType);
+
+    List<NewsResponseDTO> responseList = responseEntity.getBody().getContent();
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(responseList.size(), size);
+    
+  }
+
 
   @Test
   public void findAllForCH_chIdOk_listAndOk() {
