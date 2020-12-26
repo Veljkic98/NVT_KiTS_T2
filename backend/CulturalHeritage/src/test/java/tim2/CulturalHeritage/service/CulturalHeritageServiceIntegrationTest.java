@@ -24,6 +24,7 @@ import org.springframework.test.annotation.DirtiesContext.MethodMode;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import tim2.CulturalHeritage.dto.requestDTO.FilterRequestDTO;
 import tim2.CulturalHeritage.model.CulturalHeritage;
 
 @RunWith(SpringRunner.class)
@@ -108,7 +109,69 @@ public class CulturalHeritageServiceIntegrationTest {
         culturalHeritageService.deleteById(CH_ID_NOT_FOUND);
     }
 
+    @Test
+    public void filterName() {
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        FilterRequestDTO filterDTO = new FilterRequestDTO("name", FILTER_NAME);
+        Page<CulturalHeritage> chPage = culturalHeritageService.filter(filterDTO, pageable);
+        assertEquals(FILTER_NAME_RESULTS, chPage.getNumberOfElements());
+    }
 
+    @Test
+    public void filterNameInvalid() {
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        FilterRequestDTO filterDTO = new FilterRequestDTO("name", FILTER_INVALID);
+        Page<CulturalHeritage> chPage = culturalHeritageService.filter(filterDTO, pageable);
+        assertEquals(0, chPage.getNumberOfElements());
+    }
+
+    @Test
+    public void testFilterBySubtypeNameValid() {
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        FilterRequestDTO filterDTO = new FilterRequestDTO("chSubtypeName", FILTER_SUBTYPE);
+        Page<CulturalHeritage> chPage = culturalHeritageService.filter(filterDTO, pageable);
+        assertEquals(FILTER_SUBTYPE_RESULTS, chPage.getNumberOfElements());
+    }
+
+    @Test
+    public void testFilterBySubtypeNameInvalid() {
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        FilterRequestDTO filterDTO = new FilterRequestDTO("chSubtypeName", FILTER_INVALID);
+        Page<CulturalHeritage> chPage = culturalHeritageService.filter(filterDTO, pageable);
+        assertEquals(0, chPage.getNumberOfElements());
+    }
+
+    @Test
+    public void testFilterByCityValid() {
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        FilterRequestDTO filterDTO = new FilterRequestDTO("locationCity", FILTER_CITY);
+        Page<CulturalHeritage> chPage = culturalHeritageService.filter(filterDTO, pageable);
+        assertEquals(FILTER_CITY_RESULTS, chPage.getNumberOfElements());
+    }
+
+    @Test
+    public void testFilterByCityInvalid() {
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        FilterRequestDTO filterDTO = new FilterRequestDTO("locationCity", FILTER_INVALID);
+        Page<CulturalHeritage> chPage = culturalHeritageService.filter(filterDTO, pageable);
+        assertEquals(0, chPage.getNumberOfElements());
+    }
+
+    @Test
+    public void testFilterByCountryValid() {
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        FilterRequestDTO filterDTO = new FilterRequestDTO("locationCountry", FILTER_COUNTRY);
+        Page<CulturalHeritage> chPage = culturalHeritageService.filter(filterDTO, pageable);
+        assertEquals(FILTER_COUNTRY_RESULTS, chPage.getNumberOfElements());
+    }
+
+    @Test
+    public void testFilterByCountryInvalid() {
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        FilterRequestDTO filterDTO = new FilterRequestDTO("locationCountry", FILTER_INVALID);
+        Page<CulturalHeritage> chPage = culturalHeritageService.filter(filterDTO, pageable);
+        assertEquals(0, chPage.getNumberOfElements());
+    }
 
 
 

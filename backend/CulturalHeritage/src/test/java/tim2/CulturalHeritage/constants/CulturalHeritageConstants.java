@@ -16,15 +16,17 @@ public class CulturalHeritageConstants {
   public static final Location LOCATION = new Location(LOCATION_ID, null, null, null, null, null);
   public static final CHSubtype CH_SUBTYPE = new CHSubtype(CH_SUBTYPE_ID, null, null);
 
-  public static final String SEARCH_NAME = "CH";
-  public static final int SEARCH_NAME_RESULTS = 2;
+  public static final String FILTER_NAME = "CH";
+  public static final int FILTER_NAME_RESULTS = 2;
 
-  public static final String SEARCH_CITY = "Novi Sad";
-  public static final int SEARCH_CITY_RESULTS = 1;
+  public static final String FILTER_CITY = "Novi Sad";
+  public static final int FILTER_CITY_RESULTS = 1;
 
-  public static final String SEARCH_SUBTYPE = "festival";
-  public static final int SEARCH_SUBTYPE_RESULTS = 2;
+  public static final String FILTER_SUBTYPE = "festival";
+  public static final int FILTER_SUBTYPE_RESULTS = 2;
 
-  public static final String SEARCH_COUNTRY = "Kentucky";
-  public static final int SEARCH_COUNTRY_RESULTS = 2;
+  public static final String FILTER_COUNTRY = "Kentucky, USA";
+  public static final int FILTER_COUNTRY_RESULTS = 2;
+
+  public static final String FILTER_INVALID = "sdsddsdsdsd";
 }

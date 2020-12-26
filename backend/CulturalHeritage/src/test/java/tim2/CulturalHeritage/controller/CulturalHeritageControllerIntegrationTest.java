@@ -24,6 +24,7 @@ import org.springframework.util.LinkedMultiValueMap;
 
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserLoginDTO;
 import tim2.CulturalHeritage.dto.requestDTO.CulturalHeritageRequestDTO;
+import tim2.CulturalHeritage.dto.requestDTO.FilterRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
 import tim2.CulturalHeritage.model.CulturalHeritage;
@@ -230,12 +231,136 @@ public class CulturalHeritageControllerIntegrationTest {
   }
 
   @Test
-  public void testFilterByName(){
-    ResponseEntity<CulturalHeritageResponseDTO> responseEntity=
-            restTemplate.getForEntity("/api/cultural-heritages/filtered", CulturalHeritageResponseDTO.class);
+  public void testFilterByNameValid(){
+    FilterRequestDTO filterDTO = new FilterRequestDTO("name", FILTER_NAME);
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
 
-    CulturalHeritageResponseDTO culturalHeritageResponseDTO = responseEntity.getBody();
-    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-    assertNull(culturalHeritageResponseDTO);
+
+      ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
+              restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+
+      List<CulturalHeritageResponseDTO> responseList = responseEntity.getBody().getContent();
+
+      assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+      assertEquals(FILTER_NAME_RESULTS, responseList.size());
+    }
+
+
+
+  @Test
+  public void testFilterByNameInvalid(){
+    FilterRequestDTO filterDTO = new FilterRequestDTO("name", FILTER_INVALID);
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+
+
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
+            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(0, responseEntity.getBody().getTotalElements());
   }
+
+  @Test
+  public void testFilterBySubtypeValid(){
+    FilterRequestDTO filterDTO = new FilterRequestDTO("chsubtypename", FILTER_SUBTYPE);
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+
+
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
+            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+
+    List<CulturalHeritageResponseDTO> responseList = responseEntity.getBody().getContent();
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(FILTER_SUBTYPE_RESULTS, responseList.size());
+  }
+
+  @Test
+  public void testFilterBySubtypeInvalid(){
+    FilterRequestDTO filterDTO = new FilterRequestDTO("chsubtypename", FILTER_INVALID);
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+
+
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
+            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(0, responseEntity.getBody().getTotalElements());
+  }
+
+  @Test
+  public void testFilterByCityValid(){
+    FilterRequestDTO filterDTO = new FilterRequestDTO("locationCity", FILTER_CITY);
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+
+
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
+            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+
+    List<CulturalHeritageResponseDTO> responseList = responseEntity.getBody().getContent();
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(FILTER_CITY_RESULTS, responseList.size());
+  }
+
+  @Test
+  public void testFilterByCityInvalid(){
+    FilterRequestDTO filterDTO = new FilterRequestDTO("locationCity", FILTER_INVALID);
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+
+
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
+            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(0, responseEntity.getBody().getTotalElements());
+  }
+
+  @Test
+  public void testFilterByCountryValid(){
+    FilterRequestDTO filterDTO = new FilterRequestDTO("locationCountry", FILTER_COUNTRY);
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+
+
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
+            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+
+    List<CulturalHeritageResponseDTO> responseList = responseEntity.getBody().getContent();
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(FILTER_COUNTRY_RESULTS, responseList.size());
+  }
+
+  @Test
+  public void testFilterByCountryInvalid(){
+    FilterRequestDTO filterDTO = new FilterRequestDTO("locationCountry", FILTER_INVALID);
+    HttpHeaders authHeaders = login();
+    HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+
+
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
+            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(0, responseEntity.getBody().getTotalElements());
+  }
+
 }

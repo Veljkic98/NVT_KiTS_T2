@@ -15,9 +15,9 @@ public interface CulturalHeritageRepository extends JpaRepository<CulturalHerita
 
     Page<CulturalHeritage> findByChsubtypeNameContains(String chSubtypeName, Pageable page);
 
-    Page<CulturalHeritage> findByLocation_City(String city, Pageable page);
+    Page<CulturalHeritage> findByLocationCity(String city, Pageable page);
 
-    Page<CulturalHeritage> findByLocation_Country(String country, Pageable page);
+    Page<CulturalHeritage> findByLocationCountry(String country, Pageable page);
 
 
 }
