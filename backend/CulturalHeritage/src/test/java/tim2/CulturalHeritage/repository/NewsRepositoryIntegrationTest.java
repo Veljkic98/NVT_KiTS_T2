@@ -18,9 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import tim2.CulturalHeritage.model.News;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static tim2.CulturalHeritage.constants.NewsConstants.*;
 
 
 @RunWith(SpringRunner.class)
