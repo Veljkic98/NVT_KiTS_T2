@@ -60,7 +60,7 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
         CulturalHeritage culturalHeritage2 = culturalHeritageRepository.findById(culturalHeritage.getId()).orElse(null);
 
         if (null == culturalHeritage2)
-            throw new EntityNotFoundException("There is no CH with id: " + culturalHeritage.getId() + ".");
+            throw new EntityNotFoundException();
 
         FileDB fileDB = fileDBService.add(file);
         culturalHeritage.setImages(fileDB);
@@ -74,6 +74,9 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
 
     @Override
     public void deleteById(Long id) {
+        if(null == culturalHeritageRepository.findById(id).orElse(null))
+            throw new EntityNotFoundException();
+            
         culturalHeritageRepository.deleteById(id);
     }
 

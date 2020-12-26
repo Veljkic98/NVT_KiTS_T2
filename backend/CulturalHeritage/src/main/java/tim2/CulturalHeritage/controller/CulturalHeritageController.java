@@ -71,7 +71,7 @@ public class CulturalHeritageController {
             @RequestPart("culturalHeritageRequestDTO") CulturalHeritageRequestDTO culturalHeritageRequestDTO) {
 
         CulturalHeritage ch = chMapper.toEntity(culturalHeritageRequestDTO);
-        culturalHeritageService.add(ch, file);
+        ch = culturalHeritageService.add(ch, file);
 
         CulturalHeritageResponseDTO response = new CulturalHeritageResponseDTO();
         response = chMapper.toDto(ch);
@@ -110,12 +110,12 @@ public class CulturalHeritageController {
 
         try {
             culturalHeritageService.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (IllegalArgumentException e) { // if id is null
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        catch(EntityNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (EmptyResultDataAccessException e) { // if there isn't specific id
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

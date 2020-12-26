@@ -1,6 +1,7 @@
 package tim2.CulturalHeritage.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static tim2.CulturalHeritage.constants.CHTypeConstants.*;
 
 import org.junit.Test;
@@ -16,6 +17,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import tim2.CulturalHeritage.model.CHType;
+
+import javax.persistence.EntityNotFoundException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -76,11 +79,55 @@ public class CHTypeServiceIntegrationTest {
     }
 
     @Test
-    public void testFindAllPageable(){
+    public void testFindAllPageable() {
         PageRequest p = PageRequest.of(0, PAGE_SIZE);
         Page<CHType> res = chTypeService.findAll(p);
 
         assertEquals(PAGE_SIZE, res.getTotalElements());
+    }
 
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testUpdateValid(){
+        CHType type = new CHType();
+        type.setId(TYPE_ID_WITH_SUBTYPES);
+        type.setName(NAME);
+        CHType updatedType = chTypeService.update(type);
+        assertEquals(TYPE_ID_WITH_SUBTYPES, updatedType.getId());
+        assertEquals(NAME, updatedType.getName());
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testUpdateInvalidNameValidId() {
+        CHType type = new CHType();
+        type.setId(TYPE_ID_WITHOUT_SUBTYPES);
+        type.setName(NAME_EXISTS);
+
+        CHType updatedType = chTypeService.update(type);
+        assertNull(updatedType);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testUpdateInvalidIDValidName() {
+        CHType type = new CHType();
+        type.setId(TYPE_NONEXIST_ID);
+        type.setName(NAME);
+
+        CHType updatedType = chTypeService.update(type);
+        assertNull(updatedType);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testUpdateInvalidNameInvalidId() {
+        CHType type = new CHType();
+        type.setId(TYPE_NONEXIST_ID);
+        type.setName(NAME_EXISTS);
+
+        CHType updatedType = chTypeService.update(type);
+        assertNull(updatedType);
     }
 }

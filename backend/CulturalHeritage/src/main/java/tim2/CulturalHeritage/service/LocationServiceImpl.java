@@ -19,22 +19,26 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Page<Location> findAll(Pageable pageable) {
+
         return locationRepository.findAll(pageable);
     }
 
     @Override
     public Location findById(Long id) {
+
         return locationRepository.findById(id).orElse(null);
     }
 
     @Override
     public Location add(Location location) {
+
         return locationRepository.save(location);
     }
 
     @Override
     public Location update(Location location) {
-        if(null == locationRepository.findById(location.getId()).orElse(null)){
+
+        if (null == locationRepository.findById(location.getId()).orElse(null)) {
             throw new EntityNotFoundException();
         }
         return locationRepository.save(location);
@@ -42,8 +46,8 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public void deleteById(Long id) {
+        
         locationRepository.deleteById(id);
-
     }
 
 }

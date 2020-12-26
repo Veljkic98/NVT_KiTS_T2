@@ -5,6 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import static tim2.CulturalHeritage.constants.CHSubtypeConstants.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static tim2.CulturalHeritage.constants.CHSubtypeConstants.EXIST_TYPE_ID;
+import static tim2.CulturalHeritage.constants.CHSubtypeConstants.NEW_VALID_SUBTYPE_NAME;
 import static tim2.CulturalHeritage.constants.LoginConstants.ADMIN_EMAIL;
 import static tim2.CulturalHeritage.constants.LoginConstants.ADMIN_PASS;
 import static tim2.CulturalHeritage.constants.CHTypeConstants.*;
@@ -178,4 +182,51 @@ public class CHTypeControllerIntegrationTest {
         Assert.assertEquals(SUBTYPES_ALL, subtypes.size());
     }
 
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testUpdateTypeValid(){
+        HttpEntity<Object> httpEntity = new HttpEntity<>(new CHTypeRequestDTO(NAME), headers);
+        ResponseEntity<CHTypeResponseDTO> responseEntity =
+                restTemplate.exchange("/api/ch-types/" + TYPE_ID_WITH_SUBTYPES, HttpMethod.PUT, httpEntity, CHTypeResponseDTO.class);
+        CHTypeResponseDTO updatedType = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(NAME, updatedType.getName());
+        assertEquals(TYPE_ID_WITH_SUBTYPES, updatedType.getId());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testUpdateTypeValidIDInvalidName(){
+        HttpEntity<Object> httpEntity = new HttpEntity<>(new CHTypeRequestDTO(NAME_EXISTS), headers);
+        ResponseEntity<CHTypeResponseDTO> responseEntity =
+                restTemplate.exchange("/api/ch-types/" + TYPE_ID_WITHOUT_SUBTYPES, HttpMethod.PUT, httpEntity, CHTypeResponseDTO.class);
+        CHTypeResponseDTO updatedType = responseEntity.getBody();
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(updatedType);
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testUpdateTypeInvalidIDValidName(){
+        HttpEntity<Object> httpEntity = new HttpEntity<>(new CHTypeRequestDTO(NAME), headers);
+        ResponseEntity<CHTypeResponseDTO> responseEntity =
+                restTemplate.exchange("/api/ch-types/" + TYPE_NONEXIST_ID, HttpMethod.PUT, httpEntity, CHTypeResponseDTO.class);
+        CHTypeResponseDTO updatedType = responseEntity.getBody();
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(updatedType);
+    }
+
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testUpdateTypeInvalidIDInvalidName(){
+        HttpEntity<Object> httpEntity = new HttpEntity<>(new CHTypeRequestDTO(NAME_EXISTS), headers);
+        ResponseEntity<CHTypeResponseDTO> responseEntity =
+                restTemplate.exchange("/api/ch-types/" + TYPE_NONEXIST_ID, HttpMethod.PUT, httpEntity, CHTypeResponseDTO.class);
+        CHTypeResponseDTO updatedType = responseEntity.getBody();
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(updatedType);
+    }
 }

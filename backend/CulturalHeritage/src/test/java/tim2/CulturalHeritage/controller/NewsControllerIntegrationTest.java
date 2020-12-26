@@ -78,7 +78,7 @@ public class NewsControllerIntegrationTest {
   }
 
   @Test
-  public void findById_InvalidId_ShouldThrowException(){
+  public void findById_InvalidId_ShouldReturnNotFound(){
 
     ResponseEntity<NewsResponseDTO> responseEntity = 
       restTemplate.getForEntity("/api/news/100", NewsResponseDTO.class);
