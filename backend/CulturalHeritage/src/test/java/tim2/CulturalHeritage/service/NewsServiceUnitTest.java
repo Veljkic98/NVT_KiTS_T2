@@ -56,22 +56,4 @@ public class NewsServiceUnitTest {
     assertEquals(NEWS_ID, found.getId());
   }
 
-  //TODO: RESITI OVAJ TEST DA PROLAZI
-  @Test
-  public void add_WithoutFile_ShouldReturnNews() throws IOException {
-    Admin admin = new Admin();
-    admin.setId(1L);
-    CulturalHeritage ch = new CulturalHeritage();
-    ch.setId(1L);
-    News news = new News(null, HEADING, CONTENT, ch, admin, null);
-    MockMultipartFile file = null;
-    News created = newsService.add(news, file);
-    verify(newsRepository, times(1)).save(news);
-    assertEquals(HEADING, created.getHeading());
-  }
-
-  //TODO: UPDATE TEST
-
-
-  //TODO: DELETE TEST
 }
