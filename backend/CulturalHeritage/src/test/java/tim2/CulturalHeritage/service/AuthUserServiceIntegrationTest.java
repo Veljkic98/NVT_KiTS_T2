@@ -13,8 +13,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static tim2.CulturalHeritage.constants.AuthUserConstants.*;
 
 @RunWith(SpringRunner.class)
@@ -73,9 +72,17 @@ public class AuthUserServiceIntegrationTest {
         assertNull(saved);
     }
 
+    @Test()
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testSetVerifyValid() {
+        AuthenticatedUser user = new AuthenticatedUser();
+        user.setId(EXIST_USER_NOT_VERIFIED_ID);
+        user.setEmail(NEW_EMAIL);
+        user.setPassword(NEW_PASSWORD);
+        user.setFirstName(NEW_FIRST_NAME);
+        user.setLastName(NEW_LAST_NAME);
 
-
-
-
-
+        authenticatedUserService.setVerified(user);
+        assertTrue(user.isApproved());
+    }
 }

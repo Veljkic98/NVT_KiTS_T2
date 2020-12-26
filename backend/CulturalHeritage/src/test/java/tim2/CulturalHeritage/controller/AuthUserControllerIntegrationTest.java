@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
@@ -28,6 +30,8 @@ public class AuthUserControllerIntegrationTest {
     private AuthenticatedUserService authenticatedUserService;
 
     private HttpHeaders headers = new HttpHeaders();
+
+    private Pageable pageable = PageRequest.of(PAGE_NUM, PAGE_SIZE);
 
     @Test
     public void testGetOne() {
@@ -76,6 +80,8 @@ public class AuthUserControllerIntegrationTest {
         assertEquals(NEW_LAST_NAME, user.getLastName());
         assertNotNull(user.getId());
         assertTrue(!user.isApproved());
+
+        assertEquals(ALL_USERS, authenticatedUserService.findAll(pageable).getNumberOfElements());
     }
 
     @Test
@@ -93,5 +99,21 @@ public class AuthUserControllerIntegrationTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertNull(user.getId());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testVerify() {
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<AuthUserResponseDTO> responseEntity =
+                restTemplate.exchange("/api/authenticated-users/verify/" + 2 , HttpMethod.GET, httpEntity,
+                        AuthUserResponseDTO.class);
+
+        AuthUserResponseDTO user = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertTrue(user.isApproved());
+        assertEquals(ALL_USERS, authenticatedUserService.findAll(pageable).getNumberOfElements());
     }
 }

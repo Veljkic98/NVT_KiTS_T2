@@ -4,6 +4,7 @@ public class AuthUserConstants {
 
     public static final long EXIST_USER_ID = 2;
     public static final long NONEXIST_USER_ID = 2228292;
+    public static final long EXIST_USER_NOT_VERIFIED_ID = 5;
 
     public static final int ALL_USERS = 4;
 
