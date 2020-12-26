@@ -71,6 +71,8 @@ public class CommentControllerInetgrationTest {
         // add dto obj to params (to form data when sending request)
         params.add("comment", dto);
 
+        headers = login_user();
+
         return new HttpEntity<>(params, headers);
     }
 
@@ -87,9 +89,10 @@ public class CommentControllerInetgrationTest {
         CommentResponseDTO commentResponseDTO = responseEntity.getBody();
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals(CONTENT, commentResponseDTO.getContent());
-        assertEquals(LOGGED_IN_USER_ID, commentResponseDTO.getAuthenticatedUserID());
+        assertEquals(4, commentResponseDTO.getAuthenticatedUserID());
         assertEquals(NUMBER_OF_COMMENTS_IN_DB + 1, commentService.findAll(pageable).getNumberOfElements());
     }
+
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
@@ -120,8 +123,40 @@ public class CommentControllerInetgrationTest {
         CommentResponseDTO commentResponseDTO = responseEntity.getBody();
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals(CONTENT, commentResponseDTO.getContent());
-        assertEquals(LOGGED_IN_USER_ID, commentResponseDTO.getAuthenticatedUserID());
+        assertEquals(4, commentResponseDTO.getAuthenticatedUserID());
         assertEquals(NUMBER_OF_COMMENTS_IN_DB + 1, commentService.findAll(pageable).getNumberOfElements());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void updateValid_WithFile() {
+        CommentRequestDTO comDTO = new CommentRequestDTO(CONTENT, CH_ID);
+
+        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(comDTO, IMAGE_SRC);
+
+        ResponseEntity<CommentResponseDTO> responseEntity = restTemplate.exchange("/api/comments/" + CH_ID, HttpMethod.PUT,
+         requestEntity, CommentResponseDTO.class);
+
+        CommentResponseDTO commentResponseDTO = responseEntity.getBody();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(CONTENT, commentResponseDTO.getContent());
+        assertEquals(4, commentResponseDTO.getAuthenticatedUserID());
+        assertEquals(NUMBER_OF_COMMENTS_IN_DB , commentService.findAll(pageable).getNumberOfElements());
+    }
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void update_InvalidID_WithFile() {
+        CommentRequestDTO comDTO = new CommentRequestDTO(CONTENT, CH_ID_NOT_FOUND);
+
+        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(comDTO, IMAGE_SRC);
+
+        ResponseEntity<CommentResponseDTO> responseEntity = restTemplate.exchange("/api/comments/" + CH_ID_NOT_FOUND, HttpMethod.PUT,
+         requestEntity, CommentResponseDTO.class);
+
+        CommentResponseDTO commentResponseDTO = responseEntity.getBody();
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(commentResponseDTO);
+
     }
 
     @Test
