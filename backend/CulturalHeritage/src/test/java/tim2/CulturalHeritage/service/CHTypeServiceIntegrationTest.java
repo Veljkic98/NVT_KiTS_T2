@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
@@ -110,6 +111,16 @@ public class CHTypeServiceIntegrationTest {
 
         chTypeService.deleteById(TYPE_ID_WITH_SUBTYPES);
     }
+
+    @Test
+    public void testFindAllPageable() {
+        PageRequest p = PageRequest.of(0, PAGE_SIZE);
+        Page<CHType> res = chTypeService.findAll(p);
+
+        assertEquals(PAGE_SIZE, res.getTotalElements());
+    }
+
+
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)

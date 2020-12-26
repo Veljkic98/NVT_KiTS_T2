@@ -11,4 +11,5 @@ public class CHTypeConstants {
     public static final long TYPE_ID_WITHOUT_SUBTYPES = 2;
     public static final long TYPE_ID_WITH_SUBTYPES = 1;
     public static final long TYPE_NONEXIST_ID = 1202929;
+    public static final long TYPES_ALL = 2;
 }

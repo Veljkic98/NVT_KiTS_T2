@@ -5,16 +5,23 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import tim2.CulturalHeritage.model.CHSubtype;
 import tim2.CulturalHeritage.model.CHType;
 import tim2.CulturalHeritage.repository.CHSubtypeRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static tim2.CulturalHeritage.constants.CHSubtypeConstants.*;
+import static tim2.CulturalHeritage.constants.CulturalHeritageConstants.CH_ID_NOT_FOUND;
 
 
 @RunWith(SpringRunner.class)
@@ -86,4 +93,19 @@ public class CHSubtypeServiceIntegrationTest {
             chSubtypeService.add(subtype);
         });
     }
+
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testDeleteValid(){
+        chSubtypeService.deleteById(CAN_DELETE_SUBTYPE_ID);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testDeleteInvalidNotFound(){
+        chSubtypeService.deleteById(NONEXIST_SUTYPE_ID);
+    }
+
 }

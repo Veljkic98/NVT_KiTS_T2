@@ -5,17 +5,23 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserLoginDTO;
 import tim2.CulturalHeritage.dto.requestDTO.CHSubtypeRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
+import tim2.CulturalHeritage.helper.ApiErrors;
+import tim2.CulturalHeritage.model.CHSubtype;
+
 import tim2.CulturalHeritage.service.CHSubtypeService;
 
 
@@ -109,4 +115,37 @@ public class CHSubtypeControllerIntegrationTest {
 
         assertNull(created.getId());
     }
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testDeleteSubtypeValid() throws Exception{
+
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<?> response = restTemplate.exchange("/api/ch-subtypes/" + CAN_DELETE_SUBTYPE_ID, HttpMethod.DELETE, httpEntity, String.class);
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testDeleteSubtypeInvalidNotFound() throws Exception{
+
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<?> response = restTemplate.exchange("/api/ch-subtypes/" + NONEXIST_SUTYPE_ID, HttpMethod.DELETE, httpEntity, String.class);
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testDeleteSubtypeInvalidCHRelated() throws Exception{
+
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<?> response = restTemplate.exchange("/api/ch-subtypes/" + EXIST_SUBTYPE_ID, HttpMethod.DELETE, httpEntity, String.class);
+
+    }
+
 }

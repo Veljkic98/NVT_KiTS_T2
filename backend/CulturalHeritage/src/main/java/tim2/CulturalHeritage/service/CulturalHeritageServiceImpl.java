@@ -88,9 +88,9 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
         }else if(filterDTO.getType().equalsIgnoreCase("chSubtypeName")){
             res = culturalHeritageRepository.findByChsubtypeNameContains(filterDTO.getValue(), page);
         }else if(filterDTO.getType().equalsIgnoreCase("locationCity")){
-            res = culturalHeritageRepository.findByLocation_City(filterDTO.getValue(), page);
+            res = culturalHeritageRepository.findByLocationCity(filterDTO.getValue(), page);
         }else if(filterDTO.getType().equals("locationCountry")){
-            res = culturalHeritageRepository.findByLocation_Country(filterDTO.getValue(), page);
+            res = culturalHeritageRepository.findByLocationCountry(filterDTO.getValue(), page);
         }else{
             res = culturalHeritageRepository.findAll(page);
         }

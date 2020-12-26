@@ -28,7 +28,7 @@ public class CulturalHeritage {
     private String description;
 
     @ManyToOne
-    private Location Location;
+    private Location location;
 
     @ManyToOne
     private CHSubtype chsubtype;
@@ -53,7 +53,7 @@ public class CulturalHeritage {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.Location = Location;
+        this.location = location;
         this.chsubtype = chsubtype;
         this.news = news;
         this.comments = comments;
@@ -85,11 +85,11 @@ public class CulturalHeritage {
     }
 
     public Location getLocation() {
-        return this.Location;
+        return this.location;
     }
 
     public void setLocation(Location Location) {
-        this.Location = Location;
+        this.location = Location;
     }
 
     public CHSubtype getChsubtype() {

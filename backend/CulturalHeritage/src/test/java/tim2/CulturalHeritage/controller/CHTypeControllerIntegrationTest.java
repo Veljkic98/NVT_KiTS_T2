@@ -1,15 +1,26 @@
 package tim2.CulturalHeritage.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static tim2.CulturalHeritage.constants.CHSubtypeConstants.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static tim2.CulturalHeritage.constants.LoginConstants.*;
 import static tim2.CulturalHeritage.constants.CHTypeConstants.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
@@ -20,8 +31,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserLoginDTO;
 import tim2.CulturalHeritage.dto.requestDTO.CHTypeRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
+import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CHTypeResponseDTO;
+import tim2.CulturalHeritage.dto.responseDTO.CulturalHeritageResponseDTO;
+import tim2.CulturalHeritage.restTemplateHelp.RestResponsePage;
 import tim2.CulturalHeritage.service.CHTypeService;
+
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -148,6 +164,21 @@ public class CHTypeControllerIntegrationTest {
                 HttpMethod.DELETE, httpEntity, String.class);
 
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+
+    @Test
+    public void testGetAllCHTypesPageable() throws JsonProcessingException {
+        ParameterizedTypeReference<RestResponsePage<CHTypeResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CHTypeResponseDTO>>() {
+        };
+
+        ResponseEntity<RestResponsePage<CHTypeResponseDTO>> responseEntity = restTemplate
+                .exchange("/api/ch-types/by-page/?page=0&size=" + TYPES_ALL, HttpMethod.GET, null/* httpEntity */, responseType);
+
+        List<CHTypeResponseDTO> responseList = responseEntity.getBody().getContent();
+
+        Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Assert.assertEquals(TYPES_ALL, responseList.size());
     }
 
     @Test
