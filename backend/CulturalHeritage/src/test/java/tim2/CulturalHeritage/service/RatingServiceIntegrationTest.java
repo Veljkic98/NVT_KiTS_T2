@@ -142,5 +142,4 @@ public class RatingServiceIntegrationTest {
         rating.setId(NONEXIST_RATING_ID);
         ratingService.update(rating);
     }
-
 }
