@@ -7,11 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
+
+import tim2.CulturalHeritage.constants.CommentConstants;
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserLoginDTO;
 import tim2.CulturalHeritage.dto.requestDTO.CommentRequestDTO;
 import tim2.CulturalHeritage.dto.requestDTO.NewsRequestDTO;
@@ -27,6 +31,7 @@ import static tim2.CulturalHeritage.constants.CommentConstants.*;
 import static tim2.CulturalHeritage.constants.CulturalHeritageConstants.*;
 
 
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:test.properties")
@@ -38,6 +43,8 @@ public class CommentControllerInetgrationTest {
     private CommentService commentService;
 
     private HttpHeaders headers;
+
+    private Pageable pageable = PageRequest.of(0, CommentConstants.PAGE_SIZE);
 
     @Before
     public void login() {
@@ -91,6 +98,7 @@ public class CommentControllerInetgrationTest {
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals(CONTENT, commentResponseDTO.getContent());
         assertEquals(LOGGED_IN_USER_ID, commentResponseDTO.getAuthenticatedUserID());
+        assertEquals(NUMBER_OF_COMMENTS_IN_DB + 1, commentService.findAll(pageable).getNumberOfElements());
     }
 
     @Test
@@ -106,6 +114,7 @@ public class CommentControllerInetgrationTest {
         CommentResponseDTO commentResponseDTO = responseEntity.getBody();
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertNull(commentResponseDTO);
+        assertEquals(NUMBER_OF_COMMENTS_IN_DB, commentService.findAll(pageable).getNumberOfElements());
     }
 
     @Test
@@ -122,6 +131,7 @@ public class CommentControllerInetgrationTest {
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals(CONTENT, commentResponseDTO.getContent());
         assertEquals(LOGGED_IN_USER_ID, commentResponseDTO.getAuthenticatedUserID());
+        assertEquals(NUMBER_OF_COMMENTS_IN_DB + 1, commentService.findAll(pageable).getNumberOfElements());
     }
 
 
