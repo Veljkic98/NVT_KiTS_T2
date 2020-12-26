@@ -56,7 +56,7 @@ public class AuthenticatedUserController {
         AuthenticatedUser user = authenticatedUserService.findById(id);
         if (user != null) {
             authenticatedUserService.setVerified(user);
-            return new ResponseEntity<>("", HttpStatus.OK);
+            return new ResponseEntity<>(userMapper.toDto(user), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         }

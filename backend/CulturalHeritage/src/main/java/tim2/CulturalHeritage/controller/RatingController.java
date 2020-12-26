@@ -4,14 +4,12 @@ import java.security.AccessControlException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +24,7 @@ import tim2.CulturalHeritage.dto.requestDTO.RatingRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.RatingResponseDTO;
 import tim2.CulturalHeritage.helper.ApiErrors;
 import tim2.CulturalHeritage.helper.RatingMapper;
-import tim2.CulturalHeritage.model.AuthenticatedUser;
-import tim2.CulturalHeritage.model.CulturalHeritage;
 import tim2.CulturalHeritage.model.Rating;
-import tim2.CulturalHeritage.service.CulturalHeritageService;
 import tim2.CulturalHeritage.service.RatingService;
 
 import javax.persistence.EntityNotFoundException;

@@ -5,7 +5,8 @@ public class CHTypeConstants {
     public static final String NAME = "naziv";
     public static final String NAME_EXISTS = "masd";
     public static final Long NEW_CHTYPE_ID = 3L;
-    public static final int PAGE_SIZE = 2;
+    public static final int PAGE_SIZE = 5;
+    public static final int NUMBER_OF_CH_TYPES = 2;
 
     public static final long TYPE_ID_WITHOUT_SUBTYPES = 2;
     public static final long TYPE_ID_WITH_SUBTYPES = 1;

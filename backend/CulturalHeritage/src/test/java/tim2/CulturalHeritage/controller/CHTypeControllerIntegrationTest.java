@@ -7,10 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static tim2.CulturalHeritage.constants.CHSubtypeConstants.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static tim2.CulturalHeritage.constants.CHSubtypeConstants.EXIST_TYPE_ID;
-import static tim2.CulturalHeritage.constants.CHSubtypeConstants.NEW_VALID_SUBTYPE_NAME;
-import static tim2.CulturalHeritage.constants.LoginConstants.ADMIN_EMAIL;
-import static tim2.CulturalHeritage.constants.LoginConstants.ADMIN_PASS;
+import static tim2.CulturalHeritage.constants.LoginConstants.*;
 import static tim2.CulturalHeritage.constants.CHTypeConstants.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -55,7 +52,7 @@ public class CHTypeControllerIntegrationTest {
 
     private HttpHeaders headers;
 
-    private HttpHeaders withoutTokenHeaders = new HttpHeaders();
+    // private HttpHeaders withoutTokenHeaders = new HttpHeaders();
 
     @Before
     public void login() {
@@ -81,7 +78,6 @@ public class CHTypeControllerIntegrationTest {
         CHTypeRequestDTO requestDTO = new CHTypeRequestDTO();
         requestDTO.setName("naziv");
         HttpEntity<Object> httpEntity = new HttpEntity<>(requestDTO, headers);
-
 
         ResponseEntity<CHTypeResponseDTO> responseEntity = restTemplate.postForEntity("/api/ch-types", httpEntity,
                 CHTypeResponseDTO.class);
@@ -136,36 +132,36 @@ public class CHTypeControllerIntegrationTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testDeleteTypeValid(){
+    public void testDeleteTypeValid() {
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<String> responseEntity =
-                restTemplate.exchange("/api/ch-types/" + TYPE_ID_WITHOUT_SUBTYPES, HttpMethod.DELETE, httpEntity, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.exchange("/api/ch-types/" + TYPE_ID_WITHOUT_SUBTYPES,
+                HttpMethod.DELETE, httpEntity, String.class);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testDeleteTypeInvalid(){
+    public void testDeleteTypeInvalid() {
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<String> responseEntity =
-                restTemplate.exchange("/api/ch-types/" + TYPE_NONEXIST_ID, HttpMethod.DELETE, httpEntity, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.exchange("/api/ch-types/" + TYPE_NONEXIST_ID,
+                HttpMethod.DELETE, httpEntity, String.class);
         ;
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testDeleteTypeInvalidReferencing(){
+    public void testDeleteTypeInvalidReferencing() {
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<String> responseEntity =
-                restTemplate.exchange("/api/ch-types/" + TYPE_ID_WITH_SUBTYPES , HttpMethod.DELETE, httpEntity, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.exchange("/api/ch-types/" + TYPE_ID_WITH_SUBTYPES,
+                HttpMethod.DELETE, httpEntity, String.class);
 
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
@@ -187,10 +183,11 @@ public class CHTypeControllerIntegrationTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testUpdateTypeValid(){
+    public void testUpdateTypeValid() {
+
         HttpEntity<Object> httpEntity = new HttpEntity<>(new CHTypeRequestDTO(NAME), headers);
-        ResponseEntity<CHTypeResponseDTO> responseEntity =
-                restTemplate.exchange("/api/ch-types/" + TYPE_ID_WITH_SUBTYPES, HttpMethod.PUT, httpEntity, CHTypeResponseDTO.class);
+        ResponseEntity<CHTypeResponseDTO> responseEntity = restTemplate.exchange(
+                "/api/ch-types/" + TYPE_ID_WITH_SUBTYPES, HttpMethod.PUT, httpEntity, CHTypeResponseDTO.class);
         CHTypeResponseDTO updatedType = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -200,10 +197,10 @@ public class CHTypeControllerIntegrationTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testUpdateTypeValidIDInvalidName(){
+    public void testUpdateTypeValidIDInvalidName() {
         HttpEntity<Object> httpEntity = new HttpEntity<>(new CHTypeRequestDTO(NAME_EXISTS), headers);
-        ResponseEntity<CHTypeResponseDTO> responseEntity =
-                restTemplate.exchange("/api/ch-types/" + TYPE_ID_WITHOUT_SUBTYPES, HttpMethod.PUT, httpEntity, CHTypeResponseDTO.class);
+        ResponseEntity<CHTypeResponseDTO> responseEntity = restTemplate.exchange(
+                "/api/ch-types/" + TYPE_ID_WITHOUT_SUBTYPES, HttpMethod.PUT, httpEntity, CHTypeResponseDTO.class);
         CHTypeResponseDTO updatedType = responseEntity.getBody();
 
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
@@ -212,10 +209,10 @@ public class CHTypeControllerIntegrationTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testUpdateTypeInvalidIDValidName(){
+    public void testUpdateTypeInvalidIDValidName() {
         HttpEntity<Object> httpEntity = new HttpEntity<>(new CHTypeRequestDTO(NAME), headers);
-        ResponseEntity<CHTypeResponseDTO> responseEntity =
-                restTemplate.exchange("/api/ch-types/" + TYPE_NONEXIST_ID, HttpMethod.PUT, httpEntity, CHTypeResponseDTO.class);
+        ResponseEntity<CHTypeResponseDTO> responseEntity = restTemplate.exchange("/api/ch-types/" + TYPE_NONEXIST_ID,
+                HttpMethod.PUT, httpEntity, CHTypeResponseDTO.class);
         CHTypeResponseDTO updatedType = responseEntity.getBody();
 
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
@@ -223,10 +220,10 @@ public class CHTypeControllerIntegrationTest {
     }
 
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testUpdateTypeInvalidIDInvalidName(){
+    public void testUpdateTypeInvalidIDInvalidName() {
         HttpEntity<Object> httpEntity = new HttpEntity<>(new CHTypeRequestDTO(NAME_EXISTS), headers);
-        ResponseEntity<CHTypeResponseDTO> responseEntity =
-                restTemplate.exchange("/api/ch-types/" + TYPE_NONEXIST_ID, HttpMethod.PUT, httpEntity, CHTypeResponseDTO.class);
+        ResponseEntity<CHTypeResponseDTO> responseEntity = restTemplate.exchange("/api/ch-types/" + TYPE_NONEXIST_ID,
+                HttpMethod.PUT, httpEntity, CHTypeResponseDTO.class);
         CHTypeResponseDTO updatedType = responseEntity.getBody();
 
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());

@@ -8,6 +8,9 @@ public class RatingConstants {
     public static final long NON_EXIST_USER = 2200;
     public static final long USER_ALREADY_GRADED_ID = 3;
 
+    public static final int PAGE_SIZE = 5;
+    public static final int NUMBER_OF_RATINGS_IN_DB = 3; 
+
     //CH
     public static final long CH_ID = 1;
     public static final long ALREADY_GRADED_CH_ID = 2;

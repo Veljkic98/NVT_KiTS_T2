@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.model.Comment;
 import tim2.CulturalHeritage.model.CulturalHeritage;
-import tim2.CulturalHeritage.model.News;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +20,6 @@ import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static tim2.CulturalHeritage.constants.NewsConstants.CONTENT;
-import static tim2.CulturalHeritage.constants.NewsConstants.HEADING;
 
 import static tim2.CulturalHeritage.constants.CommentConstants.*;
 import static tim2.CulturalHeritage.constants.CulturalHeritageConstants.CH_ID;

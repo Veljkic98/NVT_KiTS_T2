@@ -40,13 +40,15 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:test.properties")
-public class CulturalHeritageIntegrationTest {
+public class CulturalHeritageControllerIntegrationTest {
 
   @Autowired
   private TestRestTemplate restTemplate;
 
   @Autowired
   private CulturalHeritageService culturalHeritageService;
+
+  private Pageable pageable = PageRequest.of(0, PAGE_SIZE);
 
   public HttpHeaders login() {
     ResponseEntity<AuthUserLoginResponseDTO> responseEntity = restTemplate.postForEntity("/auth/login",
@@ -102,6 +104,7 @@ public class CulturalHeritageIntegrationTest {
     restTemplate.exchange("/api/cultural-heritages", HttpMethod.POST ,requestEntity, CulturalHeritageResponseDTO.class);
 
     assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+    assertEquals(NUMBER_OF_CH_IN_DB + 1, culturalHeritageService.findAll(pageable).getNumberOfElements());
   }
   @Test
   @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
@@ -114,6 +117,7 @@ public class CulturalHeritageIntegrationTest {
     restTemplate.exchange("/api/cultural-heritages", HttpMethod.POST ,requestEntity, CulturalHeritageResponseDTO.class);
 
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    assertEquals(NUMBER_OF_CH_IN_DB, culturalHeritageService.findAll(pageable).getNumberOfElements());
   }
 
   
@@ -131,6 +135,8 @@ public class CulturalHeritageIntegrationTest {
     CulturalHeritageResponseDTO chResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(NAME, chResponseDTO.getName());
+    assertEquals(NUMBER_OF_CH_IN_DB, culturalHeritageService.findAll(pageable).getNumberOfElements());
+
   }
 
   @Test
@@ -166,6 +172,7 @@ public class CulturalHeritageIntegrationTest {
       restTemplate.exchange("/api/cultural-heritages/" + CH_ID, HttpMethod.DELETE, requestEntity, Void.class);
 
     assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+    assertEquals(NUMBER_OF_CH_IN_DB -1, culturalHeritageService.findAll(pageable).getNumberOfElements());
   }
 
   @Test
@@ -178,12 +185,11 @@ public class CulturalHeritageIntegrationTest {
       restTemplate.exchange("/api/cultural-heritages/" + CH_ID_NOT_FOUND, HttpMethod.DELETE, requestEntity, Void.class);
     
     assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    assertEquals(NUMBER_OF_CH_IN_DB, culturalHeritageService.findAll(pageable).getNumberOfElements());
   }
 
   @Test
   public void findAll_ok_listAndOk() {
-
-    Pageable pageable = PageRequest.of(0, PAGE_SIZE);
     Page<CulturalHeritage> chPage = culturalHeritageService.findAll(pageable);
     List<CulturalHeritage> chList = chPage.getContent();
 
@@ -217,6 +223,16 @@ public class CulturalHeritageIntegrationTest {
   public void findById_InvalidID_ShouldReturnNotFound(){
     ResponseEntity<CulturalHeritageResponseDTO> responseEntity= 
       restTemplate.getForEntity("/api/cultural-heritages/" + CH_ID_NOT_FOUND, CulturalHeritageResponseDTO.class);
+
+    CulturalHeritageResponseDTO culturalHeritageResponseDTO = responseEntity.getBody();
+    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    assertNull(culturalHeritageResponseDTO);
+  }
+
+  @Test
+  public void testFilterByName(){
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity=
+            restTemplate.getForEntity("/api/cultural-heritages/filtered", CulturalHeritageResponseDTO.class);
 
     CulturalHeritageResponseDTO culturalHeritageResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
