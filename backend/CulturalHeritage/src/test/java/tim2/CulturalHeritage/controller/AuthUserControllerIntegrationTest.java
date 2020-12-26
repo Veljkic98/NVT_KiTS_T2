@@ -81,7 +81,7 @@ public class AuthUserControllerIntegrationTest {
         assertNotNull(user.getId());
         assertTrue(!user.isApproved());
 
-        assertEquals(ALL_USERS, authenticatedUserService.findAll(pageable).getNumberOfElements());
+        assertEquals(ALL_USERS + 1, authenticatedUserService.findAll(pageable).getNumberOfElements());
     }
 
     @Test
