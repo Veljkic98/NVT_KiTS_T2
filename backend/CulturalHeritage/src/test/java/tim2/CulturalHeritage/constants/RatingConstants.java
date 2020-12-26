@@ -20,6 +20,5 @@ public class RatingConstants {
     public static final long EXIST_RATING_ID = 1;
     public static final long NONEXIST_RATING_ID = 12929292;
 
-    public static final long USER_WHO_LEFT_RATING_ID = 3;
-
+    public static final long RATING_FROM_LOGGED_IN_USER = 3;
 }
