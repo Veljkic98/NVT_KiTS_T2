@@ -216,6 +216,8 @@ public class CulturalHeritageControllerIntegrationTest {
     CulturalHeritageResponseDTO culturalHeritageResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(CH_ID, culturalHeritageResponseDTO.getId());
+    //rating check
+    assertEquals(AVG_RATING_CH_ID_1, culturalHeritageResponseDTO.getAvgRating());
   }
 
   @Test
