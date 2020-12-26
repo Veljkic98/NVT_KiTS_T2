@@ -4,12 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static tim2.CulturalHeritage.constants.CHSubtypeConstants.EXIST_TYPE_ID;
-import static tim2.CulturalHeritage.constants.CHSubtypeConstants.NEW_VALID_SUBTYPE_NAME;
+import static tim2.CulturalHeritage.constants.CHSubtypeConstants.*;
 import static tim2.CulturalHeritage.constants.LoginConstants.ADMIN_EMAIL;
 import static tim2.CulturalHeritage.constants.LoginConstants.ADMIN_PASS;
 import static tim2.CulturalHeritage.constants.CHTypeConstants.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,8 +29,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserLoginDTO;
 import tim2.CulturalHeritage.dto.requestDTO.CHTypeRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
+import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CHTypeResponseDTO;
 import tim2.CulturalHeritage.service.CHTypeService;
+
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -156,4 +162,20 @@ public class CHTypeControllerIntegrationTest {
 
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
+
+
+    @Test
+    public void testGetAllCHTypes() throws JsonProcessingException {
+        HttpEntity<Object> httpEntity = new HttpEntity<>(withoutTokenHeaders);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ResponseEntity<String> responseEntity =
+                restTemplate.exchange("/api/ch-types", HttpMethod.GET, httpEntity, String.class);
+
+        List<CHTypeResponseDTO> subtypes = objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<CHTypeResponseDTO>>() {});
+        Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Assert.assertEquals(SUBTYPES_ALL, subtypes.size());
+    }
+
 }
