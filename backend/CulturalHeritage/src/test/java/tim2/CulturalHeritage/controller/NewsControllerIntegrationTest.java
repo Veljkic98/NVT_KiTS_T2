@@ -147,6 +147,7 @@ public class NewsControllerIntegrationTest {
     NewsResponseDTO newsResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
     assertEquals(HEADING, newsResponseDTO.getHeading());
+    assertEquals(NUMBER_OF_NEWS_IN_DB + 1, newsService.findAll(pageable).getNumberOfElements());
   }
 
   @Test
@@ -160,6 +161,7 @@ public class NewsControllerIntegrationTest {
       restTemplate.postForEntity("/api/news", requestEntity, NewsResponseDTO.class);
 
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    assertEquals(NUMBER_OF_NEWS_IN_DB, newsService.findAll(pageable).getNumberOfElements());
   }
 
   @Test
@@ -176,6 +178,7 @@ public class NewsControllerIntegrationTest {
     NewsResponseDTO newsResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(HEADING, newsResponseDTO.getHeading());
+    assertEquals(NUMBER_OF_NEWS_IN_DB, newsService.findAll(pageable).getNumberOfElements());
   }
 
   @Test
@@ -209,9 +212,10 @@ public class NewsControllerIntegrationTest {
     HttpEntity<Object> requestEntity = new HttpEntity<Object>(null, authHeaders);
 
     ResponseEntity<Void> responseEntity = 
-    restTemplate.exchange("/api/news/" + NEWS_ID, HttpMethod.DELETE, requestEntity ,Void.class );
+      restTemplate.exchange("/api/news/" + NEWS_ID, HttpMethod.DELETE, requestEntity ,Void.class );
   
-  assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+    assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+    assertEquals(NUMBER_OF_NEWS_IN_DB -1, newsService.findAll(pageable).getNumberOfElements());
 
   }
 
@@ -225,6 +229,7 @@ public class NewsControllerIntegrationTest {
     restTemplate.exchange("/api/news/" + NEWS_ID_NOT_FOUND, HttpMethod.DELETE, requestEntity ,Void.class );
   
   assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+  assertEquals(NUMBER_OF_NEWS_IN_DB , newsService.findAll(pageable).getNumberOfElements());
   }
 
   
