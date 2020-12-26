@@ -38,7 +38,7 @@ insert into news (content, heading, cultural_heritage_id, admin_id) values ('sad
 
 --RATINGS  SIZE = 3  (2 grades for same ch, one for another)
 INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (3, 3, 1);
-INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (5, 4, 1);
+INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (4, 4, 1);
 INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (5, 2, 2);
 
 --COMMENTS
