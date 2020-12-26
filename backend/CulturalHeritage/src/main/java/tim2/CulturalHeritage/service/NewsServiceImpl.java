@@ -58,14 +58,13 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public News add(News news, MultipartFile file) {
 
-        List<AuthenticatedUser> users = authenticatedUserService.findAllSubscribedToCH(news.getCulturalHeritage().getId());
-
         try {
+            List<AuthenticatedUser> users = authenticatedUserService.findAllSubscribedToCH(news.getCulturalHeritage().getId());
             for (AuthenticatedUser user : users) {
                 emailService.sendNotification(user.getEmail(), news.getCulturalHeritage().getName());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            
         }
 
         FileDB fileDB = fileDBService.add(file);

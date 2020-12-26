@@ -137,7 +137,7 @@ public class LocationServiceIntegrationTest {
     public void update_locationOk_updated() {
 
         Location location = new Location();
-        location.setId(ID_NOT_IN_USE);
+        location.setId(ID_IN_USE);
         location.setLatitude(LATITUDE);
         location.setLongitude(LONGITUDE);
 

@@ -3,6 +3,7 @@ INSERT INTO chtype (name) VALUES  ('CH Type without subtypes, please dont add su
 
 INSERT INTO chsubtype (name, chtype_id) VALUES ('festival', 1);
 INSERT INTO chsubtype (name, chtype_id) VALUES ('carnival', 1);
+INSERT INTO chsubtype (name, chtype_id) VALUES ('nothing', 1);
 
 INSERT INTO location (city, country, latitude, longitude) VALUES ('Louisville', 'Kentucky, USA', '38.256111', '-85.751389');
 INSERT INTO location (city, country, latitude, longitude) VALUES ('asd', 'dsa', '18.256111', '-88.751389');
