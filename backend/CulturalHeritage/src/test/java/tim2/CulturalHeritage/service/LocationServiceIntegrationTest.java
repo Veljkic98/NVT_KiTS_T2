@@ -2,6 +2,7 @@ package tim2.CulturalHeritage.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static tim2.CulturalHeritage.constants.LocationConstants.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -74,7 +75,6 @@ public class LocationServiceIntegrationTest {
     }
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void findAll_ok_list() {
 
         Pageable pageable = PageRequest.of(0, PAGE_SIZE);
@@ -82,6 +82,25 @@ public class LocationServiceIntegrationTest {
         Page<Location> locationsPage = locationService.findAll(pageable);
 
         assertEquals(locationsPage.getNumberOfElements(), LOCATIONS_NUMBER);
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void findById_idOk_location() {
+
+        Location location = locationService.findById(ID_IN_USE);
+
+        assertNotNull(location);
+        assertEquals(location.getId(), ID_IN_USE);
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void findById_idNotExists_location() {
+
+        Location location = locationService.findById(ID_NOT_EXISTS);
+
+        assertNull(location);
     }
 
     @Test
