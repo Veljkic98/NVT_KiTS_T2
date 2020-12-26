@@ -40,7 +40,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:test.properties")
-public class CulturalHeritageIntegrationTest {
+public class CulturalHeritageControllerIntegrationTest {
 
   @Autowired
   private TestRestTemplate restTemplate;

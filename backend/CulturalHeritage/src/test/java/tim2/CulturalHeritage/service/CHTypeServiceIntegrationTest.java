@@ -1,6 +1,7 @@
 package tim2.CulturalHeritage.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static tim2.CulturalHeritage.constants.CHTypeConstants.*;
 
@@ -10,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,6 +29,34 @@ public class CHTypeServiceIntegrationTest {
 
     @Autowired
     private CHTypeService chTypeService;
+
+    private Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+
+    @Test
+    public void findAll_ok_list() {
+
+        Page<CHType> typesPage = chTypeService.findAll(pageable);
+
+        assertEquals(typesPage.getNumberOfElements(), NUMBER_OF_CH_TYPES);
+    }
+
+    @Test
+    public void findById_idOd_chType() {
+
+        CHType type = chTypeService.findById(TYPE_ID_WITH_SUBTYPES);
+
+        assertNotNull(type);
+        assertEquals(type.getId(), TYPE_ID_WITH_SUBTYPES); 
+        assertEquals(type.getName(), NAME_EXISTS);
+    }
+
+    @Test
+    public void findById_idnotExists_null() {
+
+        CHType type = chTypeService.findById(TYPE_NONEXIST_ID);
+
+        assertNull(type);
+    }
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
@@ -60,26 +92,29 @@ public class CHTypeServiceIntegrationTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testDeleteValid(){
+    public void testDeleteValid() {
+
         chTypeService.deleteById(TYPE_ID_WITHOUT_SUBTYPES);
     }
 
     @Test(expected = EmptyResultDataAccessException.class)
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testDeleteInvalidId(){
+    public void testDeleteInvalidId() {
+
         chTypeService.deleteById(TYPE_NONEXIST_ID);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testDeleteInvalidTypeReferenced(){
+    public void testDeleteInvalidTypeReferenced() {
+
         chTypeService.deleteById(TYPE_ID_WITH_SUBTYPES);
     }
 
-
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testUpdateValid(){
+    public void update_valid_ok() {
+
         CHType type = new CHType();
         type.setId(TYPE_ID_WITH_SUBTYPES);
         type.setName(NAME);
@@ -90,7 +125,8 @@ public class CHTypeServiceIntegrationTest {
 
     @Test(expected = DataIntegrityViolationException.class)
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testUpdateInvalidNameValidId() {
+    public void update_invalidNameValidId_null() {
+
         CHType type = new CHType();
         type.setId(TYPE_ID_WITHOUT_SUBTYPES);
         type.setName(NAME_EXISTS);
@@ -101,7 +137,8 @@ public class CHTypeServiceIntegrationTest {
 
     @Test(expected = EntityNotFoundException.class)
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testUpdateInvalidIDValidName() {
+    public void update_invalidIDValidName_null() {
+
         CHType type = new CHType();
         type.setId(TYPE_NONEXIST_ID);
         type.setName(NAME);
@@ -112,7 +149,8 @@ public class CHTypeServiceIntegrationTest {
 
     @Test(expected = EntityNotFoundException.class)
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testUpdateInvalidNameInvalidId() {
+    public void update_invalidNameInvalidId_null() {
+
         CHType type = new CHType();
         type.setId(TYPE_NONEXIST_ID);
         type.setName(NAME_EXISTS);
