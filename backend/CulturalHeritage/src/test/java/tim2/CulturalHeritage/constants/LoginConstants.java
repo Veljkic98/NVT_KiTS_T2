@@ -6,5 +6,9 @@ public class LoginConstants {
 
     public static final String USER_EMAIL = "helen@hotmail.com";
     public static final String USER_PASS = "123";
+
+    public static final String USER_EMAIL_3 = "Weatherwax12@gmail.com";
+    public static final String USER_PASS_3 = "123";
+
     public static final long LOGGED_IN_USER_ID = 2;
 }

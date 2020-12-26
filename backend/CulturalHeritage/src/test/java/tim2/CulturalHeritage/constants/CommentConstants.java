@@ -9,7 +9,10 @@ public class CommentConstants {
     public static final int PAGE_SIZE = 5;
     public static final int NUMBER_OF_COMMENTS_IN_DB = 2;
     public static final Long ID_OK = 1L;
-    public static final Long ID_NOT_EXISTS = 18465L;
+    public static final Long ID_OK_2 = 2L;
+    public static final Long ID_NOT_EXISTS = 18465L; 
+
+    public static final long CH_ID11 = 1; 
 
     public static final String CONTENT_1 = "Duis at velit eu est congue elementum. In hac habitasse platea dictumst.";
 
