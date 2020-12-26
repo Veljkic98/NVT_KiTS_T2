@@ -27,7 +27,7 @@ insert into user_authority (user_id, authority_id) values (3, 2)
 INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (4,'Margene', 'Weatherwax', 'Weatherwax12@gmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
 insert into user_authority (user_id, authority_id) values (4, 2)
 
-INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (5,'Everette', 'Desch', 'heldesch123en@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (5,'Everette', 'Desch', 'heldesch123en@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'false');
 insert into user_authority (user_id, authority_id) values (5, 2)
 
 
