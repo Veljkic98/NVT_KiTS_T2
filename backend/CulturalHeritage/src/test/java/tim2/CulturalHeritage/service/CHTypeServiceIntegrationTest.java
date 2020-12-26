@@ -117,7 +117,7 @@ public class CHTypeServiceIntegrationTest {
         PageRequest p = PageRequest.of(0, PAGE_SIZE);
         Page<CHType> res = chTypeService.findAll(p);
 
-        assertEquals(PAGE_SIZE, res.getTotalElements());
+        assertEquals(NUMBER_OF_CH_TYPES ,res.getTotalElements());
     }
 
 
