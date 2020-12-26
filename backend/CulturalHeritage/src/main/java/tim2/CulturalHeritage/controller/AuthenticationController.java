@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserLoginDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
 import tim2.CulturalHeritage.helper.AuthenticatedUserMapper;
-import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.model.Person;
 import tim2.CulturalHeritage.security.TokenUtils;
 import tim2.CulturalHeritage.service.AuthenticatedUserServiceImpl;

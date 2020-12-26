@@ -23,15 +23,6 @@ import static tim2.CulturalHeritage.constants.CHSubtypeConstants.*;
 public class CHSubtypeServiceIntegrationTest {
 
     @Autowired
-    CHSubtypeRepository chSubtypeRepository;
-
-    @Autowired
-    CHTypeService chTypeService;
-
-    @Autowired
-    CulturalHeritageService culturalHeritageService;
-
-    @Autowired
     CHSubtypeService chSubtypeService;
 
     @Test

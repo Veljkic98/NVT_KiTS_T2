@@ -11,25 +11,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserLoginDTO;
 import tim2.CulturalHeritage.dto.requestDTO.CHSubtypeRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.CHSubtypeResponseDTO;
-import tim2.CulturalHeritage.helper.ApiErrors;
 import tim2.CulturalHeritage.service.CHSubtypeService;
 
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 import static tim2.CulturalHeritage.constants.CHSubtypeConstants.*;
 import static tim2.CulturalHeritage.constants.LoginConstants.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.assertj.core.api.Assertions.*;
 
 
 

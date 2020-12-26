@@ -18,7 +18,7 @@ public class EmailService {
     private Environment env;
 
     @Async
-    public void sendVerificationLink(String link, String email) throws MailException, InterruptedException {
+    public void sendVerificationLink(String link, String email) throws MailException {
 
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(email);
@@ -27,7 +27,6 @@ public class EmailService {
         String text = "Please verify your account by clicking the following link : " + link;
         mail.setText(text);
         javaMailSender.send(mail);
-
     }
 
     /**
@@ -36,10 +35,9 @@ public class EmailService {
      * 
      * @param email
      * @throws MailException
-     * @throws InterruptedException
      */
     @Async
-    public void sendNotification(String email, String chName) throws MailException, InterruptedException {
+    public void sendNotification(String email, String chName) throws MailException {
 
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(email);

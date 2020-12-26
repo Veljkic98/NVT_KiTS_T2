@@ -4,6 +4,7 @@ INSERT INTO chtype (name) VALUES  ('CH Type without subtypes, please dont add su
 INSERT INTO chsubtype (name, chtype_id) VALUES ('festival', 1);
 
 INSERT INTO location (city, country, latitude, longitude) VALUES ('Louisville', 'Kentucky, USA', '38.256111', '-85.751389');
+INSERT INTO location (city, country, latitude, longitude) VALUES ('asd', 'dsa', '18.256111', '-88.751389');
 
 INSERT INTO cultural_heritage (name, location_id, chsubtype_id, description) VALUES ('CH1', 1, 1, 'The Carnival...');
 INSERT INTO cultural_heritage (name, location_id, chsubtype_id, description) VALUES ('CH2', 1, 1, 'The Carnival...');
@@ -27,7 +28,7 @@ insert into user_authority (user_id, authority_id) values (3, 2)
 INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (4,'Margene', 'Weatherwax', 'Weatherwax12@gmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
 insert into user_authority (user_id, authority_id) values (4, 2)
 
-INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (5,'Everette', 'Desch', 'heldesch123en@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (5,'Everette', 'Desch', 'heldesch123en@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'false');
 insert into user_authority (user_id, authority_id) values (5, 2)
 
 

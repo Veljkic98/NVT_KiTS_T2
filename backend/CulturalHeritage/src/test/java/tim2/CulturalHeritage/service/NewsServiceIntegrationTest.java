@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static tim2.CulturalHeritage.constants.NewsConstants.*;
 
 import org.junit.Test;
@@ -21,21 +20,14 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.MethodMode;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import tim2.CulturalHeritage.model.News;
 
-import static tim2.CulturalHeritage.constants.NewsConstants.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-
-import javax.persistence.EntityNotFoundException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
