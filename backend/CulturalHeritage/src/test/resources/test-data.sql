@@ -8,6 +8,7 @@ INSERT INTO chsubtype (name, chtype_id) VALUES ('nothing', 1);
 INSERT INTO location (city, country, latitude, longitude) VALUES ('Louisville', 'Kentucky, USA', '38.256111', '-85.751389');
 INSERT INTO location (city, country, latitude, longitude) VALUES ('asd', 'dsa', '18.256111', '-88.751389');
 INSERT INTO location (city, country, latitude, longitude) VALUES ('Novi Sad', 'Serbia', '11.256111', '3.751389');
+INSERT INTO location (city, country, latitude, longitude) VALUES ('Novi Sad', 'Serbia', '11.256111', '3.751389');
 
 INSERT INTO cultural_heritage (name, location_id, chsubtype_id, description) VALUES ('CH1', 1, 1, 'The Carnival...');
 INSERT INTO cultural_heritage (name, location_id, chsubtype_id, description) VALUES ('CH2', 1, 1, 'The Carnival...');
