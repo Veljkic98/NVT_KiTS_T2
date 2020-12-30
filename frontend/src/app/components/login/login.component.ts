@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+      console.log(this.authService.getRole());
       this.loginForm = this.formBuilder.group({                    
           email: ['', [Validators.email, Validators.required]],
           password: ['', [Validators.required, Validators.minLength(3)]],          

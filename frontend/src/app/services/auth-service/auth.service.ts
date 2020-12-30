@@ -19,12 +19,11 @@ export class AuthService {
       localStorage.removeItem("user");
     }
   
-    getRole(): string {
-      return localStorage.getItem("user") !== undefined ? localStorage.getItem("user")['role'] : "INVALID";
+    getRole(): string {    
+      return localStorage.getItem("user") !== undefined ? JSON.parse(localStorage.getItem("user"))['roles'] : "INVALID";
     }
 
     isLoggedIn(): boolean {
-
         return localStorage.getItem("user") !== null ? true : false;
     }
 
