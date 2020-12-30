@@ -1,1 +1,8 @@
-<div><h1>Your account have been successfully activated! Yo can login now.</h1></div>
+<div>
+<div *ngIf="success; else elseBlock">
+    <h1>Your account have been successfully activated! Yo can login now.</h1>
+</div>
+<ng-template #elseBlock>  
+    <h1>{{error}}</h1>
+</ng-template>
+</div>

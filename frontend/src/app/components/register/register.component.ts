@@ -56,8 +56,11 @@ export class RegisterComponent implements OnInit {
                 this.success = true;
             },
             error => {
-                this.error = error.error.messages[0];
-                ;
+                try {
+                    this.error = error.error.messages[0];
+                } catch (e) {
+                    this.error = "Somethnig went wrong please try again";
+                }
                 this.loading = false; 
             });
 }
