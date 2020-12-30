@@ -20,7 +20,7 @@ export class AuthService {
     }
   
     getRole(): string {    
-      return localStorage.getItem("user") !== undefined ? JSON.parse(localStorage.getItem("user"))['roles'] : "INVALID";
+      return localStorage.getItem("user") != null ? JSON.parse(localStorage.getItem("user"))['roles'] : "INVALID";
     }
 
     isLoggedIn(): boolean {

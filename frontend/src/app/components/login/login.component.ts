@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-      console.log(this.authService.getRole());
       this.loginForm = this.formBuilder.group({                    
           email: ['', [Validators.email, Validators.required]],
           password: ['', [Validators.required, Validators.minLength(3)]],          
@@ -61,8 +60,8 @@ export class LoginComponent implements OnInit {
         
             },
             error => {
-                this.error = error.error.messages[0];
-                ;
+                this.error = error.error.message;
+                
                 this.loading = false; 
             });
 }
