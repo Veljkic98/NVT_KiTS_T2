@@ -1,11 +1,11 @@
 package tim2.CulturalHeritage.service;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -17,8 +17,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import tim2.CulturalHeritage.dto.requestDTO.AuthUserLoginDTO;
-import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.model.Comment;
 import tim2.CulturalHeritage.model.CulturalHeritage;
@@ -26,16 +24,16 @@ import tim2.CulturalHeritage.model.CulturalHeritage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static tim2.CulturalHeritage.constants.NewsConstants.CONTENT;
 import static tim2.CulturalHeritage.constants.CommentConstants.*;
 import static tim2.CulturalHeritage.constants.CulturalHeritageConstants.CH_ID;
-import static tim2.CulturalHeritage.constants.LoginConstants.*;
+import static tim2.CulturalHeritage.constants.CulturalHeritageConstants.CH_ID_NOT_FOUND;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -47,7 +45,7 @@ public class CommentServiceIntegrationTest {
 
     private HttpHeaders headers;
 
-    Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+    Pageable pageable = PageRequest.of(PAGE_NUM, PAGE_SIZE);
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
@@ -143,5 +141,32 @@ public class CommentServiceIntegrationTest {
         Comment comment = commentService.findById(ID_NOT_EXISTS);
 
         assertNull(comment);
+    }
+
+    @Test
+    public void findAllForCHValid() {
+
+        Pageable pageable = PageRequest.of(PAGE_NUM, PAGE_SIZE);
+
+        Page<Comment> commPage = commentService.findAll(pageable, CH_ID);
+
+        List<Comment> commList = commPage.getContent();
+        assertEquals(commList.size(),NUMBER_OF_COMMENTS_IN_DB);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void findAllForCHNull() {
+
+        Pageable pageable = PageRequest.of(PAGE_NUM, PAGE_SIZE);
+
+        commentService.findAll(pageable, null);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void findAllForCHInvalid() {
+
+        Pageable pageable = PageRequest.of(PAGE_NUM, PAGE_SIZE);
+
+        commentService.findAll(pageable, CH_ID_NOT_FOUND);
     }
 }
