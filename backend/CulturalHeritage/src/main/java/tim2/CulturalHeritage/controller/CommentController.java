@@ -126,4 +126,27 @@ public class CommentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    /**
+     * Find all comments for specific Cultural Heritage.
+     *
+     * @param pageable
+     * @param chId     Cultural Heritage id
+     * @return
+     */
+    @GetMapping(value = "/by-page/{chID}")
+    public ResponseEntity<Page<CommentResponseDTO>> findAll(Pageable pageable, @PathVariable Long chID) {
+
+        try {
+            Page<Comment> resultPage = commentService.findAll(pageable, chID);
+            List<CommentResponseDTO> commDTO = commentMapper.toDtoList(resultPage.toList());
+            Page<CommentResponseDTO> commDTOPage = new PageImpl<>(commDTO, resultPage.getPageable(),
+                    resultPage.getTotalElements());
+            return new ResponseEntity<>(commDTOPage, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

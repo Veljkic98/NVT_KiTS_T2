@@ -26,6 +26,9 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private FileDBService fileDBService;
 
+    @Autowired
+    private CulturalHeritageService chService;
+
     @Override
     public Page<Comment> findAll(Pageable pageable) {
         return commentRepository.findAll(pageable);
@@ -82,6 +85,17 @@ public class CommentServiceImpl implements CommentService {
         }
 
         commentRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Comment> findAll(Pageable pageable, Long chID) {
+        if (chID == null)
+            throw new IllegalArgumentException();
+
+        if (null == chService.findById(chID))
+            throw new EntityNotFoundException();
+
+        return commentRepository.findAll(pageable, chID);
     }
 
 }

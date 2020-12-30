@@ -27,6 +27,8 @@ import tim2.CulturalHeritage.model.Comment;
 import tim2.CulturalHeritage.restTemplateHelp.RestResponsePage;
 import tim2.CulturalHeritage.service.CommentService;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -37,7 +39,7 @@ import static tim2.CulturalHeritage.constants.CulturalHeritageConstants.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:test.properties")
-public class CommentControllerInetgrationTest {
+public class CommentControllerIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -270,4 +272,38 @@ public class CommentControllerInetgrationTest {
         authHeaders.add("Authorization", accessToken);
         return authHeaders;
     }
+
+    @Test
+    public void testFindAllForCHValid() {
+
+        Pageable pageable = PageRequest.of(0, CommentConstants.PAGE_SIZE);
+        Page<Comment> commPage = commentService.findAll(pageable, CH_ID);
+        List<Comment> commList = commPage.getContent();
+
+        int size = commList.size();
+
+        ParameterizedTypeReference<RestResponsePage<CommentResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CommentResponseDTO>>() {
+        };
+
+        ResponseEntity<RestResponsePage<CommentResponseDTO>> responseEntity = restTemplate
+                .exchange("/api/comments/by-page/"+ CH_ID + "/?page=0&size=5&sort=id,ASC", HttpMethod.GET, null/* httpEntity */, responseType);
+
+        List<CommentResponseDTO> responseList = responseEntity.getBody().getContent();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(responseList.size(), NUMBER_OF_COMMENTS_IN_DB);
+    }
+
+    @Test
+    public void testFindAllForCHNotValid() {
+
+        ParameterizedTypeReference<RestResponsePage<CommentResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CommentResponseDTO>>() {
+        };
+
+        ResponseEntity<RestResponsePage<CommentResponseDTO>> responseEntity = restTemplate.exchange(
+                "/api/comments/by-page/" + CH_ID_NOT_FOUND + "/?page=0&size=5&sort=id,ASC", HttpMethod.GET, null/* httpEntity */,
+                responseType);
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+   }
 }
