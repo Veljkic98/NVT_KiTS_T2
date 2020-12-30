@@ -304,6 +304,6 @@ public class CommentControllerIntegrationTest {
                 "/api/comments/by-page/" + CH_ID_NOT_FOUND + "/?page=0&size=5&sort=id,ASC", HttpMethod.GET, null/* httpEntity */,
                 responseType);
 
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
    }
 }
