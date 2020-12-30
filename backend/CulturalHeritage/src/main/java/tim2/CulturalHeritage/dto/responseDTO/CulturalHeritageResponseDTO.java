@@ -9,11 +9,13 @@ public class CulturalHeritageResponseDTO {
     private Long chsubtypeID;
     private String imageUri;
     private float avgRating;
+    private String locationName;
+    private String subtypeName;
 
 
     public CulturalHeritageResponseDTO() {}
 
-    public CulturalHeritageResponseDTO(Long id, String name, String description, Long locationID, Long chsubtypeID, String imageUri, float avgRating) {
+    public CulturalHeritageResponseDTO(Long id, String name, String description, Long locationID, Long chsubtypeID, String imageUri, float avgRating, String locationName, String subtypeName) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -21,6 +23,8 @@ public class CulturalHeritageResponseDTO {
         this.chsubtypeID = chsubtypeID;
         this.imageUri = imageUri;
         this.avgRating = avgRating;
+        this.locationName = locationName;
+        this.subtypeName = subtypeName;
     }
 
     public Long getId() {
@@ -74,4 +78,20 @@ public class CulturalHeritageResponseDTO {
     public float getAvgRating() { return avgRating; }
 
     public void setAvgRating(float avgRating) { this.avgRating = avgRating; }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getSubtypeName() {
+        return subtypeName;
+    }
+
+    public void setSubtypeName(String subtypeName) {
+        this.subtypeName = subtypeName;
+    }
 }
