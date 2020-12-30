@@ -11,12 +11,16 @@ import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import tim2.CulturalHeritage.dto.requestDTO.AuthUserLoginDTO;
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserRequestDTO;
+import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static tim2.CulturalHeritage.constants.AuthUserConstants.*;
+import static tim2.CulturalHeritage.constants.LoginConstants.*;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -30,6 +34,8 @@ public class AuthUserControllerIntegrationTest {
     private AuthenticatedUserService authenticatedUserService;
 
     private HttpHeaders headers = new HttpHeaders();
+
+    private HttpHeaders headersWithToken = new HttpHeaders();
 
     private Pageable pageable = PageRequest.of(PAGE_NUM, PAGE_SIZE);
 
@@ -81,7 +87,7 @@ public class AuthUserControllerIntegrationTest {
         assertNotNull(user.getId());
         assertTrue(!user.isApproved());
 
-        assertEquals(ALL_USERS, authenticatedUserService.findAll(pageable).getNumberOfElements());
+        assertEquals(ALL_USERS + 1, authenticatedUserService.findAll(pageable).getNumberOfElements());
     }
 
     @Test
@@ -115,5 +121,67 @@ public class AuthUserControllerIntegrationTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertTrue(user.isApproved());
         assertEquals(ALL_USERS, authenticatedUserService.findAll(pageable).getNumberOfElements());
+    }
+    
+    @Test
+    public void testGetProfileDetailsAdmin() {
+        //admin is logged in
+        loginAdmin();
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headersWithToken);
+
+        ResponseEntity<AuthUserResponseDTO> responseEntity =
+                restTemplate.exchange("/api/authenticated-users/me/", HttpMethod.GET, httpEntity,
+                        AuthUserResponseDTO.class);
+
+        AuthUserResponseDTO user = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertTrue(user.isApproved());
+        assertEquals(user.getEmail(), ADMIN_EMAIL);
+        assertEquals(ALL_USERS, authenticatedUserService.findAll(pageable).getNumberOfElements());
+    }
+
+    @Test
+    public void testGetProfileDetailsAuthUser() {
+        //user is logged in
+        loginUser();
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headersWithToken);
+
+        ResponseEntity<AuthUserResponseDTO> responseEntity =
+                restTemplate.exchange("/api/authenticated-users/me/", HttpMethod.GET, httpEntity,
+                        AuthUserResponseDTO.class);
+
+        AuthUserResponseDTO user = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertTrue(user.isApproved());
+        assertEquals(user.getEmail(), USER_EMAIL);
+        assertEquals(user.getId(), LOGGED_IN_USER_ID);
+        assertEquals(ALL_USERS, authenticatedUserService.findAll(pageable).getNumberOfElements());
+    }
+
+    public void loginAdmin() {
+        ResponseEntity<AuthUserLoginResponseDTO> responseEntity = restTemplate.postForEntity("/auth/login",
+                new AuthUserLoginDTO(ADMIN_EMAIL, ADMIN_PASS), AuthUserLoginResponseDTO.class);
+
+        String accessToken = "Bearer " + responseEntity.getBody().getAccessToken();
+
+        headersWithToken.add("Authorization", accessToken);
+
+        headersWithToken.setContentType(MediaType.APPLICATION_JSON);
+        headersWithToken.add("Content-Type", "application/json");
+    }
+
+    public void loginUser() {
+        ResponseEntity<AuthUserLoginResponseDTO> responseEntity = restTemplate.postForEntity("/auth/login",
+                new AuthUserLoginDTO(USER_EMAIL, USER_PASS), AuthUserLoginResponseDTO.class);
+
+        String accessToken = "Bearer " + responseEntity.getBody().getAccessToken();
+
+        headers = new HttpHeaders();
+        headersWithToken.add("Authorization", accessToken);
+
+        headersWithToken.setContentType(MediaType.APPLICATION_JSON);
+        headersWithToken.add("Content-Type", "application/json");
     }
 }

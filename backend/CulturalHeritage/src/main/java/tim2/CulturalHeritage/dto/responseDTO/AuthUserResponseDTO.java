@@ -19,6 +19,17 @@ public class AuthUserResponseDTO {
         this.email = email;
         this.approved = approved;
     }
+    
+    public AuthUserResponseDTO(Long id, String firstName, String lastName, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        //For casting logged in user to response (logged in is always approved)
+        this.approved = true;
+    }
+
+    public AuthUserResponseDTO() {}
 
     public Long getId() {
         return id;

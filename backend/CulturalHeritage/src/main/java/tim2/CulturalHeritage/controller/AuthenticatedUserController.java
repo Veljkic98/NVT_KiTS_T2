@@ -7,6 +7,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserRequestDTO;
@@ -14,6 +16,7 @@ import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 import tim2.CulturalHeritage.helper.ApiErrors;
 import tim2.CulturalHeritage.helper.AuthenticatedUserMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
+import tim2.CulturalHeritage.model.Person;
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
 import javax.validation.Valid;
 
@@ -101,5 +104,14 @@ public class AuthenticatedUserController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/me")
+    public ResponseEntity<?> getProfileDetails() {
+        Person loggedIn  = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AuthUserResponseDTO userDTO = userMapper.toDto(loggedIn);
+
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 }

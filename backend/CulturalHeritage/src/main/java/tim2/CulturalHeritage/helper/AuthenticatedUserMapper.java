@@ -3,6 +3,7 @@ package tim2.CulturalHeritage.helper;
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
+import tim2.CulturalHeritage.model.Person;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,10 @@ public class AuthenticatedUserMapper implements MapperInterface<AuthenticatedUse
     @Override
     public AuthUserResponseDTO toDto(AuthenticatedUser entity) {
         return new AuthUserResponseDTO(entity.getId(), entity.getFirstName(), entity.getLastName(), entity.getEmail(), entity.isApproved());
+    }
+    
+    public AuthUserResponseDTO toDto(Person entity) {
+        return new AuthUserResponseDTO(entity.getId(), entity.getFirstName(), entity.getLastName(), entity.getEmail());
     }
 
     @Override
