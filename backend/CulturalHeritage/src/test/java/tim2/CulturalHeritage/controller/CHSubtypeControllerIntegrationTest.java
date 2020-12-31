@@ -117,8 +117,6 @@ public class CHSubtypeControllerIntegrationTest {
     }
 
     @Test
-    @Transactional
-    @Rollback(true)
     public void testDeleteSubtypeValid() throws Exception{
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);

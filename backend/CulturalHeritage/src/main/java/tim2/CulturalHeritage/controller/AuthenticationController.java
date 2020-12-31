@@ -44,7 +44,6 @@ public class AuthenticationController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthUserLoginDTO authenticationRequest,
                                                                     HttpServletResponse response) {
 
-
         Authentication authentication = authenticationManager.
                 authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 

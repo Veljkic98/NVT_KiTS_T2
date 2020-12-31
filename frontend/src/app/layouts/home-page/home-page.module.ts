@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { VerificationPageComponent } from '../../components/verification-page/verification-page.component';
+import { LoginComponent } from 'src/app/components/login/login.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { VerificationPageComponent } from '../../components/verification-page/ve
         MapsComponent,
         MyProfileComponent,
         RegisterComponent,
+        LoginComponent,
         VerificationPageComponent
     ]
 })
