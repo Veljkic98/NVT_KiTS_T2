@@ -19,7 +19,7 @@ mat-card img {
     height: 10%;
     padding: 3px;
 }
-i.icon-blue {
+i.icon-yellow {
     color: yellow;
 }
 .rate {
@@ -30,4 +30,9 @@ i.icon-blue {
     font-size: small;
     position: absolute;
     bottom: 0;
+}
+.close-icon {
+    top: 2px;
+    position: absolute;
+    right : 2px;
 }

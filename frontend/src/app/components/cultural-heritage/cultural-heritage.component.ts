@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter  } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { CulturalHeritageService } from '../../services/cultural-heritage/cultural-heritage.service';
@@ -16,6 +16,8 @@ export class CulturalHeritageComponent implements OnInit {
   error: string;
   openedSection : boolean = false;  
   imageUrl : SafeUrl;
+
+  @Output() closeDetails: EventEmitter<void> = new EventEmitter();
 
   constructor(
     private chService: CulturalHeritageService,
@@ -52,5 +54,9 @@ export class CulturalHeritageComponent implements OnInit {
       }
     )
 }
+
+  close() {
+    this.closeDetails.emit();
+  }
 
 }

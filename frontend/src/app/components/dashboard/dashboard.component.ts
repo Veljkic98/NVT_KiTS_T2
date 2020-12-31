@@ -14,4 +14,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  closeDetails() {
+    this.selectedCH = null;
+  }
+
 }
