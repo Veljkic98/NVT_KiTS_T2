@@ -1,4 +1,4 @@
-INSERT INTO files (data, name, type) VALUES (lo_import('/Users/images/event.jpg'), 'title.jpg', 'image/jpeg');
+INSERT INTO files (data, name, type) VALUES (lo_import('/Users/images/title.jpg'), 'title.jpg', 'image/jpeg');
 INSERT INTO files (data, name, type) VALUES (lo_import('/Users/images/event.jpg'), 'event.jpg', 'image/jpeg');
 
 INSERT INTO chtype ( name) VALUES  ( 'manifestation');
