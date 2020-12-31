@@ -1,5 +1,5 @@
-INSERT INTO files (data, name, type) VALUES (271390, 'title.jpg', 'image/jpeg');
-INSERT INTO files (data, name, type) VALUES (272555, 'event.jpg', 'image/jpeg');
+INSERT INTO files (data, name, type) VALUES (lo_import('/Users/images/event.jpg'), 'title.jpg', 'image/jpeg');
+INSERT INTO files (data, name, type) VALUES (lo_import('/Users/images/event.jpg'), 'event.jpg', 'image/jpeg');
 
 INSERT INTO chtype ( name) VALUES  ( 'manifestation');
 INSERT INTO chtype ( name) VALUES ( 'institution');
