@@ -1,3 +1,16 @@
 .menu-spacer {
     flex: 1 1 auto;
 }
+.mat-toolbar {
+    background-color: black;
+}
+a {
+    color: white;
+}
+.logo {
+    color: black;
+    background-color: #f3ce13;
+    border-radius: 10px;
+    padding: 3px;
+    font-weight: 800;
+}
