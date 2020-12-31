@@ -10,6 +10,7 @@ export class CulturalHeritageService {
     getOne(id) {
         return this.http.get<CulturalHeritage>(`${environment.apiUrl}/cultural-heritages/${id}`)
     }
+
     getChImage(imageUri) {
         return this.http.get(imageUri,  {responseType: 'blob'});
     }
