@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, Output, EventEmitter  } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges  } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
-import { CulturalHeritageService } from '../../services/cultural-heritage/cultural-heritage.service';
+import { CulturalHeritageService } from '../../services/cultural-heritage-serice/cultural-heritage.service';
 import { CulturalHeritage } from '../../models/cultural-heritage.model';
 
 @Component({
@@ -24,7 +24,15 @@ export class CulturalHeritageComponent implements OnInit {
     private sanitizer: DomSanitizer
 ) { }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.getCH();
+  }
+
   ngOnInit(): void {
+   this.getCH();
+  }
+
+  getCH() {
     this.chService.getOne(this.chID)
     .subscribe(
         data => {
@@ -48,7 +56,6 @@ export class CulturalHeritageComponent implements OnInit {
         let unsafeImageUrl = URL.createObjectURL(data);
         this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(unsafeImageUrl);
       }, 
-
       error => {
         console.log(error);
       }
@@ -58,5 +65,4 @@ export class CulturalHeritageComponent implements OnInit {
   close() {
     this.closeDetails.emit();
   }
-
 }

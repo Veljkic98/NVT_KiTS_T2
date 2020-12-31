@@ -18,4 +18,8 @@ export class DashboardComponent implements OnInit {
     this.selectedCH = null;
   }
 
+  changeID() {
+    this.selectedCH = this.selectedCH == 1? 2: 1;
+  }
+
 }
