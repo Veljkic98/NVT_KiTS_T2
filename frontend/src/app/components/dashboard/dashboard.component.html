@@ -4,6 +4,6 @@
         Ovde ce biti prikaz mape 
     </div>
     <div class="ch-details">
-        <app-cultural-heritage *ngIf="selectedCH > 0" [chID]="selectedCH" (closeDetails)="closeDetails($event)"></app-cultural-heritage>
+        <app-cultural-heritage *ngIf="selectedCH" [chID]="selectedCH" (closeDetails)="closeDetails($event)"></app-cultural-heritage>
     </div>
 </div>
