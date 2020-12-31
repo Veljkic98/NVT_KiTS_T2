@@ -17,6 +17,8 @@ import { VerificationPageComponent } from '../../components/verification-page/ve
 import { CulturalHeritageComponent  } from '../../components/cultural-heritage/cultural-heritage.component';
 import { DashboardComponent  } from '../../components/dashboard/dashboard.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { LoginComponent } from 'src/app/components/login/login.component';
+
 
 
 @NgModule({
@@ -40,7 +42,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
         RegisterComponent,
         DashboardComponent, 
         VerificationPageComponent,
-        CulturalHeritageComponent
+        CulturalHeritageComponent,
+        LoginComponent,
     ]
 })
 

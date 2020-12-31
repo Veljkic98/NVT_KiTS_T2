@@ -7,6 +7,7 @@ import { HomePageComponent } from './layouts/home-page/home-page.component';
 import { RegisterComponent } from './components/register/register.component';
 import { VerificationPageComponent } from './components/verification-page/verification-page.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: 'myProfile', component: MyProfileComponent },
       { path: 'maps', component: MapsComponent },
       { path: 'register', component: RegisterComponent },
+      { path:'login', component: LoginComponent },
       { path: 'verify/:id', component: VerificationPageComponent }
     ]
   }
