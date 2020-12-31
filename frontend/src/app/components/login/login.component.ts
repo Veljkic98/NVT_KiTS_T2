@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
                     token: data['accessToken'],
                     role: JSON.parse(window.atob(data['accessToken'].split('.')[1]))['role']
                   }));
-                this.router.navigate(['/']);
+                this.router.navigate(['']);
         
             },
             error => {
