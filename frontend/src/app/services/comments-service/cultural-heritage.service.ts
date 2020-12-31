@@ -8,7 +8,7 @@ export class CommentService {
     constructor(private http: HttpClient) { }
 
     getComments(chID) {
-        return this.http.get(`${environment.apiUrl}/comments/${chID}`);
+        return this.http.get(`${environment.apiUrl}/comments/by-page/${chID}/?page=0&size=5&sort=id,ASC`);
     }
 
     getCommentImage(imageUri) {

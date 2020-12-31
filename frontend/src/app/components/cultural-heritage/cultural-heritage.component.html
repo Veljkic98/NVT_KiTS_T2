@@ -44,10 +44,10 @@
                     >
                       <mat-expansion-panel-header>
                         <mat-panel-title>
-                          <app-comments></app-comments>
+                          Comments
                         </mat-panel-title>
                       </mat-expansion-panel-header>
-                      <p>I'm visible because I am open</p>
+                      <app-comments [chID]="chID"></app-comments>
                     </mat-expansion-panel>
                     <mat-expansion-panel 
                       (opened)="openedSection = true"

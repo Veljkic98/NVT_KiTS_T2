@@ -25,7 +25,9 @@ export class CulturalHeritageComponent implements OnInit {
 ) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.getCH();
+    if (!changes.chID.firstChange) {
+      this.getCH();
+    }
   }
 
   ngOnInit(): void {
@@ -52,7 +54,6 @@ export class CulturalHeritageComponent implements OnInit {
     this.chService.getChImage(this.ch.imageUri)
     .subscribe(
       data => {
-        console.log(data);
         let unsafeImageUrl = URL.createObjectURL(data);
         this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(unsafeImageUrl);
       }, 
