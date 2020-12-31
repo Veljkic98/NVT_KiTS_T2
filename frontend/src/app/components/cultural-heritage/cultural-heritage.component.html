@@ -4,7 +4,7 @@
     </div>
     <div *ngIf="error">
       <mat-card>
-        <i class="close-icon large material-icons">close</i>
+        <i class="close-icon large material-icons" (click)="close()">close</i>
         <mat-card-header>
         {{error}}
         </mat-card-header>
