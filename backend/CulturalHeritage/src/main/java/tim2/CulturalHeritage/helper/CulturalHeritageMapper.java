@@ -57,8 +57,10 @@ public class CulturalHeritageMapper
             imageUri = null;
         }
         float avgRating = calcRating(entity.getRatings());
+        String locationName = entity.getLocation().getCountry() + " " + entity.getLocation().getCity();
+
         return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(),
-                entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating);
+                entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating, locationName, entity.getChsubtype().getName());
     }
 
     @Override

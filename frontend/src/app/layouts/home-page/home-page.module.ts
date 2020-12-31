@@ -14,7 +14,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { VerificationPageComponent } from '../../components/verification-page/verification-page.component';
+import { CulturalHeritageComponent  } from '../../components/cultural-heritage/cultural-heritage.component';
+import { DashboardComponent  } from '../../components/dashboard/dashboard.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 import { LoginComponent } from 'src/app/components/login/login.component';
+
 
 
 @NgModule({
@@ -27,7 +31,8 @@ import { LoginComponent } from 'src/app/components/login/login.component';
         MatCardModule, 
         MatInputModule,
         MatButtonModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatExpansionModule
     ],
     declarations: [
         HomePageComponent,
@@ -35,8 +40,10 @@ import { LoginComponent } from 'src/app/components/login/login.component';
         MapsComponent,
         MyProfileComponent,
         RegisterComponent,
+        DashboardComponent, 
+        VerificationPageComponent,
+        CulturalHeritageComponent,
         LoginComponent,
-        VerificationPageComponent
     ]
 })
 

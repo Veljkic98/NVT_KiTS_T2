@@ -1,0 +1,9 @@
+<div class="root">
+    <!-- Sa mape na klik proslediti id kliknutog komponenti app-cultural-heritage -->
+    <div class="map">
+        Ovde ce biti prikaz mape 
+    </div>
+    <div class="ch-details">
+        <app-cultural-heritage *ngIf="selectedCH" [chID]="selectedCH"></app-cultural-heritage>
+    </div>
+</div>

@@ -6,6 +6,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { HomePageComponent } from './layouts/home-page/home-page.component';
 import { RegisterComponent } from './components/register/register.component';
 import { VerificationPageComponent } from './components/verification-page/verification-page.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
     path: '',
     component: HomePageComponent,
     children: [
+      { path: '', component: DashboardComponent },
       { path: 'notifications', component: NotificationsComponent },
       { path: 'myProfile', component: MyProfileComponent },
       { path: 'maps', component: MapsComponent },
