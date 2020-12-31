@@ -118,4 +118,16 @@ public class CulturalHeritageController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PutMapping(path = "/unsubscribe/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<Void> unsubscribe(@PathVariable Long id) {
+
+        try {
+            culturalHeritageService.unsubscribe(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
