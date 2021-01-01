@@ -1,3 +1,20 @@
 <div>
-    komentariii
+    <div *ngIf="error;else displaycomm">
+        {{error}}
+    </div>
+    <ng-template #displaycomm>
+        <div class="root">
+            <ul>
+              <li *ngFor="let comment of commentList">
+                <i class="close-icon large material-icons">account_circle</i>
+                <mat-card>
+                    <div class="header">
+                       <span class="author">{{ comment.userName }}</span>
+                    </div>
+                    <p>{{comment.content}}</p>
+                </mat-card>
+                </li>
+            </ul>
+          </div>
+    </ng-template>
 </div>

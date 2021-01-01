@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-//import { CulturalHeritage } from '../../models/cultural-heritage.model';
+import { COMMENTS_PER_PAGE } from '../../utils/constants';
 
 @Injectable({ providedIn: 'root' })
 export class CommentService {
     constructor(private http: HttpClient) { }
 
-    getComments(chID) {
-        return this.http.get(`${environment.apiUrl}/comments/by-page/${chID}/?page=0&size=5&sort=id,ASC`);
+    getComments(chID, page) {
+        return this.http.get(`${environment.apiUrl}/comments/by-page/${chID}/?page=${page}&size=${COMMENTS_PER_PAGE}&sort=id,ASC`);
     }
 
     getCommentImage(imageUri) {

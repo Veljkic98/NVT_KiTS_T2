@@ -8,15 +8,17 @@ public class CommentResponseDTO {
     private Long authenticatedUserID;
     private Long culturaHeritageID;
     private String imageUri;
+    private String userName;
 
     public CommentResponseDTO(){}
 
-    public CommentResponseDTO(Long id, String content, Long authenticatedUserID, Long culturaHeritageID, String imageUri) {
+    public CommentResponseDTO(Long id, String content, Long authenticatedUserID, Long culturaHeritageID, String imageUri, String userName) {
         this.id = id;
         this.content = content;
         this.authenticatedUserID = authenticatedUserID;
         this.culturaHeritageID = culturaHeritageID;
         this.imageUri = imageUri;
+        this.userName = userName;
     }
     public Long getId() {
         return this.id;
@@ -58,5 +60,12 @@ public class CommentResponseDTO {
         this.imageUri = imageUri;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }
 

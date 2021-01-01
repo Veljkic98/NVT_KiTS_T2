@@ -2,7 +2,7 @@
     <div class="spinner">
         <mat-spinner *ngIf="loading" mode="indeterminate"></mat-spinner>
     </div>
-    <div *ngIf="error">
+    <div *ngIf="error;else displaych">
       <mat-card>
         <i class="close-icon large material-icons" (click)="close()">close</i>
         <mat-card-header>
@@ -10,7 +10,7 @@
         </mat-card-header>
       </mat-card>
     </div>
-    <div *ngIf="ch">
+    <ng-template #displaych>
         <mat-card>
           <i class="close-icon large material-icons" (click)="close()">close</i>
             <img mat-card-image [src]=imageUrl alt="png">
@@ -65,5 +65,5 @@
             <mat-card-actions>
             </mat-card-actions>
         </mat-card>
-    </div>
+    </ng-template>
 </div>

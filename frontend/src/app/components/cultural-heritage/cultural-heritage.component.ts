@@ -43,6 +43,7 @@ export class CulturalHeritageComponent implements OnInit {
             if (this.ch.imageUri) {
               this.getImageFromService();
             }
+            this.error = null;
         },
         error => {
             this.error = "Something went wrong please try again.";
