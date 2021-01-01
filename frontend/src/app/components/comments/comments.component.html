@@ -12,6 +12,7 @@
                        <span class="author">{{ comment.userName }}</span>
                     </div>
                     <p>{{comment.content}}</p>
+                    <img *ngIf="comment.imageUri" mat-card-image [src]="comment.imageUri" alt="png">
                 </mat-card>
                 </li>
             </ul>

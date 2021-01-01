@@ -11,8 +11,4 @@ export class CommentService {
     getComments(chID, page) {
         return this.http.get<Page>(`${environment.apiUrl}/comments/by-page/${chID}/?page=${page}&size=${COMMENTS_PER_PAGE}&sort=id,ASC`);
     }
-
-    getCommentImage(imageUri) {
-        return this.http.get(imageUri,  {responseType: 'blob'});
-    }
 }

@@ -13,7 +13,7 @@
     <ng-template #displaych>
         <mat-card *ngIf="ch">
           <i class="close-icon large material-icons" (click)="close()">close</i>
-            <img mat-card-image [src]=imageUrl alt="png">
+            <img mat-card-image [src]="ch.imageUri" alt="png">
             <mat-card-header>
                 <mat-card-title>{{ch.name}}</mat-card-title>
                 <mat-card-subtitle>{{ch.locationName}}</mat-card-subtitle>

@@ -45,3 +45,9 @@ mat-card:after {
     border-left: none;
     border-bottom: 10px solid transparent;
 }
+mat-card img {
+    object-fit: cover;
+    width: 100%;
+    height: 70%;
+    margin: 2px;
+}

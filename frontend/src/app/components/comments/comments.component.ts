@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
-import { CommentService } from '../../services/comments-service/cultural-heritage.service';
+import { CommentService } from '../../services/comments-service/comment.service';
 import { Comment } from '../../models/comment.model';
 
 @Component({
