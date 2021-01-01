@@ -35,8 +35,7 @@ mat-card {
     color: #9a3;
 }
  
-mat-card:after
-{
+mat-card:after {
     content: " ";
     position: absolute;
     left: -10px;

@@ -11,7 +11,7 @@
       </mat-card>
     </div>
     <ng-template #displaych>
-        <mat-card>
+        <mat-card *ngIf="ch">
           <i class="close-icon large material-icons" (click)="close()">close</i>
             <img mat-card-image [src]=imageUrl alt="png">
             <mat-card-header>

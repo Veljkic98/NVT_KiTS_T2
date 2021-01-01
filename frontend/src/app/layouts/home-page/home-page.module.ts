@@ -19,8 +19,7 @@ import { DashboardComponent  } from '../../components/dashboard/dashboard.compon
 import {MatExpansionModule} from '@angular/material/expansion';
 import { LoginComponent } from 'src/app/components/login/login.component';
 import { CommentsComponent } from '../../components/comments/comments.component';
-
-
+import { NgxPaginationModule } from 'ngx-pagination'; 
 
 @NgModule({
     imports: [
@@ -33,7 +32,8 @@ import { CommentsComponent } from '../../components/comments/comments.component'
         MatInputModule,
         MatButtonModule,
         MatProgressSpinnerModule,
-        MatExpansionModule
+        MatExpansionModule,
+        NgxPaginationModule
     ],
     declarations: [
         HomePageComponent,

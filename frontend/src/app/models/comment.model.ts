@@ -12,4 +12,4 @@ export class Comment {
       this. userName = userName;
       this.imageUri = imageUri;
     }
-  }
+}

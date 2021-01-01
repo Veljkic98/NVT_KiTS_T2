@@ -12,10 +12,11 @@ import { Comment } from '../../models/comment.model';
 export class CommentsComponent implements OnInit {
   @Input() chID: number;
   commentList: Comment[];
-  page: number = 0;
+  page: number = 1;
   totalPages: number;
   totalElements: number;
   error: string;
+  total: number;
 
   constructor(
     private commService: CommentService,
@@ -25,31 +26,28 @@ export class CommentsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getComments();
+    this.getComments(1);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.chID.firstChange) {
-      this.page = 0;
-      this.getComments();
+      this.page = 1;
+      this.getComments(this.page);
     }
   }
 
-  getComments() {
-    this.commService.getComments(this.chID, this.page)
+  getComments(page) {
+    this.commService.getComments(this.chID, page - 1)
     .subscribe(
       data => {
-          console.log("komentari: ", data);
           this.commentList = data.content;
-          console.log('conten', this.totalElements);
-          console.log(this.commentList);
+          this.total = data.totalElements;
+          this.page = data.number + 1;
           this.error = null;
       },
       error => {
          console.log(error);
          this.error = "Somethnig went wrong, can't load all comments right now.";
       });
-
   }
-
 }
