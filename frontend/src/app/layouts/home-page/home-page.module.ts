@@ -18,8 +18,8 @@ import { CulturalHeritageComponent  } from '../../components/cultural-heritage/c
 import { DashboardComponent  } from '../../components/dashboard/dashboard.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { LoginComponent } from 'src/app/components/login/login.component';
-
-
+import { CommentsComponent } from '../../components/comments/comments.component';
+import { NgxPaginationModule } from 'ngx-pagination'; 
 
 @NgModule({
     imports: [
@@ -32,7 +32,8 @@ import { LoginComponent } from 'src/app/components/login/login.component';
         MatInputModule,
         MatButtonModule,
         MatProgressSpinnerModule,
-        MatExpansionModule
+        MatExpansionModule,
+        NgxPaginationModule
     ],
     declarations: [
         HomePageComponent,
@@ -44,6 +45,7 @@ import { LoginComponent } from 'src/app/components/login/login.component';
         VerificationPageComponent,
         CulturalHeritageComponent,
         LoginComponent,
+        CommentsComponent
     ]
 })
 

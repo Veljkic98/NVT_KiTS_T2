@@ -1,0 +1,22 @@
+<div>
+    <div *ngIf="error;else displaycomm">
+        {{error}}
+    </div>
+    <ng-template #displaycomm>
+        <div class="root" *ngIf="commentList">
+            <ul>
+              <li *ngFor="let comment of commentList  | paginate: { id: 'server', itemsPerPage: 3, currentPage: page, totalItems: total }  ">
+                <i class="close-icon large material-icons">account_circle</i>
+                <mat-card>
+                    <div class="header">
+                       <span class="author">{{ comment.userName }}</span>
+                    </div>
+                    <p>{{comment.content}}</p>
+                    <img *ngIf="comment.imageUri" mat-card-image [src]="comment.imageUri" alt="png">
+                </mat-card>
+                </li>
+            </ul>
+            <pagination-controls (pageChange)="getComments($event)" id="server"></pagination-controls>
+          </div>
+    </ng-template>
+</div>

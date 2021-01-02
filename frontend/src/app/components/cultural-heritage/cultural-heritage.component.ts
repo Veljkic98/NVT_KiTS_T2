@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges  } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { CulturalHeritageService } from '../../services/cultural-heritage-serice/cultural-heritage.service';
 import { CulturalHeritage } from '../../models/cultural-heritage.model';
@@ -15,17 +14,17 @@ export class CulturalHeritageComponent implements OnInit {
   ch: CulturalHeritage
   error: string;
   openedSection : boolean = false;  
-  imageUrl : SafeUrl;
 
   @Output() closeDetails: EventEmitter<void> = new EventEmitter();
 
   constructor(
-    private chService: CulturalHeritageService,
-    private sanitizer: DomSanitizer
+    private chService: CulturalHeritageService
 ) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.getCH();
+    if (!changes.chID.firstChange) {
+      this.getCH();
+    }
   }
 
   ngOnInit(): void {
@@ -38,29 +37,13 @@ export class CulturalHeritageComponent implements OnInit {
         data => {
             this.loading = false;
             this.ch = data;
-            if (this.ch.imageUri) {
-              this.getImageFromService();
-            }
+            this.error = null;
         },
         error => {
             this.error = "Something went wrong please try again.";
             this.loading = false;
         });
   }
-
-  getImageFromService() {
-    this.chService.getChImage(this.ch.imageUri)
-    .subscribe(
-      data => {
-        console.log(data);
-        let unsafeImageUrl = URL.createObjectURL(data);
-        this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(unsafeImageUrl);
-      }, 
-      error => {
-        console.log(error);
-      }
-    )
-}
 
   close() {
     this.closeDetails.emit();

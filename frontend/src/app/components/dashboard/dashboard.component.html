@@ -2,6 +2,7 @@
     <!-- Sa mape na klik proslediti id kliknutog komponenti app-cultural-heritage -->
     <div class="map">
         Ovde ce biti prikaz mape 
+        <button (click)="changeID()">click me</button>
     </div>
     <div class="ch-details">
         <app-cultural-heritage *ngIf="selectedCH" [chID]="selectedCH" (closeDetails)="closeDetails($event)"></app-cultural-heritage>

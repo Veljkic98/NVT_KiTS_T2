@@ -2,7 +2,7 @@
     <div class="spinner">
         <mat-spinner *ngIf="loading" mode="indeterminate"></mat-spinner>
     </div>
-    <div *ngIf="error">
+    <div *ngIf="error;else displaych">
       <mat-card>
         <i class="close-icon large material-icons" (click)="close()">close</i>
         <mat-card-header>
@@ -10,10 +10,10 @@
         </mat-card-header>
       </mat-card>
     </div>
-    <div *ngIf="ch">
-        <mat-card>
+    <ng-template #displaych>
+        <mat-card *ngIf="ch">
           <i class="close-icon large material-icons" (click)="close()">close</i>
-            <img mat-card-image [src]=imageUrl alt="png">
+            <img mat-card-image [src]="ch.imageUri" alt="png">
             <mat-card-header>
                 <mat-card-title>{{ch.name}}</mat-card-title>
                 <mat-card-subtitle>{{ch.locationName}}</mat-card-subtitle>
@@ -44,10 +44,10 @@
                     >
                       <mat-expansion-panel-header>
                         <mat-panel-title>
-                          <app-comments></app-comments>
+                          Comments
                         </mat-panel-title>
                       </mat-expansion-panel-header>
-                      <p>I'm visible because I am open</p>
+                      <app-comments [chID]="chID"></app-comments>
                     </mat-expansion-panel>
                     <mat-expansion-panel 
                       (opened)="openedSection = true"
@@ -65,5 +65,5 @@
             <mat-card-actions>
             </mat-card-actions>
         </mat-card>
-    </div>
+    </ng-template>
 </div>
