@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import tim2.CulturalHeritage.dto.requestDTO.FilterRequestDTO;
@@ -25,6 +26,9 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
 
     @Autowired
     private FileDBService fileDBService;
+
+    @Autowired
+    private AuthenticatedUserService authenticatedUserService;
 
     @Override
     public List<CulturalHeritage> findAll() {
@@ -89,9 +93,25 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
 
         CulturalHeritage ch = culturalHeritageRepository.findById(id).orElse(null);
 
-        user.getCulturalHeritages().remove(ch);
+        if (null == ch)
+            throw new EntityNotFoundException();
 
-        culturalHeritageRepository.save(ch);
+        user.getCulturalHeritages().remove(ch);
+        boolean removed = false;
+
+        for (CulturalHeritage ie : user.getCulturalHeritages()) {
+            if (ie.getId() == id) {
+                user.getCulturalHeritages().remove(ie);
+                removed = true;
+                break;
+            }
+        }
+
+        if (removed == false) {
+            throw new EntityNotFoundException();
+        }
+
+        authenticatedUserService.update(user);
     }
 
     @Override

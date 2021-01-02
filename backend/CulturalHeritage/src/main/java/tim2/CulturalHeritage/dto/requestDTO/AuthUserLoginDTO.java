@@ -3,9 +3,9 @@ package tim2.CulturalHeritage.dto.requestDTO;
 import javax.validation.constraints.NotBlank;
 
 public class AuthUserLoginDTO {
+    
     @NotBlank
     private String username;
-
 
     @NotBlank
     private String password;

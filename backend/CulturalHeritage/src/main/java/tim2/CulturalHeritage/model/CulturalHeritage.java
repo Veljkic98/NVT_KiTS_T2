@@ -132,4 +132,18 @@ public class CulturalHeritage {
         this.images = images;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", name='" + getName() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", location='" + getLocation() + "'" +
+            ", chsubtype='" + getChsubtype() + "'" +
+            ", news='" + getNews() + "'" +
+            ", comments='" + getComments() + "'" +
+            ", ratings='" + getRatings() + "'" +
+            ", images='" + getImages() + "'" +
+            "}";
+    }
 }

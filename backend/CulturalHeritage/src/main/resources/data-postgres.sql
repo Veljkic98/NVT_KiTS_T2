@@ -20,7 +20,7 @@ INSERT INTO authority (name) VALUES ('ROLE_USER');
 INSERT INTO admin (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'John', 'Smith', 'admin@gmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
 insert into user_authority (user_id, authority_id) values (1, 1);
 
-INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'Helen', 'York', 'helen@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
+INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'), 'Helen', 'York', 'helen@gmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
 insert into user_authority (user_id, authority_id) values (2, 2);
 
 INSERT INTO authenticated_user (id, first_name, last_name, email, password, approved) VALUES (nextval('person_seq'),'Sima', 'Matas', 'sima12@hotmail.com', '$2y$12$.PWVvztLIA1VBvOcpykig.CZPr78dwT3mVrtCda8YjjyNOas4P6j2', 'true');
@@ -190,7 +190,9 @@ insert into news (images_id, content, heading, cultural_heritage_id, admin_id) v
 insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (2, 'sadrzajj4', 'Naslov4', 1, 1);
 insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (2, 'sadrzajj5', 'Naslov5', 1, 1);
 
-
+insert into subscription (authenticated_user_id, cultural_heritage_id) values (2, 1);
+insert into subscription (authenticated_user_id, cultural_heritage_id) values (2, 2);
+insert into subscription (authenticated_user_id, cultural_heritage_id) values (2, 3);
 
 
 

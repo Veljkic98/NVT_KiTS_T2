@@ -119,14 +119,23 @@ public class CulturalHeritageController {
         }
     }
 
-    @PutMapping(path = "/unsubscribe/{id}")
+    @DeleteMapping(path = "/unsubscribe/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<Void> unsubscribe(@PathVariable Long id) {
+
+        // for (int i = 0; i < 25; i++) {
+        //     System.out.println(i + "-----------------------------------------------------");
+        //     System.out.println(id);
+        // }
+        // System.out.println(id);
 
         try {
             culturalHeritageService.unsubscribe(id);
             return new ResponseEntity<>(HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
+            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

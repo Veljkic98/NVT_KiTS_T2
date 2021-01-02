@@ -9,7 +9,7 @@ public class AuthenticatedUser extends Person  {
 
     @ManyToMany
     @JoinTable(name = "subscription", 
-        joinColumns = @JoinColumn(name = "authenticated_user_id", referencedColumnName = "id"), 
+        joinColumns = @JoinColumn(name = "authenticated_user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "cultural_heritage_id", referencedColumnName = "id"))
     private List<CulturalHeritage> culturalHeritages;
 
@@ -58,7 +58,14 @@ public class AuthenticatedUser extends Person  {
         return true;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        String s = "";
+        for (CulturalHeritage culturalHeritage : getCulturalHeritages()) {
+            s = s + culturalHeritage;
+        }
+        return "{" +
+            " culturalHeritages='" + s + "'" +
+            "}";
+    }
 }
