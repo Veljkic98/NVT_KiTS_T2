@@ -12,24 +12,28 @@ import java.util.List;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class RatingMapper implements MapperInterface<Rating, RatingResponseDTO, RatingRequestDTO> {
+
     @Override
     public Rating toEntity(RatingRequestDTO dto) {
+        
         Rating rating = new Rating();
         rating.setGrade(dto.getGrade());
-        //ch
+        // ch
         CulturalHeritage ch = new CulturalHeritage();
         ch.setId(dto.getCulturalHeritageId());
         rating.setCulturalHeritage(ch);
-        //authenticated user
-        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // authenticated user
+        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
         rating.setAuthenticatedUser(user);
         return rating;
     }
 
     @Override
     public RatingResponseDTO toDto(Rating entity) {
-        
-        return new RatingResponseDTO(entity.getId(), entity.getGrade(), entity.getCulturalHeritage().getId(), entity.getAuthenticatedUser().getId());
+
+        return new RatingResponseDTO(entity.getId(), entity.getGrade(), entity.getCulturalHeritage().getId(),
+                entity.getAuthenticatedUser().getId());
     }
 
     @Override

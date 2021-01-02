@@ -11,6 +11,7 @@ public class CulturalHeritageConstants {
   public static final Long CH_ID = 1L;
   public static final Long CH_ID_NOT_FOUND = 100L;
   public static final int PAGE_SIZE = 5;
+  public static final Long UNSUBSCRIBE_ID = 1L;
 
   public static final int NUMBER_OF_CH_IN_DB = 3;
 

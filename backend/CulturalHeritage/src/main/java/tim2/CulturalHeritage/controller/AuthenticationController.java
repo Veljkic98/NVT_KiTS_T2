@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import tim2.CulturalHeritage.dto.requestDTO.AuthUserLoginDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserLoginResponseDTO;
@@ -36,7 +37,6 @@ public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
 
     private AuthenticatedUserMapper userMapper;
 

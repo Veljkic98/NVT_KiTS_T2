@@ -319,7 +319,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"firstName\" : \"Name\",\r\n    \"lastName\": \"lastName\",\r\n    \"email\" : \"some@gmail.com\",\r\n    \"password\": \"pass\"\r\n}",
+									"raw": "{\r\n    \"username\": \"admin@gmail.com\",\r\n    \"password\" : 123\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -327,15 +327,15 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/authenticated-users",
+									"raw": "http://localhost:8080/auth/login",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"api",
-										"authenticated-users"
+										"auth",
+										"login"
 									]
 								}
 							},
