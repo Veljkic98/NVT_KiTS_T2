@@ -16,12 +16,11 @@ const routes: Routes = [
     children: [
       { path: '', component: DashboardComponent },
       { path: 'notifications', component: NotificationsComponent },
-      { path: 'myProfile', component: MyProfileComponent },
+      { path: 'me', component: MyProfileComponent },
       { path: 'maps', component: MapsComponent },
       { path: 'register', component: RegisterComponent },
       { path:'login', component: LoginComponent },
-      { path: 'verify/:id', component: VerificationPageComponent }
-    ]
+      { path: 'verify/:id', component: VerificationPageComponent },    ]
   }
 ];
 

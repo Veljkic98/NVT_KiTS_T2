@@ -9,7 +9,16 @@
         <span class="menu-spacer"></span>
         <div>
             <a mat-button [routerLink]="'/register'">Sign up</a>
-            <a mat-button [routerLink]="'/login'">Sign in</a>        
+            <a mat-button [routerLink]="'/login'">Sign in</a> 
+            <a mat-button  [matMenuTriggerFor]="menu">
+                <i class="profile-icon large material-icons">account_circle</i>
+                <i class="profile-icon large material-icons">arrow_drop_down</i>
+            </a>
+            <mat-menu #menu="matMenu"  class="customize">
+                <a mat-button [routerLink]="'/me'">Your profile</a>
+                <div></div>
+                <a mat-button [routerLink]="">Your subscriptions</a>
+            </mat-menu> 
         </div>
     </mat-toolbar-row>
 </mat-toolbar>
