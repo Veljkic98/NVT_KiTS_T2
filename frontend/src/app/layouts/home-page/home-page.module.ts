@@ -49,6 +49,7 @@ import {MatTabsModule} from '@angular/material/tabs';
         VerificationPageComponent,
         CulturalHeritageComponent,
         LoginComponent,
+        CommentsComponent
     ]
 })
 
