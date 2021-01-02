@@ -48,13 +48,15 @@ export class LoginComponent implements OnInit {
     this.error = '';
     this.authService.login(this.loginForm.value.email, this.loginForm.value.password)
         .subscribe(
-            data => {                
+            data => {   
+                let payload = JSON.parse(window.atob(data['accessToken'].split('.')[1]));
                 this.loading = false;
                 this.success = true;
                 localStorage.setItem('user', JSON.stringify({
                     username: this.loginForm.value.email,                    
                     token: data['accessToken'],
-                    role: JSON.parse(window.atob(data['accessToken'].split('.')[1]))['role']
+                    id: payload['id'],
+                    role: payload['role']
                   }));
                 this.router.navigate(['']);
         
