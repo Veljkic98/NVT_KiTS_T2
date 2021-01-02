@@ -123,12 +123,6 @@ public class CulturalHeritageController {
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<Void> unsubscribe(@PathVariable Long id) {
 
-        // for (int i = 0; i < 25; i++) {
-        //     System.out.println(i + "-----------------------------------------------------");
-        //     System.out.println(id);
-        // }
-        // System.out.println(id);
-
         try {
             culturalHeritageService.unsubscribe(id);
             return new ResponseEntity<>(HttpStatus.OK);
