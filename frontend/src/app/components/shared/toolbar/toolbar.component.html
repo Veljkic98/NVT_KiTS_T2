@@ -8,8 +8,9 @@
         </div>
         <span class="menu-spacer"></span>
         <div>
-            <a mat-button [routerLink]="'/register'">Sign up</a>
-            <a mat-button [routerLink]="'/login'">Sign in</a>        
+            <a mat-button [routerLink]="'/register'" *ngIf="!authService.isLoggedIn()">Sign up</a>
+            <a mat-button [routerLink]="'/login'" *ngIf="!authService.isLoggedIn()">Sign in</a>        
+            <a mat-button (click)="authService.logOut()" *ngIf="authService.isLoggedIn()">Sign out</a>
         </div>
     </mat-toolbar-row>
 </mat-toolbar>

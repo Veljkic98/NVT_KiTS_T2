@@ -15,7 +15,7 @@ export class AuthService {
         return this.http.post(`${environment.hostUrl}auth/login`, { username: email, password });        
     }
 
-    logout(): void {
+    logOut(): void {
       localStorage.removeItem("user");
     }
   
