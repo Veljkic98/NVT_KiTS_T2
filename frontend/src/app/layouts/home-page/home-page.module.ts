@@ -24,6 +24,9 @@ import { CommentsComponent } from '../../components/comments/comments.component'
 import { NgxPaginationModule } from 'ngx-pagination'; 
 import {MatTabsModule} from '@angular/material/tabs';
 
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { environment } from 'src/environments/environment';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -37,7 +40,10 @@ import {MatTabsModule} from '@angular/material/tabs';
         MatProgressSpinnerModule,
         MatExpansionModule,
         NgxPaginationModule,
-        MatTabsModule
+        MatTabsModule,
+        NgxMapboxGLModule.withConfig({
+          accessToken: environment.mapboxApiKey
+        })
     ],
     declarations: [
         HomePageComponent,

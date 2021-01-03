@@ -1,1 +1,13 @@
-<p>maps works!</p>
+<div id="map-wrapper">
+  <mgl-map
+  [zoom]="zoom"
+  [center]="center"
+  [renderWorldCopies]="false"
+  [maxBounds]="maxBounds"
+  [style] = "style"
+  >
+    <mgl-control
+    mglNavigation
+    ></mgl-control>
+  </mgl-map>
+</div>
