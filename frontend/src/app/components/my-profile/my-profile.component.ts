@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { User } from '../../models/user.model';
 
 import { AuthService } from '../../services/auth-service/auth.service';
@@ -14,13 +13,8 @@ export class MyProfileComponent implements OnInit {
   user: User;
   
   constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) { 
-    if (!this.authService.isLoggedIn()) {
-      this.router.navigate(['/']);
-  }
-  }
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.authService.getProfile()

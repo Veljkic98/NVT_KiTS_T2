@@ -4,20 +4,19 @@
         <span class="menu-spacer"></span>
         <div>
             <a mat-button [routerLink]="'/maps'"> Map </a>
-            <a mat-button [routerLink]="'/notifications'"> Notifications </a>
+            <a mat-button *ngIf="authService.isLoggedIn()" [routerLink]="'/notifications'"> Notifications </a>
         </div>
         <span class="menu-spacer"></span>
         <div>
-            <a mat-button [routerLink]="'/register'">Sign up</a>
-            <a mat-button [routerLink]="'/login'">Sign in</a> 
-            <a mat-button  [matMenuTriggerFor]="menu">
+            <a mat-button *ngIf="!authService.isLoggedIn()" [routerLink]="'/register'">Sign up</a>
+            <a mat-button *ngIf="!authService.isLoggedIn()" [routerLink]="'/login'">Sign in</a> 
+            <a mat-button *ngIf="authService.isLoggedIn()" [matMenuTriggerFor]="menu">
                 <i class="profile-icon large material-icons">account_circle</i>
                 <i class="profile-icon large material-icons">arrow_drop_down</i>
             </a>
-            <mat-menu #menu="matMenu"  class="customize">
+            <mat-menu #menu="matMenu" class="customize">
                 <a mat-button [routerLink]="'/me'">Your profile</a>
                 <div></div>
-                <a mat-button [routerLink]="">Your subscriptions</a>
             </mat-menu>
         </div>
     </mat-toolbar-row>
