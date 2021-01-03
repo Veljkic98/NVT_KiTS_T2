@@ -13,6 +13,8 @@ public interface RatingService {
 
     public Rating findById(Long id);
 
+    public Rating findUserRating(Long userId, Long chID);
+
     public Rating add(Rating rating);
 
     public Rating update(Rating rating) throws AccessControlException;
