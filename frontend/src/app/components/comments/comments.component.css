@@ -15,12 +15,11 @@ li {
     float:left;
     width: 10%;
     margin-top: 10px;
-    margin-right: 6px;
-    margin-left: 0;
-}
+    margin-right: 2px;
+    margin-left: 0;}
 mat-card {
     float: right;
-    width: 75%;
+    width: 85%;
 }
 .header {
     border-bottom: 1px solid #e5e5e5;
@@ -34,7 +33,6 @@ mat-card {
     font-weight: 400;
     color: #9a3;
 }
- 
 mat-card:after {
     content: " ";
     position: absolute;
@@ -50,4 +48,16 @@ mat-card img {
     width: 100%;
     height: 70%;
     margin: 2px;
+}
+.btn {
+    color: black;
+    width: 60px;
+    background-color: #f3ce13;
+    font-size: 15px;
+    margin: 4px;
+    float: right;
+}
+.com-content {
+    width: 100%;
+    height: 150px;
 }
