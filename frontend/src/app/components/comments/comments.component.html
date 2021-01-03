@@ -3,6 +3,7 @@
         {{error}}
     </div>
     <ng-template #displaycomm>
+      <div *ngIf="authService.isLoggedIn()">
         <ng-template #content let-modal>
             <div class="modal-header">
               <h4 class="modal-title" id="modal-basic-title">Add comment</h4>
@@ -24,6 +25,7 @@
           </ng-template>
           
           <button class="btn btn-outline-dark" (click)="open(content)">Add</button>
+        </div>
         <div class="root" *ngIf="commentList">
             <ul>
               <li *ngFor="let comment of commentList  | paginate: { id: 'server', itemsPerPage: 3, currentPage: page, totalItems: total }  ">

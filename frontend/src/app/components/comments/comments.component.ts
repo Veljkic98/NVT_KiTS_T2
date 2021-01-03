@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import { CommentService } from '../../services/comments-service/comment.service';
+import { AuthService } from '../../services/auth-service/auth.service';
 import { Comment } from '../../models/comment.model';
-import { Page } from 'ngx-pagination/dist/pagination-controls.directive';
 
 @Component({
   selector: 'app-comments',
@@ -25,8 +25,9 @@ export class CommentsComponent implements OnInit {
   constructor(
     private commService: CommentService,
     private cdr: ChangeDetectorRef ,
-    private modalService: NgbModal
-) { }
+    private modalService: NgbModal,
+    private authService: AuthService
+) {}
 
 
   ngOnInit(): void {
@@ -66,7 +67,6 @@ export class CommentsComponent implements OnInit {
   }
 
   addComment() {
-    console.log(this.url);
     this.commService.postComment(this.chID, this.content, this.url)
     .subscribe(
       data => {
