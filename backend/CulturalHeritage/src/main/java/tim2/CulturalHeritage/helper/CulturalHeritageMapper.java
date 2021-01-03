@@ -60,7 +60,7 @@ public class CulturalHeritageMapper
         String locationName = entity.getLocation().getCountry() + " " + entity.getLocation().getCity();
 
         return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(),
-                entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating, locationName, entity.getChsubtype().getName());
+                entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating, locationName, entity.getChsubtype().getName(), entity.getRatings().size());
     }
 
     @Override

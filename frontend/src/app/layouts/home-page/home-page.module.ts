@@ -18,7 +18,8 @@ import { CulturalHeritageComponent  } from '../../components/cultural-heritage/c
 import { DashboardComponent  } from '../../components/dashboard/dashboard.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { LoginComponent } from 'src/app/components/login/login.component';
-
+import { RatingComponent } from '../../components/rating/rating.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { CommentsComponent } from '../../components/comments/comments.component';
 import { NgxPaginationModule } from 'ngx-pagination'; 
@@ -37,7 +38,8 @@ import {MatTabsModule} from '@angular/material/tabs';
         MatProgressSpinnerModule,
         MatExpansionModule,
         NgxPaginationModule,
-        MatTabsModule
+        MatTabsModule,
+        NgbModule
     ],
     declarations: [
         HomePageComponent,
@@ -49,7 +51,8 @@ import {MatTabsModule} from '@angular/material/tabs';
         VerificationPageComponent,
         CulturalHeritageComponent,
         LoginComponent,
-        CommentsComponent
+        CommentsComponent,
+        RatingComponent
     ]
 })
 

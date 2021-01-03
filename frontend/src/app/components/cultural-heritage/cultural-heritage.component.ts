@@ -2,6 +2,8 @@ import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges  } from '
 
 import { CulturalHeritageService } from '../../services/cultural-heritage-serice/cultural-heritage.service';
 import { CulturalHeritage } from '../../models/cultural-heritage.model';
+import { AuthService } from '../../services/auth-service/auth.service';
+
 
 @Component({
   selector: 'app-cultural-heritage',
@@ -18,8 +20,9 @@ export class CulturalHeritageComponent implements OnInit {
   @Output() closeDetails: EventEmitter<void> = new EventEmitter();
 
   constructor(
-    private chService: CulturalHeritageService
-) { }
+    private chService: CulturalHeritageService,
+    private authService: AuthService
+) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.chID.firstChange) {
@@ -47,5 +50,14 @@ export class CulturalHeritageComponent implements OnInit {
 
   close() {
     this.closeDetails.emit();
+  }
+
+  calcAvgChangedRating({rating, oldRating}) {
+    this.ch.avgRating = (this.ch.avgRating * this.ch.totalRatings - oldRating + rating )  / this.ch.totalRatings;
+  }
+
+  calcAvgAddedRating(rating: number) {
+    this.ch.avgRating = (this.ch.avgRating * this.ch.totalRatings + rating ) / (this.ch.totalRatings + 1);
+    this.ch.totalRatings++;
   }
 }
