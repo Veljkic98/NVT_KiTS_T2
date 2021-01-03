@@ -18,13 +18,9 @@ export class RegisterComponent implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
-        private router: Router,
+        // private router: Router,
         private authService: AuthService
-    ) {
-        if (this.authService.isLoggedIn()) {
-            this.router.navigate(['/']);
-        }
-    }
+    ) { }
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({

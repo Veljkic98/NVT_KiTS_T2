@@ -20,11 +20,7 @@ export class LoginComponent implements OnInit {
         private formBuilder: FormBuilder,
         private router: Router,
         private authService: AuthService
-    ) {
-        // if (this.authService.isLoggedIn()) {
-        //     this.router.navigate(['/']); 
-        // }
-    }
+    ) { }
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
@@ -56,7 +52,7 @@ export class LoginComponent implements OnInit {
                         token: data['accessToken'],
                         role: JSON.parse(window.atob(data['accessToken'].split('.')[1]))['role']
                     }));
-                    
+
                     this.router.navigate(['']);
                 },
                 error => {

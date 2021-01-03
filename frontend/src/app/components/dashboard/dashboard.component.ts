@@ -20,9 +20,6 @@ export class DashboardComponent implements OnInit {
 
   changeID() {
     this.selectedCH = this.selectedCH == 1? 3: 1;
-
-    //TODO: obrisati ovo ispod
-    localStorage.removeItem("user");
   }
 
 }
