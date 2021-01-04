@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
+import { AUTHENTICATED_USERS } from '../../utils/constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     constructor(private http: HttpClient) { }
 
     register(user) {
-        return this.http.post(`${environment.apiUrl}/authenticated-users`, user);
+        return this.http.post(`${environment.apiUrl}/${AUTHENTICATED_USERS}`, user);
     }
 
     login(email: string, password: string): Observable<Object> {
@@ -29,10 +30,10 @@ export class AuthService {
     }
 
     verify(id) {
-        return this.http.get(`${environment.apiUrl}/authenticated-users/verify/${id}`)
+        return this.http.get(`${environment.apiUrl}/${AUTHENTICATED_USERS}/verify/${id}`)
     }
 
     getProfile() {
-        return this.http.get<User>(`${environment.apiUrl}/authenticated-users/me`)
+        return this.http.get<User>(`${environment.apiUrl}/${AUTHENTICATED_USERS}/me`)
     }
 }
