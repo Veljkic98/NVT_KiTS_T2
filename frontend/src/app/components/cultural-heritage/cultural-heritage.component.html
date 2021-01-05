@@ -28,7 +28,7 @@
             <mat-card-content>
               <app-rating 
                 [chID]="chID" 
-                *ngIf="authService.isLoggedIn()"
+                *ngIf="authService.getRole() == 'ROLE_USER'"
                 (calcAvgChangedRating)="calcAvgChangedRating($event)"
                 (calcAvgAddedRating)="calcAvgAddedRating($event)"
                 ></app-rating>

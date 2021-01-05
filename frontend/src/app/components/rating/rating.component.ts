@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges, Output, EventEmitter, } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, Output, EventEmitter, OnChanges, } from '@angular/core';
 
 import { RatingService } from '../../services/rating-service/rating.service';
 
@@ -7,12 +7,12 @@ import { RatingService } from '../../services/rating-service/rating.service';
   templateUrl: './rating.component.html',
   styleUrls: ['./rating.component.css']
 })
-export class RatingComponent implements OnInit {
+export class RatingComponent implements OnInit, OnChanges {
   @Input() chID: number;
-  userRating: number = 0;
-  userRated: boolean = false;
+  userRating = 0;
+  userRated = false;
   ratingID: number;
-  oldRating : number;
+  oldRating: number;
 
   @Output() calcAvgChangedRating: EventEmitter<{ rating: number, oldRating: number}> = new EventEmitter();
   @Output() calcAvgAddedRating: EventEmitter<number> = new EventEmitter();
@@ -21,7 +21,7 @@ export class RatingComponent implements OnInit {
     private ratingService: RatingService
   ) { }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (!changes.chID.firstChange) {
       this.getUserRate();
     }
@@ -30,8 +30,8 @@ export class RatingComponent implements OnInit {
   ngOnInit(): void {
    this.getUserRate();
   }
-  
-  getUserRate() {
+
+  getUserRate(): void {
     this.ratingService.getUserRating(this.chID)
     .subscribe(
         data => {
@@ -45,16 +45,17 @@ export class RatingComponent implements OnInit {
         });
   }
 
-  rateChanged() {
+  rateChanged(): void {
     if (!this.userRated) {
       this.newRate();
     } else {
-      if (this.oldRating !== this.userRating)
+      if (this.oldRating !== this.userRating) {
         this.changeRate();
+      }
     }
   }
 
-  newRate() {
+  newRate(): void {
     this.ratingService.postRating(this.chID, this.userRating)
     .subscribe(
         data => {
@@ -66,7 +67,7 @@ export class RatingComponent implements OnInit {
            console.log(error);
         });
   }
-  changeRate() {
+  changeRate(): void {
     this.ratingService.updateRating(this.ratingID, this.chID, this.userRating)
     .subscribe(
         data => {

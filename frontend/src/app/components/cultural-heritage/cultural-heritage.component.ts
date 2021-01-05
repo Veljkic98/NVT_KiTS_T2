@@ -52,11 +52,11 @@ export class CulturalHeritageComponent implements OnInit {
     this.closeDetails.emit();
   }
 
-  calcAvgChangedRating({rating, oldRating}) {
+  calcAvgChangedRating({rating, oldRating}): void {
     this.ch.avgRating = (this.ch.avgRating * this.ch.totalRatings - oldRating + rating )  / this.ch.totalRatings;
   }
 
-  calcAvgAddedRating(rating: number) {
+  calcAvgAddedRating(rating: number): void {
     this.ch.avgRating = (this.ch.avgRating * this.ch.totalRatings + rating ) / (this.ch.totalRatings + 1);
     this.ch.totalRatings++;
   }
