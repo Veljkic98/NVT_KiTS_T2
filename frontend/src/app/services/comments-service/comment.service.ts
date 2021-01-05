@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { COMMENTS_PER_PAGE } from '../../utils/constants';
 import { Page } from '../../models/page.model';
 import { COMMENTS } from '../../utils/constants';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CommentService {
@@ -26,7 +27,7 @@ export class CommentService {
         return this.http.post<any>(`${environment.apiUrl}/${COMMENTS}`, formData);
     }
 
-    deleteComment(commentID: number) {
+    deleteComment(commentID: number): Observable<object> {
         return this.http.delete(`${environment.apiUrl}/${COMMENTS}/${commentID}`);
     }
 }

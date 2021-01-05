@@ -98,7 +98,7 @@ export class CommentsComponent implements OnInit {
       }
   }
 
-  deleteComment(commentID: number) {
+  deleteComment(commentID: number): void {
     this.commService.deleteComment(commentID)
     .subscribe(
       data => {
