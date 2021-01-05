@@ -5,43 +5,41 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
-  loading = false;
-  submitted = false;
-  error: string;
-  success = false;
+    loginForm: FormGroup;
+    loading = false;
+    submitted = false;
+    error: string;
+    success = false;
 
-  constructor(
-      private formBuilder: FormBuilder,
-      private router: Router,
-      private authService: AuthService
-  ) {
-      if (this.authService.isLoggedIn()) {
-          this.router.navigate(['/']);
-      }
-  }
+    constructor(
+        private formBuilder: FormBuilder,
+        private router: Router,
+        private authService: AuthService
+    ) { }
 
-  ngOnInit() {
-      this.loginForm = this.formBuilder.group({                    
-          email: ['', [Validators.email, Validators.required]],
-          password: ['', [Validators.required, Validators.minLength(3)]],          
-      });
-  }
-
-
-  get f() { return this.loginForm.controls; }
-
-  onSubmit() {
-    this.submitted = true;
-
-    if (this.loginForm.invalid) {
-        return;
+    ngOnInit() {
+        this.loginForm = this.formBuilder.group({
+            email: ['', [Validators.email, Validators.required]],
+            password: ['', [Validators.required, Validators.minLength(3)]],
+        });
     }
+
+
+    get f() { return this.loginForm.controls; }
+
+    onSubmit() {
+        this.submitted = true;
+
+        if (this.loginForm.invalid) {
+            return;
+        }
+
+       
 
     this.loading = true;
     this.success = false;
@@ -67,4 +65,5 @@ export class LoginComponent implements OnInit {
                 this.loading = false; 
             });
 }
+
 }

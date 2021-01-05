@@ -1,3 +1,28 @@
 .menu-spacer {
     flex: 1 1 auto;
 }
+.mat-toolbar {
+    background-color: black;    
+    color:	#E8E8E8;
+}
+.logo {
+    color: black;
+    background-color: #f3ce13;
+    border-radius: 10px;
+    padding: 3px;
+    font-weight: 800;
+}
+i.profile-icon {
+    color: 	#C8C8C8;
+}
+::ng-deep .customize {
+    background: black;
+}
+::ng-deep .customize a {
+    color:#E8E8E8;
+    width: 100%;
+}
+::ng-deep .customize a:hover {
+    background-color: #606060 !important;
+    text-decoration: underline !important;
+}

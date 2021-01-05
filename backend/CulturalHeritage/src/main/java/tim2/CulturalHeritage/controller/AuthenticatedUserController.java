@@ -24,13 +24,10 @@ import javax.validation.Valid;
 @RequestMapping("/api/authenticated-users")
 public class AuthenticatedUserController {
 
-
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
 
-    private AuthenticatedUserMapper userMapper = new AuthenticatedUserMapper();
-
-
+    private AuthenticatedUserMapper userMapper = new AuthenticatedUserMapper(); 
 
     @GetMapping(path = "/by-page")
     public ResponseEntity<Page<AuthUserResponseDTO>> findAll(Pageable pageable) {

@@ -12,7 +12,7 @@ export class Interceptor implements HttpInterceptor {
 
 		if (item) {
 			const cloned = req.clone({
-				headers: req.headers.set('X-Auth-Token', decodedItem.token)
+				headers: req.headers.set('Authorization', 'Bearer ' + decodedItem.token)
 			});
 
 			return next.handle(cloned);

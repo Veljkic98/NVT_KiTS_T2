@@ -11,7 +11,7 @@ import { AuthService } from '../../services/auth-service/auth.service';
 export class VerificationPageComponent implements OnInit {
   loading = false;
   error: string; 
-  success : boolean;
+  success : boolean = false;
   id: string;
 
   constructor(
@@ -20,7 +20,7 @@ export class VerificationPageComponent implements OnInit {
       private route: ActivatedRoute,
   ) {
       if (this.authService.isLoggedIn()) {
-          this.router.navigate(['/']);
+          this.router.navigate(['']);
       }
   }
 

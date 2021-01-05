@@ -64,6 +64,19 @@ public class CulturalHeritageControllerIntegrationTest {
     return authHeaders;
   }
 
+  public HttpHeaders userLogin() {
+    ResponseEntity<AuthUserLoginResponseDTO> responseEntity = restTemplate.postForEntity("/auth/login",
+        new AuthUserLoginDTO(USER_EMAIL, ADMIN_PASS), AuthUserLoginResponseDTO.class);
+
+    String accessToken = "Bearer " + responseEntity.getBody().getAccessToken();
+
+    HttpHeaders authHeaders = new HttpHeaders();
+    authHeaders.add("Authorization", accessToken);
+    // auth headers cant be json because of a file
+    // authHeaders.setContentType(MediaType.APPLICATION_JSON);
+    return authHeaders;
+  }
+
   private HttpEntity<LinkedMultiValueMap<String, Object>> createFormData(CulturalHeritageRequestDTO chDTO,
       String path) {
 
@@ -84,8 +97,8 @@ public class CulturalHeritageControllerIntegrationTest {
     } else {
       params.add("file", new FileSystemResource(path));
     }
-      
-    //add dto obj to params (to form data when sending request)
+
+    // add dto obj to params (to form data when sending request)
     params.add("culturalHeritageRequestDTO", dto);
 
     // add authentication headers when sending request (add admin)
@@ -95,33 +108,33 @@ public class CulturalHeritageControllerIntegrationTest {
 
   @Test
   @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
-  public void add_WithFile_ShouldReturnCH(){
+  public void add_WithFile_ShouldReturnCH() {
     CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
     String imgPath = "src/test/resources/cultural-heritage-management.jpg";
 
     HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(chDTO, imgPath);
 
-    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = 
-    restTemplate.exchange("/api/cultural-heritages", HttpMethod.POST ,requestEntity, CulturalHeritageResponseDTO.class);
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = restTemplate.exchange("/api/cultural-heritages",
+        HttpMethod.POST, requestEntity, CulturalHeritageResponseDTO.class);
 
     assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
     assertEquals(NUMBER_OF_CH_IN_DB + 1, culturalHeritageService.findAll(pageable).getNumberOfElements());
   }
+
   @Test
   @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
-  public void add_WithoutFile_ShouldBadRequest(){
+  public void add_WithoutFile_ShouldBadRequest() {
     CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
 
     HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(chDTO, "");
 
-    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = 
-    restTemplate.exchange("/api/cultural-heritages", HttpMethod.POST ,requestEntity, CulturalHeritageResponseDTO.class);
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = restTemplate.exchange("/api/cultural-heritages",
+        HttpMethod.POST, requestEntity, CulturalHeritageResponseDTO.class);
 
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     assertEquals(NUMBER_OF_CH_IN_DB, culturalHeritageService.findAll(pageable).getNumberOfElements());
   }
 
-  
   @Test
   @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
   public void update_ValidID_ShouldReturnCH() {
@@ -142,51 +155,77 @@ public class CulturalHeritageControllerIntegrationTest {
 
   @Test
   @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
-  public void update_InvalidID_ShouldReturnNotFound(){
+  public void update_InvalidID_ShouldReturnNotFound() {
     CulturalHeritageRequestDTO chDTO = new CulturalHeritageRequestDTO(NAME, DESCRIPTION, LOCATION_ID, CH_SUBTYPE_ID);
     String imgPath = "src/test/resources/cultural-heritage-management.jpg";
 
     HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = createFormData(chDTO, imgPath);
 
-    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = 
-    restTemplate.exchange("/api/cultural-heritages/" + CH_ID_NOT_FOUND, HttpMethod.PUT ,requestEntity, CulturalHeritageResponseDTO.class);
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = restTemplate.exchange(
+        "/api/cultural-heritages/" + CH_ID_NOT_FOUND, HttpMethod.PUT, requestEntity, CulturalHeritageResponseDTO.class);
 
     assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
   }
 
   @Test
   @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
-  public void delete_NotLoggedIn_ShouldReturnUNAUTHORIZED(){
-    ResponseEntity<Void> responseEntity = 
-      restTemplate.exchange("/api/cultural-heritages/" + CH_ID, HttpMethod.DELETE, null, Void.class);
-    
+  public void delete_NotLoggedIn_ShouldReturnUNAUTHORIZED() {
+    ResponseEntity<Void> responseEntity = restTemplate.exchange("/api/cultural-heritages/" + CH_ID, HttpMethod.DELETE,
+        null, Void.class);
+
     assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
   }
 
   @Test
   @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
-  public void delete_LoggedInValidID_ShouldDelete(){
+  public void delete_LoggedInValidID_ShouldDelete() {
     HttpHeaders authHeaders = login();
     HttpEntity<Object> requestEntity = new HttpEntity<>(null, authHeaders);
-    
-    ResponseEntity<Void> responseEntity = 
-      restTemplate.exchange("/api/cultural-heritages/" + CH_ID, HttpMethod.DELETE, requestEntity, Void.class);
+
+    ResponseEntity<Void> responseEntity = restTemplate.exchange("/api/cultural-heritages/" + CH_ID, HttpMethod.DELETE,
+        requestEntity, Void.class);
 
     assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
-    assertEquals(NUMBER_OF_CH_IN_DB -1, culturalHeritageService.findAll(pageable).getNumberOfElements());
+    assertEquals(NUMBER_OF_CH_IN_DB - 1, culturalHeritageService.findAll(pageable).getNumberOfElements());
   }
 
   @Test
   @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
-  public void delete_InvalidID_ShouldNotDelete(){
+  public void delete_InvalidID_ShouldNotDelete() {
     HttpHeaders authHeaders = login();
     HttpEntity<Object> requestEntity = new HttpEntity<Object>(null, authHeaders);
-    
-    ResponseEntity<Void> responseEntity = 
-      restTemplate.exchange("/api/cultural-heritages/" + CH_ID_NOT_FOUND, HttpMethod.DELETE, requestEntity, Void.class);
-    
+
+    ResponseEntity<Void> responseEntity = restTemplate.exchange("/api/cultural-heritages/" + CH_ID_NOT_FOUND,
+        HttpMethod.DELETE, requestEntity, Void.class);
+
     assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     assertEquals(NUMBER_OF_CH_IN_DB, culturalHeritageService.findAll(pageable).getNumberOfElements());
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void unsubscribe_loggedInIDok_ok() {
+
+    HttpHeaders authHeaders = userLogin();
+    HttpEntity<Object> requestEntity = new HttpEntity<>(null, authHeaders);
+
+    ResponseEntity<Void> responseEntity = restTemplate.exchange("/api/cultural-heritages/unsubscribe/" + CH_ID, HttpMethod.DELETE,
+        requestEntity, Void.class);
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+  }
+
+  @Test
+  @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
+  public void unsubscribe_loggedInIDNotExists_notFound() {
+
+    HttpHeaders authHeaders = userLogin();
+    HttpEntity<Object> requestEntity = new HttpEntity<>(null, authHeaders);
+
+    ResponseEntity<Void> responseEntity = restTemplate.exchange("/api/cultural-heritages/unsubscribe/2", HttpMethod.DELETE,
+        requestEntity, Void.class);
+
+    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
   }
 
   @Test
@@ -199,8 +238,9 @@ public class CulturalHeritageControllerIntegrationTest {
     ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>() {
     };
 
-    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity = restTemplate
-        .exchange("/api/cultural-heritages/by-page/?page=0&size=5&sort=id,ASC", HttpMethod.GET, null/* httpEntity */, responseType);
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity = restTemplate.exchange(
+        "/api/cultural-heritages/by-page/?page=0&size=5&sort=id,ASC", HttpMethod.GET, null/* httpEntity */,
+        responseType);
 
     List<CulturalHeritageResponseDTO> responseList = responseEntity.getBody().getContent();
 
@@ -210,22 +250,22 @@ public class CulturalHeritageControllerIntegrationTest {
 
   @Test
   @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
-  public void findById_ValidID_ShouldReturnCH(){
-    ResponseEntity<CulturalHeritageResponseDTO> responseEntity= 
-      restTemplate.getForEntity("/api/cultural-heritages/" + CH_ID, CulturalHeritageResponseDTO.class);
+  public void findById_ValidID_ShouldReturnCH() {
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = restTemplate
+        .getForEntity("/api/cultural-heritages/" + CH_ID, CulturalHeritageResponseDTO.class);
 
     CulturalHeritageResponseDTO culturalHeritageResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(CH_ID, culturalHeritageResponseDTO.getId());
-    //rating check
+    // rating check
     assertEquals(AVG_RATING_CH_ID_1, culturalHeritageResponseDTO.getAvgRating());
   }
 
   @Test
   @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
-  public void findById_InvalidID_ShouldReturnNotFound(){
-    ResponseEntity<CulturalHeritageResponseDTO> responseEntity= 
-      restTemplate.getForEntity("/api/cultural-heritages/" + CH_ID_NOT_FOUND, CulturalHeritageResponseDTO.class);
+  public void findById_InvalidID_ShouldReturnNotFound() {
+    ResponseEntity<CulturalHeritageResponseDTO> responseEntity = restTemplate
+        .getForEntity("/api/cultural-heritages/" + CH_ID_NOT_FOUND, CulturalHeritageResponseDTO.class);
 
     CulturalHeritageResponseDTO culturalHeritageResponseDTO = responseEntity.getBody();
     assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
@@ -233,50 +273,47 @@ public class CulturalHeritageControllerIntegrationTest {
   }
 
   @Test
-  public void testFilterByNameValid(){
+  public void testFilterByNameValid() {
     FilterRequestDTO filterDTO = new FilterRequestDTO("name", FILTER_NAME);
     HttpHeaders authHeaders = login();
     HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
-    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>() {
+    };
 
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity = restTemplate.exchange(
+        "/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
 
-      ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
-              restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+    List<CulturalHeritageResponseDTO> responseList = responseEntity.getBody().getContent();
 
-      List<CulturalHeritageResponseDTO> responseList = responseEntity.getBody().getContent();
-
-      assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-      assertEquals(FILTER_NAME_RESULTS, responseList.size());
-    }
-
-
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(FILTER_NAME_RESULTS, responseList.size());
+  }
 
   @Test
-  public void testFilterByNameInvalid(){
+  public void testFilterByNameInvalid() {
     FilterRequestDTO filterDTO = new FilterRequestDTO("name", FILTER_INVALID);
     HttpHeaders authHeaders = login();
     HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
-    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>() {
+    };
 
-
-    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
-            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
-
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity = restTemplate.exchange(
+        "/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(0, responseEntity.getBody().getTotalElements());
   }
 
   @Test
-  public void testFilterBySubtypeValid(){
+  public void testFilterBySubtypeValid() {
     FilterRequestDTO filterDTO = new FilterRequestDTO("chsubtypename", FILTER_SUBTYPE);
     HttpHeaders authHeaders = login();
     HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
-    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>() {
+    };
 
-
-    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
-            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity = restTemplate.exchange(
+        "/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
 
     List<CulturalHeritageResponseDTO> responseList = responseEntity.getBody().getContent();
 
@@ -285,31 +322,30 @@ public class CulturalHeritageControllerIntegrationTest {
   }
 
   @Test
-  public void testFilterBySubtypeInvalid(){
+  public void testFilterBySubtypeInvalid() {
     FilterRequestDTO filterDTO = new FilterRequestDTO("chsubtypename", FILTER_INVALID);
     HttpHeaders authHeaders = login();
     HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
-    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>() {
+    };
 
-
-    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
-            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
-
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity = restTemplate.exchange(
+        "/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(0, responseEntity.getBody().getTotalElements());
   }
 
   @Test
-  public void testFilterByCityValid(){
+  public void testFilterByCityValid() {
     FilterRequestDTO filterDTO = new FilterRequestDTO("locationCity", FILTER_CITY);
     HttpHeaders authHeaders = login();
     HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
-    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>() {
+    };
 
-
-    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
-            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity = restTemplate.exchange(
+        "/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
 
     List<CulturalHeritageResponseDTO> responseList = responseEntity.getBody().getContent();
 
@@ -318,30 +354,30 @@ public class CulturalHeritageControllerIntegrationTest {
   }
 
   @Test
-  public void testFilterByCityInvalid(){
+  public void testFilterByCityInvalid() {
     FilterRequestDTO filterDTO = new FilterRequestDTO("locationCity", FILTER_INVALID);
     HttpHeaders authHeaders = login();
     HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
-    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>() {
+    };
 
-
-    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
-            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity = restTemplate.exchange(
+        "/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(0, responseEntity.getBody().getTotalElements());
   }
 
   @Test
-  public void testFilterByCountryValid(){
+  public void testFilterByCountryValid() {
     FilterRequestDTO filterDTO = new FilterRequestDTO("locationCountry", FILTER_COUNTRY);
     HttpHeaders authHeaders = login();
     HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
-    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>() {
+    };
 
-
-    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
-            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity = restTemplate.exchange(
+        "/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
 
     List<CulturalHeritageResponseDTO> responseList = responseEntity.getBody().getContent();
 
@@ -350,16 +386,15 @@ public class CulturalHeritageControllerIntegrationTest {
   }
 
   @Test
-  public void testFilterByCountryInvalid(){
+  public void testFilterByCountryInvalid() {
     FilterRequestDTO filterDTO = new FilterRequestDTO("locationCountry", FILTER_INVALID);
     HttpHeaders authHeaders = login();
     HttpEntity<Object> requestEntity = new HttpEntity<Object>(filterDTO, authHeaders);
-    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>(){};
+    ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>> responseType = new ParameterizedTypeReference<RestResponsePage<CulturalHeritageResponseDTO>>() {
+    };
 
-
-    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity =
-            restTemplate.exchange("/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
-
+    ResponseEntity<RestResponsePage<CulturalHeritageResponseDTO>> responseEntity = restTemplate.exchange(
+        "/api/cultural-heritages/filtered?page=0&size=" + PAGE_SIZE, HttpMethod.POST, requestEntity, responseType);
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(0, responseEntity.getBody().getTotalElements());

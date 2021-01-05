@@ -7,6 +7,7 @@ public class CommentConstants {
     public static final String CONTENT = "This is some dummy text.";
     public static final String NULL_CONTENT = null;
     public static final int PAGE_SIZE = 5;
+    public static final int PAGE_NUM = 0;
     public static final int NUMBER_OF_COMMENTS_IN_DB = 2;
     public static final Long ID_OK = 1L;
     public static final Long ID_OK_2 = 2L;

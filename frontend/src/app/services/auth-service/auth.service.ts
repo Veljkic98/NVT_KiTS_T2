@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { User } from '../../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -29,5 +30,9 @@ export class AuthService {
 
     verify(id) {
         return this.http.get(`${environment.apiUrl}/authenticated-users/verify/${id}`)
+    }
+
+    getProfile() {
+        return this.http.get<User>(`${environment.apiUrl}/authenticated-users/me`)
     }
 }

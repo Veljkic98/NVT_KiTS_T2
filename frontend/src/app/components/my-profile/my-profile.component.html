@@ -1,1 +1,75 @@
-<p>my-profile works!</p>
+<div class="container emp-profile">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="../../../assets/avatar.jpg" alt=""/>
+                </div>
+            </div>
+            <div class="col-md-6" *ngIf="user">
+                <div class="profile-head">
+                            <h5>
+                                {{user.firstName}} {{user.lastName}}
+                            </h5>
+                            <h6 *ngIf="user.email == 'admin@gmail.com'">
+                                ADMIN
+                            </h6>
+                            <h6 *ngIf="user.email != 'admin@gmail.com'">
+                                USER
+                            </h6>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <mat-tab-group class="tabs">
+                            <mat-tab label="About">
+                                <div class="tab-content profile-tab" id="myTabContent">
+                                    <div class="about">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>User Id</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.id}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.firstName}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Last name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.lastName}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Email</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.email}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Phone</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>123 456 7890</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            </mat-tab>
+                            <mat-tab label="Subscriptions"> Content 2 </mat-tab>
+                          </mat-tab-group>
+                    </ul>
+                </div>
+            </div>
+        </div>
+</form>           
+</div>

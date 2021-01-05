@@ -41,10 +41,10 @@ public class CommentMapper implements MapperInterface<Comment, CommentResponseDT
         }catch(NullPointerException e){
             imageUri = null;
         }
-
+        String userName = comment.getAuthenticatedUser().getFirstName() + " " + comment.getAuthenticatedUser().getLastName();
         
         return new CommentResponseDTO(comment.getId(), comment.getContent(), 
-            comment.getAuthenticatedUser().getId(), comment.getCulturalHeritage().getId(), imageUri);
+            comment.getAuthenticatedUser().getId(), comment.getCulturalHeritage().getId(), imageUri, userName);
     }
 
     @Override

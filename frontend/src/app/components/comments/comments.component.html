@@ -1,0 +1,45 @@
+<div>
+    <div *ngIf="error;else displaycomm">
+        {{error}}
+    </div>
+    <ng-template #displaycomm>
+      <div *ngIf="authService.isLoggedIn()">
+        <ng-template #content let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Add comment</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                    <textarea class="com-content" ngbAutofocus (keyup)="onKey($event)" matInput placeholder="Leave a comment"></textarea>
+                    <input type='file' (change)="onSelectFile($event)">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Post</button>
+            </div>
+          </ng-template>
+          
+          <button class="btn btn-outline-dark" (click)="open(content)">Add</button>
+        </div>
+        <div class="root" *ngIf="commentList">
+            <ul>
+              <li *ngFor="let comment of commentList  | paginate: { id: 'server', itemsPerPage: 3, currentPage: page, totalItems: total }  ">
+                <i class="close-icon large material-icons">account_circle</i>
+                <mat-card>
+                    <div class="header">
+                       <span class="author">{{ comment.userName }}</span>
+                    </div>
+                    <p>{{comment.content}}</p>
+                    <img *ngIf="comment.imageUri" mat-card-image [src]="comment.imageUri" alt="png">
+                </mat-card>
+                </li>
+            </ul>
+            <pagination-controls (pageChange)="getComments($event)" id="server"></pagination-controls>
+          </div>
+    </ng-template>
+</div>

@@ -120,6 +120,27 @@ public class RatingControllerIntegrationTest {
     }
 
     @Test
+    public void testFindByChId() {
+
+        Rating rating = ratingService.findUserRating(LOGGED_IN_USER_ID, CH_RATED_BY_LOGGED_USER);
+
+        HttpEntity<Object> requestEntity = new HttpEntity<Object>(headers);
+
+        ResponseEntity<RatingResponseDTO> responseEntity = restTemplate.exchange("/api/ratings/?chID=" + CH_RATED_BY_LOGGED_USER, HttpMethod.GET,
+                requestEntity,
+                RatingResponseDTO.class);
+
+        RatingResponseDTO responseDTO = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(responseDTO);
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        assertEquals(rating.getCulturalHeritage().getId(), responseDTO.getChID());
+        assertEquals(rating.getGrade(), responseDTO.getGrade());
+        assertEquals(LOGGED_IN_USER_ID, responseDTO.getUserID());
+    }
+
+    @Test
     public void testFindById() {
 
         Rating rating = ratingService.findById(EXIST_RATING_ID);

@@ -7,10 +7,12 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import tim2.CulturalHeritage.dto.requestDTO.FilterRequestDTO;
+import tim2.CulturalHeritage.model.AuthenticatedUser;
 import tim2.CulturalHeritage.model.CulturalHeritage;
 import tim2.CulturalHeritage.model.FileDB;
 import tim2.CulturalHeritage.repository.CulturalHeritageRepository;
@@ -23,6 +25,9 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
 
     @Autowired
     private FileDBService fileDBService;
+
+    @Autowired
+    private AuthenticatedUserService authenticatedUserService;
 
     @Override
     public List<CulturalHeritage> findAll() {
@@ -72,10 +77,40 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
 
     @Override
     public void deleteById(Long id) {
-        if(null == culturalHeritageRepository.findById(id).orElse(null))
+
+        if (null == culturalHeritageRepository.findById(id).orElse(null))
             throw new EntityNotFoundException();
-            
+
         culturalHeritageRepository.deleteById(id);
+    }
+
+    @Override
+    public void unsubscribe(Long id) {
+
+        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+        CulturalHeritage ch = culturalHeritageRepository.findById(id).orElse(null);
+
+        if (null == ch)
+            throw new EntityNotFoundException();
+
+        user.getCulturalHeritages().remove(ch);
+        boolean removed = false;
+
+        for (CulturalHeritage ie : user.getCulturalHeritages()) {
+            if (ie.getId() == id) {
+                user.getCulturalHeritages().remove(ie);
+                removed = true;
+                break;
+            }
+        }
+
+        if (removed == false) {
+            throw new EntityNotFoundException();
+        }
+
+        authenticatedUserService.update(user);
     }
 
     @Override
@@ -83,15 +118,15 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
 
         Page<CulturalHeritage> res;
 
-        if(filterDTO.getType().equalsIgnoreCase( "name")){
+        if (filterDTO.getType().equalsIgnoreCase("name")) {
             res = culturalHeritageRepository.findByNameContains(filterDTO.getValue(), page);
-        }else if(filterDTO.getType().equalsIgnoreCase("chSubtypeName")){
+        } else if (filterDTO.getType().equalsIgnoreCase("chSubtypeName")) {
             res = culturalHeritageRepository.findByChsubtypeNameContains(filterDTO.getValue(), page);
-        }else if(filterDTO.getType().equalsIgnoreCase("locationCity")){
+        } else if (filterDTO.getType().equalsIgnoreCase("locationCity")) {
             res = culturalHeritageRepository.findByLocationCity(filterDTO.getValue(), page);
-        }else if(filterDTO.getType().equals("locationCountry")){
+        } else if (filterDTO.getType().equals("locationCountry")) {
             res = culturalHeritageRepository.findByLocationCountry(filterDTO.getValue(), page);
-        }else{
+        } else {
             res = culturalHeritageRepository.findAll(page);
         }
         return res;

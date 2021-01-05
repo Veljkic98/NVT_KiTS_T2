@@ -19,4 +19,6 @@ public interface CommentService {
     public Comment update(Comment comment, MultipartFile file) throws AccessControlException;
 
     public void deleteById(Long id) throws AccessControlException;
+
+    public Page<Comment> findAll(Pageable pageable, Long chID);
 }

@@ -45,3 +45,5 @@ INSERT INTO rating (grade, authenticated_user_id, cultural_heritage_id) VALUES (
 
 insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 4, 'Duis at velit eu est congue elementum. In hac habitasse platea dictumst.');
 insert into comment (cultural_heritage_id, authenticated_user_id, content) values (1, 3, 'Duis bibendum.');
+
+insert into subscription (authenticated_user_id, cultural_heritage_id) values (2, 1);
