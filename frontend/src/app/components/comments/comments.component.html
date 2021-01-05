@@ -3,7 +3,7 @@
         {{error}}
     </div>
     <ng-template #displaycomm>
-      <div *ngIf="authService.isLoggedIn()">
+      <div *ngIf="authService.getRole() === 'ROLE_USER'">
         <ng-template #content let-modal>
             <div class="modal-header">
               <h4 class="modal-title" id="modal-basic-title">Add comment</h4>

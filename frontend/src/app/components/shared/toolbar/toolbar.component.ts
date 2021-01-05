@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/services/auth-service/auth.service';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
-export class ToolbarComponent implements OnInit {  
+export class ToolbarComponent implements OnInit {
   value = '';
 
   constructor(
