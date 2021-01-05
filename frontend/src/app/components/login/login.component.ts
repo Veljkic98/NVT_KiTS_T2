@@ -39,26 +39,31 @@ export class LoginComponent implements OnInit {
             return;
         }
 
-        this.loading = true;
-        this.success = false;
-        this.error = '';
-        this.authService.login(this.loginForm.value.email, this.loginForm.value.password)
-            .subscribe(
-                data => {
-                    this.loading = false;
-                    this.success = true;
-                    localStorage.setItem('user', JSON.stringify({
-                        username: this.loginForm.value.email,
-                        token: data['accessToken'],
-                        role: JSON.parse(window.atob(data['accessToken'].split('.')[1]))['role']
-                    }));
+       
 
-                    this.router.navigate(['']);
-                },
-                error => {
-                    this.error = error.error.message;
+    this.loading = true;
+    this.success = false;
+    this.error = '';
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.password)
+        .subscribe(
+            data => {   
+                let payload = JSON.parse(window.atob(data['accessToken'].split('.')[1]));
+                this.loading = false;
+                this.success = true;
+                localStorage.setItem('user', JSON.stringify({
+                    username: this.loginForm.value.email,                    
+                    token: data['accessToken'],
+                    id: payload['id'],
+                    role: payload['role']
+                  }));
+                this.router.navigate(['']);
+        
+            },
+            error => {
+                this.error = error.error.message;
+                
+                this.loading = false; 
+            });
+}
 
-                    this.loading = false;
-                });
-    }
 }
