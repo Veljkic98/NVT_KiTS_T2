@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';  
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageModule } from './layouts/home-page/home-page.module';
@@ -14,7 +13,7 @@ import { Interceptor } from './interceptors/intercept.service';
   declarations: [
     AppComponent,
   ],
-  imports: [ 
+  imports: [
     BrowserModule,
     AppRoutingModule,
     HomePageModule,

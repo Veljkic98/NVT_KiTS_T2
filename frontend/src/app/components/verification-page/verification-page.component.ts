@@ -10,8 +10,8 @@ import { AuthService } from '../../services/auth-service/auth.service';
 })
 export class VerificationPageComponent implements OnInit {
   loading = false;
-  error: string; 
-  success : boolean = false;
+  error: string;
+  success = false;
   id: string;
 
   constructor(
@@ -24,7 +24,7 @@ export class VerificationPageComponent implements OnInit {
       }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     this.authService.verify(this.id)
     .subscribe(
@@ -33,8 +33,8 @@ export class VerificationPageComponent implements OnInit {
             this.success = true;
         },
         error => {
-            this.error = "Something went wrong please try again."
-            this.loading = false; 
+            this.error = 'Something went wrong please try again.';
+            this.loading = false;
         });
-}
+    }
 }
