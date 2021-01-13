@@ -56,7 +56,12 @@ public class CulturalHeritageMapper
         } catch (NullPointerException e) {
             imageUri = null;
         }
-        float avgRating = calcRating(entity.getRatings());
+        float avgRating;
+        try{
+            avgRating = calcRating(entity.getRatings());
+        }catch (Exception e){
+            avgRating = 0;
+        }
         String locationName = entity.getLocation().getCountry() + " " + entity.getLocation().getCity();
 
         return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(),

@@ -1,14 +1,20 @@
 package tim2.CulturalHeritage.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 import javax.persistence.*;
 
+@Transactional
 @Entity
 public class AuthenticatedUser extends Person  {
 
-    @ManyToMany
-    @JoinTable(name = "subscription", 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JoinTable(name = "subscription",
         joinColumns = @JoinColumn(name = "authenticated_user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "cultural_heritage_id", referencedColumnName = "id"))
     private List<CulturalHeritage> culturalHeritages;
@@ -31,7 +37,6 @@ public class AuthenticatedUser extends Person  {
     public void setCulturalHeritages(List<CulturalHeritage> culturalHeritages) {
         this.culturalHeritages = culturalHeritages;
     }
-
 
     @Override
     public String getUsername() {
