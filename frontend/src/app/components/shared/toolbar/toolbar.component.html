@@ -8,10 +8,10 @@
         </div>
         <span class="menu-spacer"></span>
         <div>
-
-            <a mat-button [routerLink]="'/register'">Sign up</a>
-            <a mat-button [routerLink]="'/login'">Sign in</a> 
-            <a mat-button  [matMenuTriggerFor]="menu">
+            
+            <a mat-button [routerLink]="'/register'" *ngIf="!authService.isLoggedIn()">Sign up</a>
+            <a mat-button [routerLink]="'/login'" *ngIf="!authService.isLoggedIn()">Sign in</a>
+            <a mat-button  [matMenuTriggerFor]="menu" *ngIf="authService.isLoggedIn()">
                 <i class="profile-icon large material-icons">account_circle</i>
                 <i class="profile-icon large material-icons">arrow_drop_down</i>
             </a>
@@ -20,6 +20,8 @@
                 <div></div>
                 <a mat-button [routerLink]="">Your subscriptions</a>
             </mat-menu>
+            <a mat-button (click)="authService.logOut()" *ngIf="authService.isLoggedIn()">Sign out</a>
+
         </div>
     </mat-toolbar-row>
 </mat-toolbar>
