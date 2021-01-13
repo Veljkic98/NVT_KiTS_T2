@@ -21,7 +21,7 @@ import { LoginComponent } from 'src/app/components/login/login.component';
 
 
 import { CommentsComponent } from '../../components/comments/comments.component';
-import { NgxPaginationModule } from 'ngx-pagination'; 
+import { NgxPaginationModule } from 'ngx-pagination';
 import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
@@ -31,7 +31,7 @@ import {MatTabsModule} from '@angular/material/tabs';
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
-        MatCardModule, 
+        MatCardModule,
         MatInputModule,
         MatButtonModule,
         MatProgressSpinnerModule,
@@ -45,7 +45,7 @@ import {MatTabsModule} from '@angular/material/tabs';
         MapsComponent,
         MyProfileComponent,
         RegisterComponent,
-        DashboardComponent, 
+        DashboardComponent,
         VerificationPageComponent,
         CulturalHeritageComponent,
         LoginComponent,

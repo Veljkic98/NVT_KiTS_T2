@@ -20,7 +20,7 @@ export class MyProfileComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
 
-  ) { 
+
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/']);
   }
@@ -36,7 +36,7 @@ export class MyProfileComponent implements OnInit {
 
     this.authService.getSubscriptions()
     .subscribe(
-      data => { this.subscriptions = data; console.log("STIGLO DATA BRE " , data)},
+      data => { this.subscriptions = data; 
       error => { 
         console.log(error); 
         this.error = 'Couldn\'t fetch subscriptions now :(';
@@ -49,7 +49,8 @@ export class MyProfileComponent implements OnInit {
       },
       error => {
          console.log(error);
-         this.error = 'Somethnig went wrong, can\'t load all comments right now.';
+
+         this.error = 'Somethnig went wrong, can not load profile right now.';
       });
   }
 
