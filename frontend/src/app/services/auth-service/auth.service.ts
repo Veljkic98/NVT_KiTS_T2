@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
+import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -34,5 +35,9 @@ export class AuthService {
 
     getProfile() {
         return this.http.get<User>(`${environment.apiUrl}/authenticated-users/me`)
+    }
+
+    getSubscriptions(): Observable<Array<CulturalHeritage>> {
+        return this.http.get<Array<CulturalHeritage>>(`${environment.apiUrl}/authenticated-users/me/subscriptions`)
     }
 }

@@ -18,6 +18,15 @@ body{
     overflow: hidden;
     margin: 40px;
 }
+
+.subs{
+    overflow:hidden;
+    padding: 15px;
+}
+.subs button {
+    margin-bottom: 8px;
+}
+
 .profile-img img{
     width: 70%;
     height: 100%;
