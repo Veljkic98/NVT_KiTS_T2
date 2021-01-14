@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges  } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges  } from '@angular/core';
 
-import { CulturalHeritageService } from '../../services/cultural-heritage-serice/cultural-heritage.service';
+import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service';
 import { CulturalHeritage } from '../../models/cultural-heritage.model';
 import { AuthService } from '../../services/auth-service/auth.service';
 
@@ -10,12 +10,12 @@ import { AuthService } from '../../services/auth-service/auth.service';
   templateUrl: './cultural-heritage.component.html',
   styleUrls: ['./cultural-heritage.component.css']
 })
-export class CulturalHeritageComponent implements OnInit {
-  @Input() chID : number;
+export class CulturalHeritageComponent implements OnInit, OnChanges {
+  @Input() chID: number;
   loading = true;
-  ch: CulturalHeritage
+  ch: CulturalHeritage;
   error: string;
-  openedSection : boolean = false;  
+  openedSection = false;
 
   @Output() closeDetails: EventEmitter<void> = new EventEmitter();
 
@@ -24,7 +24,7 @@ export class CulturalHeritageComponent implements OnInit {
     private authService: AuthService
 ) {}
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (!changes.chID.firstChange) {
       this.getCH();
     }
@@ -34,7 +34,7 @@ export class CulturalHeritageComponent implements OnInit {
    this.getCH();
   }
 
-  getCH() {
+  getCH(): void {
     this.chService.getOne(this.chID)
     .subscribe(
         data => {
@@ -43,12 +43,12 @@ export class CulturalHeritageComponent implements OnInit {
             this.error = null;
         },
         error => {
-            this.error = "Something went wrong please try again.";
+            this.error = 'Something went wrong please try again.';
             this.loading = false;
         });
   }
 
-  close() {
+  close(): void {
     this.closeDetails.emit();
   }
 

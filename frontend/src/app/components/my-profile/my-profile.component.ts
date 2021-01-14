@@ -12,11 +12,11 @@ import { AuthService } from '../../services/auth-service/auth.service';
 export class MyProfileComponent implements OnInit {
   error: string = null;
   user: User;
-  
+
   constructor(
     private authService: AuthService,
     private router: Router,
-  ) { 
+  ) {
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/']);
   }
@@ -30,7 +30,7 @@ export class MyProfileComponent implements OnInit {
       },
       error => {
          console.log(error);
-         this.error = "Somethnig went wrong, can't load all comments right now.";
+         this.error = 'Somethnig went wrong, can not load profile right now.';
       });
   }
 

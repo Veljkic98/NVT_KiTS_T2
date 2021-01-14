@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import { CommentService } from '../../services/comments-service/comment.service';
@@ -10,10 +10,10 @@ import { Comment } from '../../models/comment.model';
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css']
 })
-export class CommentsComponent implements OnInit {
+export class CommentsComponent implements OnInit, OnChanges {
   @Input() chID: number;
   commentList: Comment[];
-  page: number = 1;
+  page = 1;
   totalPages: number;
   totalElements: number;
   error: string;
@@ -34,14 +34,14 @@ export class CommentsComponent implements OnInit {
     this.getComments(1);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (!changes.chID.firstChange) {
       this.page = 1;
       this.getComments(this.page);
     }
   }
 
-  getComments(page) {
+  getComments(page): void {
     this.commService.getComments(this.chID, page - 1)
     .subscribe(
       data => {
@@ -53,12 +53,11 @@ export class CommentsComponent implements OnInit {
       },
       error => {
          console.log(error);
-         this.error = "Somethnig went wrong, can't load all comments right now.";
+         this.error = 'Somethnig went wrong, can not load all comments right now.';
       });
   }
 
- 
-  open(content) {
+  open(content): void {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.addComment();
     }, (reason) => {
@@ -66,25 +65,26 @@ export class CommentsComponent implements OnInit {
     });
   }
 
-  addComment() {
+  addComment(): void {
     this.commService.postComment(this.chID, this.content, this.url)
     .subscribe(
       data => {
         this.content = '';
-        if(this.lastPage)
-          this.commentList.push(data);
+        if (this.lastPage) {
+            this.commentList.push(data);
+        }
       },
       error => {
         console.log(error);
         this.content = '';
-        this.error = "Somethnig went wrong, can't load all comments right now.";
+        this.error = 'Somethnig went wrong, can nott load all comments right now.';
       });
 
   }
 
-  onKey(event) {this.content = event.target.value;}
+  onKey(event): void { this.content = event.target.value; }
 
-  onSelectFile(event) { 
+  onSelectFile(event): void {
       if (event.target.files && event.target.files[0]) {
         this.url = event.target.files[0];
       }
