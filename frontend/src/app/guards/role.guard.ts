@@ -21,10 +21,10 @@ export class RoleGuard implements CanActivate {
       return false;
     }
 
-    const role = JSON.parse(token).role + "";
+    const role = JSON.parse(token).role + '';
 
     const roles: string[] = expectedRoles.split('|');
-    
+
     if (roles.indexOf(role) === -1) {
       this.router.navigate(['']);
       return false;

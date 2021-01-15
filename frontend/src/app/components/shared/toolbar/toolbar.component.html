@@ -15,7 +15,9 @@
                 <i class="profile-icon large material-icons">arrow_drop_down</i>
             </a>
             <mat-menu #menu="matMenu" class="customize">
-                <a mat-button [routerLink]="'/me'">Your profile</a>
+                <a mat-button [routerLink]="['/me', 0]">Your profile</a>
+                <a mat-button [routerLink]="['/me', 1]" >Your subscriptions</a>
+                <a mat-button (click)="authService.logOut()" *ngIf="authService.isLoggedIn()">Sign out</a>
                 <div></div>
             </mat-menu>
         </div>

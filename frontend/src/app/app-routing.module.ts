@@ -27,7 +27,7 @@ const routes: Routes = [
         data: {expectedRoles: 'ROLE_ADMIN|ROLE_USER'}
       },
       {
-        path: 'me',
+        path: 'me/:index',
         component: MyProfileComponent,
         canActivate: [RoleGuard],
         data: {expectedRoles: 'ROLE_ADMIN|ROLE_USER'}
