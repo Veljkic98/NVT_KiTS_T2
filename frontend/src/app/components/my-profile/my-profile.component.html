@@ -18,7 +18,7 @@
                                 USER
                             </h6>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <mat-tab-group class="tabs">
+                        <mat-tab-group class="tabs" [selectedIndex]="tabIndex">
                             <mat-tab label="About">
                                 <div class="tab-content profile-tab" id="myTabContent">
                                     <div class="about">
@@ -65,7 +65,21 @@
                                     </div>
                             </div>
                             </mat-tab>
-                            <mat-tab label="Subscriptions"> Content 2 </mat-tab>
+                            <mat-tab label="Subscriptions" *ngIf="user.email != 'admin@gmail.com'"> 
+                                <div class="tab-content profile-tab" id="myTabContent">
+                                    <div class="subs">
+                            <div class="row" *ngFor="let ch of subscriptions">
+                                <div class="col-md-6">
+                                    <label>{{ch.name}}</label>
+                                </div> 
+                                <div class="col-md-6">
+                                    <button mat-raised-button color="warn">Unsubscribe</button>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                            
+                            </mat-tab>
                           </mat-tab-group>
                     </ul>
                 </div>
