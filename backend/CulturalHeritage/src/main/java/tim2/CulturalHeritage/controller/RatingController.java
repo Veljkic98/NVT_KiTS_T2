@@ -99,6 +99,7 @@ public class RatingController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody RatingRequestDTO ratingRequestDTO,
             Errors errors) {
 
