@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
         private authService: AuthService
     ) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.registerForm = this.formBuilder.group({
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
@@ -33,9 +33,9 @@ export class RegisterComponent implements OnInit {
     }
 
 
-    get f() { return this.registerForm.controls; }
+    get f(): any { return this.registerForm.controls; }
 
-    onSubmit() {
+    onSubmit(): void {
         this.submitted = true;
 
         if (this.registerForm.invalid) {
@@ -55,7 +55,7 @@ export class RegisterComponent implements OnInit {
                     try {
                         this.error = error.error.messages[0];
                     } catch (e) {
-                        this.error = "Somethnig went wrong please try again";
+                        this.error = 'Somethnig went wrong please try again';
                     }
                     this.loading = false;
                 });

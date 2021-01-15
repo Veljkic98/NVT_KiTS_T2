@@ -1,8 +1,9 @@
+  
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { User } from '../../models/user.model';
-
 import { AuthService } from '../../services/auth-service/auth.service';
+import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 
 @Component({
   selector: 'app-my-profile',
@@ -12,10 +13,14 @@ import { AuthService } from '../../services/auth-service/auth.service';
 export class MyProfileComponent implements OnInit {
   error: string = null;
   user: User;
+  tabIndex: number;
+  subscriptions: Array<CulturalHeritage>;
   
   constructor(
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute
+
   ) { 
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/']);
@@ -23,6 +28,21 @@ export class MyProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.route.paramMap.subscribe( params =>
+      this.tabIndex = +params.get('index')
+    );
+
+
+
+    this.authService.getSubscriptions()
+    .subscribe(
+      data => { this.subscriptions = data; console.log("STIGLO DATA BRE " , data)},
+      error => { 
+        console.log(error); 
+        this.error = 'Couldn\'t fetch subscriptions now :(';
+    });
+
     this.authService.getProfile()
     .subscribe(
       data => {
@@ -30,7 +50,7 @@ export class MyProfileComponent implements OnInit {
       },
       error => {
          console.log(error);
-         this.error = "Somethnig went wrong, can't load all comments right now.";
+         this.error = 'Somethnig went wrong, can\'t load all comments right now.';
       });
   }
 

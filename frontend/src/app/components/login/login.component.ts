@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
         private authService: AuthService
     ) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.loginForm = this.formBuilder.group({
             email: ['', [Validators.email, Validators.required]],
             password: ['', [Validators.required, Validators.minLength(3)]],
@@ -30,34 +30,33 @@ export class LoginComponent implements OnInit {
     }
 
 
-    get f() { return this.loginForm.controls; }
+    get f(): any { return this.loginForm.controls; }
 
-    onSubmit() {
+    onSubmit(): void {
         this.submitted = true;
 
         if (this.loginForm.invalid) {
             return;
         }
-
         this.loading = true;
         this.success = false;
         this.error = '';
         this.authService.login(this.loginForm.value.email, this.loginForm.value.password)
             .subscribe(
                 data => {
+                    const payload = JSON.parse(window.atob(data['accessToken'].split('.')[1]));
                     this.loading = false;
                     this.success = true;
                     localStorage.setItem('user', JSON.stringify({
-                        username: this.loginForm.value.email,
+                        username: this.loginForm.value.email,                
                         token: data['accessToken'],
-                        role: JSON.parse(window.atob(data['accessToken'].split('.')[1]))['role']
+                        id: payload.id,
+                        role: payload.role
                     }));
-
                     this.router.navigate(['']);
                 },
                 error => {
                     this.error = error.error.message;
-
                     this.loading = false;
                 });
     }

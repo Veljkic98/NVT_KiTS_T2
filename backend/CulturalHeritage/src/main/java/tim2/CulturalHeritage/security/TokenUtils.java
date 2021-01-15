@@ -46,7 +46,8 @@ public class TokenUtils {
 
     // Funkcija za generisanje JWT token
     public String generateToken(String username) {
-        Authority auth =  (Authority) SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[0];
+        Person user = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authority auth =  (Authority) user.getAuthorities().toArray()[0];
         return Jwts.builder()
                 .setIssuer(APP_NAME)
                 .setSubject(username)
@@ -54,6 +55,7 @@ public class TokenUtils {
                 .setIssuedAt(new Date())
                 .setExpiration(generateExpirationDate())
                 .claim("role", auth.getName())
+                .claim("id", user.getId())
                 // .claim("key", value) //moguce je postavljanje proizvoljnih podataka u telo JWT tokena
                 .signWith(SIGNATURE_ALGORITHM, SECRET).compact();
     }
