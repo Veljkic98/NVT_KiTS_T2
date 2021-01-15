@@ -20,7 +20,7 @@
                 <div></div>
                 <a mat-button [routerLink]="['/me', 1]" >Your subscriptions</a>
             </mat-menu>
-            <a mat-button (click)="authService.logOut()" *ngIf="authService.isLoggedIn()">Sign out</a>
+            <a mat-button (click)="logout()" *ngIf="authService.isLoggedIn()">Sign out</a>
 
         </div>
     </mat-toolbar-row>
