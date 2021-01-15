@@ -27,7 +27,7 @@ export class AuthService {
     }
 
     getId(): number {
-        return localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user"))['id'] : "INVALID";
+        return localStorage.getItem("user") ? JSON.parse(localStorage.getItem('user'))['id'] : 'INVALID';
     }
 
     isLoggedIn(): boolean {
@@ -35,14 +35,14 @@ export class AuthService {
     }
 
     verify(id): Observable<object> {
-        return this.http.get(`${environment.apiUrl}/${AUTHENTICATED_USERS}/verify/${id}`)
+        return this.http.get(`${environment.apiUrl}/${AUTHENTICATED_USERS}/verify/${id}`);
     }
 
     getProfile(): Observable<User> {
-        return this.http.get<User>(`${environment.apiUrl}/${AUTHENTICATED_USERS}/me`)
+        return this.http.get<User>(`${environment.apiUrl}/${AUTHENTICATED_USERS}/me`);
     }
     getSubscriptions(): Observable<Array<CulturalHeritage>> {
-        return this.http.get<Array<CulturalHeritage>>(`${environment.apiUrl}/authenticated-users/me/subscriptions`)
+        return this.http.get<Array<CulturalHeritage>>(`${environment.apiUrl}/${AUTHENTICATED_USERS}/me/subscriptions`);
     }
 
 }

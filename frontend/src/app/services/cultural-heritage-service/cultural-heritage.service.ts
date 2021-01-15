@@ -10,6 +10,6 @@ export class CulturalHeritageService {
     constructor(private http: HttpClient) { }
 
     getOne(id): Observable<CulturalHeritage> {
-        return this.http.get<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${id}`)
+        return this.http.get<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${id}`);
     }
 }

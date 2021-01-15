@@ -7,4 +7,4 @@ export class CulturalHeritage {
   public locationID : number;
   public name : string;
   public totalRatings: number;
-
+}
