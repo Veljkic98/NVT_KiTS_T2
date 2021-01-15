@@ -57,8 +57,8 @@ export class CommentsComponent implements OnInit, OnChanges {
       });
   }
 
- 
-  openAddModal(content) {
+
+  openAddModal(content): void {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.addComment();
     }, (reason) => {
@@ -66,7 +66,7 @@ export class CommentsComponent implements OnInit, OnChanges {
     });
   }
 
-  openDeleteModal(deleteModal, commentID) {
+  openDeleteModal(deleteModal, commentID): void {
     this.modalService.open(deleteModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.deleteComment(commentID);
     }, (reason) => {
@@ -74,7 +74,7 @@ export class CommentsComponent implements OnInit, OnChanges {
     });
   }
 
-  addComment() {
+  addComment(): void {
     this.commService.postComment(this.chID, this.content, this.url)
     .subscribe(
       data => {

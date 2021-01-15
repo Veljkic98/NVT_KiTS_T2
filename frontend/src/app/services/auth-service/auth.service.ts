@@ -27,7 +27,7 @@ export class AuthService {
     }
 
     getId(): number {
-        return localStorage.getItem("user") ? JSON.parse(localStorage.getItem('user'))['id'] : 'INVALID';
+        return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).id : 'INVALID';
     }
 
     isLoggedIn(): boolean {
