@@ -1,3 +1,4 @@
+  
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { User } from '../../models/user.model';
@@ -20,7 +21,7 @@ export class MyProfileComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
 
-
+  ) { 
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/']);
   }
@@ -36,7 +37,7 @@ export class MyProfileComponent implements OnInit {
 
     this.authService.getSubscriptions()
     .subscribe(
-      data => { this.subscriptions = data; 
+      data => { this.subscriptions = data; console.log("STIGLO DATA BRE " , data)},
       error => { 
         console.log(error); 
         this.error = 'Couldn\'t fetch subscriptions now :(';
@@ -49,8 +50,7 @@ export class MyProfileComponent implements OnInit {
       },
       error => {
          console.log(error);
-
-         this.error = 'Somethnig went wrong, can not load profile right now.';
+         this.error = 'Somethnig went wrong, can\'t load all comments right now.';
       });
   }
 

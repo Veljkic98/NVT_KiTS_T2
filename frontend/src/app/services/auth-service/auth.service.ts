@@ -40,5 +40,5 @@ export class AuthService {
     getSubscriptions(): Observable<Array<CulturalHeritage>> {
         return this.http.get<Array<CulturalHeritage>>(`${environment.apiUrl}/authenticated-users/me/subscriptions`)
     }
-}
+
 }
