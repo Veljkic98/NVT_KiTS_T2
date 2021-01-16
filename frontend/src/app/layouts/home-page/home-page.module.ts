@@ -23,6 +23,9 @@ import { LoginComponent } from 'src/app/components/login/login.component';
 import { CommentsComponent } from '../../components/comments/comments.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import {MatTabsModule} from '@angular/material/tabs';
+import { CHTypesComponent } from 'src/app/components/ch-types/ch-types.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
     imports: [
@@ -37,13 +40,16 @@ import {MatTabsModule} from '@angular/material/tabs';
         MatProgressSpinnerModule,
         MatExpansionModule,
         NgxPaginationModule,
-        MatTabsModule
+        MatTabsModule,
+        MatTableModule,
+        MatPaginatorModule,
     ],
     declarations: [
         HomePageComponent,
         NotificationsComponent,
         MapsComponent,
         MyProfileComponent,
+        CHTypesComponent,
         RegisterComponent,
         DashboardComponent,
         VerificationPageComponent,

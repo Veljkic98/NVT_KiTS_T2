@@ -8,7 +8,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from './interceptors/intercept.service';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +20,7 @@ import { Interceptor } from './interceptors/intercept.service';
     HttpClientModule,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true}],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
+
 export class AppModule { }
