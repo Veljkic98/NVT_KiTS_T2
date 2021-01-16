@@ -21,28 +21,25 @@ export class MyProfileComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
 
-  ) {
-    if (!this.authService.isLoggedIn()) {
-      this.router.navigate(['/']);
-  }
-  }
+  ) {}
 
   ngOnInit(): void {
+
+    
 
     this.route.paramMap.subscribe( params =>
       this.tabIndex = +params.get('index')
     );
 
-
-
-    this.authService.getSubscriptions()
-    .subscribe(
-      data => { this.subscriptions = data; },
-      error => {
-        console.log(error);
-        this.error = 'Couldn\'t fetch subscriptions now :(';
-    });
-
+    if (this.authService.getRole() === 'ROLE_USER') {
+      this.authService.getSubscriptions()
+      .subscribe(
+        data => { this.subscriptions = data; },
+        error => {
+          console.log(error);
+          this.error = 'Couldn\'t fetch subscriptions now :(';
+      });
+  }
     this.authService.getProfile()
     .subscribe(
       data => {
