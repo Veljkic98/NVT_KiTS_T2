@@ -11,10 +11,10 @@
                             <h5>
                                 {{user.firstName}} {{user.lastName}}
                             </h5>
-                            <h6 *ngIf="user.email == 'admin@gmail.com'">
+                            <h6 *ngIf="authService.getRole() === 'ROLE_ADMIN'">
                                 ADMIN
                             </h6>
-                            <h6 *ngIf="user.email != 'admin@gmail.com'">
+                            <h6 *ngIf="authService.getRole() === 'ROLE_USER'">
                                 USER
                             </h6>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
