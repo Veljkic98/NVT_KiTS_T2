@@ -1,0 +1,9 @@
+<div>
+    <ngb-rating 
+        [max]="5" 
+        [(rate)]="userRating" 
+        [readonly]="false"
+        (rateChange)="rateChanged()"
+        [resettable]="true"
+        ></ngb-rating>
+</div>

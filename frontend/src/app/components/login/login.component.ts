@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
                     this.loading = false;
                     this.success = true;
                     localStorage.setItem('user', JSON.stringify({
-                        username: this.loginForm.value.email,                
+                        username: this.loginForm.value.email,
                         token: data['accessToken'],
                         id: payload.id,
                         role: payload.role

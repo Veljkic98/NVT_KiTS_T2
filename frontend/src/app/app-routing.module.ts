@@ -35,7 +35,9 @@ const routes: Routes = [
       },
       {
         path: 'me/:index',
-        component: MyProfileComponent
+        component: MyProfileComponent,
+        canActivate: [RoleGuard],
+        data: {expectedRoles: 'ROLE_ADMIN|ROLE_USER'}
       },
       {
         path: 'maps',

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { COMMENTS_PER_PAGE } from '../../utils/constants';
 import { Page } from '../../models/page.model';
+import { COMMENTS } from '../../utils/constants';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -10,7 +11,7 @@ export class CommentService {
     constructor(private http: HttpClient) { }
 
     getComments(chID: number, page: number): Observable<Page> {
-        return this.http.get<Page>(`${environment.apiUrl}/comments/by-page/${chID}/?page=${page}&size=${COMMENTS_PER_PAGE}&sort=id,ASC`);
+        return this.http.get<Page>(`${environment.apiUrl}/${COMMENTS}/by-page/${chID}/?page=${page}&size=${COMMENTS_PER_PAGE}&sort=id,ASC`);
     }
 
     postComment(chID: number, content: string, image: string): Observable<any> {
@@ -23,6 +24,10 @@ export class CommentService {
             formData.append('file', image);
         }
 
-        return this.http.post(`${environment.apiUrl}/comments`, formData);
+        return this.http.post<any>(`${environment.apiUrl}/${COMMENTS}`, formData);
+    }
+
+    deleteComment(commentID: number): Observable<object> {
+        return this.http.delete(`${environment.apiUrl}/${COMMENTS}/${commentID}`);
     }
 }
