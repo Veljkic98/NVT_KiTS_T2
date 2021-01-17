@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
                     this.router.navigate(['']);
                 },
                 error => {
-                    this.error = error.error.message;
+                    this.error = error.error ? error.error.message : "Your account is not verified";
                     this.loading = false;
                 });
     }
