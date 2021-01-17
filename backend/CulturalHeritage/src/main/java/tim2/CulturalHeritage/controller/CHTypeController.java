@@ -79,7 +79,6 @@ public class CHTypeController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<CHTypeResponseDTO> update(@PathVariable Long id, @Valid @RequestBody CHTypeRequestDTO reqDTO,
             Errors errors) {
         if (errors.hasErrors()) {
@@ -98,7 +97,6 @@ public class CHTypeController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(path = "/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         try {

@@ -70,7 +70,6 @@ public class CHSubtypeController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/{id}")
     public ResponseEntity<CHSubtypeResponseDTO> update(
             @PathVariable Long id,
