@@ -157,6 +157,23 @@ export class CHTypesComponent implements OnInit {
         });
     }
 
+    openEditSubTypeDialog(selected: CHSubtype): void{
+        const dialogRef = this.typeEditDialog.open(EditTypeDialog, {data: selected});
+    
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.subtypeService.editSubtype({...selected, name : result}).subscribe(
+                    data => {
+                        this.openSnackBar('Successfuly changed name of subtype!');
+                        selected.name = result;
+                    },
+                    error => this.openSnackBar('Name already exist!')
+                );
+            }
+
+        });
+    }
+
 }
 
 @Component({
@@ -174,7 +191,7 @@ export class SubtypeDeleteDialog {
 export class EditTypeDialog {
     changedName: string;
     
-    constructor(@Inject(MAT_DIALOG_DATA) public data: CHType) {
+    constructor(@Inject(MAT_DIALOG_DATA) public data: CHSubtype | CHType) {
         this.changedName = data.name
     }
 }
