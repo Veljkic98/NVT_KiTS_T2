@@ -29,6 +29,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CulturalHeritagesComponent } from 'src/app/components/cultural-heritages/cultural-heritages.component';
 
 @NgModule({
     imports: [
@@ -63,7 +64,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         CulturalHeritageComponent,
         LoginComponent,
         CommentsComponent,
-        RatingComponent
+        RatingComponent,
+        CulturalHeritagesComponent
     ]
 })
 

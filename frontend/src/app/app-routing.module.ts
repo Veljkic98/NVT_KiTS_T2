@@ -11,6 +11,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './guards/login.guard';
 import { RoleGuard } from './guards/role.guard';
 import { CHTypesComponent } from './components/ch-types/ch-types.component';
+import { CulturalHeritagesComponent } from './components/cultural-heritages/cultural-heritages.component';
 
 const routes: Routes = [
   {
@@ -25,19 +26,25 @@ const routes: Routes = [
         path: 'notifications',
         component: NotificationsComponent,
         canActivate: [RoleGuard],
-        data: {expectedRoles: 'ROLE_ADMIN|ROLE_USER'}
+        data: { expectedRoles: 'ROLE_ADMIN|ROLE_USER' }
       },
       {
         path: 'types',
         component: CHTypesComponent,
         canActivate: [RoleGuard],
-        data: {expectedRoles: 'ROLE_ADMIN'}
+        data: { expectedRoles: 'ROLE_ADMIN' }
+      },
+      {
+        path: 'cultural-heritages',
+        component: CulturalHeritagesComponent,
+        canActivate: [RoleGuard],
+        data: { expectedRoles: 'ROLE_ADMIN' }
       },
       {
         path: 'me/:index',
         component: MyProfileComponent,
         canActivate: [RoleGuard],
-        data: {expectedRoles: 'ROLE_ADMIN|ROLE_USER'}
+        data: { expectedRoles: 'ROLE_ADMIN|ROLE_USER' }
       },
       {
         path: 'maps',
