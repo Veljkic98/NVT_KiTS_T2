@@ -1,7 +1,8 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectorRef, Component, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnChanges, OnInit, QueryList, SimpleChanges, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { CHSubtype } from 'src/app/models/ch-subtype.model';
@@ -32,6 +33,7 @@ export class CHTypesComponent implements OnInit {
     url: string;
     lastPage: boolean;
     dataSource;
+    errorMsg: string;
 
     columnsToDisplay: string[] = ['Name', 'View Subtypes', 'Edit', 'Delete' ];
     innerDisplayedColumns = ['Name', 'Edit', 'Delete' ];
@@ -40,12 +42,15 @@ export class CHTypesComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChildren('innerTables') innerTables: QueryList<MatTable<CHSubtype>>;
+    @ViewChild('errorModal') errorModal: TemplateRef<any>;
 
 
     constructor(
+        public service: CHTypeService,
+        private cd: ChangeDetectorRef,
+        private modalService: NgbModal,
         public typeService: CHTypeService,
         public subtypeService: CHSubtypeService,
-        private cd: ChangeDetectorRef,
         public subtypeDeleteDialog: MatDialog,
         private _snackBar: MatSnackBar,
 
@@ -82,6 +87,33 @@ export class CHTypesComponent implements OnInit {
 
     }
 
+    openDeleteModal(deleteModal, typeID): void {
+        this.modalService.open(deleteModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+            this.deleteType(typeID);
+        }, (reason) => {
+        });
+    }
+
+    openErrorModal(message): void {
+        this.errorMsg = message;
+        this.modalService.open(this.errorModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+        }, (reason) => {
+          this.content = '';
+        });
+    }
+    
+    deleteType(typeID: number): void {
+        this.service.deleteType(typeID)
+        .subscribe(
+            data => {
+                this.chTypes = this.chTypes.filter(el => el.id !== typeID);
+                this.dataSource = new MatTableDataSource<CHType>(this.chTypes);
+                this.openSnackBar('Successfuly deleted the type!');
+            },
+            error => {
+                this.openErrorModal("You can't delete this type because there are cultural heritages of selected type. Please delete all data associated with this type first and try again.");
+            });
+    }
 
     openSubtypeDeleteDialog(selected: CHSubtype): void{
         const dialogRef = this.subtypeDeleteDialog.open(SubtypeDeleteDialog, {data: selected});

@@ -110,7 +110,6 @@ public class CommentController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping(path = "/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         
         try {
