@@ -31,7 +31,41 @@ export class MapsComponent implements OnInit {
   onMapLoad(map: Map) {
     this.map = map;
     this.loadCH();
-    this.addMarker(this.center, this.markerColors[3]);
+  }
+
+  
+  /**
+   * @param page should be a number of pageable object for backend.
+   * Iterate over all CH.  
+   * Set coordinates for a specific ch.
+   * Set a map marker color based on ch subtype.
+   * Each subtype should be represented with one and only one color. 
+   * subtype ids start from index 1. markerColors start from index 0.
+   * => substract 1 from subtype in order to match begging of the markerColors array. 
+   * Add marker function will render html markers on the map.
+   * 
+   */
+  async loadCH(page: number = 0) {
+    let culturalHeritages: CulturalHeritage[];
+    let coords: [number, number];
+    let color:string;
+    let ch: CulturalHeritage;
+
+    let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
+    culturalHeritages = retval.content;
+
+    culturalHeritages.forEach(culturalHeritage => {
+      ch = culturalHeritage;
+      
+      coords = [
+        parseFloat(ch.coordinates[0]), //longitude
+        parseFloat(ch.coordinates[1]), //latitude
+      ];
+
+      color = this.markerColors[ch.chsubtypeID-1];
+    
+      this.addMarker(coords, color);
+    });
   }
 
   addMarker(coordinates: LngLatLike, color = "blue") {
@@ -55,28 +89,6 @@ export class MapsComponent implements OnInit {
     }
   }
 
-  /**
-   * Iterate over all CH.  Get each coordinates and pass it to a addMarker function.
-   * Add marker function will render html markers on the map
-   */
-  async loadCH(page: number = 0) {
-    let culturalHeritages: CulturalHeritage[];
-    let coords: [number, number];
-    let ch: CulturalHeritage;
-
-    let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
-    culturalHeritages = retval.content;
-
-    culturalHeritages.forEach(culturalHeritage => {
-      ch = culturalHeritage;
-      coords = [
-        parseFloat(ch.coordinates[0]), //longitude
-        parseFloat(ch.coordinates[1]), //latitude
-      ]
-      //render html for each coord
-      this.addMarker(coords, this.markerColors[Math.floor(Math.random() * 30)]);
-    });
-  }
 
   setMarkerColors() {
     this.markerColors = [
