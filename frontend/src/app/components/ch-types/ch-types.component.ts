@@ -1,7 +1,8 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, OnChanges, OnInit, QueryList, SimpleChanges, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CHSubtype } from 'src/app/models/ch-subtype.model';
 import { CHType } from 'src/app/models/ch-type.model';
 import { CHTypeService } from 'src/app/services/ch-type-service/ch-type.service';
@@ -29,6 +30,7 @@ export class CHTypesComponent implements OnInit {
     url: string;
     lastPage: boolean;
     dataSource;
+    errorMsg: string;
 
     columnsToDisplay: string[] = ['Name', 'View Subtypes', 'Edit', 'Delete' ];
     innerDisplayedColumns = ['Name', 'Edit', 'Delete' ];
@@ -37,12 +39,13 @@ export class CHTypesComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChildren('innerTables') innerTables: QueryList<MatTable<CHSubtype>>;
+    @ViewChild('errorModal') errorModal: TemplateRef<any>;
 
 
     constructor(
         public service: CHTypeService,
-        private cd: ChangeDetectorRef
-
+        private cd: ChangeDetectorRef,
+        private modalService: NgbModal
     ){}
 
     ngOnInit(): void {
@@ -72,5 +75,32 @@ export class CHTypesComponent implements OnInit {
                 this.error = 'Can\'t load types at the moment :(';
             }
         );
+    }
+
+    openDeleteModal(deleteModal, typeID): void {
+        this.modalService.open(deleteModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+            this.deleteType(typeID);
+        }, (reason) => {
+        });
+    }
+
+    openErrorModal(message): void {
+        this.errorMsg = message;
+        this.modalService.open(this.errorModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+        }, (reason) => {
+          this.content = '';
+        });
+    }
+    
+    deleteType(typeID: number): void {
+        this.service.deleteType(typeID)
+        .subscribe(
+            data => {
+                this.chTypes = this.chTypes.filter(el => el.id !== typeID);
+                this.dataSource = new MatTableDataSource<CHType>(this.chTypes);
+            },
+            error => {
+                this.openErrorModal("You can't delete this type because there are cultural heritages of selected type. Please delete all data associated with this type first and try again.");
+            });
     }
 }

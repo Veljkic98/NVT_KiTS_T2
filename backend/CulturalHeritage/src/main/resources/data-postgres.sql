@@ -4,6 +4,7 @@ INSERT INTO files (data, name, type) VALUES (lo_import('/Users/images/event.jpg'
 INSERT INTO chtype ( name) VALUES  ( 'manifestation');
 INSERT INTO chtype ( name) VALUES ( 'institution');
 INSERT INTO chtype ( name) VALUES ( 'cultural heritage');
+INSERT INTO chtype ( name) VALUES ( 'blank type');
 
 INSERT INTO chsubtype ( name, chtype_id) VALUES ( 'festival', 1);
 INSERT INTO chsubtype ( name, chtype_id) VALUES ( 'fair', 1);
