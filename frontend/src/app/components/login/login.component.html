@@ -6,7 +6,7 @@
     <div class="form-group">
         <mat-form-field class="input-field-full" appearance="fill">
             <mat-label>Email</mat-label>
-            <input matInput #input placeholder="Email address" type="text" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <input id="email" matInput #input placeholder="Email address" type="text" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
             <div *ngIf="submitted && f.email.errors">
                 <mat-error *ngIf="submitted && f.email.errors.required">Email address is required</mat-error>
                 <mat-error *ngIf="submitted && f.email.errors.email">Email address must be valie email</mat-error>
@@ -16,7 +16,7 @@
     <div class="form-group">
         <mat-form-field class="input-field-full" appearance="fill">
             <mat-label>Password</mat-label>
-            <input matInput #input placeholder="Password" type="password" formControlName="password"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <input id="password" matInput #input placeholder="Password" type="password" formControlName="password"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
             <div *ngIf="submitted && f.password.errors">
                 <mat-error *ngIf="submitted && f.password.errors.required">Password is required</mat-error>
                 <mat-error *ngIf="submitted && f.password.errors.minlength">Password must be at least 3 characters</mat-error>
@@ -32,7 +32,7 @@
             You have successfully logged in!
         </div>
         <div><a mat-button routerLink="/register">Don't have an account? Register here!</a></div>
-        <button [disabled]="loading" mat-raised-button color="primary">Login</button>
+        <button id="loginBtn" [disabled]="loading" mat-raised-button color="primary">Login</button>
     </div>
     </form>
 </mat-card>
