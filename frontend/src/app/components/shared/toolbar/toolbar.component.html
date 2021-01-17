@@ -4,13 +4,16 @@
         <span class="menu-spacer"></span>
         <div>
             <a mat-button [routerLink]="'/maps'"> Map </a>
-            <a mat-button *ngIf="authService.isLoggedIn()" [routerLink]="'/notifications'"> Notifications </a>
+            <a mat-button [routerLink]="'/notifications'"> Notifications </a>
+
+            <a mat-button [routerLink]="'/types'" *ngIf="authService.getRole() === 'ROLE_ADMIN'"> Manage Types </a>
         </div>
         <span class="menu-spacer"></span>
         <div>
-            <a mat-button *ngIf="!authService.isLoggedIn()" [routerLink]="'/register'">Sign up</a>
-            <a mat-button *ngIf="!authService.isLoggedIn()" [routerLink]="'/login'">Sign in</a> 
-            <a mat-button *ngIf="authService.isLoggedIn()" [matMenuTriggerFor]="menu">
+            
+            <a mat-button [routerLink]="'/register'" *ngIf="!authService.isLoggedIn()">Sign up</a>
+            <a mat-button [routerLink]="'/login'" *ngIf="!authService.isLoggedIn()">Sign in</a>
+            <a mat-button  [matMenuTriggerFor]="menu" *ngIf="authService.isLoggedIn()">
                 <i class="profile-icon large material-icons">account_circle</i>
                 <i class="profile-icon large material-icons">arrow_drop_down</i>
             </a>
@@ -19,7 +22,9 @@
                 <a mat-button *ngIf="authService.getRole() === 'ROLE_USER'" [routerLink]="['/me', 1]" >Your subscriptions</a>
                 <a mat-button (click)="authService.logOut()" *ngIf="authService.isLoggedIn()">Sign out</a>
                 <div></div>
+                <a mat-button [routerLink]="['/me', 1]" >Your subscriptions</a>
             </mat-menu>
+            <a mat-button (click)="logout()" *ngIf="authService.isLoggedIn()">Sign out</a>
 
         </div>
     </mat-toolbar-row>

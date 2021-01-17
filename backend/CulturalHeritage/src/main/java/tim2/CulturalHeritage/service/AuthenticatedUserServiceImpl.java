@@ -15,10 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import tim2.CulturalHeritage.model.Admin;
-import tim2.CulturalHeritage.model.AuthenticatedUser;
-import tim2.CulturalHeritage.model.CulturalHeritage;
-import tim2.CulturalHeritage.model.Person;
+import tim2.CulturalHeritage.model.*;
 import tim2.CulturalHeritage.repository.AdminRepository;
 import tim2.CulturalHeritage.repository.AuthenticatedUserRepository;
 
@@ -39,6 +36,9 @@ public class AuthenticatedUserServiceImpl implements UserDetailsService, Authent
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private AuthorityService authorityService;
 
     private final String linkBaseURL = "http://localhost:4200/verify/";
 
@@ -74,9 +74,9 @@ public class AuthenticatedUserServiceImpl implements UserDetailsService, Authent
     public AuthenticatedUser add(AuthenticatedUser authenticatedUser) {
 
         authenticatedUser.setPassword(passwordEncoder.encode(authenticatedUser.getPassword()));
+        List<Authority> auth = authorityService.findByName("ROLE_USER");
+        authenticatedUser.setAuthorities(auth);
         AuthenticatedUser user = authenticatedUserRepository.save(authenticatedUser);
-
-        // Treba dodat i Authority isto
 
         try {
             String link = linkBaseURL + user.getId();
