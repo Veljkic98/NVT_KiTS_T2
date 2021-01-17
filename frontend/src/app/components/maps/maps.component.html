@@ -5,9 +5,11 @@
   [renderWorldCopies]="false"
   [maxBounds]="maxBounds"
   [style] = "style"
+  (mapLoad) = "onMapLoad($event)"
   >
     <mgl-control
     mglNavigation
     ></mgl-control>
+    
   </mgl-map>
 </div>
