@@ -14,6 +14,9 @@ INSERT INTO chsubtype ( name, chtype_id) VALUES ( 'library', 2);
 INSERT INTO chsubtype ( name, chtype_id) VALUES ( 'national park', 3);
 INSERT INTO chsubtype (name, chtype_id) VALUES ( 'monastery', 3);
 
+INSERT INTO chsubtype (name, chtype_id) VALUES ( 'CAN BE DELETED', 1);
+
+
 INSERT INTO authority (name) VALUES ('ROLE_ADMIN');
 INSERT INTO authority (name) VALUES ('ROLE_USER');
 

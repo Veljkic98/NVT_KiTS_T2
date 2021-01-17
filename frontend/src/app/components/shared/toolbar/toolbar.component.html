@@ -5,6 +5,8 @@
         <div>
             <a mat-button [routerLink]="'/maps'"> Map </a>
             <a mat-button [routerLink]="'/notifications'"> Notifications </a>
+
+            <a mat-button [routerLink]="'/types'" *ngIf="authService.getRole() === 'ROLE_ADMIN'"> Manage Types </a>
         </div>
         <span class="menu-spacer"></span>
         <div>
