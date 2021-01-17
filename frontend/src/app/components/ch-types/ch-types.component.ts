@@ -34,6 +34,7 @@ export class CHTypesComponent implements OnInit {
     lastPage: boolean;
     dataSource;
     errorMsg: string;
+    newName: string;
 
     columnsToDisplay: string[] = ['Name', 'View Subtypes', 'Edit', 'Delete' ];
     innerDisplayedColumns = ['Name', 'Edit', 'Delete' ];
@@ -53,7 +54,7 @@ export class CHTypesComponent implements OnInit {
         public subtypeService: CHSubtypeService,
         public subtypeDeleteDialog: MatDialog,
         private _snackBar: MatSnackBar,
-
+        private typeEditDialog: MatDialog
 
     ){}
 
@@ -62,7 +63,7 @@ export class CHTypesComponent implements OnInit {
     }
 
 
-    toggleRow(element: CHType) {
+    toggleRow(element: CHType): void {
         element.subtypes ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
         this.cd.detectChanges();
       }
@@ -101,7 +102,7 @@ export class CHTypesComponent implements OnInit {
           this.content = '';
         });
     }
-    
+
     deleteType(typeID: number): void {
         this.service.deleteType(typeID)
         .subscribe(
@@ -111,13 +112,13 @@ export class CHTypesComponent implements OnInit {
                 this.openSnackBar('Successfuly deleted the type!');
             },
             error => {
-                this.openErrorModal("You can't delete this type because there are cultural heritages of selected type. Please delete all data associated with this type first and try again.");
+                this.openErrorModal('You can\'t delete this type because there are cultural heritages of selected type. Please delete all data associated with this type first and try again.');
             });
     }
 
     openSubtypeDeleteDialog(selected: CHSubtype): void{
         const dialogRef = this.subtypeDeleteDialog.open(SubtypeDeleteDialog, {data: selected});
-    
+
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.subtypeService.deleteSubtype(selected.id).subscribe(
@@ -137,16 +138,60 @@ export class CHTypesComponent implements OnInit {
         this._snackBar.open(message, 'Dismiss', {
           duration: 4000,
         });
-      }
+    }
+
+    openEditTypeDialog(selected: CHType): void{
+        const dialogRef = this.typeEditDialog.open(EditTypeDialog, {data: selected});
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.typeService.editType({...selected, name : result}).subscribe(
+                    data => {
+                        this.openSnackBar('Successfuly changed name of type!');
+                        selected.name = result;
+                    },
+                    error => this.openSnackBar('Name already exist!')
+                );
+            }
+
+        });
+    }
+
+    openEditSubTypeDialog(selected: CHSubtype): void{
+        const dialogRef = this.typeEditDialog.open(EditTypeDialog, {data: selected});
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.subtypeService.editSubtype({...selected, name : result}).subscribe(
+                    data => {
+                        this.openSnackBar('Successfuly changed name of subtype!');
+                        selected.name = result;
+                    },
+                    error => this.openSnackBar('Name already exist!')
+                );
+            }
+
+        });
+    }
+
 }
 
-
 @Component({
-    selector: 'dialog-content-example-dialog',
+    selector: 'app-dialog-content-example-dialog',
     templateUrl: './subtype-delete-dialog.html',
   })
-  export class SubtypeDeleteDialog {
+export class SubtypeDeleteDialog {
     constructor(@Inject(MAT_DIALOG_DATA) public data: CHSubtype) {}
-  }
+}
 
+@Component({
+    selector: 'app-ch-type-edit-form',
+    templateUrl: './ch-type-edit-form.html',
+  })
+export class EditTypeDialog {
+    changedName: string;
 
+    constructor(@Inject(MAT_DIALOG_DATA) public data: CHSubtype | CHType) {
+        this.changedName = data.name;
+    }
+}
