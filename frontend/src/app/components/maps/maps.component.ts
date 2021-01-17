@@ -31,6 +31,7 @@ export class MapsComponent implements OnInit {
   onMapLoad(map: Map) {
     this.map = map;
     this.loadCH();
+    // this.addMarker(this.center);
   }
 
   
@@ -79,6 +80,9 @@ export class MapsComponent implements OnInit {
     icon.style.color = color;                            //marker color
     this.markerIcon.appendChild(icon);
     let marker = new Marker(this.markerIcon).setLngLat(coordinates).addTo(this.map);
+
+    //set drop animation
+    this.markerIcon.style.animation="dropMarker 0.8s ease-in";
   }
 
   //this is only for debuging so you can see colors array

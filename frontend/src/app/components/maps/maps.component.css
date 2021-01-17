@@ -21,6 +21,14 @@ mgl-map {
   position:absolute;
   top:5px;
   left:5px;
-  background-color: rgba(68, 140, 235, 0.507);
+  background-color: rgba(119, 171, 240, 0.507);
+  
   border-radius: 5px;
+}
+
+@keyframes dropMarker {
+  0%{ top: -30px}
+  50%{ top: 0px}
+  75%{ top: -8px}
+  100%{ top: 0px}
 }
