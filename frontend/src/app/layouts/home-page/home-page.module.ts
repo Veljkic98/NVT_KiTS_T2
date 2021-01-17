@@ -47,7 +47,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatTableModule,
         MatPaginatorModule,
         MatDialogModule,
-        MatSnackBarModule
+        MatSnackBarModule,
         NgbModule
     ],
     declarations: [
