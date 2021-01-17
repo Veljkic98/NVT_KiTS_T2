@@ -25,7 +25,7 @@ export class MyProfileComponent implements OnInit {
 
   ngOnInit(): void {
 
-    
+
 
     this.route.paramMap.subscribe( params =>
       this.tabIndex = +params.get('index')

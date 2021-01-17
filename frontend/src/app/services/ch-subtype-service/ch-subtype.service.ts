@@ -1,8 +1,8 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { CHSubtype } from "src/app/models/ch-subtype.model";
-import { environment } from "src/environments/environment";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CHSubtype } from 'src/app/models/ch-subtype.model';
+import { environment } from 'src/environments/environment';
 import { CH_SUBTYPES } from '../../utils/constants';
 
 const REST_ENDPOINT = {
