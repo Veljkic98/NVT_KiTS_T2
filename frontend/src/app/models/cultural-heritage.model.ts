@@ -6,4 +6,5 @@ export class CulturalHeritage {
   public imageUri: string;
   public locationID: number;
   public name: string;
+  public totalRatings: number;
 }

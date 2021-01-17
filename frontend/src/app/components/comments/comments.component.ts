@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { CommentService } from '../../services/comments-service/comment.service';
 import { AuthService } from '../../services/auth-service/auth.service';
@@ -57,9 +57,18 @@ export class CommentsComponent implements OnInit, OnChanges {
       });
   }
 
-  open(content): void {
+
+  openAddModal(content): void {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.addComment();
+    }, (reason) => {
+      this.content = '';
+    });
+  }
+
+  openDeleteModal(deleteModal, commentID): void {
+    this.modalService.open(deleteModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.deleteComment(commentID);
     }, (reason) => {
       this.content = '';
     });
@@ -88,5 +97,16 @@ export class CommentsComponent implements OnInit, OnChanges {
       if (event.target.files && event.target.files[0]) {
         this.url = event.target.files[0];
       }
+  }
+
+  deleteComment(commentID: number): void {
+    this.commService.deleteComment(commentID)
+    .subscribe(
+      data => {
+        this.commentList = this.commentList.filter(el => el.id !== commentID);
+      },
+      error => {
+        console.log(error);
+      });
   }
 }
