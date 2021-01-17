@@ -7,9 +7,21 @@
   [style] = "style"
   (mapLoad) = "onMapLoad($event)"
   >
+
     <mgl-control
     mglNavigation
     ></mgl-control>
     
   </mgl-map>
+
+  <div class="buttons"> 
+    <a id="previous" mat-button>
+      <i class="material-icons">navigate_before</i>
+    </a>
+    <a id="next" mat-button>
+      <i class="material-icons">navigate_next</i>
+    </a>
+  </div>
+
+
 </div>

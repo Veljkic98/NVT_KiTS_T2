@@ -1,8 +1,26 @@
 mgl-map {
-  height: 100%;
+  height: 90%;
   width: 100%;
 }
 #map-wrapper{
   width: 100%;
   height: calc(100vh - 64px);
+  position:relative;
+}
+
+#previous{
+  position:relative;
+  color:darkslategray;
+}
+#next{
+  position:relative;
+  color:darkslategray;
+
+}
+.buttons{
+  position:absolute;
+  top:5px;
+  left:5px;
+  background-color: rgba(68, 140, 235, 0.507);
+  border-radius: 5px;
 }
