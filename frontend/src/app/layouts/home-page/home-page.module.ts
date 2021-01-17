@@ -24,7 +24,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { CommentsComponent } from '../../components/comments/comments.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import {MatTabsModule} from '@angular/material/tabs';
-import { CHTypesComponent, SubtypeDeleteDialog } from 'src/app/components/ch-types/ch-types.component';
+import { CHTypesComponent, EditTypeDialog, SubtypeDeleteDialog } from 'src/app/components/ch-types/ch-types.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -57,6 +57,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MyProfileComponent,
         CHTypesComponent,
         SubtypeDeleteDialog,
+        EditTypeDialog,
         RegisterComponent,
         DashboardComponent,
         VerificationPageComponent,

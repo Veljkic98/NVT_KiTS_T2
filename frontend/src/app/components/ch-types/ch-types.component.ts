@@ -34,6 +34,7 @@ export class CHTypesComponent implements OnInit {
     lastPage: boolean;
     dataSource;
     errorMsg: string;
+    newName : string;
 
     columnsToDisplay: string[] = ['Name', 'View Subtypes', 'Edit', 'Delete' ];
     innerDisplayedColumns = ['Name', 'Edit', 'Delete' ];
@@ -53,7 +54,7 @@ export class CHTypesComponent implements OnInit {
         public subtypeService: CHSubtypeService,
         public subtypeDeleteDialog: MatDialog,
         private _snackBar: MatSnackBar,
-
+        private typeEditDialog: MatDialog
 
     ){}
 
@@ -137,16 +138,44 @@ export class CHTypesComponent implements OnInit {
         this._snackBar.open(message, 'Dismiss', {
           duration: 4000,
         });
-      }
-}
+    }
 
+    openEditTypeDialog(selected: CHType): void{
+        const dialogRef = this.typeEditDialog.open(EditTypeDialog, {data: selected});
+    
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.typeService.editType({...selected, name : result}).subscribe(
+                    data => {
+                        this.openSnackBar('Successfuly changed name of type!');
+                        selected.name = result;
+                    },
+                    error => this.openSnackBar('Name already exist!')
+                );
+            }
+
+        });
+    }
+
+}
 
 @Component({
     selector: 'dialog-content-example-dialog',
     templateUrl: './subtype-delete-dialog.html',
   })
-  export class SubtypeDeleteDialog {
+export class SubtypeDeleteDialog {
     constructor(@Inject(MAT_DIALOG_DATA) public data: CHSubtype) {}
-  }
+}
 
-
+@Component({
+    selector: 'ch-type-edit-form',
+    templateUrl: './ch-type-edit-form.html',
+  })
+export class EditTypeDialog {
+    changedName: string;
+    
+    constructor(@Inject(MAT_DIALOG_DATA) public data: CHType) {
+        this.changedName = data.name
+    }
+}
+    

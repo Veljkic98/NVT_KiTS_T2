@@ -11,7 +11,7 @@
                   <button  mat-stroked-button color="primary"  (click)="toggleRow(element)">SHOW</button>
              </div>  
              <div *ngIf="column === 'Edit'">
-                <button  mat-stroked-button color="accent" >EDIT</button>
+                <button  mat-stroked-button color="accent" (click)='openEditTypeDialog(element)'>EDIT</button>
             </div>  
              <div *ngIf="column === 'Delete'">
                 <button  mat-stroked-button color="warn" (click)="openDeleteModal(deleteModal, element.id)" >DELETE</button>

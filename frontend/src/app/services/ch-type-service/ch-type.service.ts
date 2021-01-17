@@ -22,4 +22,8 @@ export class CHTypeService {
         return this.httpClient.delete(`${environment.apiUrl}/${CH_TYPES}/${typeID}`);
     }
 
+    editType(type: CHType): Observable<any> {
+        return this.httpClient.put<any>(`${environment.apiUrl}/${CH_TYPES}/${type.id}`, type);
+    }
+
 }
