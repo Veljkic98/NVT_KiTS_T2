@@ -21,20 +21,4 @@ export class CulturalHeritageService {
   getCulturalHeritages(page: number): Observable<Page> {
     return this.http.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${page}`);
   }
-
-  getCHCoordinates(page: number): [number, number] {
-    this.getCulturalHeritages(page).subscribe(
-      chs => {
-        console.log(chs);
-        chs.content.forEach(culturalHeritage => {
-          console.log(culturalHeritage);
-
-        });
-      },
-      error => {
-        console.log(error);
-      }
-    )
-    return [1, 1];
-  }
 }

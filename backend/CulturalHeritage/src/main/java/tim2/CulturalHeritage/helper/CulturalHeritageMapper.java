@@ -58,8 +58,8 @@ public class CulturalHeritageMapper
 
         // coordinates
         List<String> coordinates = new ArrayList<>();
-        coordinates.add(entity.getLocation().getLatitude());
         coordinates.add(entity.getLocation().getLongitude());
+        coordinates.add(entity.getLocation().getLatitude());
 
         return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(),
                 entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating, locationName,

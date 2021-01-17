@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Map, Marker} from 'mapbox-gl';
-import {CulturalHeritageService} from '../../services/cultural-heritage-serice/cultural-heritage.service';
-import {CulturalHeritage} from '../../models/cultural-heritage.model'
-
+import { LngLatLike, Map, Marker } from 'mapbox-gl';
+import { CulturalHeritageService } from '../../services/cultural-heritage-serice/cultural-heritage.service';
+import { CulturalHeritage } from '../../models/cultural-heritage.model'
+import { Page } from 'src/app/models/page.model';
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
@@ -10,37 +10,31 @@ import {CulturalHeritage} from '../../models/cultural-heritage.model'
 })
 export class MapsComponent implements OnInit {
   //default map values
-  zoom: number = 5;
+  zoom: number = 3;
   latitude: number = 47;
   longitude: number = 13;
   center: [number, number] = [this.longitude, this.latitude];
-  maxBounds: number[][] =[[-180,-85], [180,85]];
+  maxBounds: number[][] = [[-180, -85], [180, 85]];
   style: string = 'mapbox://styles/tim2/ckjgzxl2koofq19qkxsa2ogt0';
   map: Map;
   markerIcon: HTMLDivElement;
-  iconColors: string[];
-  //CulturalHeritages
-  culturalHeritage: CulturalHeritage;
-  
+  markerColors: string[];
+
+
   constructor(private culturalHeritageService: CulturalHeritageService) { }
 
   ngOnInit(): void {
-    this.iconColors =  ["Teal", "Lavender", "PaleVioletRed", "LightSalmon", "Orange", "YellowGreen", "Indigo", "Silver", "Moccasin", "DarkBlue", "Bisque", "SeaGreen", "LightSlateGray", "DarkKhaki", "DarkViolet", "MediumPurple", "DarkSlateGray", "DarkOrange", "LightGrey", "Linen", "DarkSalmon", "PaleGoldenRod", "HoneyDew", "Grey", "LightYellow", "SaddleBrown", "DarkGray", "Cornsilk", "SlateGray", "Chocolate", "Turquoise", "PowderBlue", "Gold", "MidnightBlue", "SpringGreen", "OldLace", "Peru", "MediumAquaMarine", "Blue", "White", "FireBrick", "LemonChiffon", "BurlyWood", "AliceBlue", "Red", "Aquamarine", "LightCyan", "MediumSpringGreen", "Fuchsia"];
+    this.setMarkerColors();
     // this.consoleLogColors();
-    this.getCH();
-
-  }
-  getCH(){
-    this.culturalHeritageService.getCHCoordinates(0);
   }
 
-  onMapLoad(map: Map){
+  onMapLoad(map: Map) {
     this.map = map;
-
-    this.addMarker(this.center, this.iconColors[3]);
+    this.loadCH();
+    this.addMarker(this.center, this.markerColors[3]);
   }
 
-  addMarker(coordinates, color="red"){
+  addMarker(coordinates: LngLatLike, color = "blue") {
     this.markerIcon = document.createElement('div');
 
     //creating this: <i class="material-icons">place</i>
@@ -54,12 +48,74 @@ export class MapsComponent implements OnInit {
   }
 
   //this is only for debuging so you can see colors array
-  consoleLogColors(){
-    for(let i = 0; i < this.iconColors.length; i++){
-      // console.log(`%c ${this.iconColors[i]}`, `color: ${this.iconColors[i]}`);
-      console.log(`%c     `, `background-color: ${this.iconColors[i]}`);
+  consoleLogColors() {
+    for (let i = 0; i < this.markerColors.length; i++) {
+      console.log(`%c ${this.markerColors[i]}`, `color: ${this.markerColors[i]}`);
+      console.log(`%c     `, `background-color: ${this.markerColors[i]}`);
     }
   }
 
+  /**
+   * Iterate over all CH.  Get each coordinates and pass it to a addMarker function.
+   * Add marker function will render html markers on the map
+   */
+  async loadCH(page: number = 0) {
+    let culturalHeritages: CulturalHeritage[];
+    let coords: [number, number];
+    let ch: CulturalHeritage;
+
+    let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
+    culturalHeritages = retval.content;
+
+    culturalHeritages.forEach(culturalHeritage => {
+      ch = culturalHeritage;
+      coords = [
+        parseFloat(ch.coordinates[0]), //longitude
+        parseFloat(ch.coordinates[1]), //latitude
+      ]
+      //render html for each coord
+      this.addMarker(coords, this.markerColors[Math.floor(Math.random() * 30)]);
+    });
+  }
+
+  setMarkerColors() {
+    this.markerColors = [
+      "Teal",
+      "PaleVioletRed",
+      "LightSalmon",
+      "Orange",
+      "YellowGreen",
+      "Indigo",
+      "DarkBlue",
+      "SeaGreen",
+      "LightSlateGray",
+      "DarkKhaki",
+      "DarkViolet",
+      "MediumPurple",
+      "DarkSlateGray",
+      "DarkOrange",
+      "LightGrey",
+      "DarkSalmon",
+      "Grey",
+      "SaddleBrown",
+      "DarkGray",
+      "Red",
+      "SlateGray",
+      "Chocolate",
+      "Turquoise",
+      "PowderBlue",
+      "Gold",
+      "MidnightBlue",
+      "SpringGreen",
+      "Peru",
+      "MediumAquaMarine",
+      "Blue",
+      "FireBrick",
+      "BurlyWood",
+      "Aquamarine",
+      "MediumSpringGreen",
+      "Fuchsia"
+    ];
+  }
 
 }
