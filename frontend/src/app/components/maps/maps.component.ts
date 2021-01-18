@@ -74,13 +74,17 @@ export class MapsComponent implements OnInit {
    * 
    * @param coordinates LngLatLike object
    * @param color string. Select one el from markerColors.
-   * creates new html element (marker for the map). 
+   * 
+   * Creates new html element (marker for the map). 
    * The new element is pushed in the markersArray array.
    * Animation is set to each marker.
-   * Each marker listens for a click event.  
+   * Each marker listens for a click event.
+   * Each markerIcon has an id corresponding to cultural heritage id.
+   * examples of id: "ch_1", "ch_2",...
    */
-  addMarker(coordinates: LngLatLike, color = "blue", id: number = null) {
+  addMarker(coordinates: LngLatLike, color = "blue", culturalHeritageID: number = null) {
     let markerIcon: HTMLDivElement = document.createElement('div');
+    markerIcon.id = "ch_" + culturalHeritageID;
 
     markerIcon.innerHTML = `  
     <button style="outline: none; border:none; background-color: rgba(0, 0, 0, 0); cursor: pointer;">
@@ -98,40 +102,26 @@ export class MapsComponent implements OnInit {
     //set drop animation
     markerIcon.style.animation = "dropMarker 0.7s ease-in";
 
-    //set select marker animation
-    this.setMarkerAnimation(markerIcon);
-
-
+    //set hover and click events for a marker
+    this.addMarkerEvents(markerIcon);
   }
 
-  setMarkerAnimation(markerIcon: HTMLDivElement) {
-    //add animation when mouse eneters a div element
-    markerIcon.addEventListener('mouseenter', () => {
-      markerIcon.style.animation = null; 
-      markerIcon.offsetHeight; /* trigger reflow */
-      markerIcon.style.animation = "hoverMarker 0.2s linear";
-    })
-    //add animation when user clicks on a div element
+  /**
+   * @param markerIcon is div element inside every marker
+   * Method shows CH component on the right side when user clicks on a marker.
+   * When user hovers marker, hover animation is set.
+   */
+  addMarkerEvents(markerIcon: HTMLDivElement) {
+    //add animation on hover
+    this._addHoverMarkerAnimation(markerIcon);
+
+    //add animation on click
     markerIcon.addEventListener('click', () => {
       this._addSelectMarkerAnimation(markerIcon);
+      // TODO: show component on the right side
+      console.log(markerIcon.id);
     })
   }
-
-  _addSelectMarkerAnimation(markerIcon: HTMLDivElement){
-    //if there is already selected marker, reset it's size 
-    this.markersArray.forEach(element => {
-      let icon = element.getElement();
-      icon.getElementsByTagName("i")[0].style.fontSize = "40px";
-    });
-
-    //increase selected marker
-    let iconImg = markerIcon.getElementsByTagName("i")[0];
-    iconImg.style.animation = null; 
-    iconImg.offsetHeight; /* trigger reflow */
-    iconImg.style.animation = "selectMarker 0.1s ease-in";
-    iconImg.style.fontSize = "50px";
-  }
-
 
   removeCulturalHeritagesFromMap() {
     this.markersArray.forEach(marker => {
@@ -177,6 +167,29 @@ export class MapsComponent implements OnInit {
       this.isNextButtonDisabled = false;
   }
 
+  _addHoverMarkerAnimation(markerIcon: HTMLDivElement){
+    markerIcon.addEventListener('mouseenter', () => {
+      markerIcon.style.animation = null; 
+      markerIcon.offsetHeight; /* trigger reflow */
+      markerIcon.style.animation = "hoverMarker 0.2s linear";
+    })
+  }
+
+  _addSelectMarkerAnimation(markerIcon: HTMLDivElement){
+    //if there is already selected marker, reset it's size 
+    this.markersArray.forEach(element => {
+      let icon = element.getElement();
+      icon.getElementsByTagName("i")[0].style.fontSize = "40px";
+    });
+
+    //increase size of a selected marker
+    let iconImg = markerIcon.getElementsByTagName("i")[0];
+    iconImg.style.animation = null; 
+    iconImg.offsetHeight; /* trigger reflow */
+    iconImg.style.animation = "selectMarker 0.1s ease-in";
+    iconImg.style.fontSize = "50px";
+  }
+
   //this is only for debuging so you can see colors array
   consoleLogColors() {
     for (let i = 0; i < this.markerColors.length; i++) {
@@ -184,7 +197,6 @@ export class MapsComponent implements OnInit {
       console.log(`%c     `, `background-color: ${this.markerColors[i]}`);
     }
   }
-
 
   setMarkerColors() {
     this.markerColors = [
