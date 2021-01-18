@@ -5,29 +5,29 @@
     <div class="form-group">
         <mat-form-field class="input-field" appearance="fill">
             <mat-label>First name</mat-label>
-            <input matInput placeholder="First name" type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+            <input id="firstName" matInput placeholder="First name" type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
             <mat-error *ngIf="submitted && f.firstName.errors">First name is required</mat-error>
         </mat-form-field>
         <mat-form-field class="input-field" appearance="fill">
             <mat-label>Last name</mat-label>
-            <input matInput placeholder="Last name" type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+            <input id="lastName" matInput placeholder="Last name" type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
             <mat-error *ngIf="submitted && f.lastName.errors">Last name is required</mat-error>
         </mat-form-field>
     </div>
     <div class="form-group">
         <mat-form-field class="input-field-full" appearance="fill">
             <mat-label>Email</mat-label>
-            <input matInput placeholder="Email address" type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <input id="email" matInput placeholder="Email address" type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
             <div *ngIf="submitted && f.email.errors">
                 <mat-error *ngIf="submitted && f.email.errors.required">Email address is required</mat-error>
-                <mat-error *ngIf="submitted && f.email.errors.email">Email address must be valie email</mat-error>
+                <mat-error *ngIf="submitted && f.email.errors.email">Email address must be valid email</mat-error>
             </div>
         </mat-form-field>
     </div>
     <div class="form-group">
         <mat-form-field class="input-field" appearance="fill">
             <mat-label>Password</mat-label>
-            <input matInput placeholder="Password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <input id="password" matInput placeholder="Password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
             <div *ngIf="submitted && f.password.errors">
                 <mat-error *ngIf="submitted && f.password.errors.required">Password is required</mat-error>
                 <mat-error *ngIf="submitted && f.password.errors.minlength">Password must be at least 8 characters</mat-error>
@@ -35,10 +35,10 @@
         </mat-form-field>
         <mat-form-field class="input-field" appearance="fill">
             <mat-label>Confirm password</mat-label>
-            <input matInput placeholder="Confirm pass" type="password" formControlName="confirmPass" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" pattern="{{ f.password.value }}"/>
+            <input id="confirmPass" matInput placeholder="Confirm pass" type="password" formControlName="confirmPass" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" pattern="{{ f.password.value }}"/>
             <div *ngIf="submitted && f.confirmPass.errors">
                 <mat-error *ngIf="submitted && f.confirmPass.errors.required">Confirm password is required</mat-error>
-                <mat-error *ngIf="submitted && f.confirmPass.errors.pattern"> Password & Confirm Password does not match.</mat-error>
+                <mat-error *ngIf="submitted && f.confirmPass.errors.pattern"> Password & Confirm Password do not match.</mat-error>
             </div>
         </mat-form-field>
     </div>
@@ -51,7 +51,7 @@
             You have successfully created account! Please check your email for verification link.
         </div>
         <div><a mat-button routerLink="/login">Already have account? Sign in!</a></div>
-        <button [disabled]="loading" mat-raised-button color="primary">Register</button>
+        <button id="registerBtn" [disabled]="loading" mat-raised-button color="primary">Register</button>
     </div>
     </form>
 </mat-card>
