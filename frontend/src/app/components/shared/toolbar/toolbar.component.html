@@ -3,7 +3,7 @@
         <!-- <a mat-button [routerLink]="''"><h1 class="logo">TEAM 2 </h1></a> -->
         <span class="menu-spacer"></span>
         <div>
-            <a mat-button [routerLink]="'/maps'"> Map </a>
+            <a mat-button [routerLink]="'/'"> Map </a>
             <a mat-button [routerLink]="'/notifications'"> Notifications </a>
             <a mat-button [routerLink]="'/types'" *ngIf="authService.getRole() === 'ROLE_ADMIN'"> Manage Types </a>
             <a mat-button [routerLink]="'/cultural-heritages'" *ngIf="authService.getRole() === 'ROLE_ADMIN'"> Manage

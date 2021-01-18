@@ -6,8 +6,8 @@ import { Page } from '../../models/page.model'
 import { Observable } from 'rxjs';
 
 const REST_ENDPOINT = {
-    getOne: '/cultural-heritages/',
-    getByPage: '/cultural-heritages/by-page',
+  getOne: '/cultural-heritages/',
+  getByPage: '/cultural-heritages/by-page',
 }
 
 import { CULTURAL_HERITAGES } from '../../utils/constants';
@@ -23,7 +23,11 @@ export class CulturalHeritageService {
     return this.http.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${page}&size=10`);
   }
 
-    getOne(id:number): Observable<CulturalHeritage> {
-        return this.http.get<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${id}`);
-    }
+  getCulturalHeritagesWithSize(pageIndex: number, pageSize: number): Observable<Page> {
+    return this.http.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${pageIndex}&size=${pageSize}`);
+  }
+
+  getOne(id: number): Observable<CulturalHeritage> {
+    return this.http.get<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${id}`);
+  }
 }
