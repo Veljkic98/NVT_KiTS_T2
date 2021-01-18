@@ -172,7 +172,7 @@ export class MapsComponent implements OnInit {
     else
       this.isNextButtonDisabled = false;
   }
-  
+
   _showCHDetails(markerIcon: HTMLDivElement){
     let id:number = parseInt(markerIcon.id.split('ch_')[1]);
     this.chChangedEvent.emit(id);
@@ -196,7 +196,7 @@ export class MapsComponent implements OnInit {
     let iconImg = markerIcon.getElementsByTagName("i")[0];
     iconImg.style.animation = null; 
     iconImg.offsetHeight; /* trigger reflow */
-    iconImg.style.animation = "selectMarker 0.1s ease-in";
+    iconImg.style.animation = "selectMarker 0.2s linear";
     iconImg.style.fontSize = "50px";
   }
 
