@@ -54,37 +54,41 @@ export class MapsComponent implements OnInit {
     let culturalHeritages: CulturalHeritage[];
     let coords: [number, number];
     let color: string;
-    let ch: CulturalHeritage;
 
     let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
     culturalHeritages = retval.content;
 
     culturalHeritages.forEach(culturalHeritage => {
-      ch = culturalHeritage;
-
       coords = [
-        parseFloat(ch.coordinates[0]), //longitude
-        parseFloat(ch.coordinates[1]), //latitude
+        parseFloat(culturalHeritage.coordinates[0]), //longitude
+        parseFloat(culturalHeritage.coordinates[1]), //latitude
       ];
-
-      color = this.markerColors[ch.chsubtypeID - 1];
-
-      this.addMarker(coords, color);
+      color = this.markerColors[culturalHeritage.chsubtypeID - 1];
+      this.addMarker(coords, color, culturalHeritage.id);
     });
 
     this.checkIfButtonDisabled();
   }
 
-  addMarker(coordinates: LngLatLike, color = "blue") {
+  /**
+   * 
+   * @param coordinates LngLatLike object
+   * @param color string. Select one el from markerColors.
+   * creates new html element (marker for the map). 
+   * The new element is pushed in the markersArray array.
+   * Animation is set to each marker.
+   * Each marker listens for a click event.  
+   */
+  addMarker(coordinates: LngLatLike, color = "blue", id: number = null) {
     let markerIcon: HTMLDivElement = document.createElement('div');
 
-    //creating this: <i class="material-icons">place</i>
-    let icon = document.createElement('i');             //html elem name
-    icon.classList.add('material-icons');               //class name
-    icon.style.fontSize = "40px";                       //font size
-    icon.appendChild(document.createTextNode("place")); //google icon name
-    icon.style.color = color;                            //marker color
-    markerIcon.appendChild(icon);
+    markerIcon.innerHTML = `  
+    <button style="outline: none;border:none; background-color: rgba(0, 0, 0, 0); cursor: pointer;">
+      <i class="material-icons" style="color: ${color}; font-size: 40px">
+        place
+      </i>
+    </button>`;
+
     let marker = new Marker(markerIcon).setLngLat(coordinates).addTo(this.map);
 
     //add marker to the array of markers 
@@ -92,7 +96,13 @@ export class MapsComponent implements OnInit {
 
     //set drop animation
     markerIcon.style.animation = "dropMarker 0.7s ease-in";
+
+    //add click event listener on marker html
+    markerIcon.addEventListener('click', ()=>{
+      console.log(id);
+    })
   }
+
 
   removeCulturalHeritagesFromMap() {
     this.markersArray.forEach(marker => {
