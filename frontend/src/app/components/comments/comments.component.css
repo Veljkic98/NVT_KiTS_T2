@@ -39,7 +39,7 @@ mat-card:after {
     left: -10px;
     top: 15px;
     border-top: 10px solid transparent;
-    border-right: 10px solid white;
+    border-right: 10px solid  rgba(48, 106, 182, 0.808);
     border-left: none;
     border-bottom: 10px solid transparent;
 }
