@@ -1,5 +1,7 @@
 package tim2.CulturalHeritage.dto.responseDTO;
 
+import java.util.List;
+
 public class CulturalHeritageResponseDTO {
 
     private Long id;
@@ -11,13 +13,15 @@ public class CulturalHeritageResponseDTO {
     private float avgRating;
     private String locationName;
     private String subtypeName;
+    private List<String> coordinates;
     private int totalRatings;
 
+    public CulturalHeritageResponseDTO() {
+    }
 
-    public CulturalHeritageResponseDTO() {}
-
-    public CulturalHeritageResponseDTO(Long id, String name, String description, Long locationID, Long chsubtypeID, String imageUri,
-                                       float avgRating, String locationName, String subtypeName, int totalRatings) {
+    public CulturalHeritageResponseDTO(Long id, String name, String description, Long locationID, Long chsubtypeID,
+            String imageUri, float avgRating, String locationName, String subtypeName, List<String> coordinates,
+            int totalRatings) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -27,6 +31,7 @@ public class CulturalHeritageResponseDTO {
         this.avgRating = avgRating;
         this.locationName = locationName;
         this.subtypeName = subtypeName;
+        this.coordinates = coordinates;
         this.totalRatings = totalRatings;
     }
 
@@ -78,9 +83,13 @@ public class CulturalHeritageResponseDTO {
         this.imageUri = imageUri;
     }
 
-    public float getAvgRating() { return avgRating; }
+    public float getAvgRating() {
+        return avgRating;
+    }
 
-    public void setAvgRating(float avgRating) { this.avgRating = avgRating; }
+    public void setAvgRating(float avgRating) {
+        this.avgRating = avgRating;
+    }
 
     public String getLocationName() {
         return locationName;
@@ -96,6 +105,14 @@ public class CulturalHeritageResponseDTO {
 
     public void setSubtypeName(String subtypeName) {
         this.subtypeName = subtypeName;
+    }
+
+    public List<String> getCoordinates() {
+        return this.coordinates;
+    }
+
+    public void setCoordinates(List<String> coordinates) {
+        this.coordinates = coordinates;
     }
 
     public int getTotalRatings() {
