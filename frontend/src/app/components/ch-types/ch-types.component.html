@@ -8,13 +8,13 @@
         <td mat-cell *matCellDef="let element"> 
              <div *ngIf="column === 'Name'">  {{element.name.charAt(0).toUpperCase() + element.name.slice(1)}}  </div>  
              <div *ngIf="column === 'View Subtypes'">            
-                  <button  mat-stroked-button color="primary"  (click)="toggleRow(element)">SHOW</button>
+                  <button  mat-stroked-button color="primary"  (click)="toggleRow(element)" id="show{{element.id}}">SHOW</button>
              </div>  
              <div *ngIf="column === 'Edit'">
-                <button  mat-stroked-button color="accent" (click)='openEditTypeDialog(element)'>EDIT</button>
+                <button  mat-stroked-button color="accent" (click)='openEditTypeDialog(element)' id="edit{{element.id}}">EDIT</button>
             </div>  
              <div *ngIf="column === 'Delete'">
-                <button  mat-stroked-button color="warn" (click)="openDeleteModal(deleteModal, element.id)" >DELETE</button>
+                <button  mat-stroked-button color="warn" (click)="openDeleteModal(deleteModal, element.id)" id="delete{{element.id}}">DELETE</button>
              </div>  
 
             
@@ -34,7 +34,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" ngbAutofocus class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
-      <button type="button" class="btn btn-danger" (click)="modal.close()">Ok</button>
+      <button id="deleteTypeBtnConfirm" type="button" class="btn btn-danger" (click)="modal.close()">Ok</button>
     </div>
   </ng-template>
 
@@ -66,10 +66,10 @@
                 <div *ngIf="innerColumn === 'Name'">  {{element.name.charAt(0).toUpperCase() + element.name.slice(1)}}  </div>  
                 
                 <div *ngIf="innerColumn === 'Edit'">
-                   <button  mat-stroked-button color="accent"  (click)='openEditSubTypeDialog(element)' >EDIT</button>
+                   <button  mat-stroked-button color="accent"  (click)='openEditSubTypeDialog(element)' id="editSubtype{{element.id}}" >EDIT</button>
                </div>  
                 <div *ngIf="innerColumn === 'Delete'">
-                   <button  mat-stroked-button color="warn" (click)='openSubtypeDeleteDialog(element)'>DELETE</button>
+                   <button  mat-stroked-button color="warn" (click)='openSubtypeDeleteDialog(element)' >DELETE</button>
                 </div>  
 
 
