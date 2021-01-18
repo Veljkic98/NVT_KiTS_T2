@@ -29,6 +29,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NewsComponent } from 'src/app/components/news/news.component';
 
 @NgModule({
     imports: [
@@ -64,7 +65,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         CulturalHeritageComponent,
         LoginComponent,
         CommentsComponent,
-        RatingComponent
+        RatingComponent,
+        NewsComponent,
     ]
 })
 

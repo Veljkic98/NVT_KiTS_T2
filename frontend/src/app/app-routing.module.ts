@@ -11,6 +11,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './guards/login.guard';
 import { RoleGuard } from './guards/role.guard';
 import { CHTypesComponent } from './components/ch-types/ch-types.component';
+import { NewsComponent } from './components/news/news.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,13 @@ const routes: Routes = [
       {
         path: 'types',
         component: CHTypesComponent,
+        canActivate: [RoleGuard],
+        data: {expectedRoles: 'ROLE_ADMIN'}
+      },
+      // poseban routing module za admina?
+      {
+        path: 'manage/news/:index',
+        component: NewsComponent,
         canActivate: [RoleGuard],
         data: {expectedRoles: 'ROLE_ADMIN'}
       },

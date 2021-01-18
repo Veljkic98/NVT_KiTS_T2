@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.transaction.annotation.Transactional;
 import tim2.CulturalHeritage.model.News;
 
 @Repository
@@ -14,6 +15,7 @@ public interface NewsRepository extends JpaRepository<News, Long> {
 
     public Page<News> findAll(Pageable pageable);
 
+    @Transactional
     @Query("select n from News n where n.culturalHeritage.id = :chID")
     public Page<News> findAll(Pageable pageable, @Param("chID") Long chID);
 }

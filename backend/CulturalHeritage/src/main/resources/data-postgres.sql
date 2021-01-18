@@ -194,6 +194,17 @@ insert into news (images_id, content, heading, cultural_heritage_id, admin_id) v
 insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (2, 'sadrzajj4', 'Naslov4', 1, 1);
 insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (2, 'sadrzajj5', 'Naslov5', 1, 1);
 
+insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (2, 'sadrzajj566', 'Naslov51', 1, 1);
+insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (1, 'sadrzajj55', 'Naslov23125', 1, 1);
+insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (1, 'sadrzajj5323', 'Naslov213215', 1, 1);
+insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (2, 'sadrzajj511', 'Naslov555', 1, 1);
+insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (2, 'sadrzajj5321', 'Naslov5232', 1, 1);
+insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (1, 'sadrzajj4345', 'Naslov6665', 1, 1);
+insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (2, 'sadrzajj5555', 'Naslov5213213', 1, 1);
+insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (1, 'sadrzajj5213', 'Naslov213215', 1, 1);
+insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (2, 'sadrzajj52323', 'Naslov44445', 1, 1);
+insert into news (images_id, content, heading, cultural_heritage_id, admin_id) values (2, 'sadrzajj51', 'Naslov566', 1, 1);
+
 insert into subscription (authenticated_user_id, cultural_heritage_id) values (2, 1);
 insert into subscription (authenticated_user_id, cultural_heritage_id) values (2, 2);
 insert into subscription (authenticated_user_id, cultural_heritage_id) values (2, 3);

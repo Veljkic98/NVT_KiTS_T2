@@ -57,15 +57,17 @@ public class CulturalHeritageMapper
             imageUri = null;
         }
         float avgRating;
+        int ratingListSize = 0;
         try{
             avgRating = calcRating(entity.getRatings());
+            ratingListSize = entity.getRatings().size();
         }catch (Exception e){
             avgRating = 0;
         }
         String locationName = entity.getLocation().getCountry() + " " + entity.getLocation().getCity();
 
         return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(),
-                entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating, locationName, entity.getChsubtype().getName(), entity.getRatings().size());
+                entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating, locationName, entity.getChsubtype().getName(), ratingListSize);
     }
 
     @Override
