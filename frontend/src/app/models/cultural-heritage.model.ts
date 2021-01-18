@@ -8,9 +8,11 @@ export class CulturalHeritage {
   public name: string;
   public coordinates: [string, string];
   public totalRatings: number;
+  public locationName: string;
 
   constructor(id: number, avgRating: number, chsubtypeID: number, description: string, 
-    imageUri: string, locationID: number, name: string, coordinates: [string, string], totalRatings: number) {
+    imageUri: string, locationID: number, name: string, coordinates: [string, string], 
+    totalRatings: number, locationName: string) {
     this.name = name;
     this.id = id;
     this.chsubtypeID = chsubtypeID;
@@ -20,5 +22,6 @@ export class CulturalHeritage {
     this.locationID = locationID;
     this.coordinates = coordinates;
     this.totalRatings = totalRatings;
+    this.locationName = locationName;
   }
 }
