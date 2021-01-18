@@ -3,6 +3,7 @@
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
     <input 
+      id="editTypeInput"
       matInput 
       [(ngModel)]="changedName"
       >
@@ -11,6 +12,7 @@
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
   <button 
+    id="saveChangesTypeBtn"
     mat-button 
     [mat-dialog-close]="true" 
     mat-raised-button color="warn"
