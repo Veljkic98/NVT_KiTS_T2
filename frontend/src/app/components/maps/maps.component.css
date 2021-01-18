@@ -8,22 +8,19 @@ mgl-map {
   position:relative;
 }
 
-#previous{
+.button{
   position:relative;
   color:darkslategray;
 }
-#next{
-  position:relative;
-  color:darkslategray;
-
-}
-.buttons{
+.button-group{
   position:absolute;
   top:5px;
   left:5px;
   background-color: rgba(119, 171, 240, 0.507);
-  
   border-radius: 5px;
+}
+.button-disabled{
+  background-color: rgba(230, 234, 236, 0.781);
 }
 
 @keyframes dropMarker {

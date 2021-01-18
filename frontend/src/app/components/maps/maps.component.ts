@@ -17,8 +17,11 @@ export class MapsComponent implements OnInit {
   maxBounds: number[][] = [[-180, -85], [180, 85]];
   style: string = 'mapbox://styles/tim2/ckjgzxl2koofq19qkxsa2ogt0';
   map: Map;
-  markerIcon: HTMLDivElement;
+  markersArray: Marker[] = [];
   markerColors: string[];
+  currentPage: number = 0;
+  isPreviousButtonDisabled: boolean;
+  isNextButtonDisabled: boolean;
 
 
   constructor(private culturalHeritageService: CulturalHeritageService) { }
@@ -30,13 +33,13 @@ export class MapsComponent implements OnInit {
 
   onMapLoad(map: Map) {
     this.map = map;
-    this.loadCH();
-    // this.addMarker(this.center);
+    this.addCulturalHeritagesToMap(this.currentPage);
   }
 
-  
+
   /**
    * @param page should be a number of pageable object for backend.
+   * Page starts from index 0,..
    * Iterate over all CH.  
    * Set coordinates for a specific ch.
    * Set a map marker color based on ch subtype.
@@ -44,12 +47,13 @@ export class MapsComponent implements OnInit {
    * subtype ids start from index 1. markerColors start from index 0.
    * => substract 1 from subtype in order to match begging of the markerColors array. 
    * Add marker function will render html markers on the map.
+   * At the end check if previous and next buttons should be disabled.
    * 
    */
-  async loadCH(page: number = 0) {
+  async addCulturalHeritagesToMap(page: number) {
     let culturalHeritages: CulturalHeritage[];
     let coords: [number, number];
-    let color:string;
+    let color: string;
     let ch: CulturalHeritage;
 
     let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
@@ -57,20 +61,22 @@ export class MapsComponent implements OnInit {
 
     culturalHeritages.forEach(culturalHeritage => {
       ch = culturalHeritage;
-      
+
       coords = [
         parseFloat(ch.coordinates[0]), //longitude
         parseFloat(ch.coordinates[1]), //latitude
       ];
 
-      color = this.markerColors[ch.chsubtypeID-1];
-    
+      color = this.markerColors[ch.chsubtypeID - 1];
+
       this.addMarker(coords, color);
     });
+
+    this.checkIfButtonDisabled();
   }
 
   addMarker(coordinates: LngLatLike, color = "blue") {
-    this.markerIcon = document.createElement('div');
+    let markerIcon: HTMLDivElement = document.createElement('div');
 
     //creating this: <i class="material-icons">place</i>
     let icon = document.createElement('i');             //html elem name
@@ -78,11 +84,58 @@ export class MapsComponent implements OnInit {
     icon.style.fontSize = "40px";                       //font size
     icon.appendChild(document.createTextNode("place")); //google icon name
     icon.style.color = color;                            //marker color
-    this.markerIcon.appendChild(icon);
-    let marker = new Marker(this.markerIcon).setLngLat(coordinates).addTo(this.map);
+    markerIcon.appendChild(icon);
+    let marker = new Marker(markerIcon).setLngLat(coordinates).addTo(this.map);
+
+    //add marker to the array of markers 
+    this.markersArray.push(marker);
 
     //set drop animation
-    this.markerIcon.style.animation="dropMarker 0.8s ease-in";
+    markerIcon.style.animation = "dropMarker 0.7s ease-in";
+  }
+
+  removeCulturalHeritagesFromMap() {
+    this.markersArray.forEach(marker => {
+      marker.remove();
+    });
+    this.markersArray = [];
+  }
+
+  getPreviousPage() {
+    this.removeCulturalHeritagesFromMap();
+    this.currentPage -= 1;
+    this.addCulturalHeritagesToMap(this.currentPage);
+  }
+  getNextPage() {
+    this.removeCulturalHeritagesFromMap();
+    this.currentPage += 1;
+    this.addCulturalHeritagesToMap(this.currentPage);
+  }
+
+  async checkIfButtonDisabled() {
+    let page: number;
+    let retval: Page;
+
+    //check if previous page button should be disabled
+    if (this.currentPage === 0) {
+      this.isPreviousButtonDisabled = true;
+    }
+    else {
+      page = this.currentPage - 1;
+      retval = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
+      if (retval.content.length === 0)
+        this.isPreviousButtonDisabled = true;
+      else
+        this.isPreviousButtonDisabled = false;
+    }
+
+    //check if next page button should be disabled
+    page = this.currentPage + 1;
+    retval = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
+    if (retval.content.length === 0)
+      this.isNextButtonDisabled = true;
+    else
+      this.isNextButtonDisabled = false;
   }
 
   //this is only for debuging so you can see colors array

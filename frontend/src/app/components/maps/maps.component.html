@@ -14,14 +14,21 @@
     
   </mgl-map>
 
-  <div class="buttons"> 
-    <a id="previous" mat-button>
+  <div class="button-group"> 
+
+    <a class="button" mat-button
+    (click)="isPreviousButtonDisabled ? null : getPreviousPage()"
+    [disabled]="isPreviousButtonDisabled"
+    [ngClass]="{'button-disabled': isPreviousButtonDisabled}">
       <i class="material-icons">navigate_before</i>
     </a>
-    <a id="next" mat-button>
+
+    <a class="button" mat-button
+    (click)="isNextButtonDisabled ? null : getNextPage()"
+    [disabled]="isNextButtonDisabled"
+    [ngClass]="{'button-disabled': isNextButtonDisabled}">
       <i class="material-icons">navigate_next</i>
     </a>
   </div>
-
 
 </div>
