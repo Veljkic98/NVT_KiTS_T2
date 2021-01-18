@@ -6,9 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  // should be set to null
-  // for testing set to 1 (id of chosen CH)
-  selectedCH: number = 1;
+  //should be set to null
+  //for testing set to 1 (id of chosen CH)
+  selectedCH: number = null;
   constructor() { }
 
   ngOnInit(): void {
@@ -17,8 +17,7 @@ export class DashboardComponent implements OnInit {
   closeDetails(): void {
     this.selectedCH = null;
   }
-
-  changeID(): void {
-    this.selectedCH = this.selectedCH === 1 ? 3 : 1;
+  setChId($event){
+    this.selectedCH = $event;
   }
 }

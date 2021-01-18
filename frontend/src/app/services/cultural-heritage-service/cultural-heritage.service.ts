@@ -2,25 +2,28 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { CulturalHeritage } from '../../models/cultural-heritage.model';
-import { CULTURAL_HERITAGES } from '../../utils/constants';
-import { Observable } from 'rxjs';
 import { Page } from '../../models/page.model'
+import { Observable } from 'rxjs';
 
 const REST_ENDPOINT = {
     getOne: '/cultural-heritages/',
     getByPage: '/cultural-heritages/by-page',
 }
 
+import { CULTURAL_HERITAGES } from '../../utils/constants';
+
+
 @Injectable({ providedIn: 'root' })
 export class CulturalHeritageService {
+  constructor(private http: HttpClient) { }
 
-    constructor(private http: HttpClient) { }
 
-    getOne(id: number) {
-        return this.http.get<CulturalHeritage>(`${environment.apiUrl}${REST_ENDPOINT.getOne}${id}`)
-    }
 
-    getCulturalHeritages(page: number): Observable<Page> {
-        return this.http.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${page}`);
+  getCulturalHeritages(page: number): Observable<Page> {
+    return this.http.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${page}&size=10`);
+  }
+
+    getOne(id:number): Observable<CulturalHeritage> {
+        return this.http.get<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${id}`);
     }
 }

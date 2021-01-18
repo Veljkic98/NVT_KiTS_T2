@@ -31,7 +31,7 @@
             <ul>
               <li *ngFor="let comment of commentList  | paginate: { id: 'server', itemsPerPage: 3, currentPage: page, totalItems: total }  ">
                 <i class="close-icon large material-icons">account_circle</i>
-                <mat-card>
+                <mat-card style="background-color:  rgba(48, 106, 182, 0.808);">
                     <div class="header">
                        <span class="author">{{ comment.userName }}</span>
 
@@ -59,7 +59,7 @@
                         (click)="openDeleteModal(deleteCommModal, comment.id)"
                         >clear</i>
                     </div>
-                    <p>{{comment.content}}</p>
+                    <p style="color:aliceblue">{{comment.content}}</p>
                     <img *ngIf="comment.imageUri" mat-card-image [src]="comment.imageUri" alt="png">
                 </mat-card>
                 </li>

@@ -1,8 +1,7 @@
 <div class="root">
-    <!-- Sa mape na klik proslediti id kliknutog komponenti app-cultural-heritage -->
     <div class="map">
-        Ovde ce biti prikaz mape 
-        <button (click)="changeID()">click me</button>
+        <!-- when user clicks on a marker chChangedEvent is triggered -->
+        <app-maps (chChangedEvent)="setChId($event)" ></app-maps>
     </div>
     <div class="ch-details">
         <app-cultural-heritage *ngIf="selectedCH" [chID]="selectedCH" (closeDetails)="closeDetails($event)"></app-cultural-heritage>

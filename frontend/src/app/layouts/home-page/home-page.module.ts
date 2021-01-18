@@ -31,6 +31,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CulturalHeritagesComponent } from 'src/app/components/cultural-heritages/cultural-heritages.component';
 
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { environment } from 'src/environments/environment';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -45,6 +48,9 @@ import { CulturalHeritagesComponent } from 'src/app/components/cultural-heritage
         MatExpansionModule,
         NgxPaginationModule,
         MatTabsModule,
+        NgxMapboxGLModule.withConfig({
+          accessToken: environment.mapboxApiKey
+        }),
         MatTableModule,
         MatPaginatorModule,
         MatDialogModule,
