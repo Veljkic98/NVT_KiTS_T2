@@ -19,6 +19,6 @@ export class CulturalHeritageService {
   }
 
   getCulturalHeritages(page: number): Observable<Page> {
-    return this.http.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${page}`);
+    return this.http.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${page}&size=10`);
   }
 }

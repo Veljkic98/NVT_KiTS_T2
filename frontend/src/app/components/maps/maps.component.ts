@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { LngLatLike, Map, Marker } from 'mapbox-gl';
 import { CulturalHeritageService } from '../../services/cultural-heritage-serice/cultural-heritage.service';
 import { CulturalHeritage } from '../../models/cultural-heritage.model'
 import { Page } from 'src/app/models/page.model';
+
 
 @Component({
   selector: 'app-maps',
@@ -23,6 +24,8 @@ export class MapsComponent implements OnInit {
   currentPage: number = 0;
   isPreviousButtonDisabled: boolean;
   isNextButtonDisabled: boolean;
+
+  @Output() chChangedEvent = new EventEmitter<number>();
 
 
   constructor(private culturalHeritageService: CulturalHeritageService) { }
@@ -122,9 +125,7 @@ export class MapsComponent implements OnInit {
     //add animation on click
     markerIcon.addEventListener('click', () => {
       this._addSelectMarkerAnimation(markerIcon);
-      // TODO: show component on the right side
-      let id:number = parseInt(markerIcon.id.split('ch_')[1]);
-      console.log(id);
+      this._showCHDetails(markerIcon);
     })
   }
 
@@ -171,7 +172,11 @@ export class MapsComponent implements OnInit {
     else
       this.isNextButtonDisabled = false;
   }
-
+  
+  _showCHDetails(markerIcon: HTMLDivElement){
+    let id:number = parseInt(markerIcon.id.split('ch_')[1]);
+    this.chChangedEvent.emit(id);
+  }
   _addHoverMarkerAnimation(markerIcon: HTMLDivElement){
     markerIcon.addEventListener('mouseenter', () => {
       markerIcon.style.animation = null; 
