@@ -31,6 +31,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NewsComponent } from 'src/app/components/news/news.component';
 
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { environment } from 'src/environments/environment';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -45,6 +48,9 @@ import { NewsComponent } from 'src/app/components/news/news.component';
         MatExpansionModule,
         NgxPaginationModule,
         MatTabsModule,
+        NgxMapboxGLModule.withConfig({
+          accessToken: environment.mapboxApiKey
+        }),
         MatTableModule,
         MatPaginatorModule,
         MatDialogModule,

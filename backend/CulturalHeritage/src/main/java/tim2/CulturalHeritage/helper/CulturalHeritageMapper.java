@@ -46,13 +46,10 @@ public class CulturalHeritageMapper
     public CulturalHeritageResponseDTO toDto(CulturalHeritage entity) {
 
         String imageUri;
-        
+
         try {
-            imageUri = ServletUriComponentsBuilder
-            .fromCurrentContextPath()
-            .path("api/files/")
-            .path(entity.getImages().getId() + "")
-            .toUriString();
+            imageUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("api/files/")
+                    .path(entity.getImages().getId() + "").toUriString();
         } catch (NullPointerException e) {
             imageUri = null;
         }
@@ -62,35 +59,42 @@ public class CulturalHeritageMapper
             avgRating = calcRating(entity.getRatings());
             ratingListSize = entity.getRatings().size();
         }catch (Exception e){
+
             avgRating = 0;
         }
         String locationName = entity.getLocation().getCountry() + " " + entity.getLocation().getCity();
 
+        // coordinates
+        List<String> coordinates = new ArrayList<>();
+        coordinates.add(entity.getLocation().getLongitude());
+        coordinates.add(entity.getLocation().getLatitude());
+
         return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(),
                 entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating, locationName, entity.getChsubtype().getName(), ratingListSize);
+
     }
 
     @Override
     public List<CulturalHeritageResponseDTO> toDtoList(List<CulturalHeritage> entityList) {
-        
+
         List<CulturalHeritageResponseDTO> results = new ArrayList<>();
 
-        for(CulturalHeritage ch: entityList ){
-               results.add(toDto(ch));
+        for (CulturalHeritage ch : entityList) {
+            results.add(toDto(ch));
         }
 
         return results;
     }
 
     public float calcRating(List<Rating> list) {
-        if(null == list)
+        if (null == list)
             return 0;
         int size = list.size();
         if (size == 0) {
             return 0;
         } else {
             float sum = 0;
-            for(Rating rate: list) {
+            for (Rating rate : list) {
                 sum += rate.getGrade();
             }
             return sum / size;
