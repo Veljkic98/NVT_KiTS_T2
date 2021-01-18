@@ -3,6 +3,7 @@ import { LngLatLike, Map, Marker } from 'mapbox-gl';
 import { CulturalHeritageService } from '../../services/cultural-heritage-serice/cultural-heritage.service';
 import { CulturalHeritage } from '../../models/cultural-heritage.model'
 import { Page } from 'src/app/models/page.model';
+
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
@@ -31,6 +32,10 @@ export class MapsComponent implements OnInit {
     // this.consoleLogColors();
   }
 
+  /**
+   * Method is trigged when a map is fully loaded.
+   * @param map is object that represents the whole map.
+   */
   onMapLoad(map: Map) {
     this.map = map;
     this.addCulturalHeritagesToMap(this.currentPage);
@@ -48,7 +53,6 @@ export class MapsComponent implements OnInit {
    * => substract 1 from subtype in order to match begging of the markerColors array. 
    * Add marker function will render html markers on the map.
    * At the end check if previous and next buttons should be disabled.
-   * 
    */
   async addCulturalHeritagesToMap(page: number) {
     let culturalHeritages: CulturalHeritage[];
@@ -119,7 +123,8 @@ export class MapsComponent implements OnInit {
     markerIcon.addEventListener('click', () => {
       this._addSelectMarkerAnimation(markerIcon);
       // TODO: show component on the right side
-      console.log(markerIcon.id);
+      let id:number = parseInt(markerIcon.id.split('ch_')[1]);
+      console.log(id);
     })
   }
 
