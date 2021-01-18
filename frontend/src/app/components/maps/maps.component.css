@@ -1,5 +1,5 @@
 mgl-map {
-  height: 90%;
+  height: 100%;
   width: 100%;
 }
 #map-wrapper{
@@ -28,4 +28,15 @@ mgl-map {
   50%{ top: 0px}
   75%{ top: -8px}
   100%{ top: 0px}
+}
+
+@keyframes hoverMarker {
+  0%{ top: -6px}
+  100%{ top: 0px}
+}
+
+@keyframes selectMarker{
+  0%{ font-size: 40px; }
+  50%{ font-size: 60px;}
+  100%{ font-size: 50px;}
 }

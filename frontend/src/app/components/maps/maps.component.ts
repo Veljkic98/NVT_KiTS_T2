@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { LngLatLike, Map, Marker } from 'mapbox-gl';
 import { CulturalHeritageService } from '../../services/cultural-heritage-serice/cultural-heritage.service';
 import { CulturalHeritage } from '../../models/cultural-heritage.model'
 import { Page } from 'src/app/models/page.model';
+
+
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
@@ -23,6 +25,8 @@ export class MapsComponent implements OnInit {
   isPreviousButtonDisabled: boolean;
   isNextButtonDisabled: boolean;
 
+  @Output() chChangedEvent = new EventEmitter<number>();
+
 
   constructor(private culturalHeritageService: CulturalHeritageService) { }
 
@@ -31,6 +35,10 @@ export class MapsComponent implements OnInit {
     // this.consoleLogColors();
   }
 
+  /**
+   * Method is trigged when a map is fully loaded.
+   * @param map is object that represents the whole map.
+   */
   onMapLoad(map: Map) {
     this.map = map;
     this.addCulturalHeritagesToMap(this.currentPage);
@@ -48,43 +56,51 @@ export class MapsComponent implements OnInit {
    * => substract 1 from subtype in order to match begging of the markerColors array. 
    * Add marker function will render html markers on the map.
    * At the end check if previous and next buttons should be disabled.
-   * 
    */
   async addCulturalHeritagesToMap(page: number) {
     let culturalHeritages: CulturalHeritage[];
     let coords: [number, number];
     let color: string;
-    let ch: CulturalHeritage;
 
     let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
     culturalHeritages = retval.content;
 
     culturalHeritages.forEach(culturalHeritage => {
-      ch = culturalHeritage;
-
       coords = [
-        parseFloat(ch.coordinates[0]), //longitude
-        parseFloat(ch.coordinates[1]), //latitude
+        parseFloat(culturalHeritage.coordinates[0]), //longitude
+        parseFloat(culturalHeritage.coordinates[1]), //latitude
       ];
-
-      color = this.markerColors[ch.chsubtypeID - 1];
-
-      this.addMarker(coords, color);
+      color = this.markerColors[culturalHeritage.chsubtypeID - 1];
+      this.addMarker(coords, color, culturalHeritage.id);
     });
 
     this.checkIfButtonDisabled();
   }
 
-  addMarker(coordinates: LngLatLike, color = "blue") {
+  /**
+   * 
+   * @param coordinates LngLatLike object
+   * @param color string. Select one el from markerColors.
+   * 
+   * Creates new html element (marker for the map). 
+   * The new element is pushed in the markersArray array.
+   * Animation is set to each marker.
+   * Each marker listens for a click event.
+   * Each markerIcon has an id corresponding to cultural heritage id.
+   * examples of id: "ch_1", "ch_2",...
+   */
+  addMarker(coordinates: LngLatLike, color = "blue", culturalHeritageID: number = null) {
     let markerIcon: HTMLDivElement = document.createElement('div');
+    markerIcon.id = "ch_" + culturalHeritageID;
 
-    //creating this: <i class="material-icons">place</i>
-    let icon = document.createElement('i');             //html elem name
-    icon.classList.add('material-icons');               //class name
-    icon.style.fontSize = "40px";                       //font size
-    icon.appendChild(document.createTextNode("place")); //google icon name
-    icon.style.color = color;                            //marker color
-    markerIcon.appendChild(icon);
+    markerIcon.innerHTML = `  
+    <button style="outline: none; border:none; background-color: rgba(0, 0, 0, 0); cursor: pointer;">
+      <i class="material-icons" 
+        style="color: ${color}; font-size: 40px">
+        place
+      </i>
+    </button>`;
+
     let marker = new Marker(markerIcon).setLngLat(coordinates).addTo(this.map);
 
     //add marker to the array of markers 
@@ -92,6 +108,25 @@ export class MapsComponent implements OnInit {
 
     //set drop animation
     markerIcon.style.animation = "dropMarker 0.7s ease-in";
+
+    //set hover and click events for a marker
+    this.addMarkerEvents(markerIcon);
+  }
+
+  /**
+   * @param markerIcon is div element inside every marker
+   * Method shows CH component on the right side when user clicks on a marker.
+   * When user hovers marker, hover animation is set.
+   */
+  addMarkerEvents(markerIcon: HTMLDivElement) {
+    //add animation on hover
+    this._addHoverMarkerAnimation(markerIcon);
+
+    //add animation on click
+    markerIcon.addEventListener('click', () => {
+      this._addSelectMarkerAnimation(markerIcon);
+      this._showCHDetails(markerIcon);
+    })
   }
 
   removeCulturalHeritagesFromMap() {
@@ -138,6 +173,33 @@ export class MapsComponent implements OnInit {
       this.isNextButtonDisabled = false;
   }
 
+  _showCHDetails(markerIcon: HTMLDivElement){
+    let id:number = parseInt(markerIcon.id.split('ch_')[1]);
+    this.chChangedEvent.emit(id);
+  }
+  _addHoverMarkerAnimation(markerIcon: HTMLDivElement){
+    markerIcon.addEventListener('mouseenter', () => {
+      markerIcon.style.animation = null; 
+      markerIcon.offsetHeight; /* trigger reflow */
+      markerIcon.style.animation = "hoverMarker 0.2s linear";
+    })
+  }
+
+  _addSelectMarkerAnimation(markerIcon: HTMLDivElement){
+    //if there is already selected marker, reset it's size 
+    this.markersArray.forEach(element => {
+      let icon = element.getElement();
+      icon.getElementsByTagName("i")[0].style.fontSize = "40px";
+    });
+
+    //increase size of a selected marker
+    let iconImg = markerIcon.getElementsByTagName("i")[0];
+    iconImg.style.animation = null; 
+    iconImg.offsetHeight; /* trigger reflow */
+    iconImg.style.animation = "selectMarker 0.2s linear";
+    iconImg.style.fontSize = "50px";
+  }
+
   //this is only for debuging so you can see colors array
   consoleLogColors() {
     for (let i = 0; i < this.markerColors.length; i++) {
@@ -145,7 +207,6 @@ export class MapsComponent implements OnInit {
       console.log(`%c     `, `background-color: ${this.markerColors[i]}`);
     }
   }
-
 
   setMarkerColors() {
     this.markerColors = [
