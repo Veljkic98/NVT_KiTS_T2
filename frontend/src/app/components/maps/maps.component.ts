@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { LngLatLike, Map, Marker } from 'mapbox-gl';
-import { CulturalHeritageService } from '../../services/cultural-heritage-serice/cultural-heritage.service';
+import {CulturalHeritageService} from '../../services/cultural-heritage-service/cultural-heritage.service'
 import { CulturalHeritage } from '../../models/cultural-heritage.model'
 import { Page } from 'src/app/models/page.model';
 

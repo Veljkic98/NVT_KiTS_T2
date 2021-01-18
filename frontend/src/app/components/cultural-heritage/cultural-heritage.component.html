@@ -4,7 +4,7 @@
     </div>
     <div *ngIf="error;else displaych">
       <mat-card>
-        <i class="close-icon large material-icons" (click)="close()">close</i>
+          <i class="close-icon large material-icons" (click)="close()">close</i>
         <mat-card-header>
         {{error}}
         </mat-card-header>
@@ -12,7 +12,7 @@
     </div>
     <ng-template #displaych>
         <mat-card *ngIf="ch">
-          <i class="close-icon large material-icons" (click)="close()">close</i>
+            <i class="close-icon large material-icons" (click)="close()">close</i>
             <img mat-card-image [src]="ch.imageUri" alt="png">
             <mat-card-header>
                 <mat-card-title>{{ch.name}}</mat-card-title>
