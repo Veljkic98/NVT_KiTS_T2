@@ -83,8 +83,9 @@ export class MapsComponent implements OnInit {
     let markerIcon: HTMLDivElement = document.createElement('div');
 
     markerIcon.innerHTML = `  
-    <button style="outline: none;border:none; background-color: rgba(0, 0, 0, 0); cursor: pointer;">
-      <i class="material-icons" style="color: ${color}; font-size: 40px">
+    <button style="outline: none; border:none; background-color: rgba(0, 0, 0, 0); cursor: pointer;">
+      <i class="material-icons" 
+        style="color: ${color}; font-size: 40px">
         place
       </i>
     </button>`;
@@ -97,10 +98,38 @@ export class MapsComponent implements OnInit {
     //set drop animation
     markerIcon.style.animation = "dropMarker 0.7s ease-in";
 
-    //add click event listener on marker html
-    markerIcon.addEventListener('click', ()=>{
-      console.log(id);
+    //set select marker animation
+    this.setMarkerAnimation(markerIcon);
+
+
+  }
+
+  setMarkerAnimation(markerIcon: HTMLDivElement) {
+    //add animation when mouse eneters a div element
+    markerIcon.addEventListener('mouseenter', () => {
+      markerIcon.style.animation = null; 
+      markerIcon.offsetHeight; /* trigger reflow */
+      markerIcon.style.animation = "hoverMarker 0.2s linear";
     })
+    //add animation when user clicks on a div element
+    markerIcon.addEventListener('click', () => {
+      this._addSelectMarkerAnimation(markerIcon);
+    })
+  }
+
+  _addSelectMarkerAnimation(markerIcon: HTMLDivElement){
+    //if there is already selected marker, reset it's size 
+    this.markersArray.forEach(element => {
+      let icon = element.getElement();
+      icon.getElementsByTagName("i")[0].style.fontSize = "40px";
+    });
+
+    //increase selected marker
+    let iconImg = markerIcon.getElementsByTagName("i")[0];
+    iconImg.style.animation = null; 
+    iconImg.offsetHeight; /* trigger reflow */
+    iconImg.style.animation = "selectMarker 0.1s ease-in";
+    iconImg.style.fontSize = "50px";
   }
 
 
