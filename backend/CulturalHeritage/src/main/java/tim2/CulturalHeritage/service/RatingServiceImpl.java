@@ -31,6 +31,13 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
+    public Rating findUserRating(Long userId, Long chID) {
+        System.out.println("user" + userId);
+        System.out.println("ch " + chID);
+        return ratingRepository.getUserRating(chID, userId);
+    }
+
+    @Override
     public Rating add(Rating rating) {
         return ratingRepository.save(rating);
     }

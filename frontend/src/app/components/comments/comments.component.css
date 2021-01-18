@@ -11,30 +11,28 @@ li {
     padding-bottom: 20px;
     margin: 0px;
 }
- li i {
+li i {
     float:left;
     width: 10%;
     margin-top: 10px;
-    margin-right: 6px;
-    margin-left: 0;
-}
+    margin-right: 2px;
+    margin-left: 0;}
 mat-card {
     float: right;
-    width: 75%;
+    width: 85%;
 }
 .header {
     border-bottom: 1px solid #e5e5e5;
     padding: 5px;
 }
 .author {
-    display: inline-block;
     top:0;
     position: absolute;
     margin: 2px;
     font-weight: 400;
     color: #9a3;
+    float: left
 }
- 
 mat-card:after {
     content: " ";
     position: absolute;
@@ -50,4 +48,24 @@ mat-card img {
     width: 100%;
     height: 70%;
     margin: 2px;
+}
+.btn-add {
+    color: black;
+    width: 60px;
+    background-color: #f3ce13;
+    font-size: 15px;
+    margin: 4px;
+    float: right;
+}
+.com-content {
+    width: 100%;
+    height: 150px;
+}
+.delete-icon {
+    top:0;
+    right:0;
+    position: absolute;
+    color: red;
+    float: right;
+    margin-top:2px !important;
 }

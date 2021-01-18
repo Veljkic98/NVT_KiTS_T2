@@ -15,7 +15,9 @@ import tim2.CulturalHeritage.dto.requestDTO.AuthUserRequestDTO;
 import tim2.CulturalHeritage.dto.responseDTO.AuthUserResponseDTO;
 import tim2.CulturalHeritage.helper.ApiErrors;
 import tim2.CulturalHeritage.helper.AuthenticatedUserMapper;
+import tim2.CulturalHeritage.helper.CulturalHeritageMapper;
 import tim2.CulturalHeritage.model.AuthenticatedUser;
+import tim2.CulturalHeritage.model.CulturalHeritage;
 import tim2.CulturalHeritage.model.Person;
 import tim2.CulturalHeritage.service.AuthenticatedUserService;
 import javax.validation.Valid;
@@ -24,13 +26,12 @@ import javax.validation.Valid;
 @RequestMapping("/api/authenticated-users")
 public class AuthenticatedUserController {
 
-
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
 
-    private AuthenticatedUserMapper userMapper = new AuthenticatedUserMapper();
+    private AuthenticatedUserMapper userMapper = new AuthenticatedUserMapper(); 
 
-
+    private CulturalHeritageMapper chMapper = new CulturalHeritageMapper();
 
     @GetMapping(path = "/by-page")
     public ResponseEntity<Page<AuthUserResponseDTO>> findAll(Pageable pageable) {
@@ -113,5 +114,14 @@ public class AuthenticatedUserController {
         AuthUserResponseDTO userDTO = userMapper.toDto(loggedIn);
 
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/me/subscriptions")
+    public ResponseEntity<?> getSubscriptions() {
+        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<CulturalHeritage> chs = user.getCulturalHeritages();
+
+        return new ResponseEntity<>(chMapper.toDtoList(chs), HttpStatus.OK);
     }
 }

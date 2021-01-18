@@ -14,12 +14,14 @@ public class CulturalHeritageResponseDTO {
     private String locationName;
     private String subtypeName;
     private List<String> coordinates;
+    private int totalRatings;
 
     public CulturalHeritageResponseDTO() {
     }
 
     public CulturalHeritageResponseDTO(Long id, String name, String description, Long locationID, Long chsubtypeID,
-            String imageUri, float avgRating, String locationName, String subtypeName, List<String> coordinates) {
+            String imageUri, float avgRating, String locationName, String subtypeName, List<String> coordinates,
+            int totalRatings) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -30,7 +32,7 @@ public class CulturalHeritageResponseDTO {
         this.locationName = locationName;
         this.subtypeName = subtypeName;
         this.coordinates = coordinates;
-
+        this.totalRatings = totalRatings;
     }
 
     public Long getId() {
@@ -111,5 +113,13 @@ public class CulturalHeritageResponseDTO {
 
     public void setCoordinates(List<String> coordinates) {
         this.coordinates = coordinates;
+    }
+
+    public int getTotalRatings() {
+        return totalRatings;
+    }
+
+    public void setTotalRatings(int totalRatings) {
+        this.totalRatings = totalRatings;
     }
 }

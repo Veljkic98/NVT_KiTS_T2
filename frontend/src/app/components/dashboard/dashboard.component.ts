@@ -14,11 +14,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  closeDetails() {
+  closeDetails(): void {
     this.selectedCH = null;
   }
   setChId($event){
     this.selectedCH = $event;
   }
-
 }

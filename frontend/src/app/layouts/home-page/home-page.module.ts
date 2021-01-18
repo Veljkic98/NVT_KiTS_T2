@@ -18,11 +18,17 @@ import { CulturalHeritageComponent  } from '../../components/cultural-heritage/c
 import { DashboardComponent  } from '../../components/dashboard/dashboard.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { LoginComponent } from 'src/app/components/login/login.component';
-
+import { RatingComponent } from '../../components/rating/rating.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { CommentsComponent } from '../../components/comments/comments.component';
-import { NgxPaginationModule } from 'ngx-pagination'; 
+import { NgxPaginationModule } from 'ngx-pagination';
 import {MatTabsModule} from '@angular/material/tabs';
+import { CHTypesComponent, EditTypeDialog, SubtypeDeleteDialog } from 'src/app/components/ch-types/ch-types.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'src/environments/environment';
@@ -34,7 +40,7 @@ import { environment } from 'src/environments/environment';
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
-        MatCardModule, 
+        MatCardModule,
         MatInputModule,
         MatButtonModule,
         MatProgressSpinnerModule,
@@ -43,19 +49,28 @@ import { environment } from 'src/environments/environment';
         MatTabsModule,
         NgxMapboxGLModule.withConfig({
           accessToken: environment.mapboxApiKey
-        })
+        }),
+        MatTableModule,
+        MatPaginatorModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        NgbModule
     ],
     declarations: [
         HomePageComponent,
         NotificationsComponent,
         MapsComponent,
         MyProfileComponent,
+        CHTypesComponent,
+        SubtypeDeleteDialog,
+        EditTypeDialog,
         RegisterComponent,
-        DashboardComponent, 
+        DashboardComponent,
         VerificationPageComponent,
         CulturalHeritageComponent,
         LoginComponent,
-        CommentsComponent
+        CommentsComponent,
+        RatingComponent
     ]
 })
 

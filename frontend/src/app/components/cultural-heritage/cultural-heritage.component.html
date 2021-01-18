@@ -22,10 +22,16 @@
                     <span class="rate">
                         {{ch.avgRating}} 
                     </span>
-                    <span class="max-rate">  / 5.0</span>
+                    <span class="max-rate">  / 5.0</span>   
                 </span>
             </mat-card-header>
             <mat-card-content>
+              <app-rating 
+                [chID]="chID" 
+                *ngIf="authService.getRole() == 'ROLE_USER'"
+                (calcAvgChangedRating)="calcAvgChangedRating($event)"
+                (calcAvgAddedRating)="calcAvgAddedRating($event)"
+                ></app-rating>
                 <mat-accordion>
                     <mat-expansion-panel 
                       (opened)="openedSection = true"

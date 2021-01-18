@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import tim2.CulturalHeritage.model.Comment;
 
+import javax.transaction.Transactional;
+
 @Repository
+@Transactional
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Page<Comment> findAll(Pageable pageable);
