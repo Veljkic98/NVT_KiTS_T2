@@ -24,8 +24,8 @@ import { MatTableModule } from '@angular/material/table';
     MatListModule,
     MatButtonModule,
     MatIconModule,
-    MatInputModule,
     MatFormFieldModule,
+    MatInputModule,
     FormsModule,
     MatMenuModule,
     MatTableModule

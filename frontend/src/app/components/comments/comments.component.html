@@ -1,70 +1,71 @@
 <div>
-    <div *ngIf="error;else displaycomm">
-        {{error}}
-    </div>
-    <ng-template #displaycomm>
-      <div *ngIf="authService.getRole() === 'ROLE_USER'">
-        <ng-template #addModal let-modal>
-            <div class="modal-header">
-              <h4 class="modal-title" id="modal-basic-title">Add comment</h4>
-              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                    <textarea class="com-content" ngbAutofocus (keyup)="onKey($event)" matInput placeholder="Leave a comment"></textarea>
-                    <input type='file' (change)="onSelectFile($event)">
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Post</button>
-            </div>
-          </ng-template>
-          <button class="btn btn-add btn-outline-dark" (click)="openAddModal(addModal)">Add</button>
-
-        
+  <div *ngIf="error;else displaycomm">
+    {{error}}
+  </div>
+  <ng-template #displaycomm>
+    <div *ngIf="authService.getRole() === 'ROLE_USER'">
+      <ng-template #addModal let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Add comment</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        <div class="root" *ngIf="commentList">
-            <ul>
-              <li *ngFor="let comment of commentList  | paginate: { id: 'server', itemsPerPage: 3, currentPage: page, totalItems: total }  ">
-                <i class="close-icon large material-icons">account_circle</i>
-                <mat-card style="background-color:  rgba(48, 106, 182, 0.808);">
-                    <div class="header">
-                       <span class="author">{{ comment.userName }}</span>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <textarea class="com-content" ngbAutofocus (keyup)="onKey($event)" matInput
+                placeholder="Leave a comment"></textarea>
+              <input type='file' (change)="onSelectFile($event)">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Post</button>
+        </div>
+      </ng-template>
+      <button class="btn btn-add btn-outline-dark" (click)="openAddModal(addModal)">Add</button>
 
-                       <ng-template #deleteCommModal let-modal>
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="modal-title">Comment deletion</h4>
-                          <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <p><strong>Are you sure you want to delete this comment?</strong></p>
-                          <p>All information associated to this comment will be permanently deleted.
-                          <span class="text-danger">This operation can not be undone.</span>
-                          </p>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" ngbAutofocus class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
-                          <button type="button" class="btn btn-danger" (click)="modal.close()">Ok</button>
-                        </div>
-                      </ng-template>
-                       <i 
-                        *ngIf="authService.getId() === comment.authenticatedUserID" 
-                        class="delete-icon medium material-icons"
-                        (click)="openDeleteModal(deleteCommModal, comment.id)"
-                        >clear</i>
-                    </div>
-                    <p style="color:aliceblue">{{comment.content}}</p>
-                    <img *ngIf="comment.imageUri" mat-card-image [src]="comment.imageUri" alt="png">
-                </mat-card>
-                </li>
-            </ul>
-            <pagination-controls (pageChange)="getComments($event)" id="server"></pagination-controls>
-          </div>
-    </ng-template>
+
+    </div>
+    <div class="root" *ngIf="commentList">
+      <ul>
+        <li
+          *ngFor="let comment of commentList  | paginate: { id: 'server', itemsPerPage: 3, currentPage: page, totalItems: total }  ">
+          <i class="close-icon large material-icons">account_circle</i>
+          <mat-card style="background-color:  rgba(48, 106, 182, 0.808);">
+            <div class="header">
+              <span class="author">{{ comment.userName }}</span>
+
+              <ng-template #deleteCommModal let-modal>
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-title">Comment deletion</h4>
+                  <button type="button" class="close" aria-describedby="modal-title"
+                    (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p><strong>Are you sure you want to delete this comment?</strong></p>
+                  <p>All information associated to this comment will be permanently deleted.
+                    <span class="text-danger">This operation can not be undone.</span>
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" ngbAutofocus class="btn btn-outline-secondary"
+                    (click)="modal.dismiss('cancel click')">Cancel</button>
+                  <button type="button" class="btn btn-danger" (click)="modal.close()">Ok</button>
+                </div>
+              </ng-template>
+              <i *ngIf="authService.getId() === comment.authenticatedUserID" class="delete-icon medium material-icons"
+                (click)="openDeleteModal(deleteCommModal, comment.id)">clear</i>
+            </div>
+            <p style="color:aliceblue">{{comment.content}}</p>
+            <img *ngIf="comment.imageUri" mat-card-image [src]="comment.imageUri" alt="png">
+          </mat-card>
+        </li>
+      </ul>
+      <pagination-controls (pageChange)="getComments($event)" id="server"></pagination-controls>
+    </div>
+  </ng-template>
 </div>

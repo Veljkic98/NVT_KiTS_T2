@@ -33,6 +33,9 @@ import { CulturalHeritagesComponent } from 'src/app/components/cultural-heritage
 
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'src/environments/environment';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { AddNewCulturalHeritageComponent } from 'src/app/components/add-new-cultural-heritage/add-new-cultural-heritage.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     imports: [
@@ -44,6 +47,7 @@ import { environment } from 'src/environments/environment';
         MatCardModule,
         MatInputModule,
         MatButtonModule,
+        MatFormFieldModule,
         MatProgressSpinnerModule,
         MatExpansionModule,
         NgxPaginationModule,
@@ -55,7 +59,8 @@ import { environment } from 'src/environments/environment';
         MatPaginatorModule,
         MatDialogModule,
         MatSnackBarModule,
-        NgbModule
+        NgbModule,
+        MatSelectModule
     ],
     declarations: [
         HomePageComponent,
@@ -72,7 +77,8 @@ import { environment } from 'src/environments/environment';
         LoginComponent,
         CommentsComponent,
         RatingComponent,
-        CulturalHeritagesComponent
+        CulturalHeritagesComponent,
+        AddNewCulturalHeritageComponent
     ]
 })
 

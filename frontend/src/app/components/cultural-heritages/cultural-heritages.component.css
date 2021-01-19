@@ -8,3 +8,9 @@
 table {
     width: 100%;
 }
+
+.new-ch {
+    padding-bottom: 2rem;
+    text-align: right;
+    padding-right: 1.5rem;
+}
