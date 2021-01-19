@@ -1,0 +1,46 @@
+<div class="main">
+    <h1 *ngIf="news.length === 0">There aren't any news for this cultural heritage :(</h1>
+    <div *ngIf="error;else displaynews">
+        {{error}}
+    </div>
+
+    <ng-template #deleteModal let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-title">News Deletion</h4>
+          <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Are you sure you want to delete the news?</strong></p>
+          <span class="text-danger">This operation can not be undone.</span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" ngbAutofocus class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="modal.close()">Ok</button>
+        </div>
+      </ng-template>
+
+
+    <ng-template #displaynews >
+
+        <div class="root" *ngIf="news.length !== 0">
+            <ul>
+              <li *ngFor="let element of news  | paginate: { id: 'server', itemsPerPage: 5, currentPage: page, totalItems: total }  ">
+                <mat-card>
+                    <div class="header">
+                       <h2>{{ element.heading }}</h2>
+                    </div>
+                    <p>{{element.content}}</p>
+                    <img *ngIf="element.imageUri" mat-card-image [src]="element.imageUri" alt="png">
+                    <div id="btn-div">
+                        <button  mat-raised-button color="accent" >EDIT</button>
+                        <button  mat-raised-button color="warn" (click)="openDeleteModal(deleteModal, element)">DELETE</button>
+                    </div>
+                </mat-card>
+                </li>
+            </ul>
+                <pagination-controls (pageChange)="getNews($event)" id="server"></pagination-controls>
+          </div>
+    </ng-template>
+</div>

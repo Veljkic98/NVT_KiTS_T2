@@ -126,7 +126,7 @@ export class CHTypesComponent implements OnInit {
                         this.openSnackBar('Successfuly deleted the subtype!');
                         this.getTypes(0);
                     },
-                    error => this.openSnackBar('Can\'t delete that subtype!')
+                    error => this.openSnackBar('Can\'t delete that subtype. There are cultural heritages of that subtype.')
                 );
             }
 
