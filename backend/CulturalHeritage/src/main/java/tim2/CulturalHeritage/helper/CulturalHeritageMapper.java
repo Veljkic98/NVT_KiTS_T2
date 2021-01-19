@@ -53,13 +53,24 @@ public class CulturalHeritageMapper
         } catch (NullPointerException e) {
             imageUri = null;
         }
+
         float avgRating;
+
         try {
             avgRating = calcRating(entity.getRatings());
         } catch (Exception e) {
             avgRating = 0;
         }
+
         String locationName = entity.getLocation().getCountry() + " " + entity.getLocation().getCity();
+
+        int ratingsSize = 0;
+
+        try {
+            ratingsSize = entity.getRatings().size();
+        } catch (Exception e) {
+            ratingsSize = 0;
+        }
 
         // coordinates
         List<String> coordinates = new ArrayList<>();
@@ -68,7 +79,7 @@ public class CulturalHeritageMapper
 
         return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(),
                 entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating, locationName,
-                entity.getChsubtype().getName(), coordinates, entity.getRatings().size());
+                entity.getChsubtype().getName(), coordinates, ratingsSize);
     }
 
     @Override
