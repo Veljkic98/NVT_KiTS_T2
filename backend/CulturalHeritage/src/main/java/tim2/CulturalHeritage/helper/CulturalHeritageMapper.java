@@ -70,7 +70,7 @@ public class CulturalHeritageMapper
         coordinates.add(entity.getLocation().getLatitude());
 
         return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(),
-                entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating, locationName, entity.getChsubtype().getName(), ratingListSize);
+                entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating, locationName, entity.getChsubtype().getName(), coordinates, ratingListSize);
 
     }
 
