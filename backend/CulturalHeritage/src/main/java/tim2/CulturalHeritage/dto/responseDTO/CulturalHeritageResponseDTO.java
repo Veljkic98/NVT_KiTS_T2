@@ -35,6 +35,8 @@ public class CulturalHeritageResponseDTO {
         this.totalRatings = totalRatings;
     }
 
+
+
     public Long getId() {
         return this.id;
     }

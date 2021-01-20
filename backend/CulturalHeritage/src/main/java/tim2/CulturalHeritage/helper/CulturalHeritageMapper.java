@@ -54,9 +54,12 @@ public class CulturalHeritageMapper
             imageUri = null;
         }
         float avgRating;
-        try {
+        int ratingListSize = 0;
+        try{
             avgRating = calcRating(entity.getRatings());
-        } catch (Exception e) {
+            ratingListSize = entity.getRatings().size();
+        }catch (Exception e){
+
             avgRating = 0;
         }
         String locationName = entity.getLocation().getCountry() + " " + entity.getLocation().getCity();
@@ -67,8 +70,8 @@ public class CulturalHeritageMapper
         coordinates.add(entity.getLocation().getLatitude());
 
         return new CulturalHeritageResponseDTO(entity.getId(), entity.getName(), entity.getDescription(),
-                entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating, locationName,
-                entity.getChsubtype().getName(), coordinates, entity.getRatings().size());
+                entity.getLocation().getId(), entity.getChsubtype().getId(), imageUri, avgRating, locationName, entity.getChsubtype().getName(), coordinates, ratingListSize);
+
     }
 
     @Override

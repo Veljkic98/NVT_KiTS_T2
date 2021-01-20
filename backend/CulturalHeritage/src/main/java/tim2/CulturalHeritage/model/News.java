@@ -29,6 +29,7 @@ public class News {
     @ManyToOne
     private Admin admin;
 
+
     @OneToOne
     private FileDB images;
 
