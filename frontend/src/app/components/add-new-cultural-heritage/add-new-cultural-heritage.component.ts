@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CHSubtype2 } from 'src/app/models/ch-subtype.model';
 import { CulturalHeritageToAdd } from 'src/app/models/cultural-heritage-to-add.model';
@@ -32,7 +33,8 @@ export class AddNewCulturalHeritageComponent implements OnInit {
   constructor(
     private chService: CulturalHeritageService,
     private locationService: LocationService,
-    private subtypeService: CHSubtypeService
+    private subtypeService: CHSubtypeService,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
@@ -64,6 +66,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
             .subscribe(
               data => {
                 console.log(data);
+                this._router.navigate(['/cultural-heritages']);
               },
               error => {
                 console.log(error);
