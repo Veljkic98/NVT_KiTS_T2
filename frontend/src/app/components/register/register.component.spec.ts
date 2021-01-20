@@ -18,7 +18,12 @@ describe('RegisterComponent', () => {
   beforeEach(async () => {
     let authServiceMock = {
       register: jasmine.createSpy('register')
-      .and.returnValue(of({body: new User(1, 'Petar', 'Petrovic', "some1667@gmail.com")}))
+      .and.returnValue(of({body: new User({
+        id: 1, 
+        firstName: 'Petar', 
+        lastName: 'Petrovic', 
+        email: "some1667@gmail.com"
+      })}))
     }
 
     let formBuilder = new FormBuilder();

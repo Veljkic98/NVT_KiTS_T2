@@ -4,10 +4,17 @@ export class User {
     public lastName: string;
     public email: string;
 
-constructor(id: number, firstName: string, lastName: string, email: string) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
+constructor(userCfg:UserInterface) {
+    this.id = userCfg.id;
+    this.firstName = userCfg.firstName;
+    this.lastName = userCfg.lastName;
+    this.email = userCfg.email;
 }
+}
+
+interface UserInterface{
+	id?: number;
+    firstName: string;
+    lastName: string;
+    email: string;
 }
