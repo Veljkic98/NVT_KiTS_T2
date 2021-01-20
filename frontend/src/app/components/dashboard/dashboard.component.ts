@@ -9,6 +9,9 @@ export class DashboardComponent implements OnInit {
   //should be set to null
   //for testing set to 1 (id of chosen CH)
   selectedCH: number = null;
+
+  isSubscribed: Boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -19,5 +22,10 @@ export class DashboardComponent implements OnInit {
   }
   setChId($event){
     this.selectedCH = $event;
+    this.checkIfSubscribed()
+  }
+
+  checkIfSubscribed() {
+    //TODO: Proveriti da li je trenutno ulogovani korisnik prijavljen
   }
 }

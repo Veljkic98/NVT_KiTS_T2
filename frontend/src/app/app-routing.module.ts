@@ -45,7 +45,10 @@ const routes: Routes = [
         path: 'cultural-heritages',
         component: CulturalHeritagesComponent,
         canActivate: [RoleGuard],
-        data: { expectedRoles: 'ROLE_ADMIN' }
+        data: { expectedRoles: 'ROLE_ADMIN' },
+        // children: [
+
+        // ]
       },
       {
         path: 'me/:index',
