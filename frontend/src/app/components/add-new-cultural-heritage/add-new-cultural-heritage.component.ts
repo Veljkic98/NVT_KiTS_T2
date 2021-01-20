@@ -42,7 +42,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
       .subscribe(
         data => {
           this.subtypes = data;
-          console.log(this.subtypes);
+          // console.log(this.subtypes);
         },
         error => {
           console.log(error);
@@ -58,14 +58,11 @@ export class AddNewCulturalHeritageComponent implements OnInit {
     this.locationService.post(this.location)
       .subscribe(
         location => {
-          console.log(location);
-          console.log(location.id);
-
           // then add cultural heritage
           this.chService.post(this.name, this.description, location.id, this.subtype.id, this.url)
             .subscribe(
               data => {
-                console.log(data);
+                // console.log(data);
                 this._router.navigate(['/cultural-heritages']);
               },
               error => {
@@ -87,7 +84,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {
       this.url = event.target.files[0];
-      console.log(this.url)
+      // console.log(this.url)
       this.isFileChosen = true;
     }
   }
@@ -108,7 +105,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
       this.location = null
     }
     
-    console.log(this.location);
+    // console.log(this.location);
   }
 
 }

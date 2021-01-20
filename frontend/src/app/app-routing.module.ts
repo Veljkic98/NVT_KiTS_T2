@@ -36,20 +36,20 @@ const routes: Routes = [
         canActivate: [RoleGuard],
         data: { expectedRoles: 'ROLE_ADMIN' }
       },
-      {
-        path: 'new-ch',
-        component: AddNewCulturalHeritageComponent,
-        canActivate: [RoleGuard],
-        data: { expectedRoles: 'ROLE_ADMIN' }
-      },
+      
       {
         path: 'cultural-heritages',
         component: CulturalHeritagesComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: 'ROLE_ADMIN' },
-        // children: [
-
-        // ]
+        children: [
+          {
+            path: 'new-ch',
+            component: AddNewCulturalHeritageComponent,
+            canActivate: [RoleGuard],
+            data: { expectedRoles: 'ROLE_ADMIN' }
+          },
+        ]
       },
       // poseban routing module za admina?
       {

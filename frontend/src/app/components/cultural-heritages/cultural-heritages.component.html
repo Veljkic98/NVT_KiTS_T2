@@ -1,6 +1,7 @@
 <div class="main">
+    <router-outlet></router-outlet>
     <div class="new-ch">
-        <button mat-raised-button color="primary" [routerLink]="'/new-ch'">Add new</button>
+        <button mat-raised-button color="primary" [routerLink]="['./new-ch']">Add new</button>
     </div>
     <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
