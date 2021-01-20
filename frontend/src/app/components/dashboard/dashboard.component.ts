@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { CulturalHeritageService } from 'src/app/services/cultural-heritage-service/cultural-heritage.service';
-
+import { AuthService } from 'src/app/services/auth-service/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   content: string;
   url: string;
   lastPage: boolean;
+
 
 
   constructor(
@@ -50,7 +51,7 @@ export class DashboardComponent implements OnInit {
           this.culturalHeritages = data.content;
           this.total = data.totalElements;
           this.page = data.number + 1;
-          this.error = null;
+          this.error = null
       },
       error => {
          console.log(error);

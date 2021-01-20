@@ -1,0 +1,20 @@
+.main {
+    width: 50%;
+    margin: 0 auto;
+    padding-top: 2em;
+    padding-bottom: 8em;
+}
+
+table {
+    width: 100%;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 1000%;
+}
+
+.example-full-width {
+    width: 90%;
+}

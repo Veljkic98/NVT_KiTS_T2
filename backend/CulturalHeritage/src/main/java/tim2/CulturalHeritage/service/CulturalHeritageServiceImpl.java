@@ -98,6 +98,7 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
         user.getCulturalHeritages().remove(ch);
         boolean removed = false;
 
+        // check if CH is truly removed
         for (CulturalHeritage ie : user.getCulturalHeritages()) {
             if (ie.getId() == id) {
                 user.getCulturalHeritages().remove(ie);
@@ -109,6 +110,22 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
         if (removed == false) {
             throw new EntityNotFoundException();
         }
+
+        authenticatedUserService.update(user);
+    }
+
+    @Override
+    public void subscribe(Long id) {
+
+        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+        CulturalHeritage ch = culturalHeritageRepository.findById(id).orElse(null);
+
+        if (null == ch)
+            throw new EntityNotFoundException();
+
+        user.getCulturalHeritages().add(ch);
 
         authenticatedUserService.update(user);
     }

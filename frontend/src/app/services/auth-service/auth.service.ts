@@ -8,6 +8,7 @@ import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+    
     constructor(private http: HttpClient) { }
 
     register(user): Observable<object> {
@@ -19,11 +20,11 @@ export class AuthService {
     }
 
     logOut(): void {
-      localStorage.removeItem('user');
+        localStorage.removeItem('user');
     }
 
     getRole(): string {
-      return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).role : 'INVALID';
+        return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).role : 'INVALID';
     }
 
     getId(): number {
@@ -41,6 +42,7 @@ export class AuthService {
     getProfile(): Observable<User> {
         return this.http.get<User>(`${environment.apiUrl}/${AUTHENTICATED_USERS}/me`);
     }
+
     getSubscriptions(): Observable<Array<CulturalHeritage>> {
         return this.http.get<Array<CulturalHeritage>>(`${environment.apiUrl}/${AUTHENTICATED_USERS}/me/subscriptions`);
     }

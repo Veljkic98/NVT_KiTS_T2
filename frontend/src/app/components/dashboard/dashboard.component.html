@@ -28,6 +28,7 @@
           <button  mat-flat-button color="primary" class="filter" (click)="filterData()">GO</button>
           <button  mat-flat-button color="accent" class="filter" (click)="resetData()">RESET</button>
         </div>
+
     </div>
     <div class="ch-details">
         <app-cultural-heritage *ngIf="selectedCH" [chID]="selectedCH" (closeDetails)="closeDetails($event)"></app-cultural-heritage>
@@ -39,4 +40,4 @@
       </ul>
       <pagination-controls (pageChange)="getCulturalHeritages($event)" id="paginator"></pagination-controls>
   </div>
-</div>
+</div

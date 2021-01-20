@@ -21,4 +21,8 @@ export class CHSubtypeService {
     editSubtype(type: CHSubtype): Observable<any> {
         return this.httpClient.put<any>(`${environment.apiUrl}/${CH_SUBTYPES}/${type.id}`, type);
     }
+
+    getAll() {
+        return this.httpClient.get<any>(`${environment.apiUrl}/${CH_SUBTYPES}`)
+    }
 }

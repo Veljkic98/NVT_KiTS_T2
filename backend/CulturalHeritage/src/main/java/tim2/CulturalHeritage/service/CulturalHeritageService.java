@@ -23,6 +23,8 @@ public interface CulturalHeritageService {
 
     public void deleteById(Long id);
 
+    public void subscribe(Long id);
+
     public void unsubscribe(Long id);
 
     public Page<CulturalHeritage> filter(FilterRequestDTO filterDTO, Pageable p);

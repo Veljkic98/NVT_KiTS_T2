@@ -3,17 +3,18 @@
         <!-- <a mat-button [routerLink]="''"><h1 class="logo">TEAM 2 </h1></a> -->
         <span class="menu-spacer"></span>
         <div>
-            <a mat-button [routerLink]="'/maps'"> Map </a>
+            <a mat-button [routerLink]="'/'"> Map </a>
             <a mat-button [routerLink]="'/notifications'"> Notifications </a>
-
             <a mat-button [routerLink]="'/types'" *ngIf="authService.getRole() === 'ROLE_ADMIN'"> Manage Types </a>
+            <a mat-button [routerLink]="'/cultural-heritages'" *ngIf="authService.getRole() === 'ROLE_ADMIN'"> Manage
+                Cultural Heritages </a>
         </div>
         <span class="menu-spacer"></span>
         <div>
-            
+
             <a mat-button [routerLink]="'/register'" *ngIf="!authService.isLoggedIn()">Sign up</a>
             <a mat-button [routerLink]="'/login'" *ngIf="!authService.isLoggedIn()">Sign in</a>
-            <a mat-button  [matMenuTriggerFor]="menu" *ngIf="authService.isLoggedIn()">
+            <a mat-button [matMenuTriggerFor]="menu" *ngIf="authService.isLoggedIn()">
                 <i class="profile-icon large material-icons">account_circle</i>
                 <i class="profile-icon large material-icons">arrow_drop_down</i>
             </a>

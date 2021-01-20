@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output, SimpleChanges } from '@angular/core';
 import { LngLatLike, Map, Marker } from 'mapbox-gl';
-import {CulturalHeritageService} from '../../services/cultural-heritage-service/cultural-heritage.service'
+import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service'
 import { CulturalHeritage } from '../../models/cultural-heritage.model'
 import { Page } from 'src/app/models/page.model';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -38,9 +40,38 @@ export class MapsComponent implements OnInit {
 
      }
 
+
   ngOnInit(): void {
     this.setMarkerColors();
     // this.consoleLogColors();
+  }
+
+  @Output() coordinates = new EventEmitter<[number, number]>();
+  @Input() ifNewCH: Boolean;
+
+  getCoordinates(e) {
+    // do the stuff just if it is adding new CH 
+    if (this.ifNewCH) {
+      // because this is called twice on clikc
+      // and once is undefined
+      if (e.lngLat) {
+        this.coordinates.emit([e.lngLat.lng, e.lngLat.lat]);
+      }
+    }
+  }
+
+  geocoder = new MapboxGeocoder({
+    accessToken: environment.mapboxApiKey,
+    placeholder: 'bgd'
+  })
+
+//   geocoder.on('results', function(results) {
+//     console.log(results);
+//  })
+
+  getLocation(e) {
+    console.log(e);
+    this.geocoder
   }
 
   /**
@@ -192,19 +223,19 @@ export class MapsComponent implements OnInit {
       this.isNextButtonDisabled = false;
   }
 
-  _showCHDetails(markerIcon: HTMLDivElement){
-    let id:number = parseInt(markerIcon.id.split('ch_')[1]);
+  _showCHDetails(markerIcon: HTMLDivElement) {
+    let id: number = parseInt(markerIcon.id.split('ch_')[1]);
     this.chChangedEvent.emit(id);
   }
-  _addHoverMarkerAnimation(markerIcon: HTMLDivElement){
+  _addHoverMarkerAnimation(markerIcon: HTMLDivElement) {
     markerIcon.addEventListener('mouseenter', () => {
-      markerIcon.style.animation = null; 
+      markerIcon.style.animation = null;
       markerIcon.offsetHeight; /* trigger reflow */
       markerIcon.style.animation = "hoverMarker 0.2s linear";
     })
   }
 
-  _addSelectMarkerAnimation(markerIcon: HTMLDivElement){
+  _addSelectMarkerAnimation(markerIcon: HTMLDivElement) {
     //if there is already selected marker, reset it's size 
     this.markersArray.forEach(element => {
       let icon = element.getElement();
@@ -213,7 +244,7 @@ export class MapsComponent implements OnInit {
 
     //increase size of a selected marker
     let iconImg = markerIcon.getElementsByTagName("i")[0];
-    iconImg.style.animation = null; 
+    iconImg.style.animation = null;
     iconImg.offsetHeight; /* trigger reflow */
     iconImg.style.animation = "selectMarker 0.2s linear";
     iconImg.style.fontSize = "50px";

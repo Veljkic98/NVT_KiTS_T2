@@ -6,10 +6,11 @@
   [maxBounds]="maxBounds"
   [style] = "style"
   (mapLoad) = "onMapLoad($event)"
+  (click)="getCoordinates($event)"
   >
 
     <mgl-control
-    mglNavigation
+    mglGeocoder
     ></mgl-control>
     
   </mgl-map>
