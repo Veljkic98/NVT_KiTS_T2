@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth-service/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,9 +11,9 @@ export class DashboardComponent implements OnInit {
   //for testing set to 1 (id of chosen CH)
   selectedCH: number = null;
 
-  isSubscribed: Boolean = false;
 
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit(): void {
   }
@@ -22,10 +23,5 @@ export class DashboardComponent implements OnInit {
   }
   setChId($event){
     this.selectedCH = $event;
-    this.checkIfSubscribed()
-  }
-
-  checkIfSubscribed() {
-    //TODO: Proveriti da li je trenutno ulogovani korisnik prijavljen
   }
 }
