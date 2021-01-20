@@ -41,3 +41,12 @@ i.icon-yellow {
     border-radius: 8px;
     margin: 5px;
 }
+
+.sub-button {
+    font-size: 20px;
+}
+
+.sub-div {
+    padding-bottom: 1rem;
+    padding-top: 0.3rem;
+}

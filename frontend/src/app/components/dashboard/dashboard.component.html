@@ -1,9 +1,9 @@
 <div class="root">
     <div class="map">
         <!-- when user clicks on a marker chChangedEvent is triggered -->
-        <app-maps (chChangedEvent)="setChId($event)" ></app-maps>
+        <app-maps (chChangedEvent)="setChId($event)"></app-maps>
     </div>
     <div class="ch-details">
-        <app-cultural-heritage *ngIf="selectedCH" [chID]="selectedCH" (closeDetails)="closeDetails($event)"></app-cultural-heritage>
+        <app-cultural-heritage *ngIf="selectedCH" [chID]="selectedCH" [isSubscribed]="isSubscribed" (closeDetails)="closeDetails($event)"></app-cultural-heritage>
     </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges  } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 
 import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service';
 import { CulturalHeritage } from '../../models/cultural-heritage.model';
@@ -11,7 +11,10 @@ import { AuthService } from '../../services/auth-service/auth.service';
   styleUrls: ['./cultural-heritage.component.css']
 })
 export class CulturalHeritageComponent implements OnInit, OnChanges {
+
   @Input() chID: number;
+  @Input() isSubscribed: Boolean;
+  
   loading = true;
   ch: CulturalHeritage;
   error: string;
@@ -22,7 +25,7 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   constructor(
     private chService: CulturalHeritageService,
     private authService: AuthService
-) {}
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes.chID.firstChange) {
@@ -31,20 +34,35 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-   this.getCH();
+    console.log(this.isSubscribed)
+    this.getCH();
+  }
+
+  /**
+   * TODO: 
+   */
+  subscribe() {
+    console.log("sub")
+  }
+
+  /**
+   * TODO: 
+   */
+  unsubscribe() {
+    console.log("unsub")
   }
 
   getCH(): void {
     this.chService.getOne(this.chID)
-    .subscribe(
+      .subscribe(
         data => {
-            this.loading = false;
-            this.ch = data;
-            this.error = null;
+          this.loading = false;
+          this.ch = data;
+          this.error = null;
         },
         error => {
-            this.error = 'Something went wrong please try again.';
-            this.loading = false;
+          this.error = 'Something went wrong please try again.';
+          this.loading = false;
         });
   }
 
@@ -52,12 +70,12 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
     this.closeDetails.emit();
   }
 
-  calcAvgChangedRating({rating, oldRating}): void {
-    this.ch.avgRating = (this.ch.avgRating * this.ch.totalRatings - oldRating + rating )  / this.ch.totalRatings;
+  calcAvgChangedRating({ rating, oldRating }): void {
+    this.ch.avgRating = (this.ch.avgRating * this.ch.totalRatings - oldRating + rating) / this.ch.totalRatings;
   }
 
   calcAvgAddedRating(rating: number): void {
-    this.ch.avgRating = (this.ch.avgRating * this.ch.totalRatings + rating ) / (this.ch.totalRatings + 1);
+    this.ch.avgRating = (this.ch.avgRating * this.ch.totalRatings + rating) / (this.ch.totalRatings + 1);
     this.ch.totalRatings++;
   }
 }
