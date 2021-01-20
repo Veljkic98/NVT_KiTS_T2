@@ -14,6 +14,7 @@ public class Rating {
     @Column(name = "grade", nullable = false)
     private int grade;
 
+
     @ManyToOne
     private CulturalHeritage culturalHeritage;
 

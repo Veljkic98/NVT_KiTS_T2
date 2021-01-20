@@ -1,5 +1,7 @@
 package tim2.CulturalHeritage.model;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;

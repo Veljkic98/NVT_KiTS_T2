@@ -30,6 +30,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CulturalHeritagesComponent } from 'src/app/components/cultural-heritages/cultural-heritages.component';
+import { NewsComponent } from 'src/app/components/news/news.component';
 
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'src/environments/environment';
@@ -79,6 +80,7 @@ import { MatSelectModule } from '@angular/material/select';
         RatingComponent,
         CulturalHeritagesComponent,
         AddNewCulturalHeritageComponent
+        NewsComponent,
     ]
 })
 

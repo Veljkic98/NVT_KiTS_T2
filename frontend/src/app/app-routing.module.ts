@@ -13,6 +13,7 @@ import { RoleGuard } from './guards/role.guard';
 import { CHTypesComponent } from './components/ch-types/ch-types.component';
 import { CulturalHeritagesComponent } from './components/cultural-heritages/cultural-heritages.component';
 import { AddNewCulturalHeritageComponent } from './components/add-new-cultural-heritage/add-new-cultural-heritage.component';
+import { NewsComponent } from './components/news/news.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,13 @@ const routes: Routes = [
         // children: [
 
         // ]
+      },
+      // poseban routing module za admina?
+      {
+        path: 'manage/news/:index',
+        component: NewsComponent,
+        canActivate: [RoleGuard],
+        data: {expectedRoles: 'ROLE_ADMIN'}
       },
       {
         path: 'me/:index',
