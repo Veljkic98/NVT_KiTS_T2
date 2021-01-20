@@ -79,7 +79,7 @@ import { MatSelectModule } from '@angular/material/select';
         CommentsComponent,
         RatingComponent,
         CulturalHeritagesComponent,
-        AddNewCulturalHeritageComponent
+        AddNewCulturalHeritageComponent,
         NewsComponent,
     ]
 })
