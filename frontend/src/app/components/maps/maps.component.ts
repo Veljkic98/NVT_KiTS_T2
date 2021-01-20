@@ -51,12 +51,13 @@ export class MapsComponent implements OnInit {
 
     this.geocoder = new MapboxGeocoder({ 
       accessToken: environment.mapboxApiKey,
-      minLength: 7,
+      minLength: 6,
       types: "address",
-      zoom: 6
+      zoom: 6,
+      marker: false,
     });
     this._addGeocoderInputEventListener();
-    this.map.addControl(this.geocoder);
+    this.map.addControl(this.geocoder, "top-right");
   }
 
 
