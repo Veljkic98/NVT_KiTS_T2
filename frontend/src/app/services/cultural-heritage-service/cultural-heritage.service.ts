@@ -48,5 +48,13 @@ export class CulturalHeritageService {
     return this.http.post<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}`, formData);
   }
 
+  subscribe(chID: number) {
+    return this.http.post<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/subscribe/${chID}`, null, { observe: 'response' });
+  }
+
+  unsubscribe(chID: number) {
+    return this.http.delete<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/unsubscribe/${chID}`, { observe: 'response' });
+  }
+
 
 }
