@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LngLatLike, Map, Marker } from 'mapbox-gl';
+import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service'
 import { CulturalHeritage } from '../../models/cultural-heritage.model'
 import { Page } from 'src/app/models/page.model';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import { environment } from 'src/environments/environment';
 
 
@@ -26,6 +26,7 @@ export class MapsComponent implements OnInit {
   currentPage: number = 0;
   isPreviousButtonDisabled: boolean;
   isNextButtonDisabled: boolean;
+  geocoder: MapboxGeocoder;
 
   @Output() chChangedEvent = new EventEmitter<number>();
 
@@ -39,30 +40,6 @@ export class MapsComponent implements OnInit {
   @Output() coordinates = new EventEmitter<[number, number]>();
   @Input() ifNewCH: Boolean;
 
-  getCoordinates(e) {
-    // do the stuff just if it is adding new CH 
-    if (this.ifNewCH) {
-      // because this is called twice on clikc
-      // and once is undefined
-      if (e.lngLat) {
-        this.coordinates.emit([e.lngLat.lng, e.lngLat.lat]);
-      }
-    }
-  }
-
-  geocoder = new MapboxGeocoder({
-    accessToken: environment.mapboxApiKey,
-    placeholder: 'bgd'
-  })
-
-//   geocoder.on('results', function(results) {
-//     console.log(results);
-//  })
-
-  getLocation(e) {
-    console.log(e);
-    this.geocoder
-  }
 
   /**
    * Method is trigged when a map is fully loaded.
@@ -71,6 +48,15 @@ export class MapsComponent implements OnInit {
   onMapLoad(map: Map) {
     this.map = map;
     this.addCulturalHeritagesToMap(this.currentPage);
+
+    this.geocoder = new MapboxGeocoder({ 
+      accessToken: environment.mapboxApiKey,
+      minLength: 7,
+      types: "address",
+      zoom: 6
+    });
+    this._addGeocoderInputEventListener();
+    this.map.addControl(this.geocoder);
   }
 
 
@@ -277,4 +263,34 @@ export class MapsComponent implements OnInit {
     ];
   }
 
+  _addGeocoderInputEventListener(){
+    this.geocoder.on('result', (event) =>{
+      let location = this._getLocationFromGeocoder(event);
+      console.log(location);
+    });
+  }
+
+  /**
+   * @return value is a location with properties lng, lat, country, city, street
+   * @param event is an event fired from geocoder
+   * This function is extracting properties from an event
+   * how place_name_en_GB looks like: "Фрушкогорска 20, Novi Sad 21203, South Bačka, Serbia"
+   */
+  _getLocationFromGeocoder(event:any): object{
+    let result = event.result;
+    let place_name_en_GB =  result['place_name_en-GB'];
+    let [street, city,region, country] = place_name_en_GB.split(", ");
+    if(!country){
+      country = region;
+    }
+
+    let location = {
+      lat: parseFloat(result.center[0]),
+      lng: parseFloat(result.center[1]),
+      country: country,
+      city: city,
+      street: street,
+    }
+    return location;
+  }
 }
