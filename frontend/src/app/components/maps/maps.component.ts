@@ -286,6 +286,7 @@ export class MapsComponent implements OnInit {
 
     this.geocoder.on('clear', () => {
       this._removeMarkerFromGeocoder();
+      this.chLocationSelectedEvent.emit(null);
     });
   }
 

@@ -19,10 +19,9 @@ export class AddNewCulturalHeritageComponent implements OnInit {
   name: string = "";
   description: string = "";
 
-  areCoordinatesChoosen: Boolean = false;
-  isSubtypeChoosen: Boolean = false;
-
-  coordinates: [number, number];
+  isLocationChosen: boolean = false;
+  isSubtypeChosen: boolean = false;
+  isFileChosen: boolean = false;
 
   location: Location;
 
@@ -53,8 +52,6 @@ export class AddNewCulturalHeritageComponent implements OnInit {
    * 
    */
   addCH(): void {
-    this.location = this.initializeLocation();
-
     // First add location
     this.locationService.post(this.location)
       .subscribe(
@@ -79,10 +76,6 @@ export class AddNewCulturalHeritageComponent implements OnInit {
       );
   }
 
-  initializeLocation() {
-    return new Location(this.coordinates[0].toString(), this.coordinates[1].toString(), "country", "city", "street");
-  }
-
   /**
    * Take url of choosen image.
    * 
@@ -92,18 +85,27 @@ export class AddNewCulturalHeritageComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       this.url = event.target.files[0];
       console.log(this.url)
+      this.isFileChosen = true;
     }
   }
 
   /**
-   * Get coordinates from maps
    * 
-   * @param crds first elem is longitude and second is latitude
+   * @param location location is passed from map component 
+   * after geocoder search 
    */
-  onCoordinates(crds: [number, number]) {
-    this.coordinates = crds;
-    this.areCoordinatesChoosen = true;
-    console.log(this.coordinates);
+  setLocation(location: Location) {
+    this.location = location;
+    if(location){
+      this.isLocationChosen = true;
+      this.location = location;
+    }
+    else{
+      this.isLocationChosen = false;
+      this.location = null
+    }
+    
+    console.log(this.location);
   }
 
 }
