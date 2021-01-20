@@ -263,17 +263,29 @@ export class MapsComponent implements OnInit {
     ];
   }
 
+  /**
+   * event listner on user input.
+   * First remove marker if set by previous search
+   * then find the location properties.
+   * then add marker to the map
+   */
   _addGeocoderInputEventListener(){
     this.geocoder.on('result', (event) =>{
+      this._removeMarkerFromGeocoder();
       let location = this._getLocationFromGeocoder(event);
       console.log(location);
+      this._addMarkerFromGeocoder(location);
+    });
+
+    this.geocoder.on('clear', () => {
+      this._removeMarkerFromGeocoder();
     });
   }
 
   /**
    * @return value is a location with properties lng, lat, country, city, street
    * @param event is an event fired from geocoder
-   * This function is extracting properties from an event
+   * This function is extracting properties from an event.
    * how place_name_en_GB looks like: "Фрушкогорска 20, Novi Sad 21203, South Bačka, Serbia"
    */
   _getLocationFromGeocoder(event:any): object{
@@ -292,5 +304,29 @@ export class MapsComponent implements OnInit {
       street: street,
     }
     return location;
+  }
+
+  _addMarkerFromGeocoder(location: any){
+    let coordinates: [number, number] = [location.lat.toString(), location.lng.toString()];
+    let color = "red";
+    let fontSize = "60px";
+
+    let markerIcon: HTMLDivElement = document.createElement('div');
+    markerIcon.id = "geocoder_marker";
+    markerIcon.innerHTML = `  
+    <button style="outline: none; border:none; background-color: rgba(0, 0, 0, 0); cursor: pointer;">
+      <i class="material-icons" 
+        style="color: ${color}; font-size: ${fontSize}">
+        place
+      </i>
+    </button>`;
+    let marker = new Marker(markerIcon).setLngLat(coordinates).addTo(this.map);
+  }
+  _removeMarkerFromGeocoder(){
+    try{
+      let marker = document.getElementById("geocoder_marker");
+      marker.remove();
+    }
+    catch(error){ }
   }
 }
