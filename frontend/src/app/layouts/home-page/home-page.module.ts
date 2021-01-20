@@ -33,6 +33,7 @@ import { NewsComponent } from 'src/app/components/news/news.component';
 
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'src/environments/environment';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     imports: [
@@ -55,7 +56,9 @@ import { environment } from 'src/environments/environment';
         MatPaginatorModule,
         MatDialogModule,
         MatSnackBarModule,
-        NgbModule
+        NgbModule,
+        MatSelectModule,
+
     ],
     declarations: [
         HomePageComponent,

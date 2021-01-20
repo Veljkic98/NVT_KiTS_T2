@@ -8,8 +8,10 @@ import { Observable } from 'rxjs';
 const REST_ENDPOINT = {
   getOne: '/cultural-heritages/',
   getByPage: '/cultural-heritages/by-page',
+  filter: '/cultural-heritages/filtered',
 }
 import { CULTURAL_HERITAGES } from '../../utils/constants';
+import { CHFilter } from 'src/app/models/ch-filter.model';
 
 
 @Injectable({ providedIn: 'root' })
@@ -25,4 +27,8 @@ export class CulturalHeritageService {
     getOne(id:number): Observable<CulturalHeritage> {
         return this.http.get<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${id}`);
     }
+
+  filterCulturalHeritages(payload: CHFilter): Observable<Page>{
+    return this.http.post<Page>(`${environment.apiUrl}${REST_ENDPOINT.filter}/?page=0&size=10`, payload);
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output, SimpleChanges } from '@angular/core';
 import { LngLatLike, Map, Marker } from 'mapbox-gl';
 import {CulturalHeritageService} from '../../services/cultural-heritage-service/cultural-heritage.service'
 import { CulturalHeritage } from '../../models/cultural-heritage.model'
@@ -11,6 +11,7 @@ import { Page } from 'src/app/models/page.model';
   styleUrls: ['./maps.component.css']
 })
 export class MapsComponent implements OnInit {
+  @Input() culturalHeritages: CulturalHeritage[];
   //default map values
   zoom: number = 3;
   latitude: number = 47;
@@ -24,11 +25,18 @@ export class MapsComponent implements OnInit {
   currentPage: number = 0;
   isPreviousButtonDisabled: boolean;
   isNextButtonDisabled: boolean;
-
+  iterableDiffer: IterableDiffer<CulturalHeritage>;
+  
   @Output() chChangedEvent = new EventEmitter<number>();
 
 
-  constructor(private culturalHeritageService: CulturalHeritageService) { }
+  constructor(
+    private culturalHeritageService: CulturalHeritageService,
+    private iterableDiffers: IterableDiffers
+    ) {
+      this.iterableDiffer = iterableDiffers.find([]).create(null);
+
+     }
 
   ngOnInit(): void {
     this.setMarkerColors();
@@ -58,14 +66,14 @@ export class MapsComponent implements OnInit {
    * At the end check if previous and next buttons should be disabled.
    */
   async addCulturalHeritagesToMap(page: number) {
-    let culturalHeritages: CulturalHeritage[];
+    //let culturalHeritages: CulturalHeritage[];
     let coords: [number, number];
     let color: string;
 
-    let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
-    culturalHeritages = retval.content;
+    //let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
+    //culturalHeritages = retval.content;
 
-    culturalHeritages.forEach(culturalHeritage => {
+    this.culturalHeritages.forEach(culturalHeritage => {
       coords = [
         parseFloat(culturalHeritage.coordinates[0]), //longitude
         parseFloat(culturalHeritage.coordinates[1]), //latitude
@@ -76,6 +84,17 @@ export class MapsComponent implements OnInit {
 
     this.checkIfButtonDisabled();
   }
+
+
+  ngDoCheck() {
+    let changes = this.iterableDiffer.diff(this.culturalHeritages);
+    if (changes) {
+        this.removeCulturalHeritagesFromMap();
+        this.addCulturalHeritagesToMap(0);
+    }
+}
+
+
 
   /**
    * 
