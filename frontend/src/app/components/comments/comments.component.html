@@ -14,16 +14,16 @@
             <div class="modal-body">
               <form>
                 <div class="form-group">
-                    <textarea class="com-content" ngbAutofocus (keyup)="onKey($event)" matInput placeholder="Leave a comment"></textarea>
-                    <input type='file' (change)="onSelectFile($event)">
+                    <textarea id="com-content-input" class="com-content" ngbAutofocus (keyup)="onKey($event)" matInput placeholder="Leave a comment"></textarea>
+                    <input id="com-file-input" type='file' (change)="onSelectFile($event)">
                 </div>
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Post</button>
+              <button id="add-com-btn" type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Post</button>
             </div>
           </ng-template>
-          <button class="btn btn-add btn-outline-dark" (click)="openAddModal(addModal)">Add</button>
+          <button id="add-com-modal-btn" class="btn btn-add btn-outline-dark" (click)="openAddModal(addModal)">Add</button>
 
         
         </div>
@@ -50,17 +50,18 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" ngbAutofocus class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
-                          <button type="button" class="btn btn-danger" (click)="modal.close()">Ok</button>
+                          <button id="delete-comment-btn" type="button" class="btn btn-danger" (click)="modal.close()">Ok</button>
                         </div>
                       </ng-template>
-                       <i 
+                       <i
+                        id="delete-comment-icon"
                         *ngIf="authService.getId() === comment.authenticatedUserID" 
                         class="delete-icon medium material-icons"
                         (click)="openDeleteModal(deleteCommModal, comment.id)"
                         >clear</i>
                     </div>
-                    <p style="color:aliceblue">{{comment.content}}</p>
-                    <img *ngIf="comment.imageUri" mat-card-image [src]="comment.imageUri" alt="png">
+                    <p class="comment-content" style="color:aliceblue">{{comment.content}}</p>
+                    <img class="comment-image" *ngIf="comment.imageUri" mat-card-image [src]="comment.imageUri" alt="png">
                 </mat-card>
                 </li>
             </ul>
