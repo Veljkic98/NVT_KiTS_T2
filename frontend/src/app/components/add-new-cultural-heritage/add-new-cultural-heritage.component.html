@@ -49,7 +49,7 @@
             </tr>
             <tr>
                 <td>
-                    <app-maps (coordinates)="onCoordinates($event)" [ifNewCH]="true"></app-maps>
+                    <app-maps (chLocationSelectedEvent)="onCoordinates($event)" [adminManagesCH]="true"></app-maps>
                 </td>
             </tr>
         </table>
