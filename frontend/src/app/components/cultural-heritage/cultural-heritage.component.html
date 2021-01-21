@@ -29,7 +29,7 @@
         <app-rating [chID]="chID" *ngIf="authService.getRole() == 'ROLE_USER'"
           (calcAvgChangedRating)="calcAvgChangedRating($event)" (calcAvgAddedRating)="calcAvgAddedRating($event)">
         </app-rating>
-        <div class="sub-div">
+        <div class="sub-div" *ngIf="authService.getRole() === 'ROLE_USER'">
           <button mat-button class="sub-button" *ngIf="!isSubscribed" (click)="subscribe()">Subscribe</button>
           <button mat-button class="sub-button" *ngIf="isSubscribed" (click)="unsubscribe()">Unsubscribe</button>
         </div>
@@ -66,7 +66,8 @@
                 News
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <p>I'm visible because I am open</p>
+            <!-- <p>I'm visible because I am open</p> -->
+            <app-ch-news [chID]="chID"></app-ch-news>
           </mat-expansion-panel>
         </mat-accordion>
       </mat-card-content>
