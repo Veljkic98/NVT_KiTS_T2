@@ -218,4 +218,53 @@ public class CHTypeE2ETest {
 
         assertEquals("Name already exist!\nDismiss", snackBarText);
     }
+
+    @Test
+    public void testDeleteSubtypeSuccess() throws InterruptedException {
+        logInAdmin();
+        justWait(1000);
+        driver.get("http://localhost:4200/types");
+        justWait(1000);
+
+        chTypePage.ensureAreDisplayedShowButtons();
+        chTypePage.getShowSubtypesButton().click();
+        justWait(1000);
+
+        chTypePage.getDeleteSubtypesButton().click();
+        justWait(1000);
+
+        chTypePage.getConfirmSubtypeDeleteButton().click();
+
+        justWait(1000);
+
+        String snackBarText = chTypePage.getSnackBar().getText();
+
+        assertEquals("Successfuly deleted the subtype!\nDismiss", snackBarText);
+
+    }
+
+    @Test
+    public void testDeleteSubtypeFail() throws InterruptedException {
+        logInAdmin();
+        driver.get("http://localhost:4200/types");
+        justWait(1000);
+
+        chTypePage.ensureAreDisplayedShowButtons();
+        chTypePage.getShowSubtypesButton().click();
+        justWait(1000);
+
+        chTypePage.getDeleteSubtypesButtonFail().click();
+        justWait(1000);
+
+        chTypePage.getConfirmSubtypeDeleteButton().click();
+
+        justWait(1000);
+
+        String snackBarText = chTypePage.getSnackBar().getText();
+
+
+        assertEquals("Can\'t delete that subtype. There are cultural heritages of that subtype.\nDismiss", snackBarText);
+
+    }
+
 }
