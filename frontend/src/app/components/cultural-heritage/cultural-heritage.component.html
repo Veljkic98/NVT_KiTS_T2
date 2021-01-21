@@ -34,7 +34,10 @@
           <button mat-button class="sub-button" *ngIf="isSubscribed" (click)="unsubscribe()">Unsubscribe</button>
         </div>
         <mat-accordion>
-          <mat-expansion-panel (opened)="openedSection = true" (closed)="openedSection = false">
+          <mat-expansion-panel 
+            (opened)="openedSection = true" 
+            (closed)="openedSection = false" 
+            id="desc-section">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Description
@@ -42,7 +45,11 @@
             </mat-expansion-panel-header>
             <p>{{ch.description}}</p>
           </mat-expansion-panel>
-          <mat-expansion-panel (opened)="openedSection = true" (closed)="openedSection = false">
+          <mat-expansion-panel 
+            (opened)="openedSection = true" 
+            (closed)="openedSection = false"
+            id="comment-section"
+            >
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Comments
@@ -50,7 +57,10 @@
             </mat-expansion-panel-header>
             <app-comments [chID]="chID"></app-comments>
           </mat-expansion-panel>
-          <mat-expansion-panel (opened)="openedSection = true" (closed)="openedSection = false">
+          <mat-expansion-panel 
+            (opened)="openedSection = true" 
+            (closed)="openedSection = false"
+            id="news-section">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 News
