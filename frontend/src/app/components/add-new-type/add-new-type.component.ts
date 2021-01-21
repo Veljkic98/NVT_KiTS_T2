@@ -47,14 +47,11 @@ export class AddNewTypeComponent implements OnInit {
       if (element.name.toUpperCase() == this.name.toUpperCase()) {
         this.nameValid = false;
       }
-      
+
     });
     try {
       this.takenNames = this.takenNames.slice(0, -2);
-    } catch (error) {
-      
-    }
-    
+    } catch (error) { }
   }
 
   addType() {
@@ -64,11 +61,11 @@ export class AddNewTypeComponent implements OnInit {
 
     if (this.nameValid) {
       this.typeService.addType(this.type)
-      .subscribe(
-        response => {
-          console.log(response);
-        }
-      )
+        .subscribe(
+          response => {
+            this.chTypes.push(response);
+          }
+        )
     }
   }
 }

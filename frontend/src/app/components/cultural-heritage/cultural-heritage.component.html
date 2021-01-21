@@ -29,7 +29,7 @@
         <app-rating [chID]="chID" *ngIf="authService.getRole() == 'ROLE_USER'"
           (calcAvgChangedRating)="calcAvgChangedRating($event)" (calcAvgAddedRating)="calcAvgAddedRating($event)">
         </app-rating>
-        <div class="sub-div">
+        <div class="sub-div" *ngIf="authService.getRole() === 'ROLE_USER'">
           <button mat-button class="sub-button" *ngIf="!isSubscribed" (click)="subscribe()">Subscribe</button>
           <button mat-button class="sub-button" *ngIf="isSubscribed" (click)="unsubscribe()">Unsubscribe</button>
         </div>

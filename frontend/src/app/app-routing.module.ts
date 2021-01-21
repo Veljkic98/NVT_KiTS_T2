@@ -53,12 +53,8 @@ const routes: Routes = [
         path: 'cultural-heritages',
         component: CulturalHeritagesComponent,
         canActivate: [RoleGuard],
-        data: { expectedRoles: 'ROLE_ADMIN' },
-        // children: [
-
-        // ]
+        data: { expectedRoles: 'ROLE_ADMIN' }
       },
-      // poseban routing module za admina?
       {
         path: 'manage/news/:index',
         component: NewsComponent,
