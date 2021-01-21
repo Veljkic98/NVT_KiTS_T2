@@ -60,6 +60,7 @@ export class CHTypesComponent implements OnInit {
 
     ngOnInit(): void {
         this.getTypes(this.page);
+        
     }
 
 
@@ -79,6 +80,7 @@ export class CHTypesComponent implements OnInit {
                 this.dataSource = new MatTableDataSource<CHType>(data.content);
                 this.dataSource.paginator = this.paginator;
 
+                console.log(this.chTypes, "TIPOVI");
             },
             error => {
                 console.log(error);
