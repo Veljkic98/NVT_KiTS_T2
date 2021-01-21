@@ -8,9 +8,11 @@ import { Observable } from 'rxjs';
 const REST_ENDPOINT = {
   getOne: '/cultural-heritages/',
   getByPage: '/cultural-heritages/by-page',
+  filter: '/cultural-heritages/filtered',
 }
 
 import { CULTURAL_HERITAGES } from '../../utils/constants';
+import { CHFilter } from 'src/app/models/ch-filter.model';
 import { CulturalHeritageToAdd } from 'src/app/models/cultural-heritage-to-add.model';
 
 
@@ -44,9 +46,15 @@ export class CulturalHeritageService {
     if (image) {
       formData.append('file', image);
     }
-
+  
     return this.http.post<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}`, formData);
   }
+
+
+  filterCulturalHeritages(payload: CHFilter): Observable<Page>{
+    return this.http.post<Page>(`${environment.apiUrl}${REST_ENDPOINT.filter}/?page=0&size=10`, payload);
+  }
+  
 
   subscribe(chID: number) {
     return this.http.post<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/subscribe/${chID}`, null, { observe: 'response' });

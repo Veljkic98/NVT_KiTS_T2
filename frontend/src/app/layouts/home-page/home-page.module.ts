@@ -63,7 +63,7 @@ import { ChNewsComponent } from 'src/app/components/ch-news/ch-news.component';
         MatDialogModule,
         MatSnackBarModule,
         NgbModule,
-        MatSelectModule
+        MatSelectModule,
     ],
     declarations: [
         HomePageComponent,

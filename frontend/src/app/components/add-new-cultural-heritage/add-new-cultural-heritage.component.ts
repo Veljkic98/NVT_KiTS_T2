@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CHSubtype2 } from 'src/app/models/ch-subtype.model';
 import { CulturalHeritageToAdd } from 'src/app/models/cultural-heritage-to-add.model';
-import { Location } from 'src/app/models/location.module';
+import { Location } from 'src/app/models/location.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
 import { CulturalHeritageService } from 'src/app/services/cultural-heritage-service/cultural-heritage.service';
 import { LocationService } from 'src/app/services/location/location.service';
@@ -19,10 +20,9 @@ export class AddNewCulturalHeritageComponent implements OnInit {
   name: string = "";
   description: string = "";
 
-  areCoordinatesChoosen: Boolean = false;
-  isSubtypeChoosen: Boolean = false;
-
-  coordinates: [number, number];
+  isLocationChosen: boolean = false;
+  isSubtypeChosen: boolean = false;
+  isFileChosen: boolean = false;
 
   location: Location;
 
@@ -33,7 +33,8 @@ export class AddNewCulturalHeritageComponent implements OnInit {
   constructor(
     private chService: CulturalHeritageService,
     private locationService: LocationService,
-    private subtypeService: CHSubtypeService
+    private subtypeService: CHSubtypeService,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
@@ -41,7 +42,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
       .subscribe(
         data => {
           this.subtypes = data;
-          console.log(this.subtypes);
+          // console.log(this.subtypes);
         },
         error => {
           console.log(error);
@@ -53,20 +54,16 @@ export class AddNewCulturalHeritageComponent implements OnInit {
    * 
    */
   addCH(): void {
-    this.location = this.initializeLocation();
-
     // First add location
     this.locationService.post(this.location)
       .subscribe(
         location => {
-          console.log(location);
-          console.log(location.id);
-
           // then add cultural heritage
           this.chService.post(this.name, this.description, location.id, this.subtype.id, this.url)
             .subscribe(
               data => {
-                console.log(data);
+                // console.log(data);
+                this._router.navigate(['/cultural-heritages']);
               },
               error => {
                 console.log(error);
@@ -79,10 +76,6 @@ export class AddNewCulturalHeritageComponent implements OnInit {
       );
   }
 
-  initializeLocation() {
-    return new Location(this.coordinates[0].toString(), this.coordinates[1].toString(), "country", "city", "street");
-  }
-
   /**
    * Take url of choosen image.
    * 
@@ -91,19 +84,28 @@ export class AddNewCulturalHeritageComponent implements OnInit {
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {
       this.url = event.target.files[0];
-      console.log(this.url)
+      // console.log(this.url)
+      this.isFileChosen = true;
     }
   }
 
   /**
-   * Get coordinates from maps
    * 
-   * @param crds first elem is longitude and second is latitude
+   * @param location location is passed from map component 
+   * after geocoder search 
    */
-  onCoordinates(crds: [number, number]) {
-    this.coordinates = crds;
-    this.areCoordinatesChoosen = true;
-    console.log(this.coordinates);
+  setLocation(location: Location) {
+    this.location = location;
+    if(location){
+      this.isLocationChosen = true;
+      this.location = location;
+    }
+    else{
+      this.isLocationChosen = false;
+      this.location = null
+    }
+    
+    // console.log(this.location);
   }
 
 }
