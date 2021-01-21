@@ -61,7 +61,7 @@ import { MatSelectModule } from '@angular/material/select';
         MatDialogModule,
         MatSnackBarModule,
         NgbModule,
-        MatSelectModule
+        MatSelectModule,
     ],
     declarations: [
         HomePageComponent,
