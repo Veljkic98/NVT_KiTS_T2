@@ -14,7 +14,6 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./maps.component.css']
 })
 export class MapsComponent implements OnInit {
-  @Input() culturalHeritages: CulturalHeritage[];
   //default map values
   zoom: number = 3;
   latitude: number = 47;
@@ -36,6 +35,7 @@ export class MapsComponent implements OnInit {
   @Output() chChangedEvent = new EventEmitter<number>();
   @Output() chLocationSelectedEvent = new EventEmitter<Location>();
   @Input()  adminManagesCH: Boolean = false;
+  @Input() culturalHeritages: CulturalHeritage[];
 
 
   constructor(
@@ -63,8 +63,7 @@ export class MapsComponent implements OnInit {
    */
   onMapLoad(map: Map) {
     this.map = map;
-    this.addCulturalHeritagesToMap(this.currentPage);
-
+    this.addCulturalHeritagesToMap();
     if(this.adminManagesCH === true){
       this.geocoder = new MapboxGeocoder({ 
         accessToken: environment.mapboxApiKey,
@@ -91,7 +90,7 @@ export class MapsComponent implements OnInit {
    * Add marker function will render html markers on the map.
    * At the end check if previous and next buttons should be disabled.
    */
-  async addCulturalHeritagesToMap(page: number) {
+  async addCulturalHeritagesToMap() {
     //let culturalHeritages: CulturalHeritage[];
     let coords: [number, number];
     let color: string;
@@ -116,7 +115,7 @@ export class MapsComponent implements OnInit {
     let changes = this.iterableDiffer.diff(this.culturalHeritages);
     if (changes) {
         this.removeCulturalHeritagesFromMap();
-        this.addCulturalHeritagesToMap(0);
+        this.addCulturalHeritagesToMap();
     }
 }
 
@@ -181,16 +180,7 @@ export class MapsComponent implements OnInit {
     this.markersArray = [];
   }
 
-  getPreviousPage() {
-    this.removeCulturalHeritagesFromMap();
-    this.currentPage -= 1;
-    this.addCulturalHeritagesToMap(this.currentPage);
-  }
-  getNextPage() {
-    this.removeCulturalHeritagesFromMap();
-    this.currentPage += 1;
-    this.addCulturalHeritagesToMap(this.currentPage);
-  }
+
 
   async checkIfButtonDisabled() {
     let page: number;
