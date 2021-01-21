@@ -46,13 +46,15 @@ export class CulturalHeritageService {
     if (image) {
       formData.append('file', image);
     }
+  
+    return this.http.post<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}`, formData);
+  }
+
 
   filterCulturalHeritages(payload: CHFilter): Observable<Page>{
     return this.http.post<Page>(`${environment.apiUrl}${REST_ENDPOINT.filter}/?page=0&size=10`, payload);
   }
-
-    return this.http.post<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}`, formData);
-  }
+  
 
   subscribe(chID: number) {
     return this.http.post<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/subscribe/${chID}`, null, { observe: 'response' });
