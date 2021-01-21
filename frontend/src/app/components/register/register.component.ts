@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth-service/auth.service';
 
@@ -13,12 +12,11 @@ export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
     submitted = false;
-    error: string;
+    error = "";
     success = false;
 
     constructor(
         private formBuilder: FormBuilder,
-        // private router: Router,
         private authService: AuthService
     ) { }
 

@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output, SimpleChanges } from '@angular/core';
 import { LngLatLike, Map, Marker } from 'mapbox-gl';
+import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service'
 import { CulturalHeritage } from '../../models/cultural-heritage.model'
 import { Page } from 'src/app/models/page.model';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
+import { Location} from 'src/app/models/location.model'
 import { environment } from 'src/environments/environment';
 
 
@@ -26,51 +27,54 @@ export class MapsComponent implements OnInit {
   currentPage: number = 0;
   isPreviousButtonDisabled: boolean;
   isNextButtonDisabled: boolean;
+  
+  iterableDiffer: IterableDiffer<CulturalHeritage>;
+
+  geocoder: MapboxGeocoder;
 
   @Output() chChangedEvent = new EventEmitter<number>();
+  @Output() chLocationSelectedEvent = new EventEmitter<Location>();
+  @Input()  adminManagesCH: Boolean = false;
+  @Input() culturalHeritages: CulturalHeritage[];
 
-  constructor(private culturalHeritageService: CulturalHeritageService) { }
+
+  constructor(
+    private culturalHeritageService: CulturalHeritageService,
+    private iterableDiffers: IterableDiffers
+    ) {
+      this.iterableDiffer = iterableDiffers.find([]).create(null);
+
+     }
+
 
   ngOnInit(): void {
     this.setMarkerColors();
     // this.consoleLogColors();
   }
 
-  @Output() coordinates = new EventEmitter<[number, number]>();
-  @Input() ifNewCH: Boolean;
-
-  getCoordinates(e) {
-    // do the stuff just if it is adding new CH 
-    if (this.ifNewCH) {
-      // because this is called twice on clikc
-      // and once is undefined
-      if (e.lngLat) {
-        this.coordinates.emit([e.lngLat.lng, e.lngLat.lat]);
-      }
-    }
-  }
-
-  geocoder = new MapboxGeocoder({
-    accessToken: environment.mapboxApiKey,
-    placeholder: 'bgd'
-  })
-
-//   geocoder.on('results', function(results) {
-//     console.log(results);
-//  })
-
-  getLocation(e) {
-    console.log(e);
-    this.geocoder
-  }
 
   /**
    * Method is trigged when a map is fully loaded.
+   * Initialize map when map is loaded.
+   * Load CHs from backend when map is loaded.
+   * Add search for geocoding if and only if admin is logged in 
+   * and admin is managing CHs (adding new, updating existing). 
    * @param map is object that represents the whole map.
    */
   onMapLoad(map: Map) {
     this.map = map;
-    this.addCulturalHeritagesToMap(this.currentPage);
+    this.addCulturalHeritagesToMap();
+    if(this.adminManagesCH === true){
+      this.geocoder = new MapboxGeocoder({ 
+        accessToken: environment.mapboxApiKey,
+        minLength: 6,
+        types: "address",
+        zoom: 6,
+        marker: false,
+      });
+      this._addGeocoderInputEventListener();
+      this.map.addControl(this.geocoder, "top-right");
+    }
   }
 
 
@@ -86,15 +90,15 @@ export class MapsComponent implements OnInit {
    * Add marker function will render html markers on the map.
    * At the end check if previous and next buttons should be disabled.
    */
-  async addCulturalHeritagesToMap(page: number) {
-    let culturalHeritages: CulturalHeritage[];
+  async addCulturalHeritagesToMap() {
+    //let culturalHeritages: CulturalHeritage[];
     let coords: [number, number];
     let color: string;
 
-    let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
-    culturalHeritages = retval.content;
+    //let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
+    //culturalHeritages = retval.content;
 
-    culturalHeritages.forEach(culturalHeritage => {
+    this.culturalHeritages.forEach(culturalHeritage => {
       coords = [
         parseFloat(culturalHeritage.coordinates[0]), //longitude
         parseFloat(culturalHeritage.coordinates[1]), //latitude
@@ -105,6 +109,17 @@ export class MapsComponent implements OnInit {
 
     this.checkIfButtonDisabled();
   }
+
+
+  ngDoCheck() {
+    let changes = this.iterableDiffer.diff(this.culturalHeritages);
+    if (changes) {
+        this.removeCulturalHeritagesFromMap();
+        this.addCulturalHeritagesToMap();
+    }
+}
+
+
 
   /**
    * 
@@ -165,16 +180,7 @@ export class MapsComponent implements OnInit {
     this.markersArray = [];
   }
 
-  getPreviousPage() {
-    this.removeCulturalHeritagesFromMap();
-    this.currentPage -= 1;
-    this.addCulturalHeritagesToMap(this.currentPage);
-  }
-  getNextPage() {
-    this.removeCulturalHeritagesFromMap();
-    this.currentPage += 1;
-    this.addCulturalHeritagesToMap(this.currentPage);
-  }
+
 
   async checkIfButtonDisabled() {
     let page: number;
@@ -277,4 +283,71 @@ export class MapsComponent implements OnInit {
     ];
   }
 
+  /**
+   * event listner on user input.
+   * First remove marker if set by previous search
+   * then find the location properties.
+   * then add marker to the map
+   */
+  _addGeocoderInputEventListener(){
+    this.geocoder.on('result', (event) =>{
+      this._removeMarkerFromGeocoder();
+      let location = this._getLocationFromGeocoder(event);
+      this.chLocationSelectedEvent.emit(location)
+      this._addMarkerFromGeocoder(location);
+    });
+
+    this.geocoder.on('clear', () => {
+      this._removeMarkerFromGeocoder();
+      this.chLocationSelectedEvent.emit(null);
+    });
+  }
+
+  /**
+   * @return value is a location with properties lng, lat, country, city, street
+   * @param event is an event fired from geocoder
+   * This function is extracting properties from an event.
+   * how place_name_en_GB looks like: "Фрушкогорска 20, Novi Sad 21203, South Bačka, Serbia"
+   */
+  _getLocationFromGeocoder(event:any): Location{
+    let result = event.result;
+    let place_name_en_GB =  result['place_name_en-GB'];
+    let [street, city,region, country] = place_name_en_GB.split(", ");
+    if(!country){
+      country = region;
+    }
+
+    let location:Location = {
+      longitude: result.center[0].toString(),
+      latitude: result.center[1].toString(),
+      country: country,
+      city: city,
+      street: street,
+    }
+    return location;
+  }
+
+  _addMarkerFromGeocoder(location: Location){
+    let coordinates: [number, number] = [ parseFloat(location.longitude), parseFloat(location.latitude)];
+    let color = "red";
+    let fontSize = "60px";
+
+    let markerIcon: HTMLDivElement = document.createElement('div');
+    markerIcon.id = "geocoder_marker";
+    markerIcon.innerHTML = `  
+    <button style="outline: none; border:none; background-color: rgba(0, 0, 0, 0); cursor: pointer;">
+      <i class="material-icons" 
+        style="color: ${color}; font-size: ${fontSize}">
+        place
+      </i>
+    </button>`;
+    let marker = new Marker(markerIcon).setLngLat(coordinates).addTo(this.map);
+  }
+  _removeMarkerFromGeocoder(){
+    try{
+      let marker = document.getElementById("geocoder_marker");
+      marker.remove();
+    }
+    catch(error){ }
+  }
 }

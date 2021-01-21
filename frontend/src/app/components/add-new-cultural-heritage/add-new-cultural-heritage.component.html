@@ -23,7 +23,7 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Choose a subtype</mat-label>
                         <mat-select [(ngModel)]="subtype" name="subtype">
-                            <mat-option *ngFor="let subtype of subtypes" [value]="subtype" (click)="isSubtypeChoosen = true">
+                            <mat-option *ngFor="let subtype of subtypes" [value]="subtype" (click)="isSubtypeChosen = true">
                                 {{ subtype.name }}
                             </mat-option>
                         </mat-select>
@@ -44,12 +44,12 @@
             <tr>
                 <td style="padding-bottom: 1rem;">
                     <button type="button" class="btn btn-outline-dark" (click)="addCH()"
-                        [disabled]="name === '' || description === '' || areCoordinatesChoosen == false || isSubtypeChoosen == false">Post</button>
+                        [disabled]="name === '' || description === '' || isLocationChosen == false || isSubtypeChosen == false || isFileChosen == false">Post</button>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <app-maps (coordinates)="onCoordinates($event)" [ifNewCH]="true"></app-maps>
+                    <app-maps (chLocationSelectedEvent)="setLocation($event)" [adminManagesCH]="true"></app-maps>
                 </td>
             </tr>
         </table>

@@ -62,7 +62,7 @@ import { AddNewTypeComponent } from 'src/app/components/add-new-type/add-new-typ
         MatDialogModule,
         MatSnackBarModule,
         NgbModule,
-        MatSelectModule
+        MatSelectModule,
     ],
     declarations: [
         HomePageComponent,

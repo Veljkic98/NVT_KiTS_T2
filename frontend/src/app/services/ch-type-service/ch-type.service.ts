@@ -15,7 +15,7 @@ export class CHTypeService {
     constructor(private httpClient: HttpClient){}
 
     getTypes(page: number): Observable<Page> {
-        return this.httpClient.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.GET}/?page=${page}`);
+        return this.httpClient.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.GET}`);
     }
 
     deleteType(typeID: number): Observable<object> {

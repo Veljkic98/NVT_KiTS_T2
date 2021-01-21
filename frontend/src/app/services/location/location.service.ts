@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Location } from 'src/app/models/location.module';
+import { Location } from 'src/app/models/location.model';
 import { environment } from '../../../environments/environment';
 
 const REST_ENDPOINT = {

@@ -32,7 +32,7 @@ const routes: Routes = [
         data: { expectedRoles: 'ROLE_ADMIN|ROLE_USER' }
       },
       {
-        path: 'types',
+        path: 'manage/types',
         component: CHTypesComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: 'ROLE_ADMIN' }
@@ -53,7 +53,7 @@ const routes: Routes = [
         path: 'cultural-heritages',
         component: CulturalHeritagesComponent,
         canActivate: [RoleGuard],
-        data: { expectedRoles: 'ROLE_ADMIN' }
+        data: { expectedRoles: 'ROLE_ADMIN' },
       },
       {
         path: 'manage/news/:index',
