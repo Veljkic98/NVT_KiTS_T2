@@ -11,6 +11,7 @@ import tim2.CulturalHeritage.e2e.page.LoginPage;
 import tim2.CulturalHeritage.e2e.page.MyProfilePage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MyProfileE2ETest {
 
@@ -45,6 +46,7 @@ public class MyProfileE2ETest {
     public void logInUser() throws InterruptedException {
         driver.get("http://localhost:4200/login");
 
+
         loginPage.getEmail().sendKeys("helen@gmail.com");
         loginPage.getPassword().sendKeys("123");
         loginPage.getLoginBtn().click();
@@ -69,5 +71,52 @@ public class MyProfileE2ETest {
 
         assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
     }
+
+    @Test
+    public void profileButton() throws InterruptedException {
+        logInUser();
+        justWait(2000);
+
+        myProfilePage.getExpandToolbarButton().click();
+        myProfilePage.getProfileButton().click();
+        justWait(1000);
+
+        assertEquals("http://localhost:4200/me/0", driver.getCurrentUrl());
+        assertTrue(myProfilePage.getAboutContent().isDisplayed());
+    }
+
+
+    @Test
+    public void subscriptionsToolbarButton() throws InterruptedException {
+        logInUser();
+        justWait(2000);
+
+        myProfilePage.getExpandToolbarButton().click();
+        myProfilePage.getSubscriptionsToolbarButton().click();
+
+
+        justWait(1000);
+
+        assertEquals("http://localhost:4200/me/1", driver.getCurrentUrl());
+        assertTrue(myProfilePage.getSubscriptionsContent().isDisplayed());
+    }
+
+    @Test
+    public void subscriptionsProfileButton() throws InterruptedException {
+        logInUser();
+        justWait(2000);
+
+        myProfilePage.getExpandToolbarButton().click();
+        myProfilePage.getProfileButton().click();
+        justWait(1000);
+
+        myProfilePage.getSubscriptionsButton().click();
+        justWait(500);
+        assertTrue(myProfilePage.getSubscriptionsContent().isDisplayed());
+
+    }
+
+
+    // Dodati metodu za test unsubscribe
 
 }
