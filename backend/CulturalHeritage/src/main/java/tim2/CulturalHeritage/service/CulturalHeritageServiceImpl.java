@@ -98,6 +98,7 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
         user.getCulturalHeritages().remove(ch);
         boolean removed = false;
 
+        // check if CH is truly removed
         for (CulturalHeritage ie : user.getCulturalHeritages()) {
             if (ie.getId() == id) {
                 user.getCulturalHeritages().remove(ie);
@@ -114,18 +115,35 @@ public class CulturalHeritageServiceImpl implements CulturalHeritageService {
     }
 
     @Override
+    public void subscribe(Long id) {
+
+        AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+        CulturalHeritage ch = culturalHeritageRepository.findById(id).orElse(null);
+
+        if (null == ch)
+            throw new EntityNotFoundException();
+
+        user.getCulturalHeritages().add(ch);
+
+        authenticatedUserService.update(user);
+    }
+
+    @Override
     public Page<CulturalHeritage> filter(FilterRequestDTO filterDTO, Pageable page) {
 
         Page<CulturalHeritage> res;
+        System.out.println("OVO SAM DOBIO ZA NAME "+ filterDTO.getValue());
 
         if (filterDTO.getType().equalsIgnoreCase("name")) {
-            res = culturalHeritageRepository.findByNameContains(filterDTO.getValue(), page);
+            res = culturalHeritageRepository.findByNameContainsAllIgnoreCase(filterDTO.getValue(), page);
         } else if (filterDTO.getType().equalsIgnoreCase("chSubtypeName")) {
-            res = culturalHeritageRepository.findByChsubtypeNameContains(filterDTO.getValue(), page);
+            res = culturalHeritageRepository.findByChsubtypeNameContainsAllIgnoreCase(filterDTO.getValue(), page);
         } else if (filterDTO.getType().equalsIgnoreCase("locationCity")) {
-            res = culturalHeritageRepository.findByLocationCity(filterDTO.getValue(), page);
+            res = culturalHeritageRepository.findByLocationCityAllIgnoreCase(filterDTO.getValue(), page);
         } else if (filterDTO.getType().equals("locationCountry")) {
-            res = culturalHeritageRepository.findByLocationCountry(filterDTO.getValue(), page);
+            res = culturalHeritageRepository.findByLocationCountryAllIgnoreCase(filterDTO.getValue(), page);
         } else {
             res = culturalHeritageRepository.findAll(page);
         }

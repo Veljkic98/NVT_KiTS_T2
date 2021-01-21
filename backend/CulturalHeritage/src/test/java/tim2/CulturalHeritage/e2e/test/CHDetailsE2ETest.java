@@ -25,6 +25,8 @@ public class CHDetailsE2ETest {
 
     private CHDetailsPage chDetailsPage;
 
+    private JavascriptExecutor js;
+
     @Before
     public void setUp() {
 
@@ -34,8 +36,7 @@ public class CHDetailsE2ETest {
         driver.manage().window().maximize();
         chDetailsPage = PageFactory.initElements(driver, CHDetailsPage.class);
         loginPage = PageFactory.initElements(driver, LoginPage.class);
-
-
+        js = (JavascriptExecutor) driver;
     }
 
     public void clickOnMap() {
@@ -112,6 +113,8 @@ public class CHDetailsE2ETest {
 
         chDetailsPage.ensureIsNotPresentAddRating();
 
+        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getCommentSectionButton());
+        Thread.sleep(500);
         chDetailsPage.getCommentSectionButton().click();
         chDetailsPage.ensureIsNotPresentAddComment();
 
@@ -131,6 +134,8 @@ public class CHDetailsE2ETest {
 
         chDetailsPage.ensureIsPresentAddRating();
 
+        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getCommentSectionButton());
+        Thread.sleep(500);
         chDetailsPage.getCommentSectionButton().click();
         chDetailsPage.ensureIsPresentAddComment();
 
@@ -188,6 +193,8 @@ public class CHDetailsE2ETest {
         logInUser();
         clickOnMap();
         chDetailsPage.ensureIsPresentCommentsSection();
+        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getCommentSectionButton());
+        Thread.sleep(500);
         chDetailsPage.getCommentSectionButton().click();
         chDetailsPage.ensureIsClickableLastPage();
 
@@ -209,6 +216,8 @@ public class CHDetailsE2ETest {
         logInUser();
         clickOnMap();
         chDetailsPage.ensureIsPresentCommentsSection();
+        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getCommentSectionButton());
+        Thread.sleep(500);
         chDetailsPage.getCommentSectionButton().click();
 
         chDetailsPage.ensureIsPresentAddComment();
@@ -238,6 +247,9 @@ public class CHDetailsE2ETest {
         logInUser();
         clickOnMap();
         chDetailsPage.ensureIsPresentCommentsSection();
+
+        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getCommentSectionButton());
+        Thread.sleep(500);
         chDetailsPage.getCommentSectionButton().click();
 
         chDetailsPage.ensureIsPresentAddComment();

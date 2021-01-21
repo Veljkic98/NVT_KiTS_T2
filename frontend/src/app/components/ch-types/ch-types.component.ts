@@ -24,7 +24,7 @@ import { CHTypeService } from 'src/app/services/ch-type-service/ch-type.service'
 })
 export class CHTypesComponent implements OnInit {
     chTypes: CHType[];
-    page = 1;
+    page = 3;
     totalPages: number;
     totalElements: number;
     error: string;
@@ -60,6 +60,7 @@ export class CHTypesComponent implements OnInit {
 
     ngOnInit(): void {
         this.getTypes(this.page);
+        
     }
 
 
@@ -79,6 +80,7 @@ export class CHTypesComponent implements OnInit {
                 this.dataSource = new MatTableDataSource<CHType>(data.content);
                 this.dataSource.paginator = this.paginator;
 
+                console.log(this.chTypes, "TIPOVI");
             },
             error => {
                 console.log(error);

@@ -1,9 +1,43 @@
 <div class="root">
     <div class="map">
         <!-- when user clicks on a marker chChangedEvent is triggered -->
-        <app-maps (chChangedEvent)="setChId($event)" ></app-maps>
+        <app-maps [culturalHeritages]="culturalHeritages" (chChangedEvent)="setChId($event)" ></app-maps>
+    </div>
+    
+    <div id="filter-input">
+        
+        <h3>Filter Cultural Heritages</h3>
+
+        
+        <mat-form-field appearance="" class="filter">
+            <mat-label>Filter by</mat-label>
+            <mat-select [(value)]="filterType">
+              <mat-option value="name">Name</mat-option>
+              <mat-option value="chSubtypeName">Subtype</mat-option>
+              <mat-option value="locationCity">City</mat-option>
+              <mat-option value="locationCountry">Country</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        <mat-form-field class="example-form-field" class="filter">
+            <mat-label>Enter keyword</mat-label>
+            <input matInput type="text" [(ngModel)]="filterValue">            
+          </mat-form-field>
+
+        <div id="filter-buttons">
+          <button  mat-flat-button color="primary" class="filter" (click)="filterData()">GO</button>
+          <button  mat-flat-button color="accent" class="filter" (click)="resetData()">RESET</button>
+        </div>
+
     </div>
     <div class="ch-details">
         <app-cultural-heritage *ngIf="selectedCH" [chID]="selectedCH" (closeDetails)="closeDetails($event)"></app-cultural-heritage>
     </div>
+    <div id="pagination">
+      <ul>
+        <li *ngFor="let ch of culturalHeritages  | paginate: { id: 'paginator', itemsPerPage: 10, currentPage: page, totalItems: total }  ">
+
+      </ul>
+      <pagination-controls (pageChange)="getCulturalHeritages($event)" id="paginator"></pagination-controls>
+  </div>
 </div>
