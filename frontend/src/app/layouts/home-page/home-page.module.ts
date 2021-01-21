@@ -37,6 +37,8 @@ import { environment } from 'src/environments/environment';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AddNewCulturalHeritageComponent } from 'src/app/components/add-new-cultural-heritage/add-new-cultural-heritage.component';
 import { MatSelectModule } from '@angular/material/select';
+import { UpdateChComponent } from 'src/app/components/update-ch/update-ch.component';
+
 
 @NgModule({
     imports: [
@@ -81,6 +83,7 @@ import { MatSelectModule } from '@angular/material/select';
         CulturalHeritagesComponent,
         AddNewCulturalHeritageComponent,
         NewsComponent,
+        UpdateChComponent
     ]
 })
 
