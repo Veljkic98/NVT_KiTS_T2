@@ -43,6 +43,7 @@ export class CulturalHeritageService {
     formData.append('culturalHeritageRequestDTO', new Blob([JSON.stringify(ch)], {
       type: 'application/json'
     }));
+    console.log(image);
     if (image) {
       formData.append('file', image);
     }
@@ -64,5 +65,14 @@ export class CulturalHeritageService {
     return this.http.delete<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/unsubscribe/${chID}`, { observe: 'response' });
   }
 
+  put(ch: CulturalHeritage, image: any) :Observable<any> {
+    
+    const formData = new FormData();
+    formData.append('culturalHeritageRequestDTO', new Blob([JSON.stringify(ch)], {
+      type: 'application/json'
+    }));
+    formData.append('file', image)
 
+    return this.http.put<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${ch.id}`, formData)
+  }
 }

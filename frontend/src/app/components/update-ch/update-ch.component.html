@@ -1,75 +1,73 @@
 <div class="main">
-  <div *ngIf="culturalHeritage">
-      <table class="example-full-width" cellspacing="0">
-          <tr>
-              <td>
-                  <mat-form-field class="example-full-width">
-                      <mat-label>Name</mat-label>
-                      <input matInput [(ngModel)]="culturalHeritage.name">
-                  </mat-form-field>
-              </td>
+    <div *ngIf="culturalHeritage">
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Name</mat-label>
+                        <input matInput [(ngModel)]="culturalHeritage.name">
+                    </mat-form-field>
+                </td>
 
-          </tr>
-          <tr>
-              <td>
-                  <mat-form-field class="example-full-width">
-                      <mat-label>Description</mat-label>
-                      <textarea matInput [(ngModel)]="culturalHeritage.description"></textarea>
-                  </mat-form-field>
-              </td>
-          </tr>
-          <tr>
-              <td>
-                  <mat-form-field appearance="fill">
-                      <mat-label>Choose a subtype</mat-label>
-                      <mat-select [(ngModel)]="subtype" name="subtype">
-                          <mat-option *ngFor="let subtype of subtypes" [value]="subtype" (click)="isSubtypeChosen = true">
-                              {{ subtype.name }}
-                          </mat-option>
-                      </mat-select>
-                  </mat-form-field>
-              </td>
-          </tr>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput [(ngModel)]="culturalHeritage.description"></textarea>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Choose a subtype</mat-label>
+                        <mat-select [(ngModel)]="subtype" name="subtype">
+                            <mat-option *ngFor="let subtype of subtypes" [value]="subtype"
+                                (click)="isSubtypeChosen = true">
+                                {{ subtype.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </tr>
 
-          <tr *ngIf="!url">
-            Current Image
-          </tr>
-          <tr *ngIf="!url">
-            <img [src]="culturalHeritage.imageUri" style="width: 300px;">
-          </tr>
-          
-          <tr>
-              <td>
-                  <div class="modal-body">
-                      <form>
-                          <div class="form-group">
-                              <input type='file' (change)="onSelectFile($event)">
-                          </div>
-                      </form>
-                  </div>
-              </td>
-          </tr>
-          <tr>
-              <td>
-                  <app-maps 
-                  (chLocationSelectedEvent)="setLocation($event)" 
-                  [adminManagesCH]="true" 
-                  [adminLocationForGeocoder]="location"></app-maps>
-              </td>
-          </tr>
-          <tr>
-            <td style="padding-bottom: 1rem; padding-top: 3rem;">
-                <button type="button" class="btn btn-outline-dark" (click)="updateCH()"
-                    [disabled]="
+            <tr *ngIf="!url">
+                Current Image
+            </tr>
+            <tr *ngIf="!url">
+                <img [src]="culturalHeritage.imageUri" style="width: 300px;">
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <input type='file' (change)="onSelectFile($event)">
+                            </div>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 1rem; padding-top: 3rem;">
+                    <button type="button" class="btn btn-outline-dark" (click)="updateCH()" [disabled]="
                     culturalHeritage.name === '' 
                     || culturalHeritage.description === '' 
                     || location === null
-                    "
-                >
-                Update</button>
-            </td>
-        </tr>
-      </table>
-  </div>
+                    ">
+                        Update</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <app-maps (chLocationSelectedEvent)="setLocation($event)" [adminManagesCH]="true"
+                        [adminLocationForGeocoder]="location"></app-maps>
+                </td>
+            </tr>
+
+        </table>
+    </div>
 
 </div>

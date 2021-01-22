@@ -16,7 +16,7 @@ import { LocationService } from 'src/app/services/location/location.service';
 })
 export class UpdateChComponent implements OnInit {
 
-  url: string;
+  url: File;
 
   name: string = "";
   description: string = "";
@@ -44,22 +44,22 @@ export class UpdateChComponent implements OnInit {
     private _route: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {
-   
+  async ngOnInit() {
+
     this._route.params.subscribe((params: Params) => {
       this.chid = params.chid;
       this.chService.getOne(this.chid)
-        .subscribe(response => {
-          
+        .subscribe(async response => {
+
           //set CH based
           this.culturalHeritage = response;
-          
+
           //set location
           this.locationService
-          .getOne(this.culturalHeritage.locationID)
-          .subscribe(loc => {
-            this.location = loc;
-          })
+            .getOne(this.culturalHeritage.locationID)
+            .subscribe(loc => {
+              this.location = loc;
+            })
 
           //get all subtypes
           this.subtypeService.getAll().subscribe(
@@ -79,11 +79,25 @@ export class UpdateChComponent implements OnInit {
    */
   async updateCH() {
 
-      let location:Location = await this.locationService.post(this.location).toPromise();
-      console.log(location.id);
-    //  await this.chService.post(this.culturalHeritage.name, this.culturalHeritage.description,
-    //   location.id, this.subtype.id, imgUrl )
-    
+    let location: Location = await this.locationService.post(this.location).toPromise();
+
+    this.culturalHeritage.locationID = location.id;
+    this.culturalHeritage.chsubtypeID = this.subtype.id;
+
+    let file: File;
+    //if new file hasn't been chosen then create file from existing image    
+    if (!this.url) {
+      file = await fetch(this.culturalHeritage.imageUri)
+        .then(r => r.blob())
+        .then(blobFile => new File([blobFile], "slika.png", { type: "image/png" }));
+    }
+    else {
+      file = this.url;
+    }
+
+
+    let ch: CulturalHeritage = await this.chService.put(this.culturalHeritage, file).toPromise();
+
   }
 
   /**
@@ -106,6 +120,6 @@ export class UpdateChComponent implements OnInit {
    */
   setLocation(location: Location) {
     this.location = location;
-    console.log(location);
+    // console.log(location);
   }
 }
