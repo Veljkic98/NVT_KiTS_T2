@@ -4,7 +4,7 @@ import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service'
 import { CulturalHeritage } from '../../models/cultural-heritage.model'
 import { Page } from 'src/app/models/page.model';
-import { Location} from 'src/app/models/location.model'
+import { Location } from 'src/app/models/location.model'
 import { environment } from 'src/environments/environment';
 
 
@@ -27,24 +27,24 @@ export class MapsComponent implements OnInit {
   currentPage: number = 0;
   isPreviousButtonDisabled: boolean;
   isNextButtonDisabled: boolean;
-  
+
   iterableDiffer: IterableDiffer<CulturalHeritage>;
 
   geocoder: MapboxGeocoder;
 
   @Output() chChangedEvent = new EventEmitter<number>();
   @Output() chLocationSelectedEvent = new EventEmitter<Location>();
-  @Input()  adminManagesCH: Boolean = false;
+  @Input() adminManagesCH: Boolean = false;
   @Input() culturalHeritages: CulturalHeritage[];
 
 
   constructor(
     private culturalHeritageService: CulturalHeritageService,
     private iterableDiffers: IterableDiffers
-    ) {
-      this.iterableDiffer = iterableDiffers.find([]).create(null);
+  ) {
+    this.iterableDiffer = iterableDiffers.find([]).create(null);
 
-     }
+  }
 
 
   ngOnInit(): void {
@@ -64,8 +64,8 @@ export class MapsComponent implements OnInit {
   onMapLoad(map: Map) {
     this.map = map;
     this.addCulturalHeritagesToMap();
-    if(this.adminManagesCH === true){
-      this.geocoder = new MapboxGeocoder({ 
+    if (this.adminManagesCH === true) {
+      this.geocoder = new MapboxGeocoder({
         accessToken: environment.mapboxApiKey,
         minLength: 6,
         types: "address",
@@ -97,27 +97,27 @@ export class MapsComponent implements OnInit {
 
     //let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
     //culturalHeritages = retval.content;
+    if (this.culturalHeritages) {
+      this.culturalHeritages.forEach(culturalHeritage => {
+        coords = [
+          parseFloat(culturalHeritage.coordinates[0]), //longitude
+          parseFloat(culturalHeritage.coordinates[1]), //latitude
+        ];
+        color = this.markerColors[culturalHeritage.chsubtypeID - 1];
+        this.addMarker(coords, color, culturalHeritage.id);
+      });
 
-    this.culturalHeritages.forEach(culturalHeritage => {
-      coords = [
-        parseFloat(culturalHeritage.coordinates[0]), //longitude
-        parseFloat(culturalHeritage.coordinates[1]), //latitude
-      ];
-      color = this.markerColors[culturalHeritage.chsubtypeID - 1];
-      this.addMarker(coords, color, culturalHeritage.id);
-    });
-
-    this.checkIfButtonDisabled();
+      this.checkIfButtonDisabled();
+    }
   }
-
 
   ngDoCheck() {
     let changes = this.iterableDiffer.diff(this.culturalHeritages);
     if (changes) {
-        this.removeCulturalHeritagesFromMap();
-        this.addCulturalHeritagesToMap();
+      this.removeCulturalHeritagesFromMap();
+      this.addCulturalHeritagesToMap();
     }
-}
+  }
 
 
 
@@ -289,8 +289,8 @@ export class MapsComponent implements OnInit {
    * then find the location properties.
    * then add marker to the map
    */
-  _addGeocoderInputEventListener(){
-    this.geocoder.on('result', (event) =>{
+  _addGeocoderInputEventListener() {
+    this.geocoder.on('result', (event) => {
       this._removeMarkerFromGeocoder();
       let location = this._getLocationFromGeocoder(event);
       this.chLocationSelectedEvent.emit(location)
@@ -309,15 +309,15 @@ export class MapsComponent implements OnInit {
    * This function is extracting properties from an event.
    * how place_name_en_GB looks like: "Фрушкогорска 20, Novi Sad 21203, South Bačka, Serbia"
    */
-  _getLocationFromGeocoder(event:any): Location{
+  _getLocationFromGeocoder(event: any): Location {
     let result = event.result;
-    let place_name_en_GB =  result['place_name_en-GB'];
-    let [street, city,region, country] = place_name_en_GB.split(", ");
-    if(!country){
+    let place_name_en_GB = result['place_name_en-GB'];
+    let [street, city, region, country] = place_name_en_GB.split(", ");
+    if (!country) {
       country = region;
     }
 
-    let location:Location = {
+    let location: Location = {
       longitude: result.center[0].toString(),
       latitude: result.center[1].toString(),
       country: country,
@@ -327,8 +327,8 @@ export class MapsComponent implements OnInit {
     return location;
   }
 
-  _addMarkerFromGeocoder(location: Location){
-    let coordinates: [number, number] = [ parseFloat(location.longitude), parseFloat(location.latitude)];
+  _addMarkerFromGeocoder(location: Location) {
+    let coordinates: [number, number] = [parseFloat(location.longitude), parseFloat(location.latitude)];
     let color = "red";
     let fontSize = "60px";
 
@@ -343,11 +343,11 @@ export class MapsComponent implements OnInit {
     </button>`;
     let marker = new Marker(markerIcon).setLngLat(coordinates).addTo(this.map);
   }
-  _removeMarkerFromGeocoder(){
-    try{
+  _removeMarkerFromGeocoder() {
+    try {
       let marker = document.getElementById("geocoder_marker");
       marker.remove();
     }
-    catch(error){ }
+    catch (error) { }
   }
 }
