@@ -130,4 +130,19 @@ public class LoginE2ETest {
         assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
     }
 
+    @Test
+    public void logOutTest() throws InterruptedException {
+        driver.get("http://localhost:4200/login");
+
+        loginPage.getEmail().sendKeys("helen@gmail.com");
+        loginPage.getPassword().sendKeys("123");
+        loginPage.getLoginBtn().click();
+        justWait(2500);
+
+        loginPage.getSignOutButton().click();
+        justWait(500);
+
+        assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
+    }
+
 }
