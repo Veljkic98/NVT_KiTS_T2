@@ -35,6 +35,7 @@ export class MapsComponent implements OnInit {
   @Output() chChangedEvent = new EventEmitter<number>();
   @Output() chLocationSelectedEvent = new EventEmitter<Location>();
   @Input() adminManagesCH: Boolean = false;
+  @Input() adminLocationForGeocoder: Location;
   @Input() culturalHeritages: CulturalHeritage[];
 
 
@@ -74,6 +75,14 @@ export class MapsComponent implements OnInit {
       });
       this._addGeocoderInputEventListener();
       this.map.addControl(this.geocoder, "top-right");
+      //if admin is updating CH location
+      if(this.adminLocationForGeocoder){
+        this._addMarkerFromGeocoder(this.adminLocationForGeocoder);
+        this.map.setCenter([
+          parseFloat(this.adminLocationForGeocoder.longitude), 
+          parseFloat(this.adminLocationForGeocoder.latitude)
+        ]);
+      }
     }
   }
 

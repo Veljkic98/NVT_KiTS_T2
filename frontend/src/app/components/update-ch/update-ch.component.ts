@@ -45,23 +45,33 @@ export class UpdateChComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-     //get CH based on it's ID
+    //get CH based on it's ID
     this._route.params.subscribe((params: Params) => {
       this.chid = params.chid;
       this.chService.getOne(this.chid)
-      .subscribe(response => {
-        this.culturalHeritage = response;
-        // this.url = this.culturalHeritage.imageUri
+        .subscribe(response => {
+          this.culturalHeritage = response;
 
-        //get all subtypes
-        this.subtypeService.getAll().subscribe(
-          data => {  
-            this.subtypes = data;  
-            this.subtype = this.subtypes.find( subtype => 
-              subtype.id == this.culturalHeritage.chsubtypeID);
-          }
-        );
-      })
+          //set this.lcation
+          this.location = {
+            latitude : this.culturalHeritage.coordinates[1],
+            longitude : this.culturalHeritage.coordinates[0],
+            country : undefined,
+            city : undefined,
+            street : undefined
+          };
+          
+
+          //get all subtypes
+          this.subtypeService.getAll().subscribe(
+            data => {
+              this.subtypes = data;
+              //set this.subtype
+              this.subtype = this.subtypes.find(subtype =>
+                subtype.id == this.culturalHeritage.chsubtypeID);
+            }
+          );
+        })
     });
 
 
@@ -113,15 +123,15 @@ export class UpdateChComponent implements OnInit {
    */
   setLocation(location: Location) {
     this.location = location;
-    if(location){
+    if (location) {
       this.isLocationChosen = true;
       this.location = location;
     }
-    else{
+    else {
       this.isLocationChosen = false;
       this.location = null
     }
-    
+
     // console.log(this.location);
   }
 }

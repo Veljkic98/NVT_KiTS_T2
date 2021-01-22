@@ -50,16 +50,19 @@
               </td>
           </tr>
           <tr>
-              <td style="padding-bottom: 1rem;">
-                  <button type="button" class="btn btn-outline-dark" (click)="addCH()"
-                      [disabled]="name === '' || description === '' || isLocationChosen == false || isSubtypeChosen == false || isFileChosen == false">Post</button>
+              <td>
+                  <app-maps 
+                  (chLocationSelectedEvent)="setLocation($event)" 
+                  [adminManagesCH]="true" 
+                  [adminLocationForGeocoder]="location"></app-maps>
               </td>
           </tr>
           <tr>
-              <td>
-                  <app-maps (chLocationSelectedEvent)="setLocation($event)" [adminManagesCH]="true"></app-maps>
-              </td>
-          </tr>
+            <td style="padding-bottom: 1rem; padding-top: 3rem;">
+                <button type="button" class="btn btn-outline-dark" (click)="addCH()"
+                    [disabled]="name === '' || description === '' || isLocationChosen == false || isSubtypeChosen == false || isFileChosen == false">Update</button>
+            </td>
+        </tr>
       </table>
   </div>
 
