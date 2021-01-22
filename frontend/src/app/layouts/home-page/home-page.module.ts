@@ -41,6 +41,7 @@ import { UpdateChComponent } from 'src/app/components/update-ch/update-ch.compon
 
 import { AddNewTypeComponent } from 'src/app/components/add-new-type/add-new-type.component';
 import { ChNewsComponent } from 'src/app/components/ch-news/ch-news.component';
+import { UpdateNewsComponent } from 'src/app/components/update-news/update-news.component';
 
 @NgModule({
     imports: [
@@ -88,6 +89,7 @@ import { ChNewsComponent } from 'src/app/components/ch-news/ch-news.component';
         UpdateChComponent,
         AddNewTypeComponent,
         ChNewsComponent,
+        UpdateNewsComponent,
     ]
 })
 

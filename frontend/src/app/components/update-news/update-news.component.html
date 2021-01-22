@@ -1,0 +1,41 @@
+<div class="main">
+    <div>
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Heading</mat-label>
+                        <input matInput [(ngModel)]="news.heading">
+                    </mat-form-field>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Content</mat-label>
+                        <textarea matInput [(ngModel)]="news.content"></textarea>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <input type='file' (change)="onSelectFile($event)">
+                            </div>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 1rem;">
+                    <button type="button" class="btn btn-outline-dark" (click)="update()"
+                        [disabled]="news.heading === '' || news.content === ''">Update</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
