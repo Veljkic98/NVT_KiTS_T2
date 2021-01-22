@@ -18,6 +18,7 @@ import { UpdateChComponent } from './components/update-ch/update-ch.component';
 import { AddNewTypeComponent } from './components/add-new-type/add-new-type.component';
 import { UpdateNewsComponent } from './components/update-news/update-news.component';
 import { AddNewsComponent } from './components/add-news/add-news.component';
+import { AddSubtypeComponent } from './components/add-subtype/add-subtype.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,12 @@ const routes: Routes = [
       {
         path: 'add/news/:chid',
         component: AddNewsComponent,
+        canActivate: [RoleGuard],
+        data: { expectedRoles: 'ROLE_ADMIN' }
+      },
+      {
+        path: 'add/subtype/:typeid',
+        component: AddSubtypeComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: 'ROLE_ADMIN' }
       },

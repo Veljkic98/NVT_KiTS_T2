@@ -43,6 +43,7 @@ import { AddNewTypeComponent } from 'src/app/components/add-new-type/add-new-typ
 import { ChNewsComponent } from 'src/app/components/ch-news/ch-news.component';
 import { UpdateNewsComponent } from 'src/app/components/update-news/update-news.component';
 import { AddNewsComponent } from 'src/app/components/add-news/add-news.component';
+import { AddSubtypeComponent } from 'src/app/components/add-subtype/add-subtype.component';
 
 @NgModule({
     imports: [
@@ -92,6 +93,7 @@ import { AddNewsComponent } from 'src/app/components/add-news/add-news.component
         ChNewsComponent,
         UpdateNewsComponent,
         AddNewsComponent,
+        AddSubtypeComponent,
     ]
 })
 
