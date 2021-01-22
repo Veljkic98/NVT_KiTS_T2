@@ -51,7 +51,7 @@ export class UpdateChComponent implements OnInit {
       this.chService.getOne(this.chid)
       .subscribe(response => {
         this.culturalHeritage = response;
-        this.url = this.culturalHeritage.imageUri
+        // this.url = this.culturalHeritage.imageUri
 
         //get all subtypes
         this.subtypeService.getAll().subscribe(

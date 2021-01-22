@@ -30,6 +30,14 @@
                   </mat-form-field>
               </td>
           </tr>
+
+          <tr *ngIf="!url">
+            Current Image
+          </tr>
+          <tr *ngIf="!url">
+            <img [src]="culturalHeritage.imageUri" style="width: 300px;">
+          </tr>
+          
           <tr>
               <td>
                   <div class="modal-body">
