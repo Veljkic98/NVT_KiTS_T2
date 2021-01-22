@@ -45,13 +45,26 @@ export class UpdateChComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+     //get CH based on it's ID
     this._route.params.subscribe((params: Params) => {
       this.chid = params.chid;
       this.chService.getOne(this.chid)
       .subscribe(response => {
         this.culturalHeritage = response;
+        this.url = this.culturalHeritage.imageUri
+
+        //get all subtypes
+        this.subtypeService.getAll().subscribe(
+          data => {  
+            this.subtypes = data;  
+            this.subtype = this.subtypes.find( subtype => 
+              subtype.id == this.culturalHeritage.chsubtypeID);
+          }
+        );
       })
-  });
+    });
+
+
   }
 
   /**
