@@ -78,7 +78,7 @@ describe('AuthService', () => {
 
     authService.verify(1).subscribe(res => newUser = res);
     
-    const req = httpMock.expectOne('http://localhost:8080/api/authenticated-users/1');
+    const req = httpMock.expectOne('http://localhost:8080/api/authenticated-users/verify/1');
     expect(req.request.method).toBe('GET');
     req.flush(mockUser);
 

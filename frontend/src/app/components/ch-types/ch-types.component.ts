@@ -24,7 +24,7 @@ import { CHTypeService } from 'src/app/services/ch-type-service/ch-type.service'
 })
 export class CHTypesComponent implements OnInit {
     chTypes: CHType[];
-    page = 3;
+    page = 1;
     totalPages: number;
     totalElements: number;
     error: string;
