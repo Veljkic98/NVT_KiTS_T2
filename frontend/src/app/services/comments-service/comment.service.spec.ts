@@ -96,63 +96,48 @@ describe('CommentService', () => {
         expect(content[1].userName).toEqual( "Sima Matas");
         })); 
 
-//   it('deleteComment() should query url and delete rating', fakeAsync(() => {
-//     let comment: Comment = new Comment({
-//         grade: 3, 
-//         chID: 1
-//     });
+    it('deleteComment() should query url and delete comment', fakeAsync(() => {
+        commentService.deleteComment(2).subscribe(res => { });
+        
+        const req = httpMock.expectOne('http://localhost:8080/api/comments/2');
+        expect(req.request.method).toBe('DELETE');
+        req.flush({});
 
-//     const mockComment: Comment = {
-//         id: 12, 
-//         grade: 3,
-//         chID: 1, 
-//         userID: 3
-//     };
+    }));
 
-//     commentService.postComment(newComment.chID, newComment.grade).subscribe(res => newComment = res);
-    
-//     const req = httpMock.expectOne('http://localhost:8080/api/ratings');
-//     expect(req.request.method).toBe('POST');
-//     req.flush(mockComment);
+    it('postComment() should query url and save a comment', fakeAsync(() => {
+        let newComment : Comment = new Comment(
+        {
+            content: "Duis at velit eu est congue elementum. In hac habitasse platea dictumst.",
+            culturaHeritageID: 1
+        })
 
-//     tick();
-//     expect(newComment).toBeDefined();
-//     expect(newComment.id).toEqual(12);
-//     expect(newComment.chID).toEqual(1);
-//     expect(newComment.grade).toEqual(3);
-//     expect(newComment.userID).toEqual(3);
-//   }));
+        const image: File = new File([""], 'imageName');
 
-//   it('updateComment() should query url and change existing rating', fakeAsync(() => {
-//     let rating: Comment = new Comment({
-//         id: 12, 
-//         grade: 3, 
-//         chID: 1,
-//         userID: 3
-//     });
+        const mockComment: Comment = {
+            id: 1,
+            authenticatedUserID: 4,
+            content: "Duis at velit eu est congue elementum. In hac habitasse platea dictumst.",
+            culturaHeritageID: 1,
+            imageUri: "http://localhost:8080/api/files/1",
+            userName: "Margene Weatherwax"
+        };
 
-//     const mockComment: Comment = {
-//         id: 12, 
-//         grade: 3,
-//         chID: 1, 
-//         userID: 3
-//     };
+        commentService.postComment(newComment.culturaHeritageID, newComment.content, image).subscribe(res => newComment = res);
+        
+        const req = httpMock.expectOne('http://localhost:8080/api/comments');
+        expect(req.request.method).toBe('POST');
+        req.flush(mockComment);
+        
+        tick();
+     
+        expect(newComment).toBeDefined();
+        expect(newComment.id).toEqual(1);
+        expect(newComment.authenticatedUserID).toEqual(4);
+        expect(newComment.content).toEqual("Duis at velit eu est congue elementum. In hac habitasse platea dictumst.");       
+        expect(newComment.imageUri).toEqual("http://localhost:8080/api/files/1");
+        expect(newComment.userName).toEqual( "Margene Weatherwax");
 
-//     commentService.updateComment(rating.id, rating.chID, rating.grade).subscribe(res => rating = res);
-    
-//     const req = httpMock.expectOne('http://localhost:8080/api/ratings/12');
-//     expect(req.request.method).toBe('PUT');
-//     req.flush(mockComment);
-    
-//     tick();
-
-//     expect(rating).toBeDefined();
-//     expect(rating.id).toEqual(12);
-//     expect(rating.grade).toEqual(3);
-//     expect(rating.chID).toEqual(1);
-//     expect(rating.userID).toEqual(3);
-//   }));
-
-  
+    }));
 
 });

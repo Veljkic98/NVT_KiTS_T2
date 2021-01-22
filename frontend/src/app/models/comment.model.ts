@@ -4,6 +4,7 @@ export class Comment {
     public content: string;
     public imageUri: string;
     public userName: string;
+    public culturaHeritageID: number;
 
     constructor(commentCfg: CommentInterface) {
         this.id = commentCfg.id;
@@ -11,14 +12,16 @@ export class Comment {
         this.content = commentCfg.content;
         this.imageUri = commentCfg.imageUri;
         this.userName = commentCfg.userName;
+        this.culturaHeritageID = commentCfg.culturaHeritageID;
     }
 }
 
 export interface CommentInterface {
     id? :number;
-    authenticatedUserID: number;
+    authenticatedUserID?: number;
     content: string;
-    imageUri: string;
-    userName: string;
+    imageUri?: string;
+    userName?: string;
+    culturaHeritageID: number;
 }
  
