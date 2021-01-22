@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CHSubtype2 } from 'src/app/models/ch-subtype.model';
 import { CulturalHeritageToAdd } from 'src/app/models/cultural-heritage-to-add.model';
+import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { Location } from 'src/app/models/location.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
 import { CulturalHeritageService } from 'src/app/services/cultural-heritage-service/cultural-heritage.service';
@@ -30,7 +31,10 @@ export class UpdateChComponent implements OnInit {
 
   subtype: CHSubtype2;  // selected value - subtype
 
-  tabIndex: number;
+  chid: number;
+
+  culturalHeritage: CulturalHeritage;
+
 
   constructor(
     private chService: CulturalHeritageService,
@@ -41,18 +45,12 @@ export class UpdateChComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.subtypeService.getAll()
-    //   .subscribe(
-    //     data => {
-    //       this.subtypes = data;
-    //       // console.log(this.subtypes);
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     }
-    //   );
     this._route.params.subscribe((params: Params) => {
-      console.log(params.chid);
+      this.chid = params.chid;
+      this.chService.getOne(this.chid)
+      .subscribe(response => {
+        this.culturalHeritage = response;
+      })
   });
   }
 
