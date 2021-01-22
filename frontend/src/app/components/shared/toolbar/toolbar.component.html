@@ -21,7 +21,7 @@
             <mat-menu #menu="matMenu" class="customize">
                 <a mat-button [routerLink]="['/me', 0]">Your profile</a>
                 <a mat-button *ngIf="authService.getRole() === 'ROLE_USER'" [routerLink]="['/me', 1]" >Your subscriptions</a>
-                <a mat-button (click)="logout()" *ngIf="authService.isLoggedIn()">Sign out</a>
+                <a mat-button (click)="logout()" *ngIf="authService.isLoggedIn()" id='signOutButton'>Sign out</a>
                 <div></div>
             </mat-menu>
 

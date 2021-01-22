@@ -51,8 +51,8 @@ export class CulturalHeritageService {
   }
 
 
-  filterCulturalHeritages(payload: CHFilter): Observable<Page>{
-    return this.http.post<Page>(`${environment.apiUrl}${REST_ENDPOINT.filter}/?page=0&size=10`, payload);
+  filterCulturalHeritages(payload: CHFilter, page: number): Observable<Page>{
+    return this.http.post<Page>(`${environment.apiUrl}${REST_ENDPOINT.filter}/?page=${page}&size=10`, payload);
   }
   
 
