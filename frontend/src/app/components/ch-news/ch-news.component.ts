@@ -27,9 +27,6 @@ export class ChNewsComponent implements OnInit {
 
   constructor(
     private newsService: NewsService,
-    private cdr: ChangeDetectorRef ,
-    private modalService: NgbModal,
-    private authService: AuthService
 ) {}
 
 
@@ -60,40 +57,6 @@ export class ChNewsComponent implements OnInit {
       });
   }
 
-
-  // openAddModal(content): void {
-  //   this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-  //     this.addComment();
-  //   }, (reason) => {
-  //     this.content = '';
-  //   });
-  // }
-
-  // openDeleteModal(deleteModal, newsID): void {
-  //   this.modalService.open(deleteModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-  //     this.deleteComment(newsID);
-  //   }, (reason) => {
-  //     this.content = '';
-  //   });
-  // }
-
-  // addComment(): void {
-  //   this.commService.postComment(this.chID, this.content, this.url)
-  //   .subscribe(
-  //     data => {
-  //       this.content = '';
-  //       if (this.lastPage) {
-  //           this.commentList.push(data);
-  //       }
-  //     },
-  //     error => {
-  //       console.log(error);
-  //       this.content = '';
-  //       this.error = 'Somethnig went wrong, can nott load all comments right now.';
-  //     });
-
-  // }
-
   onKey(event): void { this.content = event.target.value; }
 
   onSelectFile(event): void {
@@ -101,16 +64,5 @@ export class ChNewsComponent implements OnInit {
         this.url = event.target.files[0];
       }
   }
-
-  // deleteComment(commentID: number): void {
-  //   this.commService.deleteComment(commentID)
-  //   .subscribe(
-  //     data => {
-  //       this.commentList = this.commentList.filter(el => el.id !== commentID);
-  //     },
-  //     error => {
-  //       console.log(error);
-  //     });
-  // }
 
 }

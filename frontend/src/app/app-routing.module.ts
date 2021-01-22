@@ -15,6 +15,7 @@ import { CulturalHeritagesComponent } from './components/cultural-heritages/cult
 import { AddNewCulturalHeritageComponent } from './components/add-new-cultural-heritage/add-new-cultural-heritage.component';
 import { NewsComponent } from './components/news/news.component';
 import { AddNewTypeComponent } from './components/add-new-type/add-new-type.component';
+import { UpdateNewsComponent } from './components/update-news/update-news.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,12 @@ const routes: Routes = [
         component: AddNewCulturalHeritageComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: 'ROLE_ADMIN' }
+      },
+      {
+        path: 'update/news/:index',
+        component: UpdateNewsComponent,
+        canActivate: [RoleGuard],
+        data: {expectedRoles: 'ROLE_ADMIN'}
       },
       {
         path: 'cultural-heritages',
