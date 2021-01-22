@@ -1,0 +1,27 @@
+<div>
+    <div *ngIf="error;else displaycomm">
+        {{error}}
+    </div>
+    <ng-template #displaycomm>
+        <div class="root" *ngIf="newsList">
+            <ul>
+                <li>
+                    <div class="manage-button-div">
+                        <button mat-button class="manage-button" [routerLink]="['/manage/news/', chID]">Manage news</button>
+                    </div>
+                </li>
+                <li
+                    *ngFor="let news of newsList  | paginate: { id: 'server', itemsPerPage: 3, currentPage: page, totalItems: total }  ">
+                    <mat-card style="background-color:  rgba(48, 106, 182, 0.808);">
+                        <div class="header">
+                            <span class="author">{{ news.heading }}</span>
+                        </div>
+                        <p style="color:aliceblue">{{news.content}}</p>
+                        <img *ngIf="news.imageUri" mat-card-image [src]="news.imageUri" alt="png">
+                    </mat-card>
+                </li>
+            </ul>
+            <pagination-controls (pageChange)="getNews($event)" id="server"></pagination-controls>
+        </div>
+    </ng-template>
+</div>

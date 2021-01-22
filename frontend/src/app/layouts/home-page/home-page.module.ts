@@ -39,6 +39,8 @@ import { AddNewCulturalHeritageComponent } from 'src/app/components/add-new-cult
 import { MatSelectModule } from '@angular/material/select';
 import { UpdateChComponent } from 'src/app/components/update-ch/update-ch.component';
 
+import { AddNewTypeComponent } from 'src/app/components/add-new-type/add-new-type.component';
+import { ChNewsComponent } from 'src/app/components/ch-news/ch-news.component';
 
 @NgModule({
     imports: [
@@ -83,7 +85,9 @@ import { UpdateChComponent } from 'src/app/components/update-ch/update-ch.compon
         CulturalHeritagesComponent,
         AddNewCulturalHeritageComponent,
         NewsComponent,
-        UpdateChComponent
+        UpdateChComponent,
+        AddNewTypeComponent,
+        ChNewsComponent,
     ]
 })
 

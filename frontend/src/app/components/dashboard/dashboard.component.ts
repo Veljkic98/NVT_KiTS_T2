@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { CulturalHeritageService } from 'src/app/services/cultural-heritage-service/cultural-heritage.service';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,10 +29,12 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private chService: CulturalHeritageService,
+    private _snackBar: MatSnackBar,      
   ) { }
 
   ngOnInit(): void {  
-    this.getCulturalHeritages(0);
+    this.filterValue = '';
+    this.getCulturalHeritages(this.page);
   }
 
   closeDetails(): void {
@@ -41,32 +44,44 @@ export class DashboardComponent implements OnInit {
     this.selectedCH = $event;
   }
 
-  
+  openSnackBar(message: string): void{
+    this._snackBar.open(message, 'Dismiss', {
+      duration: 4000,
+    });
+}
 
-  getCulturalHeritages(page): void {
-    this.chService.getCulturalHeritages(page-1)
-    .subscribe(
-      data => {
-          this.lastPage = data.last;
-          this.culturalHeritages = data.content;
-          this.total = data.totalElements;
-          this.page = data.number + 1;
-          this.error = null
-      },
-      error => {
-         console.log(error);
-         this.error = 'Can\'t load cultural heritages at the moment :(';
-      });
+  getCulturalHeritages(page: number): void {
+    if(this.filterValue !== ''){
+      this.filterData(page);      
+    }else{
+      this.chService.getCulturalHeritages(page-1)
+      .subscribe(
+        data => {
+            this.lastPage = data.last;
+            this.culturalHeritages = data.content;
+            this.total = data.totalElements;
+            this.page = data.number + 1;
+            this.error = null
+        },
+        error => {
+          console.log(error);
+          this.error = 'Can\'t load cultural heritages at the moment :(';
+        });
+    }
   }
 
-  filterData():void {
-    this.chService.filterCulturalHeritages({type:this.filterType, value:this.filterValue}).subscribe(
+  filterData(page: number):void {
+    this.chService.filterCulturalHeritages({type:this.filterType, value:this.filterValue}, page-1).subscribe(
       data => {
           this.lastPage = data.last;
           this.culturalHeritages = data.content;
           this.total = data.totalElements;
           this.page = data.number + 1;
           this.error = null;
+
+          const append = this.total == 1 ? '' : 's';
+          this.openSnackBar(`Found ${this.total} result${append}.`);
+
       },
       error => console.log(error),
     );
@@ -77,6 +92,7 @@ export class DashboardComponent implements OnInit {
   
   resetData():void {
     this.filterValue = '';
+    this.filterType = '';
     this.chService.getCulturalHeritages(0).subscribe(
       data => {
           this.lastPage = data.last;

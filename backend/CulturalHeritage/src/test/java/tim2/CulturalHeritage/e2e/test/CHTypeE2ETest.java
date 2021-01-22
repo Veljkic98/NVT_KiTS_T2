@@ -63,7 +63,7 @@ public class CHTypeE2ETest {
     @Test
     public void redirectNotLoggedIn() throws InterruptedException {
 
-        driver.get("http://localhost:4200/types");
+        driver.get("http://localhost:4200/manage/types");
 
         justWait(1000);
 
@@ -73,7 +73,7 @@ public class CHTypeE2ETest {
     @Test
     public void redirectNotAdminLoggedIn() throws InterruptedException {
         logInUser();
-        driver.get("http://localhost:4200/types");
+        driver.get("http://localhost:4200/manage/types");
 
         justWait(1000);
 
@@ -83,7 +83,7 @@ public class CHTypeE2ETest {
     @Test
     public void testDeleteTypeSuccess() throws InterruptedException {
         logInAdmin();
-        driver.get("http://localhost:4200/types");
+        driver.get("http://localhost:4200/manage/types");
 
         justWait(1000);
 
@@ -104,7 +104,7 @@ public class CHTypeE2ETest {
     public void testDeleteTypeFail() throws InterruptedException {
 
         logInAdmin();
-        driver.get("http://localhost:4200/types");
+        driver.get("http://localhost:4200/manage/types");
 
         justWait(1000);
 
@@ -122,7 +122,7 @@ public class CHTypeE2ETest {
     @Test
     public void testEditTypeSuccess() throws InterruptedException {
         logInAdmin();
-        driver.get("http://localhost:4200/types");
+        driver.get("http://localhost:4200/manage/types");
 
         justWait(1000);
 
@@ -147,7 +147,7 @@ public class CHTypeE2ETest {
     @Test
     public void testEditTypeError() throws InterruptedException {
         logInAdmin();
-        driver.get("http://localhost:4200/types");
+        driver.get("http://localhost:4200/manage/types");
 
         justWait(1000);
 
@@ -171,7 +171,7 @@ public class CHTypeE2ETest {
     @Test
     public void testEditSubtypeSuccess() throws InterruptedException {
         logInAdmin();
-        driver.get("http://localhost:4200/types");
+        driver.get("http://localhost:4200/manage/types");
 
         justWait(1000);
 
@@ -196,7 +196,7 @@ public class CHTypeE2ETest {
     @Test
     public void testEditSubtypeError() throws InterruptedException {
         logInAdmin();
-        driver.get("http://localhost:4200/types");
+        driver.get("http://localhost:4200/manage/types");
 
         justWait(1000);
 
@@ -218,4 +218,53 @@ public class CHTypeE2ETest {
 
         assertEquals("Name already exist!\nDismiss", snackBarText);
     }
+
+    @Test
+    public void testDeleteSubtypeSuccess() throws InterruptedException {
+        logInAdmin();
+        justWait(1000);
+        driver.get("http://localhost:4200/types");
+        justWait(1000);
+
+        chTypePage.ensureAreDisplayedShowButtons();
+        chTypePage.getShowSubtypesButton().click();
+        justWait(1000);
+
+        chTypePage.getDeleteSubtypesButton().click();
+        justWait(1000);
+
+        chTypePage.getConfirmSubtypeDeleteButton().click();
+
+        justWait(1000);
+
+        String snackBarText = chTypePage.getSnackBar().getText();
+
+        assertEquals("Successfuly deleted the subtype!\nDismiss", snackBarText);
+
+    }
+
+    @Test
+    public void testDeleteSubtypeFail() throws InterruptedException {
+        logInAdmin();
+        driver.get("http://localhost:4200/types");
+        justWait(1000);
+
+        chTypePage.ensureAreDisplayedShowButtons();
+        chTypePage.getShowSubtypesButton().click();
+        justWait(1000);
+
+        chTypePage.getDeleteSubtypesButtonFail().click();
+        justWait(1000);
+
+        chTypePage.getConfirmSubtypeDeleteButton().click();
+
+        justWait(1000);
+
+        String snackBarText = chTypePage.getSnackBar().getText();
+
+
+        assertEquals("Can\'t delete that subtype. There are cultural heritages of that subtype.\nDismiss", snackBarText);
+
+    }
+
 }

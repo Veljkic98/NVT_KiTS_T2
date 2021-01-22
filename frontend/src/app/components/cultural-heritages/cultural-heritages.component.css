@@ -14,3 +14,8 @@ table {
     text-align: right;
     padding-right: 1.5rem;
 }
+
+h1 {
+    margin: 15px;
+    text-align:center;
+}

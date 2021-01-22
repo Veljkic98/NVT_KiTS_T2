@@ -26,6 +26,9 @@ public class LoginPage {
     @FindBy(xpath = "//a[@routerLink=\"/register\"]")
     private WebElement registerLink;
 
+    @FindBy(xpath = "//*[@id=\"signOutButton\"]")
+    private WebElement signOutButton;
+
 
     public LoginPage() {
     }
@@ -79,4 +82,6 @@ public class LoginPage {
     public WebElement getRegisterLink() { return registerLink; }
 
     public WebElement getLoginBtn() { return loginBtn; }
+
+    public WebElement getSignOutButton() { return signOutButton; }
 }

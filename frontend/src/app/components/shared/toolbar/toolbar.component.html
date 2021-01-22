@@ -5,9 +5,9 @@
         <div>
             <a mat-button [routerLink]="'/'"> Map </a>
             <a mat-button [routerLink]="'/notifications'"> Notifications </a>
-            <a mat-button [routerLink]="'/types'" *ngIf="authService.getRole() === 'ROLE_ADMIN'"> Manage Types </a>
+            <a mat-button [routerLink]="'/manage/types'" *ngIf="authService.getRole() === 'ROLE_ADMIN'"> Manage Types </a>
             <a mat-button [routerLink]="'/cultural-heritages'" *ngIf="authService.getRole() === 'ROLE_ADMIN'"> Manage
-                Cultural Heritages </a>
+                Cultural Heritages </a>            
         </div>
         <span class="menu-spacer"></span>
         <div>
@@ -21,7 +21,7 @@
             <mat-menu #menu="matMenu" class="customize">
                 <a mat-button [routerLink]="['/me', 0]">Your profile</a>
                 <a mat-button *ngIf="authService.getRole() === 'ROLE_USER'" [routerLink]="['/me', 1]" >Your subscriptions</a>
-                <a mat-button (click)="logout()" *ngIf="authService.isLoggedIn()">Sign out</a>
+                <a mat-button (click)="logout()" *ngIf="authService.isLoggedIn()" id='signOutButton'>Sign out</a>
                 <div></div>
             </mat-menu>
 

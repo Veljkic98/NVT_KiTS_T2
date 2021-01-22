@@ -3,52 +3,61 @@ ul {
     padding-left: 0;
     margin: 0;
 }
+
 li {
     list-style-type: none;
     width: 100%;
-    overflow: hidden; 
-    padding-left:0;
+    overflow: hidden;
+    padding-left: 0;
     padding-bottom: 20px;
     margin: 0px;
 }
+
 li i {
-    float:left;
+    float: left;
     width: 10%;
     margin-top: 10px;
     margin-right: 2px;
-    margin-left: 0;}
+    margin-left: 0;
+}
+
 mat-card {
     float: right;
     width: 85%;
 }
+
 .header {
     border-bottom: 1px solid #e5e5e5;
     padding: 5px;
 }
+
 .author {
-    top:0;
+    top: 0;
     position: absolute;
     margin: 2px;
     font-weight: 400;
     color: rgb(243, 242, 187);
     float: left
 }
+
 mat-card:after {
     content: " ";
     position: absolute;
     left: -10px;
     top: 15px;
     border-top: 10px solid transparent;
-    border-right: 10px solid  rgba(48, 106, 182, 0.808);
+    border-right: 10px solid white;
     border-left: none;
     border-bottom: 10px solid transparent;
 }
+
 mat-card img {
     object-fit: cover;
     width: 100%;
     height: 70%;
     margin: 2px;
 }
+
 .btn-add {
     color: black;
     width: 60px;
@@ -57,15 +66,26 @@ mat-card img {
     margin: 4px;
     float: right;
 }
+
 .com-content {
     width: 100%;
     height: 150px;
 }
+
 .delete-icon {
-    top:0;
-    right:0;
+    top: 0;
+    right: 0;
     position: absolute;
     color: red;
     float: right;
-    margin-top:2px !important;
+    margin-top: 2px !important;
+}
+
+.manage-button {
+    font-size: 20px;
+}
+
+.manage-button-div {
+    text-align: right;
+    padding-top: 0.8rem;
 }

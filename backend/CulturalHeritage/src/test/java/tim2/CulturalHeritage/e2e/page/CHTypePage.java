@@ -38,7 +38,17 @@ public class CHTypePage {
     @FindBy(xpath = "//*[@id=\"editSubtype1\"]")
     private WebElement editSubtypesButton;
 
+    @FindBy(xpath = "//*[@id=\"inner-table\"]/tbody/tr[1]/td[3]/div/button")
+    private WebElement deleteSubtypesButton;
+
+    @FindBy(xpath = "//*[@id=\"inner-table\"]/tbody/tr[2]/td[3]/div/button")
+    private WebElement deleteSubtypesButtonFail;
+
+    @FindBy(xpath = "//*[@id=\"mat-dialog-0\"]/app-dialog-content-example-dialog/mat-dialog-actions/button[2]")
+    private WebElement confirmSubtypeDeleteButton;
+
     public CHTypePage(){}
+
 
     public CHTypePage(WebDriver webDriver){
         this.webDriver = webDriver;
@@ -90,4 +100,10 @@ public class CHTypePage {
     public WebElement getShowSubtypesButton() { return showSubtypesButton; }
 
     public WebElement getEditSubtypesButton() { return editSubtypesButton; }
+
+    public WebElement getDeleteSubtypesButton() { return deleteSubtypesButton; }
+
+    public WebElement getDeleteSubtypesButtonFail() { return deleteSubtypesButtonFail; }
+
+    public WebElement getConfirmSubtypeDeleteButton() { return confirmSubtypeDeleteButton; }
 }

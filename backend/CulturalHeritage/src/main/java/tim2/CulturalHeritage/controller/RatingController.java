@@ -72,7 +72,7 @@ public class RatingController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         catch (NullPointerException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
