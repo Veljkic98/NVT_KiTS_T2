@@ -45,7 +45,8 @@ describe('AuthService', () => {
         id: 1, 
         firstName: 'Petar', 
         lastName: 'Petrovic', 
-        email: "some1667@gmail.com"
+        email: "some1667@gmail.com",
+        approved: false
     }
 
     authService.register(newUser).subscribe(res => newUser = res);
@@ -60,5 +61,33 @@ describe('AuthService', () => {
     expect(newUser.firstName).toEqual('Petar');
     expect(newUser.lastName).toEqual('Petrovic');
     expect(newUser.email).toEqual('some1667@gmail.com');
+    expect(newUser.approved).toBe(false);
+  }));
+
+  it('verify() should query url and return approved user profile', fakeAsync(() => {
+    let newUser: User;
+
+    const mockUser: User = 
+    {
+        id: 1, 
+        firstName: 'Petar', 
+        lastName: 'Petrovic', 
+        email: "some1667@gmail.com",
+        approved: true
+    }
+
+    authService.verify(1).subscribe(res => newUser = res);
+    
+    const req = httpMock.expectOne('http://localhost:8080/api/authenticated-users/1');
+    expect(req.request.method).toBe('GET');
+    req.flush(mockUser);
+
+    tick();
+    expect(newUser).toBeDefined();
+    expect(newUser.id).toEqual(1);
+    expect(newUser.firstName).toEqual('Petar');
+    expect(newUser.lastName).toEqual('Petrovic');
+    expect(newUser.email).toEqual('some1667@gmail.com');
+    expect(newUser.approved).toBe(true);
   }));
 });
