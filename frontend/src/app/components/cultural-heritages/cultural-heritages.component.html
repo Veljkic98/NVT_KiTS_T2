@@ -30,7 +30,8 @@
                 <td mat-cell *matCellDef="let element">
                     <button mat-button color="warn">Delete</button>
                     <button mat-button [routerLink]="['/update-ch', element.id]">Edit</button>
-                    <button mat-button [routerLink]="['/manage/news/', element.id]">Manage news</button>
+                    <button mat-button [routerLink]="['/manage/news/', element.id]">View news</button>
+                    <button mat-button [routerLink]="['/add/news/', element.id]">Add news</button>
                 </td>
             </ng-container>
 

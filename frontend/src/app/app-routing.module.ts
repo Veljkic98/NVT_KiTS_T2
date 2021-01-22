@@ -17,6 +17,7 @@ import { NewsComponent } from './components/news/news.component';
 import { UpdateChComponent } from './components/update-ch/update-ch.component';
 import { AddNewTypeComponent } from './components/add-new-type/add-new-type.component';
 import { UpdateNewsComponent } from './components/update-news/update-news.component';
+import { AddNewsComponent } from './components/add-news/add-news.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,12 @@ const routes: Routes = [
       {
         path: 'new-ch',
         component: AddNewCulturalHeritageComponent,
+        canActivate: [RoleGuard],
+        data: { expectedRoles: 'ROLE_ADMIN' }
+      },
+      {
+        path: 'add/news/:chid',
+        component: AddNewsComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: 'ROLE_ADMIN' }
       },

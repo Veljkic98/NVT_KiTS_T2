@@ -10,6 +10,7 @@ import { NEWS_PER_PAGE } from '../../utils/constants';
 const REST_ENDPOINT = {
     GET: '/news/by-page/',
     GET_ONE: '/news/',
+    ADD_ONE: '/news',
     DELETE: '/news/',
 }
 
@@ -31,8 +32,6 @@ export class NewsService {
     }
 
     update(news: News2) {
-
-        // return this.httpClient.put(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, news);
         var id = news.id;
         var imageUri = news.imageUri;
         var heading = news.heading;
@@ -49,8 +48,26 @@ export class NewsService {
             formData.append('file', imageUri);
         }
 
-        // return this.http.post<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}`, formData);
         return this.httpClient.put(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, formData);
+    }
+
+    add(news: News2) {
+        var imageUri = news.imageUri;
+        var heading = news.heading;
+        var content = news.content;
+        var culturalHeritageID = news.culturalHeritageID;
+        var adminID = news.adminID;
+
+        const ch = { heading, content, culturalHeritageID, adminID }
+        const formData = new FormData();
+        formData.append('news', new Blob([JSON.stringify(ch)], {
+            type: 'application/json'
+        }));
+        if (imageUri) {
+            formData.append('file', imageUri);
+        }
+
+        return this.httpClient.post(`${environment.apiUrl}${REST_ENDPOINT.ADD_ONE}`, formData);
     }
 
 }
