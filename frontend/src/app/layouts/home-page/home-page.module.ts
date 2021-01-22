@@ -37,6 +37,8 @@ import { environment } from 'src/environments/environment';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AddNewCulturalHeritageComponent } from 'src/app/components/add-new-cultural-heritage/add-new-cultural-heritage.component';
 import { MatSelectModule } from '@angular/material/select';
+import { UpdateChComponent } from 'src/app/components/update-ch/update-ch.component';
+
 import { AddNewTypeComponent } from 'src/app/components/add-new-type/add-new-type.component';
 import { ChNewsComponent } from 'src/app/components/ch-news/ch-news.component';
 
@@ -83,6 +85,7 @@ import { ChNewsComponent } from 'src/app/components/ch-news/ch-news.component';
         CulturalHeritagesComponent,
         AddNewCulturalHeritageComponent,
         NewsComponent,
+        UpdateChComponent,
         AddNewTypeComponent,
         ChNewsComponent,
     ]

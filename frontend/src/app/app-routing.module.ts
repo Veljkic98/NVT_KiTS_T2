@@ -14,6 +14,7 @@ import { CHTypesComponent } from './components/ch-types/ch-types.component';
 import { CulturalHeritagesComponent } from './components/cultural-heritages/cultural-heritages.component';
 import { AddNewCulturalHeritageComponent } from './components/add-new-cultural-heritage/add-new-cultural-heritage.component';
 import { NewsComponent } from './components/news/news.component';
+import { UpdateChComponent } from './components/update-ch/update-ch.component';
 import { AddNewTypeComponent } from './components/add-new-type/add-new-type.component';
 
 const routes: Routes = [
@@ -40,6 +41,12 @@ const routes: Routes = [
       {
         path: 'new-type',
         component: AddNewTypeComponent,
+        canActivate: [RoleGuard],
+        data: { expectedRoles: 'ROLE_ADMIN' }
+      },
+      {
+        path: 'update-ch/:chid',
+        component: UpdateChComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: 'ROLE_ADMIN' }
       },
