@@ -59,8 +59,14 @@
           </tr>
           <tr>
             <td style="padding-bottom: 1rem; padding-top: 3rem;">
-                <button type="button" class="btn btn-outline-dark" (click)="addCH()"
-                    [disabled]="name === '' || description === '' || isLocationChosen == false || isSubtypeChosen == false || isFileChosen == false">Update</button>
+                <button type="button" class="btn btn-outline-dark" (click)="updateCH()"
+                    [disabled]="
+                    culturalHeritage.name === '' 
+                    || culturalHeritage.description === '' 
+                    || location === null
+                    "
+                >
+                Update</button>
             </td>
         </tr>
       </table>

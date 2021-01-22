@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Location } from 'src/app/models/location.model';
 import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
 
 const REST_ENDPOINT = {
   getOne: '/locations/',
@@ -26,5 +26,9 @@ export class LocationService {
     // }));
 
     return this.http.post<any>(`${environment.apiUrl}/${LOCATIONS}`, location);
+  }
+
+  getOne(id: number): Observable<Location> {
+    return this.http.get<Location>(`${environment.apiUrl}/${LOCATIONS}/${id}`);
   }
 }

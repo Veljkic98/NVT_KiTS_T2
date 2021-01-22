@@ -45,22 +45,21 @@ export class UpdateChComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //get CH based on it's ID
+   
     this._route.params.subscribe((params: Params) => {
       this.chid = params.chid;
       this.chService.getOne(this.chid)
         .subscribe(response => {
-          this.culturalHeritage = response;
-
-          //set this.lcation
-          this.location = {
-            latitude : this.culturalHeritage.coordinates[1],
-            longitude : this.culturalHeritage.coordinates[0],
-            country : undefined,
-            city : undefined,
-            street : undefined
-          };
           
+          //set CH based
+          this.culturalHeritage = response;
+          
+          //set location
+          this.locationService
+          .getOne(this.culturalHeritage.locationID)
+          .subscribe(loc => {
+            this.location = loc;
+          })
 
           //get all subtypes
           this.subtypeService.getAll().subscribe(
@@ -73,34 +72,18 @@ export class UpdateChComponent implements OnInit {
           );
         })
     });
-
-
   }
 
   /**
    * 
    */
-  addCH(): void {
-    // First add location
-    this.locationService.post(this.location)
-      .subscribe(
-        location => {
-          // then add cultural heritage
-          this.chService.post(this.name, this.description, location.id, this.subtype.id, this.url)
-            .subscribe(
-              data => {
-                // console.log(data);
-                this._router.navigate(['/cultural-heritages']);
-              },
-              error => {
-                console.log(error);
-              }
-            );
-        },
-        error => {
-          console.log(error);
-        }
-      );
+  async updateCH() {
+
+      let location:Location = await this.locationService.post(this.location).toPromise();
+      console.log(location.id);
+    //  await this.chService.post(this.culturalHeritage.name, this.culturalHeritage.description,
+    //   location.id, this.subtype.id, imgUrl )
+    
   }
 
   /**
@@ -123,15 +106,6 @@ export class UpdateChComponent implements OnInit {
    */
   setLocation(location: Location) {
     this.location = location;
-    if (location) {
-      this.isLocationChosen = true;
-      this.location = location;
-    }
-    else {
-      this.isLocationChosen = false;
-      this.location = null
-    }
-
-    // console.log(this.location);
+    console.log(location);
   }
 }
