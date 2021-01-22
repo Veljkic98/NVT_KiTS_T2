@@ -32,7 +32,7 @@ describe('RatingService', () => {
 	    expect(true).toBe(true);
 	}); 
 
-  it(' getUserRating(chID: number) should return user rating for ch with chID', fakeAsync(() => {
+  it(' getUserRating() should return user rating for ch with chID', fakeAsync(() => {
     let userRating: Rating;
     const mockRating: Rating = 
     {
