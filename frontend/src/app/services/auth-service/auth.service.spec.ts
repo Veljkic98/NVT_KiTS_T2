@@ -90,4 +90,31 @@ describe('AuthService', () => {
     expect(newUser.email).toEqual('some1667@gmail.com');
     expect(newUser.approved).toBe(true);
   }));
+
+  it('getProfile() should query url and return user profile data', fakeAsync(() => {
+    let newUser: User;
+
+    const mockUser: User = 
+    {
+        id: 1, 
+        firstName: 'Petar', 
+        lastName: 'Petrovic', 
+        email: "some1667@gmail.com",
+        approved: true
+    }
+
+    authService.getProfile().subscribe(res => newUser = res);
+    
+    const req = httpMock.expectOne('http://localhost:8080/api/authenticated-users/me');
+    expect(req.request.method).toBe('GET');
+    req.flush(mockUser);
+
+    tick();
+    expect(newUser).toBeDefined();
+    expect(newUser.id).toEqual(1);
+    expect(newUser.firstName).toEqual('Petar');
+    expect(newUser.lastName).toEqual('Petrovic');
+    expect(newUser.email).toEqual('some1667@gmail.com');
+    expect(newUser.approved).toBe(true);
+  }));
 });
