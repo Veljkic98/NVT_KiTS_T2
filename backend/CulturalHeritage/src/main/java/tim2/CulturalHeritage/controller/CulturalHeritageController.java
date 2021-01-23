@@ -1,5 +1,6 @@
 package tim2.CulturalHeritage.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -46,7 +47,9 @@ public class CulturalHeritageController {
             @RequestBody FilterRequestDTO filterDTO) {
 
         Page<CulturalHeritage> chPage = culturalHeritageService.filter(filterDTO, page);
-        List<CulturalHeritageResponseDTO> DTOs = chMapper.toDtoList(chPage.toList());
+
+        List<CulturalHeritage> chList = chPage.getTotalElements() > 0 ? chPage.toList() : new ArrayList<CulturalHeritage>();
+        List<CulturalHeritageResponseDTO> DTOs = chMapper.toDtoList(chList);
         Page<CulturalHeritageResponseDTO> pageResponse = new PageImpl<>(DTOs, chPage.getPageable(),
                 chPage.getTotalElements());
 

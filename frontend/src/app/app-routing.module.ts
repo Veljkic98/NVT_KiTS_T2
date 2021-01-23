@@ -14,6 +14,9 @@ import { CHTypesComponent } from './components/ch-types/ch-types.component';
 import { CulturalHeritagesComponent } from './components/cultural-heritages/cultural-heritages.component';
 import { AddNewCulturalHeritageComponent } from './components/add-new-cultural-heritage/add-new-cultural-heritage.component';
 import { NewsComponent } from './components/news/news.component';
+import { UpdateChComponent } from './components/update-ch/update-ch.component';
+import { AddNewTypeComponent } from './components/add-new-type/add-new-type.component';
+import { UpdateNewsComponent } from './components/update-news/update-news.component';
 
 const routes: Routes = [
   {
@@ -31,8 +34,20 @@ const routes: Routes = [
         data: { expectedRoles: 'ROLE_ADMIN|ROLE_USER' }
       },
       {
-        path: 'types',
+        path: 'manage/types',
         component: CHTypesComponent,
+        canActivate: [RoleGuard],
+        data: { expectedRoles: 'ROLE_ADMIN' }
+      },
+      {
+        path: 'new-type',
+        component: AddNewTypeComponent,
+        canActivate: [RoleGuard],
+        data: { expectedRoles: 'ROLE_ADMIN' }
+      },
+      {
+        path: 'update-ch/:chid',
+        component: UpdateChComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: 'ROLE_ADMIN' }
       },
@@ -43,15 +58,17 @@ const routes: Routes = [
         data: { expectedRoles: 'ROLE_ADMIN' }
       },
       {
+        path: 'update/news/:index',
+        component: UpdateNewsComponent,
+        canActivate: [RoleGuard],
+        data: {expectedRoles: 'ROLE_ADMIN'}
+      },
+      {
         path: 'cultural-heritages',
         component: CulturalHeritagesComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: 'ROLE_ADMIN' },
-        // children: [
-
-        // ]
       },
-      // poseban routing module za admina?
       {
         path: 'manage/news/:index',
         component: NewsComponent,

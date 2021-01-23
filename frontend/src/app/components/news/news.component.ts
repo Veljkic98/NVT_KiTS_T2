@@ -14,7 +14,7 @@ import { NewsService } from "src/app/services/news-service/news-service.service"
 })
 export class NewsComponent{
     chID: number;
-    news: News[];
+    news: News[] = [];
     page = 1;
     totalPages: number;
     totalElements: number;
