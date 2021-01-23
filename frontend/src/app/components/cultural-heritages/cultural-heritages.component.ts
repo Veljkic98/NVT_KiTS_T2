@@ -88,21 +88,15 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
     activeModal.result.then( ()=> {
       this.deleteCH(ch.id);
     }, () => {})
-      // this.modalService.open(deleteModal, {ariaLabelledBy: 'modal-basic-title'}).result.then(() => {
-      //     // this.deleteNews(news.id);
-      //     console.log(ch);
-      // },() => {
-      // });
   }
 
   async deleteCH(id:number){
     this.service.delete(id).subscribe(
       data =>  {
         this.openSnackBar(`Successfuly deleted ${this.selectedCH.name}.`)
-        // this.getNews(this.page - 1);
+        this.getCulturalHeritages(this.pageIndex -1, this.pageSize);
       },
       error => {
-        console.log(error)
         if(error.status == 409)
           this.openSnackBar(`Can\'t delete ${this.selectedCH.name} because there are subscribed users.`)
         else
