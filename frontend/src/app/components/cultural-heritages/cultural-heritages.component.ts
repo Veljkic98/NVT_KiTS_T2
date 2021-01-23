@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CulturalHeritageService } from 'src/app/services/cultural-heritage-service/cultural-heritage.service';
 import { PageEvent } from '@angular/material/paginator';
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 
 export interface PeriodicElement {
   name: string;
@@ -43,8 +46,12 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
 
   pageEvent: PageEvent;
 
+  selectedCH: CulturalHeritage;
+
   constructor(
-    private service: CulturalHeritageService
+    private service: CulturalHeritageService,
+    private modalService: NgbModal,
+    private _snackBar: MatSnackBar,   
   ) { }
 
   ngOnInit(): void {
@@ -74,4 +81,39 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
     this.getCulturalHeritages(this.pageIndex, this.pageSize);
   }
 
+  openDeleteModal(deleteModal, ch:CulturalHeritage){
+    this.selectedCH = ch;
+    const activeModal = this.modalService.open(deleteModal, {ariaLabelledBy: 'modal-basic-title'});
+
+    activeModal.result.then( ()=> {
+      this.deleteCH(ch.id);
+    }, () => {})
+      // this.modalService.open(deleteModal, {ariaLabelledBy: 'modal-basic-title'}).result.then(() => {
+      //     // this.deleteNews(news.id);
+      //     console.log(ch);
+      // },() => {
+      // });
+  }
+
+  async deleteCH(id:number){
+    this.service.delete(id).subscribe(
+      data =>  {
+        this.openSnackBar(`Successfuly deleted ${this.selectedCH.name}.`)
+        // this.getNews(this.page - 1);
+      },
+      error => {
+        console.log(error)
+        if(error.status == 409)
+          this.openSnackBar(`Can\'t delete ${this.selectedCH.name} because there are subscribed users.`)
+        else
+          this.openSnackBar(`Can\'t delete ${this.selectedCH.name}.`)
+      }
+    );
+  }
+
+  openSnackBar(message: string): void{
+    this._snackBar.open(message, 'Dismiss', {
+      duration: 4000,
+    });
+  }
 }
