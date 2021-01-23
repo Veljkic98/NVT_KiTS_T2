@@ -14,7 +14,7 @@ export class CommentService {
         return this.http.get<Page>(`${environment.apiUrl}/${COMMENTS}/by-page/${chID}/?page=${page}&size=${COMMENTS_PER_PAGE}&sort=id,ASC`);
     }
 
-    postComment(chID: number, content: string, image: File): Observable<any> {
+    postComment(chID: number, content: string, image: string): Observable<any> {
         const comment = { content, culturalHeritageID: chID };
         const formData = new FormData();
         console.log(image);
