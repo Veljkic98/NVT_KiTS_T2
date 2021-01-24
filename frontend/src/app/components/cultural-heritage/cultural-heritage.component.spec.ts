@@ -1,5 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { of } from 'rxjs';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
@@ -11,9 +12,8 @@ import { CulturalHeritageComponent } from './cultural-heritage.component';
 describe('CulturalHeritageComponent', () => {
   let component: CulturalHeritageComponent;
   let fixture: ComponentFixture<CulturalHeritageComponent>;
-  let authService: any;
-  let chService: any;
-  let commentService: any;
+  let authService: AuthService;
+  let chService: CulturalHeritageService;
 
   beforeEach(async () => {
     let authServiceMock = {
@@ -45,8 +45,8 @@ describe('CulturalHeritageComponent', () => {
       declarations: [ CulturalHeritageComponent ],
       providers:    [ 
         {provide: AuthService, useValue: authServiceMock },
-        {provide: CulturalHeritageService, useValue: chServiceMock },
-        {provide: CommentService, useValue: commentServiceMock } ]
+        {provide: CulturalHeritageService, useValue: chServiceMock }
+      ]
     })
     .compileComponents();
   });
@@ -56,7 +56,6 @@ describe('CulturalHeritageComponent', () => {
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
     chService = TestBed.inject(CulturalHeritageService);
-    commentService = TestBed.inject(CommentService);
     expect(component.ch).toEqual(undefined);
     expect(component.error).toBe(undefined);
     expect(component.isSubscribed).toBe(false);
@@ -95,8 +94,6 @@ describe('CulturalHeritageComponent', () => {
     expect(cardSubTitle.textContent).toEqual("Italy Venice");
     let rating = fixture.debugElement.query(By.css(".rate")).nativeElement;
     expect(rating.textContent).toEqual(' 0 ');
-    let subscribeBtn = fixture.debugElement.query(By.css(".sub-button")).nativeElement;
-    expect(subscribeBtn.textContent).toEqual('Subscribe');
   }));
 });
 });

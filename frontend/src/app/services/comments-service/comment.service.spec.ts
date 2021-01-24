@@ -37,22 +37,22 @@ describe('CommentService', () => {
         let commentsPage: Page;
 
         const mockComments = [ 
-            {
+            new Comment({
                 id: 1,
                 authenticatedUserID: 4,
                 content: "Duis at velit eu est congue elementum. In hac habitasse platea dictumst.",
                 culturaHeritageID: 1,
                 imageUri: "http://localhost:8080/api/files/1",
                 userName: "Margene Weatherwax"
-            },
-            {
+            }),
+            new Comment({
                 id: 2,
                 authenticatedUserID: 3,
                 content: "Duis bibendum.",
                 culturaHeritageID: 1,
                 imageUri: null,
                 userName: "Sima Matas",
-            }
+            })
         ];
 
         const mockCommentPage = {
@@ -123,7 +123,7 @@ describe('CommentService', () => {
             userName: "Margene Weatherwax"
         };
 
-        commentService.postComment(newComment.culturaHeritageID, newComment.content, image).subscribe(res => newComment = res);
+        commentService.postComment(newComment.culturaHeritageID, newComment.content, image.name).subscribe(res => newComment = res);
         
         const req = httpMock.expectOne('http://localhost:8080/api/comments');
         expect(req.request.method).toBe('POST');
