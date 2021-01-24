@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
@@ -21,7 +22,10 @@ describe('CulturalHeritageComponent', () => {
         .and.returnValue(of("USER")),
 
         getSubscriptions: jasmine.createSpy('getSubscriptions')
-        .and.returnValue(of([]))
+        .and.returnValue(of([])),
+
+        isLoggedIn: jasmine.createSpy('isLoggedIn')
+        .and.returnValue(of(true)),
       }
     let chServiceMock = {
     getOne: jasmine.createSpy('getOne')
@@ -46,7 +50,8 @@ describe('CulturalHeritageComponent', () => {
       providers:    [ 
         {provide: AuthService, useValue: authServiceMock },
         {provide: CulturalHeritageService, useValue: chServiceMock },
-        {provide: CommentService, useValue: commentServiceMock } ]
+        {provide: CommentService, useValue: commentServiceMock } ],
+      imports: [ HttpClientModule ]
     })
     .compileComponents();
   });
@@ -68,10 +73,9 @@ describe('CulturalHeritageComponent', () => {
   });
 
   describe('ngOnInit()', () => {
-  it('should fetch cultural heritage, user rating for it and subsctiption on init ', fakeAsync(() => {
+  it('should fetch cultural heritage on init ', fakeAsync(() => {
     component.ngOnInit();
-    expect(authService.getSubscriptions).toHaveBeenCalled(); 
-    expect(chService.getOne).toHaveBeenCalled(); 
+    expect(chService.getOne).toHaveBeenCalled();  
     tick();
    
     expect(component.ch.id).toBe(1);
@@ -95,8 +99,6 @@ describe('CulturalHeritageComponent', () => {
     expect(cardSubTitle.textContent).toEqual("Italy Venice");
     let rating = fixture.debugElement.query(By.css(".rate")).nativeElement;
     expect(rating.textContent).toEqual(' 0 ');
-    let subscribeBtn = fixture.debugElement.query(By.css(".sub-button")).nativeElement;
-    expect(subscribeBtn.textContent).toEqual('Subscribe');
   }));
 });
 });
