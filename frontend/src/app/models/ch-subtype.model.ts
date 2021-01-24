@@ -9,3 +9,8 @@ export class CHSubtype2 {
     public name: string;
     public chTypeId: number;
 }
+
+export class CHSubtype3 {
+    public name: string;
+    public chTypeID: number;
+}

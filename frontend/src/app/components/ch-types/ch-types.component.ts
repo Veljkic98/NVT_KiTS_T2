@@ -36,7 +36,7 @@ export class CHTypesComponent implements OnInit {
     errorMsg: string;
     newName: string;
 
-    columnsToDisplay: string[] = ['Name', 'View Subtypes', 'Edit', 'Delete' ];
+    columnsToDisplay: string[] = ['Name', 'Subtypes', 'Edit', 'Delete' ];
     innerDisplayedColumns = ['Name', 'Edit', 'Delete' ];
 
     expandedElement: CHType | null;
