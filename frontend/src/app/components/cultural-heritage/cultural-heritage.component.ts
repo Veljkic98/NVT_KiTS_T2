@@ -13,14 +13,14 @@ import { AuthService } from '../../services/auth-service/auth.service';
 export class CulturalHeritageComponent implements OnInit, OnChanges {
 
   @Input() chID: number;
+  @Output() closeDetails: EventEmitter<void> = new EventEmitter();
+
   isSubscribed: Boolean = false;
 
   loading = true;
   ch: CulturalHeritage;
   error: string;
   openedSection = false;
-
-  @Output() closeDetails: EventEmitter<void> = new EventEmitter();
 
   constructor(
     private chService: CulturalHeritageService,
@@ -29,14 +29,15 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.isSub()
-    if (!changes.chID.firstChange) {
+
+    if (!changes.chID.firstChange)
       this.getCH();
-    }
   }
 
   ngOnInit(): void {
-    this.isSub()
-    console.log(this.isSubscribed)
+    if (this.authService.getRole() === "ROLE_USER")
+      this.isSub();
+
     this.getCH();
   }
 
@@ -47,51 +48,45 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
     this.isSubscribed = false;
 
     this.authService.getSubscriptions()
-    .subscribe(
-      data => {
-        if (data) {
-          data.forEach(element => {
-            if (element.id === this.chID) {
-              this.isSubscribed = true;
-            }
-          });
+      .subscribe(
+        data => {
+          if (data) {
+            data.forEach(element => {
+              if (element.id === this.chID) {
+                this.isSubscribed = true;
+              }
+            });
+          }
         }
-      }
-    );
+      );
   }
 
   /**
    * 
    */
   subscribe() {
-    console.log("sub")
-
     this.chService.subscribe(this.chID)
-    .subscribe(
-      response => {
-        console.log(response.statusText);
-        if (response.statusText == "OK") {
-          this.isSubscribed = true;
+      .subscribe(
+        response => {
+          if (response.statusText == "OK") {
+            this.isSubscribed = true;
+          }
         }
-      }
-    );
+      );
   }
 
   /**
-   * TODO: 
+   * 
    */
   unsubscribe() {
-    console.log("unsub")
-
     this.chService.unsubscribe(this.chID)
-    .subscribe(
-      response => {
-        console.log(response.statusText);
-        if (response.statusText == "OK") {
-          this.isSubscribed = false;
+      .subscribe(
+        response => {
+          if (response.statusText == "OK") {
+            this.isSubscribed = false;
+          }
         }
-      }
-    );
+      );
   }
 
   getCH(): void {

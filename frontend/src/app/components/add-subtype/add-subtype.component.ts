@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { CHSubtype2, CHSubtype3 } from 'src/app/models/ch-subtype.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
@@ -20,7 +21,8 @@ export class AddSubtypeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private subtypeService: CHSubtypeService
+    private subtypeService: CHSubtypeService,
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -65,11 +67,17 @@ export class AddSubtypeComponent implements OnInit {
       this.subtypeService.add(this.subtype)
         .subscribe(
           response => {
-            console.log("added")
+            this.openSnackBar('Successfuly added the subtype!')
             this.subtypes.push(response);
           }
         )
     }
+  }
+
+  openSnackBar(message: string): void {
+    this._snackBar.open(message, 'Dismiss', {
+      duration: 4000,
+    });
   }
 
 }
