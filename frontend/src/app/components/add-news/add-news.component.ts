@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { News2 } from 'src/app/models/news.model';
+import { NewsRequest } from 'src/app/models/news.model';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
 import { NewsService } from 'src/app/services/news-service/news-service.service';
 
@@ -11,14 +12,15 @@ import { NewsService } from 'src/app/services/news-service/news-service.service'
 })
 export class AddNewsComponent implements OnInit {
 
-  news: News2 = new News2();
+  news: NewsRequest = new NewsRequest();
   isFileChosen: boolean = false;
 
 
   constructor(
     private route: ActivatedRoute,
     private newsService: NewsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -43,9 +45,15 @@ export class AddNewsComponent implements OnInit {
 
   add() {
     this.newsService.add(this.news)
-    .subscribe(response => {
-      console.log(response);
-    })
+      .subscribe(response => {
+        this.openSnackBar('Successfuly added the news!')
+      }, error => this.openSnackBar('Can\'t add that news.'));
+  }
+
+  openSnackBar(message: string): void {
+    this._snackBar.open(message, 'Dismiss', {
+      duration: 4000,
+    });
   }
 
 }

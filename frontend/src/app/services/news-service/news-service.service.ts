@@ -53,7 +53,7 @@ export class NewsService {
         return this.httpClient.put(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, formData);
     }
 
-    add(news: News2) {
+    add(news: NewsRequest) {
         var imageUri = news.imageUri;
         var heading = news.heading;
         var content = news.content;
