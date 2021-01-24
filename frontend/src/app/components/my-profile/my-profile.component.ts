@@ -36,7 +36,7 @@ export class MyProfileComponent implements OnInit {
           console.log(error);
           this.error = 'Couldn\'t fetch subscriptions now :(';
       });
-  }
+    }
     this.authService.getProfile()
     .subscribe(
       data => {

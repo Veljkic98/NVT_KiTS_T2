@@ -111,7 +111,8 @@ const routes: Routes = [
       },
       {
         path: 'verify/:id',
-        component: VerificationPageComponent
+        component: VerificationPageComponent,
+        canActivate: [LoginGuard]
       },
     ]
   }

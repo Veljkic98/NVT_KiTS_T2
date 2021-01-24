@@ -95,7 +95,7 @@ fdescribe('CHTypesComponent', () => {
   });
 
   it('should fetch types on load', fakeAsync(() => {
-    component.ngOnInit();
+
     expect(service.getTypes).toHaveBeenCalledWith(0);
     tick();
 
@@ -113,10 +113,7 @@ fdescribe('CHTypesComponent', () => {
 
     let allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('table tr td'));
     expect(allCells[0].nativeElement.textContent).toContain('Type1');
-    expect(allCells[5].nativeElement.textContent).toContain('Type2');
-    expect(allCells[10].nativeElement.textContent).toContain('Type3');
-
-
+    
 
   }));
 
@@ -128,25 +125,23 @@ fdescribe('CHTypesComponent', () => {
     
   }));
 
-  it('should edit type', fakeAsync(() => {
-    let selectedType = new CHType({
-      id: 1,
-      name: "type1",
-      subtypes: []
-    });
-    component.editType(selectedType, "new name")
-  
-    expect(service.editType).toHaveBeenCalledWith({...selectedType, name :"new name"});
-    flush();
+  it('should edit type successfully', fakeAsync(() => {
+    spyOn(component, 'openSnackBar');
+    component.ngOnInit();
     tick();
+    fixture.detectChanges();
+
+    component.editType(component.chTypes[0], "new name");
+    flush();
+
+    expect(service.editType).toHaveBeenCalledWith({...component.chTypes[0], name :"new name"});
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
 
     expect(component.openSnackBar).toHaveBeenCalledWith('Successfuly changed name of type!');
-    let allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('table tr td'));
-    expect(allCells[0].nativeElement.textContent).toContain('new name');
+    let allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('.type-name'));
+    expect(allCells[0].nativeElement.textContent).toContain('New name');
     expect(allCells[0].nativeElement.textContent).not.toContain('Type1');
   }));
- 
 });
