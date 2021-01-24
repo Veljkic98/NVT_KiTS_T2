@@ -78,7 +78,7 @@ public class NewsController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<NewsResponseDTO> add(@RequestPart("file") MultipartFile file,
+    public ResponseEntity<NewsResponseDTO> add(@RequestPart(value = "file", required = false) MultipartFile file,
             @RequestPart("news") NewsRequestDTO newsRequestDTO) {
         
 
