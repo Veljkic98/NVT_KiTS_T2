@@ -21,7 +21,7 @@ import { ActivatedRouteStub } from 'src/app/testing/router-stubs';
 import { CHTypesComponent } from './ch-types.component';
 
 
-fdescribe('CHTypesComponent', () => {
+describe('CHTypesComponent', () => {
   let component: CHTypesComponent;
   let fixture: ComponentFixture<CHTypesComponent>;
   let service: any;
