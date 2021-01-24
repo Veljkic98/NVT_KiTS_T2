@@ -68,8 +68,7 @@ describe('CulturalHeritageComponent', () => {
 
   describe('ngOnInit()', () => {
   it('should fetch cultural heritage, user rating for it and subsctiption on init ', fakeAsync(() => {
-    component.ngOnInit();
-    expect(authService.getSubscriptions).toHaveBeenCalled(); 
+    component.ngOnInit(); 
     expect(chService.getOne).toHaveBeenCalled(); 
     tick();
    

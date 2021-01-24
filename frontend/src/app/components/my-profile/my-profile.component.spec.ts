@@ -4,12 +4,11 @@ import { of } from 'rxjs';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
 
 import { MyProfileComponent } from './my-profile.component';
-import { DebugElement } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActivatedRouteStub } from 'src/app/testing/router-stubs';
 import { User } from 'src/app/models/user.model';
 
-fdescribe('MyProfileComponent', () => {
+describe('MyProfileComponent', () => {
   let component: MyProfileComponent;
   let fixture: ComponentFixture<MyProfileComponent>;
   let authService: AuthService;
