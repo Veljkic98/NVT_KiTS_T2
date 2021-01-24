@@ -76,7 +76,7 @@ describe('NewsComponent', () => {
       providers: [
         {provide: NewsService, useValue: newsServiceMock},
         {provide: ActivatedRoute, useValue:activatedRouteStub},
-        MatSnackBar, Overlay, NgbModal, BrowserAnimationsModule
+        MatSnackBar, Overlay, NgbModal
       ]
     });
 
