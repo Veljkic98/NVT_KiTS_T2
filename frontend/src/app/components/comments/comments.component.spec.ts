@@ -69,8 +69,8 @@ describe('CommentsComponent', () => {
         }
         )),
 
-        getSubscriptions: jasmine.createSpy('getSubscriptions')
-        .and.returnValue(of([]))
+        deleteComment: jasmine.createSpy('deleteComment')
+        .and.returnValue(of({}))
       }
     await TestBed.configureTestingModule({
       declarations: [ CommentsComponent ],
@@ -129,8 +129,25 @@ describe('CommentsComponent', () => {
     expect(comments[1].nativeElement.textContent).toContain("Duis bibendum.");
 
     expect(comments[2].nativeElement.textContent).toContain("Sima Matas");
-    expect(comments[2].nativeElement.textContent).toContain("Duis bibendum2.");
-   
+    expect(comments[2].nativeElement.textContent).toContain("Duis bibendum2.");   
   }));
-});
+})
+
+  describe('deleteComment()', () => {
+    it('should delete', fakeAsync(() => {
+      component.chID = 1;
+      fixture.detectChanges();
+      component.deleteComment(3);
+      tick();
+
+      expect(commService.deleteComment).toHaveBeenCalledWith(3); 
+
+  
+      fixture.detectChanges();
+    
+      let comments: DebugElement[] = fixture.debugElement.queryAll(By.css('.comment-root'));
+      expect(comments.length).toBe(2); 
+    
+    }));
+  })
 });
