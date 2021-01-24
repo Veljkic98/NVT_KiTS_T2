@@ -56,12 +56,15 @@ fdescribe('CHTypesComponent', () => {
                                 last:false
                               }                     
                         ))),
-       editType: jasmine.createSpy('editType').and 
+        editType: jasmine.createSpy('editType').and 
         .returnValue(of(new CHType({
           id: 1,
           name: "new name",
           subtypes: []
-        })))
+        }))),
+      
+        deleteType: jasmine.createSpy('editType').and 
+        .returnValue(of({}))
     }
 
     let subtypeServices = {
@@ -95,7 +98,7 @@ fdescribe('CHTypesComponent', () => {
   });
 
   it('should fetch types on load', fakeAsync(() => {
-
+    component.ngOnInit();
     expect(service.getTypes).toHaveBeenCalledWith(0);
     tick();
 
@@ -122,6 +125,25 @@ fdescribe('CHTypesComponent', () => {
     flush();
     expect(serviceSubtypes.deleteSubtype).toHaveBeenCalledWith(1); // brisanje s id-em 1
     expect(service.getTypes).toHaveBeenCalledWith(0);  // poziva za getTypes za page 0
+    
+  }));
+
+  it('should call delete type', fakeAsync( () => {
+    spyOn(component, 'openSnackBar');
+    component.ngOnInit();
+    tick();
+    fixture.detectChanges();
+
+    component.deleteType(1);
+    flush();
+    expect(service.deleteType).toHaveBeenCalledWith(1); // brisanje s id-em 1
+    fixture.detectChanges();
+
+    expect(component.openSnackBar).toHaveBeenCalledWith('Successfuly deleted the type!');
+    expect(component.chTypes.length).toEqual(2);
+
+    let allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('.type-name'));
+    expect(allCells[0].nativeElement.textContent).not.toContain('Type1');
     
   }));
 
