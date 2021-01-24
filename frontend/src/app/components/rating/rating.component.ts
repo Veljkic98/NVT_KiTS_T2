@@ -66,6 +66,7 @@ export class RatingComponent implements OnInit, OnChanges {
           this.userRated = true;
           this.calcAvgAddedRating.emit(this.userRating);
           this.oldRating = this.userRating;
+          this.ratingID = data.id;
         },
         error => {
            console.log(error);

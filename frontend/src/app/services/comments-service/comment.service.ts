@@ -17,6 +17,7 @@ export class CommentService {
     postComment(chID: number, content: string, image: string): Observable<any> {
         const comment = { content, culturalHeritageID: chID };
         const formData = new FormData();
+        console.log(image);
         formData.append('comment', new Blob([JSON.stringify(comment)], {
             type: 'application/json'
         }));

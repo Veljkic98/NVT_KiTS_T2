@@ -10,18 +10,29 @@ export class CulturalHeritage {
   public totalRatings: number;
   public locationName: string;
 
-  constructor(id: number, avgRating: number, chsubtypeID: number, description: string, 
-    imageUri: string, locationID: number, name: string, coordinates: [string, string], 
-    totalRatings: number, locationName: string) {
-    this.name = name;
-    this.id = id;
-    this.chsubtypeID = chsubtypeID;
-    this.description = description;
-    this.avgRating = avgRating;
-    this.imageUri = imageUri;
-    this.locationID = locationID;
-    this.coordinates = coordinates;
-    this.totalRatings = totalRatings;
-    this.locationName = locationName;
+  constructor(chCfg: CulturalHeritageInterface) {
+    this.name = chCfg.name;
+    this.id = chCfg.id;
+    this.chsubtypeID = chCfg.chsubtypeID;
+    this.description = chCfg.description;
+    this.avgRating = chCfg.avgRating;
+    this.imageUri = chCfg.imageUri;
+    this.locationID = chCfg.locationID;
+    this.coordinates = chCfg.coordinates;
+    this.totalRatings = chCfg.totalRatings;
+    this.locationName = chCfg.locationName;
   }
+}
+
+interface CulturalHeritageInterface{
+	  id?: number;
+    avgRating: number;
+    chsubtypeID: number;
+    description: string;
+    imageUri: string;
+    locationID: number;
+    name: string;
+    coordinates: [string, string];
+    totalRatings: number;
+    locationName: string;
 }
