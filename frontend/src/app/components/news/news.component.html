@@ -26,12 +26,12 @@
 
         <div class="root" *ngIf="news.length !== 0">
             <ul>
-              <li *ngFor="let element of news  | paginate: { id: 'server', itemsPerPage: 5, currentPage: page, totalItems: total }  ">
+              <li *ngFor="let element of news | paginate: { id: 'server', itemsPerPage: 5, currentPage: page, totalItems: total }">
                 <mat-card>
                     <div class="header">
-                       <h2>{{ element.heading }}</h2>
+                       <h2 id="heading{{news.indexOf(element) + 1}}">{{ element.heading }}</h2>
                     </div>
-                    <p>{{element.content}}</p>
+                    <p id="content{{news.indexOf(element) + 1}}">{{element.content}}</p>
                     <img *ngIf="element.imageUri" mat-card-image [src]="element.imageUri" alt="png">
                     <div id="btn-div">
                         <button  mat-raised-button color="accent" [routerLink]="['/update/news/', element.id]">EDIT</button>

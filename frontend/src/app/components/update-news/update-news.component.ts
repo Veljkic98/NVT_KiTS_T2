@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { News2, NewsRequest } from 'src/app/models/news.model';
+import { News, NewsRequest } from 'src/app/models/news.model';
 import { NewsService } from 'src/app/services/news-service/news-service.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { NewsService } from 'src/app/services/news-service/news-service.service'
 export class UpdateNewsComponent implements OnInit {
 
   newsID: number;
-  news: News2;
+  news: News;
   // url: string;
   isFileChosen: boolean = false;
 

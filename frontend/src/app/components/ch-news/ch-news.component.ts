@@ -5,7 +5,7 @@ import { CommentService } from '../../services/comments-service/comment.service'
 import { AuthService } from '../../services/auth-service/auth.service';
 import { Comment } from '../../models/comment.model';
 import { NewsService } from 'src/app/services/news-service/news-service.service';
-import { News2 } from 'src/app/models/news.model';
+import { News } from 'src/app/models/news.model';
 
 @Component({
   selector: 'app-ch-news',
@@ -15,7 +15,7 @@ import { News2 } from 'src/app/models/news.model';
 export class ChNewsComponent implements OnInit {
 
   @Input() chID: number;
-  newsList: News2[];
+  newsList: News[];
   page = 1;
   totalPages: number;
   totalElements: number;
