@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { News2, NewsRequest } from "src/app/models/news.model";
-import { Page } from "src/app/models/page.model";
+import { News, NewsRequest } from "src/app/models/news.model";
+import { Page, PageEnchanced } from "src/app/models/page.model";
 import { environment } from "src/environments/environment";
 import { NEWS_PER_PAGE } from '../../utils/constants';
 
@@ -17,9 +17,9 @@ const REST_ENDPOINT = {
 export class NewsService {
     constructor(private httpClient: HttpClient) { }
 
-    getNews(chID: number, page: number): Observable<Page> {
+    getNews(chID: number, page: number): Observable<PageEnchanced<News>> {
         // return this.httpClient.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.GET}${chID}/?page=${page}&size=${NEWS_PER_PAGE}`);
-        return this.httpClient.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.GET}${chID}/?page=${page}&size=${NEWS_PER_PAGE}&sort=id,ASC`);
+        return this.httpClient.get<PageEnchanced<News>>(`${environment.apiUrl}${REST_ENDPOINT.GET}${chID}/?page=${page}&size=${NEWS_PER_PAGE}&sort=id,ASC`);
     }
 
     getOne(chID: number) {
@@ -30,7 +30,7 @@ export class NewsService {
         return this.httpClient.delete(`${environment.apiUrl}${REST_ENDPOINT.DELETE}${id}`);
     }
 
-    update(news: News2) {
+    update(news: News) {
 
         // return this.httpClient.put(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, news);
         var id = news.id;
