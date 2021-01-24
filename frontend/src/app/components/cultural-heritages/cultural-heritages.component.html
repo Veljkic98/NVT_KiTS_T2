@@ -28,7 +28,7 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef style="padding-left: 4rem;"> Actions </th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-button color="warn">Delete</button>
+                    <button mat-button color="warn" (click)="openDeleteModal(deleteModal, element)">Delete</button>
                     <button mat-button [routerLink]="['/update-ch', element.id]">Edit</button>
                     <button mat-button [routerLink]="['/manage/news/', element.id]">Manage news</button>
                 </td>
@@ -42,4 +42,22 @@
             [showFirstLastButtons]="showFirstLastButtons" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex">
         </mat-paginator>
     </div>
+
+    <ng-template #deleteModal let-modal >
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-title">Delete Cultural Heritage</h4>
+          <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Are you sure you want to delete Cultural Heritage: {{selectedCH.name}} ?</strong></p>
+          <span class="text-danger">This operation cannot be undone.</span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" ngbAutofocus class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="modal.close()">Ok</button>
+        </div>
+      </ng-template>
+    
 </div>
