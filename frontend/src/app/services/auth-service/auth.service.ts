@@ -35,7 +35,7 @@ export class AuthService {
         return localStorage.getItem('user') !== null;
     }
 
-    verify(id): Observable<object> {
+    verify(id): Observable<any> {
         return this.http.get(`${environment.apiUrl}/${AUTHENTICATED_USERS}/verify/${id}`);
     }
 

@@ -75,4 +75,8 @@ export class CulturalHeritageService {
 
     return this.http.put<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${ch.id}`, formData)
   }
+
+  delete(id: number): Observable<Object> {
+    return this.http.delete(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${id}`);
+  }
 }
