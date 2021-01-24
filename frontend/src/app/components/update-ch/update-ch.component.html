@@ -52,7 +52,9 @@
             </tr>
             <tr>
                 <td style="padding-bottom: 1rem; padding-top: 3rem;">
-                    <button type="button" class="btn btn-outline-dark" (click)="updateCH()" [disabled]="
+                    <button
+                    id="update-btn" 
+                    type="button" class="btn btn-outline-dark" (click)="updateCH()" [disabled]="
                     culturalHeritage.name === '' 
                     || culturalHeritage.description === '' 
                     || location === null
