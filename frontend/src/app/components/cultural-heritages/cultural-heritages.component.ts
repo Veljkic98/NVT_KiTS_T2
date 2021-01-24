@@ -93,14 +93,14 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
   async deleteCH(id:number){
     this.service.delete(id).subscribe(
       data =>  {
-        this.openSnackBar(`Successfuly deleted ${this.selectedCH.name}.`)
+        this.openSnackBar(`Successfuly deleted the cultural heritage!`)
         this.getCulturalHeritages(this.pageIndex -1, this.pageSize);
       },
       error => {
         if(error.status == 409)
-          this.openSnackBar(`Can\'t delete ${this.selectedCH.name} because there are subscribed users.`)
+          this.openSnackBar(`Can\'t delete cultural heritage because there are subscribed users.`)
         else
-          this.openSnackBar(`Can\'t delete ${this.selectedCH.name}.`)
+          this.openSnackBar(`Can\'t delete cultural heritage.`)
       }
     );
   }
