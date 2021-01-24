@@ -80,8 +80,6 @@ export class CHTypesComponent implements OnInit {
                 this.error = null;
                 this.dataSource = new MatTableDataSource<CHType>(data.content);
                 this.dataSource.paginator = this.paginator;
-
-                console.log(this.chTypes, "TIPOVI");
             },
             error => {
                 console.log(error);
