@@ -1,7 +1,7 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CHType } from 'src/app/models/ch-type.model';
 import { News } from 'src/app/models/news.model';
 import { Page, PageEnchanced } from 'src/app/models/page.model';
@@ -61,21 +61,23 @@ fdescribe('CHTypesComponent', () => {
                                 last:false
                               }                     
                         ))),
-          deleteSubtype: jasmine.createSpy('deleteSubtype').and 
-                              .returnValue(of({body: ''}))
+       
     }
 
-    let subtypeService = {
-
+    let subtypeServices = {
+        deleteSubtype: jasmine.createSpy('deleteSubtype').and 
+                               .returnValue(of(new Observable())),
     }
 
+
+ 
     
     TestBed.configureTestingModule({
       declarations: [ CHTypesComponent ],
       imports: [NgxPaginationModule, MatDialogModule, MatTableModule, BrowserAnimationsModule ],
       providers: [
         {provide: CHTypeService, useValue: chTypesService},
-        {provide: CHSubtypeService, useValue: subtypeService},
+        {provide: CHSubtypeService, useValue: subtypeServices},
         MatSnackBar, Overlay, NgbModal,
       ]
     });
@@ -83,6 +85,7 @@ fdescribe('CHTypesComponent', () => {
     fixture = TestBed.createComponent(CHTypesComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(CHTypeService);
+    serviceSubtypes = TestBed.inject(CHSubtypeService);
 
   });
 
@@ -117,16 +120,12 @@ fdescribe('CHTypesComponent', () => {
 
   }));
 
-  it('should call delete subtype', () => {
-    component.openSubtypeDeleteDialog({id:1,name:'subtype',parentId:1});
-
-    fixture.detectChanges();
-    fixture.detectChanges();
-    fixture.detectChanges();
-
-    let deleteDialog = fixture.debugElement.query(By.css('#mat-dialog-0')).nativeElement;
-    //expect(deleteDialog).toBeTruthy();
+  it('should call delete subtype', fakeAsync( () => {
+    component.deleteSubtype(1);
+    flush();
+    expect(serviceSubtypes.deleteSubtype).toHaveBeenCalledWith(1); // brisanje s id-em 1
+    expect(service.getTypes).toHaveBeenCalledWith(0);  // poziva za getTypes za page 0
     
-  });
+  }));
  
 });
