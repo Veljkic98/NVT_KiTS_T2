@@ -167,7 +167,7 @@ describe('CommentsComponent', () => {
 
       expect(comments[2].nativeElement.textContent).toContain("Sima Matas");
       expect(comments[2].nativeElement.textContent).toContain("This is awesome, we will pass 2 exams with one project");
-    
+      expect(component.content).toBe('');
     }));
   })
 });
