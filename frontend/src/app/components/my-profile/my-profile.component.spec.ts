@@ -111,7 +111,8 @@ describe('MyProfileComponent', () => {
     fixture.detectChanges();
     let subsElements : DebugElement[] = fixture.debugElement.queryAll(By.css('.subs-label'));
     expect(subsElements.length).toBe(2);
-
+    expect(subsElements[0].nativeElement.textContent).toEqual('ch1');
+    expect(subsElements[1].nativeElement.textContent).toEqual('ch2');
 
   }));
 
