@@ -44,12 +44,12 @@ export class LoginComponent implements OnInit {
         this.authService.login(this.loginForm.value.email, this.loginForm.value.password)
             .subscribe(
                 data => {
-                    const payload = JSON.parse(window.atob(data['accessToken'].split('.')[1]));
+                    const payload = JSON.parse(window.atob(data.accessToken.split('.')[1]));
                     this.loading = false;
                     this.success = true;
                     localStorage.setItem('user', JSON.stringify({
                         username: this.loginForm.value.email,
-                        token: data['accessToken'],
+                        token: data.accessToken,
                         id: payload.id,
                         role: payload.role
                     }));
