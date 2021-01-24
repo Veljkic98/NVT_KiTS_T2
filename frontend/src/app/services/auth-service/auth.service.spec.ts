@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { JWT } from 'src/app/models/jwt.model';
 
-fdescribe('AuthService', () => {
+describe('AuthService', () => {
   let injector;
   let authService: AuthService;
   let httpMock: HttpTestingController;
