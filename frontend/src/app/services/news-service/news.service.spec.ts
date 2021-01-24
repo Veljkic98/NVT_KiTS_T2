@@ -6,7 +6,7 @@ import { PageEnchanced } from "src/app/models/page.model";
 import { NewsService } from "./news-service.service";
 
 
-fdescribe('NewsService', () => {
+describe('NewsService', () => {
     let injector;
     let newsService: NewsService;
     let httpMock: HttpTestingController;
