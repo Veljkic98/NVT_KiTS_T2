@@ -41,14 +41,6 @@ describe('CommentsComponent', () => {
             culturaHeritageID: 1,
             imageUri: null,
             userName: "Sima Matas",
-        }),
-        new Comment({
-            id: 3,
-            authenticatedUserID: 3,
-            content: "Duis bibendum2.",
-            culturaHeritageID: 1,
-            imageUri: null,
-            userName: "Sima Matas",
         })
     ];
 
@@ -58,19 +50,29 @@ describe('CommentsComponent', () => {
             content: mockComments,
             empty: false,
             first: true,
-            last: false,
+            last: true,
             number: 0,
-            numberOfElements: 3,
-            pageable: {sort: {sorted: true, unsorted: false, empty: false}, offset: 0, pageNumber: 0, pageSize: 3},
-            size: 3,
+            numberOfElements: 2,
+            pageable: {sort: {sorted: true, unsorted: false, empty: false}, offset: 0, pageNumber: 0, pageSize: 2},
+            size: 2,
             sort: {sorted: true, unsorted: false, empty: false},
-            totalElements: 12,
-            totalPages: 4
+            totalElements: 2,
+            totalPages: 1
         }
         )),
 
         deleteComment: jasmine.createSpy('deleteComment')
-        .and.returnValue(of({}))
+        .and.returnValue(of({})),
+
+        postComment: jasmine.createSpy('postComment')
+        .and.returnValue(of(new Comment({
+          id: 5,
+          content: "This is awesome, we will pass 2 exams with one project!!",
+          authenticatedUserID: 3,
+          culturaHeritageID: 1,
+          imageUri: null,
+          userName: "Sima Matas"
+        })))
       }
     await TestBed.configureTestingModule({
       declarations: [ CommentsComponent ],
@@ -105,13 +107,13 @@ describe('CommentsComponent', () => {
     tick();
     
     expect(component.chID).toBe(1);
-    expect(component.lastPage).toBe(false);
-    expect(component.totalPages).toEqual(4);
-    expect(component.total).toEqual(12);
+    expect(component.lastPage).toBe(true);
+    expect(component.totalPages).toEqual(1);
+    expect(component.total).toEqual(2);
     expect(component.page).toEqual(1);
     expect(component.error).toEqual(null);
   
-    expect(component.commentList.length).toBe(3);
+    expect(component.commentList.length).toBe(2);
     expect(component.error).toBe(null);
 
     //should display fetched comments
@@ -121,15 +123,12 @@ describe('CommentsComponent', () => {
 
 
     let comments: DebugElement[] = fixture.debugElement.queryAll(By.css('.comment-root'));
-    expect(comments.length).toBe(3); 
+    expect(comments.length).toBe(2); 
     expect(comments[0].nativeElement.textContent).toContain("Margene Weatherwax");
     expect(comments[0].nativeElement.textContent).toContain("Duis at velit eu est congue elementum. In hac habitasse platea dictumst.");
 
     expect(comments[1].nativeElement.textContent).toContain("Sima Matas");
     expect(comments[1].nativeElement.textContent).toContain("Duis bibendum.");
-
-    expect(comments[2].nativeElement.textContent).toContain("Sima Matas");
-    expect(comments[2].nativeElement.textContent).toContain("Duis bibendum2.");   
   }));
 })
 
@@ -137,16 +136,37 @@ describe('CommentsComponent', () => {
     it('should delete', fakeAsync(() => {
       component.chID = 1;
       fixture.detectChanges();
-      component.deleteComment(3);
+      component.deleteComment(2);
       tick();
 
-      expect(commService.deleteComment).toHaveBeenCalledWith(3); 
+      expect(commService.deleteComment).toHaveBeenCalledWith(2); 
 
   
       fixture.detectChanges();
     
       let comments: DebugElement[] = fixture.debugElement.queryAll(By.css('.comment-root'));
-      expect(comments.length).toBe(2); 
+      expect(comments.length).toBe(1); 
+    
+    }));
+  })
+  describe('addComment()', () => {
+    it('should delete', fakeAsync(() => {
+      component.chID = 1;
+      component.content = "This is awesome, we will pass 2 exams with one project!!";
+      component.url = null;
+      fixture.detectChanges();
+      component.addComment();
+      tick();
+
+      expect(commService.postComment).toHaveBeenCalledWith(component.chID, "This is awesome, we will pass 2 exams with one project!!", component.url); 
+      tick();
+      fixture.detectChanges();
+    
+      let comments: DebugElement[] = fixture.debugElement.queryAll(By.css('.comment-root'));
+      expect(comments.length).toBe(3); 
+
+      expect(comments[2].nativeElement.textContent).toContain("Sima Matas");
+      expect(comments[2].nativeElement.textContent).toContain("This is awesome, we will pass 2 exams with one project");
     
     }));
   })
