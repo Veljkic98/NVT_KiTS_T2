@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
@@ -15,13 +15,9 @@ export class VerificationPageComponent implements OnInit {
   id: string;
 
   constructor(
-      private router: Router,
       private authService: AuthService,
       private route: ActivatedRoute,
   ) {
-      if (this.authService.isLoggedIn()) {
-          this.router.navigate(['']);
-      }
   }
 
   ngOnInit(): void {
