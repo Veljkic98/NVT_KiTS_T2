@@ -18,15 +18,12 @@ export class MyProfileComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
     private route: ActivatedRoute
 
   ) {}
 
   ngOnInit(): void {
-
-
-
+    
     this.route.paramMap.subscribe( params =>
       this.tabIndex = +params.get('index')
     );
