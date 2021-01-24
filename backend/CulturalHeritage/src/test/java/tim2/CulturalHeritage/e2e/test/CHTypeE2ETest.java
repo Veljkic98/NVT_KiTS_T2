@@ -223,7 +223,7 @@ public class CHTypeE2ETest {
     public void testDeleteSubtypeSuccess() throws InterruptedException {
         logInAdmin();
         justWait(1000);
-        driver.get("http://localhost:4200/types");
+        driver.get("http://localhost:4200/manage/types");
         justWait(1000);
 
         chTypePage.ensureAreDisplayedShowButtons();
@@ -246,7 +246,7 @@ public class CHTypeE2ETest {
     @Test
     public void testDeleteSubtypeFail() throws InterruptedException {
         logInAdmin();
-        driver.get("http://localhost:4200/types");
+        driver.get("http://localhost:4200/manage/types");
         justWait(1000);
 
         chTypePage.ensureAreDisplayedShowButtons();

@@ -55,7 +55,7 @@ export class NewsComponent{
       this.service.getNews(this.chID, page-1)
       .subscribe(
         data => {
-            console.log(data.content);
+            console.log(data, ' je lasttaaa');        
             this.lastPage = data.last;
             this.news = data.content;
             this.total = data.totalElements;

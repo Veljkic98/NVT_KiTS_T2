@@ -65,7 +65,7 @@
                                     </div>
                             </div>
                             </mat-tab>
-                            <mat-tab label="Subscriptions"  *ngIf="user.getRole() == 'ROLE_USER'"> 
+                            <mat-tab label="Subscriptions"  *ngIf="authService.getRole() == 'ROLE_USER'"> 
                                 <div class="tab-content profile-tab" id="myTabContent" >
                                     <div class="subs">
                             <div class="row" *ngFor="let ch of subscriptions">
