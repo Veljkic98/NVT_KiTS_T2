@@ -28,7 +28,7 @@
 </div>
 <div class="root" *ngIf="commentList">
   <ul>
-    <li
+    <li class="comment-root"
       *ngFor="let comment of commentList  | paginate: { id: 'server', itemsPerPage: 3, currentPage: page, totalItems: total }  ">
       <i class="close-icon large material-icons">account_circle</i>
       <mat-card style="background-color:  rgba(48, 106, 182, 0.808);">
