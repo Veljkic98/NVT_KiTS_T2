@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ActivatedRouteStub } from 'src/app/testing/router-stubs';
 import { User } from 'src/app/models/user.model';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
+import { DebugElement } from '@angular/core';
 
 describe('MyProfileComponent', () => {
   let component: MyProfileComponent;
