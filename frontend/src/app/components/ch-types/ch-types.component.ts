@@ -150,17 +150,21 @@ export class CHTypesComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.typeService.editType({...selected, name : result}).subscribe(
-                    data => {
-                        this.openSnackBar('Successfuly changed name of type!');
-                        selected.name = result;
-                    },
-                    error => this.openSnackBar('Name already exist!')
-                );
+               this.editType(selected, result)
             }
 
         });
     }
+
+    editType(type: CHType, newName: string): void {
+        this.typeService.editType({...type, name: newName}).subscribe(
+            data => {
+                this.openSnackBar('Successfuly changed name of type!');
+                type.name = newName;
+            },
+            error => this.openSnackBar('Name already exist!')
+        );
+    } 
 
     openEditSubTypeDialog(selected: CHSubtype): void{
         const dialogRef = this.typeEditDialog.open(EditTypeDialog, {data: selected});

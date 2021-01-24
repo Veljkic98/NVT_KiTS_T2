@@ -1,27 +1,22 @@
 import { Overlay } from '@angular/cdk/overlay';
-import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Observable, of } from 'rxjs';
 import { CHType } from 'src/app/models/ch-type.model';
-import { News } from 'src/app/models/news.model';
-import { Page, PageEnchanced } from 'src/app/models/page.model';
+import { PageEnchanced } from 'src/app/models/page.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
 import { CHTypeService } from 'src/app/services/ch-type-service/ch-type.service';
-import { NewsService } from 'src/app/services/news-service/news-service.service';
-import { ActivatedRouteStub } from 'src/app/testing/router-stubs';
 import { CHTypesComponent } from './ch-types.component';
 
 
-describe('CHTypesComponent', () => {
+fdescribe('CHTypesComponent', () => {
   let component: CHTypesComponent;
   let fixture: ComponentFixture<CHTypesComponent>;
   let service: any;
@@ -61,7 +56,12 @@ describe('CHTypesComponent', () => {
                                 last:false
                               }                     
                         ))),
-       
+       editType: jasmine.createSpy('editType').and 
+        .returnValue(of(new CHType({
+          id: 1,
+          name: "new name",
+          subtypes: []
+        })))
     }
 
     let subtypeServices = {
@@ -126,6 +126,27 @@ describe('CHTypesComponent', () => {
     expect(serviceSubtypes.deleteSubtype).toHaveBeenCalledWith(1); // brisanje s id-em 1
     expect(service.getTypes).toHaveBeenCalledWith(0);  // poziva za getTypes za page 0
     
+  }));
+
+  it('should edit type', fakeAsync(() => {
+    let selectedType = new CHType({
+      id: 1,
+      name: "type1",
+      subtypes: []
+    });
+    component.editType(selectedType, "new name")
+  
+    expect(service.editType).toHaveBeenCalledWith({...selectedType, name :"new name"});
+    flush();
+    tick();
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    expect(component.openSnackBar).toHaveBeenCalledWith('Successfuly changed name of type!');
+    let allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('table tr td'));
+    expect(allCells[0].nativeElement.textContent).toContain('new name');
+    expect(allCells[0].nativeElement.textContent).not.toContain('Type1');
   }));
  
 });
