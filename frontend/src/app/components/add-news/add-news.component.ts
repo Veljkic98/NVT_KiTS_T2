@@ -13,7 +13,7 @@ import { NewsService } from 'src/app/services/news-service/news-service.service'
 export class AddNewsComponent implements OnInit {
 
   news: NewsRequest = new NewsRequest();
-  isFileChosen: boolean = false;
+  isFileChosen: boolean = true;
 
 
   constructor(
