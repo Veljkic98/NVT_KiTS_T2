@@ -98,8 +98,31 @@ public class CHTableE2E {
         String snackBarText = chTablePage.getSnackBar().getText();
 
         assertEquals("Successfuly deleted the cultural heritage!\nDismiss", snackBarText);
-        
-        chTablePage.ensureNotVisibleDeletedType();
+
+        chTablePage.ensureNotVisibleDeletedCH();
+    }
+
+    @Test
+    public void testDeleteTypeFail() throws InterruptedException {
+
+        logInAdmin();
+
+        driver.get("http://localhost:4200/cultural-heritages");
+
+        justWait(1000);
+
+        chTablePage.ensureAreDisplayedDeleteButtons();
+
+        chTablePage.getDeleteButtonFail().click();
+        chTablePage.getDeleteButtonConfirm().click();
+
+        justWait(500);
+
+        String snackBarText = chTablePage.getSnackBar().getText();
+
+        assertEquals("Can\'t delete cultural heritage because there are subscribed users.\nDismiss", snackBarText);
+
+        chTablePage.ensureVisibleNotDeletedCH();
     }
 
 }

@@ -14,8 +14,14 @@ public class CHTablePage {
     @FindBy(xpath = "//*[@id=\"all-ch-table\"]")
     private WebElement chTable;
 
+    @FindBy(xpath = "//*[@id=\"ch4\"]")
+    private WebElement chRow;
+
     @FindBy(xpath = "//*[@id=\"delete-button4\"]")
     private WebElement deleteButton;
+    
+    @FindBy(xpath = "//*[@id=\"delete-button1\"]")
+    private WebElement deleteButtonFail;
 
     @FindBy(xpath = "//*[@id=\"delete-button-confirm\"]")
     private WebElement deleteButtonConfirm;
@@ -45,9 +51,17 @@ public class CHTablePage {
                 ExpectedConditions.elementToBeClickable(By.xpath("//*[contains(@id,\"delete-button\")]")));
     }
 
-    public void ensureNotVisibleDeletedType() {
-        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("type4")));
+    public void ensureNotVisibleDeletedCH() {
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("ch4")));
     }
+
+    public void ensureVisibleNotDeletedCH() {
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.visibilityOfElementLocated(By.id("ch1")));
+	}
+
+	public void ensureVisibleErrorModal() {
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("errorModal")));
+	}
 
     // endregion
 
@@ -69,6 +83,10 @@ public class CHTablePage {
         return snackBar;
     }
 
+	public WebElement getDeleteButtonFail() {
+		return deleteButtonFail;
+    }
+    
     //endregion
 
 }

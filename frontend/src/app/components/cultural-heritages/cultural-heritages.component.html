@@ -9,7 +9,7 @@
             <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                <td mat-cell *matCellDef="let element" id="ch{{element.id}}"> {{element.name}} </td>
             </ng-container>
 
             <!-- Subtype Column -->
