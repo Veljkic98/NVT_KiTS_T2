@@ -64,4 +64,6 @@ describe('CulturalHeritageService', () => {
     expect(ch.totalRatings).toEqual(0);
     expect(ch.coordinates).toEqual(["12.327145", "45.438759"]);
   }));
+
+  it('filter()  ')
 });
