@@ -28,7 +28,7 @@ describe('RegisterComponent', () => {
 
     let formBuilder = new FormBuilder();
     
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [ RegisterComponent ],
       imports: [FormsModule, ReactiveFormsModule,
         BrowserModule, BrowserAnimationsModule, MatFormFieldModule, MatInputModule ],

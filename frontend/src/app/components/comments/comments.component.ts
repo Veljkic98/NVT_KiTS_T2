@@ -50,6 +50,7 @@ export class CommentsComponent implements OnInit, OnChanges {
           this.total = data.totalElements;
           this.page = data.number + 1;
           this.error = null;
+          this.totalPages = data.totalPages;
       },
       error => {
          console.log(error);
