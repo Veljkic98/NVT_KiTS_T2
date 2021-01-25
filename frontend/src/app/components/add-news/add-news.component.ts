@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NewsRequest } from 'src/app/models/news.model';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
 import { NewsService } from 'src/app/services/news-service/news-service.service';
@@ -18,6 +18,7 @@ export class AddNewsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private _router: Router,
     private newsService: NewsService,
     private authService: AuthService,
     private _snackBar: MatSnackBar,
@@ -46,6 +47,7 @@ export class AddNewsComponent implements OnInit {
   add() {
     this.newsService.add(this.news)
       .subscribe(response => {
+        this._router.navigate(['/cultural-heritages']);
         this.openSnackBar('Successfuly added the news!')
       }, error => this.openSnackBar('Can\'t add that news.'));
   }

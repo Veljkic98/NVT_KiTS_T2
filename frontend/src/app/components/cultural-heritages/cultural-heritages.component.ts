@@ -61,7 +61,7 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
   getCulturalHeritages(page: number, size: number): void {
     this.service.getCulturalHeritagesWithSize(page, size).subscribe(
       data => {
-        console.log(data.content)
+        // console.log(data.content)
         this.dataSource = data.content;
         this.length = data.totalElements;
         this.totalPages = data.totalPages;
