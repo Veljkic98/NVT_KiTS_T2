@@ -74,7 +74,7 @@ public class CHAddE2ETest {
   }
 
   @Test
-  public void addNameAndDescriptionShouldNotBeClickable() throws InterruptedException {
+  public void postButtonShouldNotBeClickable() throws InterruptedException {
     logInAdmin();
     driver.get("http://localhost:4200/new-ch");
     justWait(1000);
@@ -83,8 +83,6 @@ public class CHAddE2ETest {
     chAddPage.getDescriptionInput().clear();
     chAddPage.getDescriptionInput().sendKeys("New CH description");
     chAddPage.ensurePostButtonIsNotClickable();
-    // assertEquals("http://localhost:4200/cultural-heritages",
-    // driver.getCurrentUrl());
   }
 
   @Test
@@ -125,4 +123,5 @@ public class CHAddE2ETest {
     assertEquals("http://localhost:4200/cultural-heritages", driver.getCurrentUrl());
   }
 
+  
 }
