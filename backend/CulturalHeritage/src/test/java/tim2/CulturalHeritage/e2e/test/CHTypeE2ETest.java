@@ -289,5 +289,14 @@ public class CHTypeE2ETest {
         assertEquals("Successfuly added the subtype!\nDismiss", snackBarText);
     }
 
+    @Test
+    public void addSubtypeFail()throws InterruptedException {
+        logInAdmin();
+        driver.get("http://localhost:4200/add/subtype/1");    
+        chTypePage.getSubtypeInput().clear();
+        chTypePage.getSubtypeInput().sendKeys("festival");
+        chTypePage.ensurePostSubtypeButtonIsNotClickable();
+    }
+
 
 }
