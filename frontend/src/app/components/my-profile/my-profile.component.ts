@@ -18,15 +18,12 @@ export class MyProfileComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
     private route: ActivatedRoute
 
   ) {}
 
   ngOnInit(): void {
-
-
-
+    
     this.route.paramMap.subscribe( params =>
       this.tabIndex = +params.get('index')
     );
@@ -39,7 +36,7 @@ export class MyProfileComponent implements OnInit {
           console.log(error);
           this.error = 'Couldn\'t fetch subscriptions now :(';
       });
-  }
+    }
     this.authService.getProfile()
     .subscribe(
       data => {

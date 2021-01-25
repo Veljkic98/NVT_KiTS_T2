@@ -80,8 +80,6 @@ export class CHTypesComponent implements OnInit {
                 this.error = null;
                 this.dataSource = new MatTableDataSource<CHType>(data.content);
                 this.dataSource.paginator = this.paginator;
-
-                console.log(this.chTypes, "TIPOVI");
             },
             error => {
                 console.log(error);
@@ -124,16 +122,20 @@ export class CHTypesComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.subtypeService.deleteSubtype(selected.id).subscribe(
-                    data => {
-                        this.openSnackBar('Successfuly deleted the subtype!');
-                        this.getTypes(0);
-                    },
-                    error => this.openSnackBar('Can\'t delete that subtype. There are cultural heritages of that subtype.')
-                );
+                this.deleteSubtype(selected.id);
             }
 
         });
+      }
+
+      deleteSubtype(id: number): void {
+        this.subtypeService.deleteSubtype(id).subscribe(
+            data => {
+                this.openSnackBar('Successfuly deleted the subtype!');
+                this.getTypes(this.page);
+            },
+            error => this.openSnackBar('Can\'t delete that subtype. There are cultural heritages of that subtype.')
+        );
       }
 
 
