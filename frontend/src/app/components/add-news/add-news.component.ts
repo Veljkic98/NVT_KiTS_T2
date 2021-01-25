@@ -46,10 +46,10 @@ export class AddNewsComponent implements OnInit {
 
   add() {
     this.newsService.add(this.news)
-      .subscribe(response => {
+      .subscribe(() => {
         this._router.navigate(['/cultural-heritages']);
         this.openSnackBar(`Successfuly added ${this.news.heading} news.`)
-      }, error => this.openSnackBar(`Can\'t add ${this.news.heading} news.`));
+      }, () => this.openSnackBar(`Can\'t add ${this.news.heading} news.`));
   }
 
   openSnackBar(message: string): void {

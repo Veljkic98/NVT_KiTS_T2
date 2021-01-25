@@ -1,5 +1,9 @@
 package tim2.CulturalHeritage.e2e.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.File;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,7 +57,7 @@ public class AddNewsE2ETest {
     logInAdmin();
     driver.get("http://localhost:4200/cultural-heritages");
     justWait(1000);
-    addNewsPage.ensureEditButtonIsPresent();
+    addNewsPage.ensureAddNewsButtonIsPresent();
     justWait(1000);
     addNewsPage.getAddNewsButton().click();
     justWait(1000);
@@ -63,7 +67,57 @@ public class AddNewsE2ETest {
   public void addNewsOK() throws InterruptedException{
     logInAdmin();
     driver.get("http://localhost:4200/add/news/2");
-    
+    addNewsPage.getHeadingInput().clear();
+    addNewsPage.getHeadingInput().sendKeys("Visit World's Most Popular Museum");
+
+    addNewsPage.getContentInput().clear();
+    addNewsPage.getContentInput().sendKeys("content bla.");
+
+    addNewsPage.ensureAddButtonIsClickable();
+    addNewsPage.getAddButton().click();
+
+    addNewsPage.ensureSnackBarIsPresent();
+    String snackBarText = addNewsPage.getSnackBar().getText();
+    assertEquals("Successfuly added Visit World's Most Popular Museum news.\nDismiss", snackBarText); 
   }
 
+  @Test
+  public void addNewsWithImageOK() throws InterruptedException{
+    logInAdmin();
+    driver.get("http://localhost:4200/add/news/2");
+    addNewsPage.getHeadingInput().clear();
+    addNewsPage.getHeadingInput().sendKeys("Visit World's Most Popular Museum");
+
+    addNewsPage.getContentInput().clear();
+    addNewsPage.getContentInput().sendKeys("content bla.");
+
+    File file = new File("./src/test/resources/tree.jpg");
+    String absolutePath = file.getAbsolutePath();
+    addNewsPage.getFileInput().sendKeys(absolutePath);
+    
+    addNewsPage.ensureAddButtonIsClickable();
+    addNewsPage.getAddButton().click();
+
+    addNewsPage.ensureSnackBarIsPresent();
+    String snackBarText = addNewsPage.getSnackBar().getText();
+    assertEquals("Successfuly added Visit World's Most Popular Museum news.\nDismiss", snackBarText); 
+  }
+
+  @Test
+  public void addNewsNoContent() throws InterruptedException{
+    logInAdmin();
+    driver.get("http://localhost:4200/add/news/2");
+    addNewsPage.getHeadingInput().clear();
+    addNewsPage.getHeadingInput().sendKeys("Visit World's Most Popular Museum");
+    addNewsPage.ensureAddButtonIsNotClickable();
+  }
+
+  @Test
+  public void addNewsNoHeading() throws InterruptedException{
+    logInAdmin();
+    driver.get("http://localhost:4200/add/news/2");
+    addNewsPage.getContentInput().clear();
+    addNewsPage.getContentInput().sendKeys("content bla.");
+    addNewsPage.ensureAddButtonIsNotClickable();
+  }
 }

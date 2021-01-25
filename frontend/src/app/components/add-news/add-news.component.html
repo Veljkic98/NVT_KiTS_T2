@@ -5,7 +5,7 @@
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>Heading</mat-label>
-                        <input matInput [(ngModel)]="news.heading">
+                        <input id="news heading" matInput [(ngModel)]="news.heading">
                     </mat-form-field>
                 </td>
 
@@ -14,7 +14,7 @@
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>Content</mat-label>
-                        <textarea matInput [(ngModel)]="news.content"></textarea>
+                        <textarea id="news content" matInput [(ngModel)]="news.content"></textarea>
                     </mat-form-field>
                 </td>
             </tr>
@@ -23,7 +23,7 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-group">
-                                <input type='file' (change)="onSelectFile($event)">
+                                <input id="news-file-input" type='file' (change)="onSelectFile($event)">
                             </div>
                         </form>
                     </div>
@@ -31,8 +31,9 @@
             </tr>
             <tr>
                 <td style="padding-bottom: 1rem;">
-                    <button type="button" class="btn btn-outline-dark" (click)="add()"
-                        [disabled]="!news.heading || !news.content ">Update</button>
+                    <button id="add-news-btn" 
+                    type="button" class="btn btn-outline-dark" (click)="add()"
+                        [disabled]="!news.heading || !news.content ">Add</button>
                 </td>
             </tr>
         </table>
