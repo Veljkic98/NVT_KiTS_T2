@@ -22,7 +22,7 @@
                 <td>
                     <mat-form-field appearance="fill">
                         <mat-label>Choose a subtype</mat-label>
-                        <mat-select [(ngModel)]="subtype" name="subtype">
+                        <mat-select id="select-subtype" [(ngModel)]="subtype" name="subtype">
                             <mat-option *ngFor="let subtype of subtypes" [value]="subtype"
                                 (click)="isSubtypeChosen = true">
                                 {{ subtype.name }}
@@ -44,7 +44,7 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-group">
-                                <input type='file' (change)="onSelectFile($event)">
+                                <input id="ch-file-input" type='file' (change)="onSelectFile($event)">
                             </div>
                         </form>
                     </div>
