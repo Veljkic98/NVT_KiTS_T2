@@ -5,7 +5,7 @@
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>Name</mat-label>
-                        <input matInput [(ngModel)]="name">
+                        <input id="name" matInput [(ngModel)]="name">
                     </mat-form-field>
                 </td>
 
@@ -14,7 +14,7 @@
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>Description</mat-label>
-                        <textarea matInput [(ngModel)]="description"></textarea>
+                        <textarea id="description" matInput [(ngModel)]="description"></textarea>
                     </mat-form-field>
                 </td>
             </tr>
@@ -22,7 +22,7 @@
                 <td>
                     <mat-form-field appearance="fill">
                         <mat-label>Choose a subtype</mat-label>
-                        <mat-select [(ngModel)]="subtype" name="subtype">
+                        <mat-select id="select-subtype" [(ngModel)]="subtype" name="subtype">
                             <mat-option *ngFor="let subtype of subtypes" [value]="subtype" (click)="isSubtypeChosen = true">
                                 {{ subtype.name }}
                             </mat-option>
@@ -35,7 +35,7 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-group">
-                                <input type='file' (change)="onSelectFile($event)">
+                                <input id="ch-file-input" type='file' (change)="onSelectFile($event)">
                             </div>
                         </form>
                     </div>
@@ -43,8 +43,12 @@
             </tr>
             <tr>
                 <td style="padding-bottom: 1rem;">
-                    <button type="button" class="btn btn-outline-dark" (click)="addCH()"
-                        [disabled]="name === '' || description === '' || isLocationChosen == false || isSubtypeChosen == false || isFileChosen == false">Post</button>
+                    <button
+                        id ="post-btn"
+                        type="button" class="btn btn-outline-dark" (click)="addCH()"
+                        [disabled]="name === '' || description === '' || isLocationChosen == false || isSubtypeChosen == false || isFileChosen == false">
+                        Post
+                    </button>
                 </td>
             </tr>
             <tr>
