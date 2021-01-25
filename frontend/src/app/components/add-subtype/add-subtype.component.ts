@@ -58,11 +58,11 @@ export class AddSubtypeComponent implements OnInit {
     });
     try {
       this.takenNames = this.takenNames.slice(0, -2);
-    } catch (error) { }
+      return this.nameValid;
+    } catch (error) { return this.nameValid;}
   }
 
   add() {
-    this.isNameValid();
 
     if (this.nameValid) {
       this.subtypeService.add(this.subtype)

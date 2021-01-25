@@ -5,7 +5,7 @@
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>Name</mat-label>
-                        <input id="subtype name" matInput class="name-input" [(ngModel)]="subtype.name">
+                        <input autocomplete="off" id="subtype name" matInput class="name-input" [(ngModel)]="subtype.name">
                     </mat-form-field>
                 </td>
             </tr>
@@ -13,7 +13,7 @@
                 <td style="padding-bottom: 1rem;">
                     <button id="post-subtype-btn"
                     type="button" class="btn btn-outline-dark" (click)="add()"
-                        [disabled]="!subtype.name">Post Subtype</button>
+                        [disabled]="!subtype.name || !isNameValid()">Post Subtype</button>
                 </td>
             </tr>
             <p *ngIf="nameValid == false" style="color: rgb(175, 11, 11);">Name cannot be same</p>
