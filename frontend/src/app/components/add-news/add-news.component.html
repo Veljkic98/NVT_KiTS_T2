@@ -32,7 +32,7 @@
             <tr>
                 <td style="padding-bottom: 1rem;">
                     <button type="button" class="btn btn-outline-dark" (click)="add()"
-                        [disabled]="news.heading === '' || news.content === '' || isFileChosen == false">Update</button>
+                        [disabled]="!news.heading || !news.content ">Update</button>
                 </td>
             </tr>
         </table>
