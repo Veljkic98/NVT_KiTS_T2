@@ -97,7 +97,7 @@ public class CHTableE2E {
 
         String snackBarText = chTablePage.getSnackBar().getText();
 
-        assertEquals("Successfuly deleted the cultural heritage!\nDismiss", snackBarText);
+        assertEquals("Successfuly deleted Sundance Film Festival.\nDismiss", snackBarText);
 
         chTablePage.ensureNotVisibleDeletedCH();
     }
@@ -120,7 +120,7 @@ public class CHTableE2E {
 
         String snackBarText = chTablePage.getSnackBar().getText();
 
-        assertEquals("Can\'t delete cultural heritage because there are subscribed users.\nDismiss", snackBarText);
+        assertEquals("Can\'t delete Venice Carnival because there are subscribed users.\nDismiss", snackBarText);
 
         chTablePage.ensureVisibleNotDeletedCH();
     }
