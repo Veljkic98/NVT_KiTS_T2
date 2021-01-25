@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { News, NewsRequest } from "src/app/models/news.model";
+import { News } from "src/app/models/news.model";
 import { Page, PageEnchanced } from "src/app/models/page.model";
 import { environment } from "src/environments/environment";
 import { NEWS_PER_PAGE } from '../../utils/constants';
@@ -53,7 +53,7 @@ export class NewsService {
         return this.httpClient.put(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, formData);
     }
 
-    add(news: NewsRequest) {
+    add(news: News) {
         var imageUri = news.imageUri;
         var heading = news.heading;
         var content = news.content;
