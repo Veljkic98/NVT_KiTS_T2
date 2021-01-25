@@ -1,5 +1,7 @@
 package tim2.CulturalHeritage.e2e.test;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -85,5 +87,49 @@ public class CHUpdateE2ETest {
     chUpdatePage.getUpdateButton().click();
   }
 
+  @Test
+  public void updateNameOk() throws InterruptedException{
+    logInAdmin();
+    driver.get("http://localhost:4200/update-ch/1");
+    justWait(1000);
+    chUpdatePage.getNameInput().clear();
+    chUpdatePage.getNameInput().sendKeys("New CH name");
+    chUpdatePage.getUpdateButton().click();
+    chUpdatePage.ensureSnackBarIsPresent();
+    String snackBarText = chUpdatePage.getSnackBar().getText();
+    assertEquals("Successfuly updated New CH name.\nDismiss", snackBarText);
+  }
 
+  @Test
+  public void updateNameButtonShouldNotBeClickable() throws InterruptedException{
+    logInAdmin();
+    driver.get("http://localhost:4200/update-ch/1");
+    justWait(1000);
+    chUpdatePage.getNameInput().clear();
+    chUpdatePage.getNameInput().sendKeys(Keys.SPACE, Keys.BACK_SPACE);
+    chUpdatePage.ensureUpdateButtonIsNotClickable();
+  }
+
+  @Test
+  public void updateDescriptionOk() throws InterruptedException{
+    logInAdmin();
+    driver.get("http://localhost:4200/update-ch/2");
+    justWait(1000);
+    chUpdatePage.getDescriptionInput().clear();
+    chUpdatePage.getDescriptionInput().sendKeys("New Description");
+    chUpdatePage.getUpdateButton().click();
+    chUpdatePage.ensureSnackBarIsPresent();
+    String snackBarText = chUpdatePage.getSnackBar().getText();
+    assertEquals("Successfuly updated La Tomatina Festival.\nDismiss", snackBarText);
+  }
+
+  @Test
+  public void updateDescriptionButtonShouldNotBeClickable() throws InterruptedException{
+    logInAdmin();
+    driver.get("http://localhost:4200/update-ch/1");
+    justWait(1000);
+    chUpdatePage.getDescriptionInput().clear();
+    chUpdatePage.getDescriptionInput().sendKeys(Keys.SPACE, Keys.BACK_SPACE);
+    chUpdatePage.ensureUpdateButtonIsNotClickable();
+  }
 }

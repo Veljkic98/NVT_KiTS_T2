@@ -3,6 +3,7 @@ package tim2.CulturalHeritage.e2e.page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -20,6 +21,15 @@ public class CHUpdatePage {
 
   @FindBy(xpath = "//button[@id=\"update-btn\"]")
   private WebElement updateButton;
+
+  @FindBy(xpath = "//input[@id=\"name\"]")
+  private WebElement nameInput;
+
+  @FindBy(xpath = "//textarea[@id=\"description\"]")
+  private WebElement descriptionInput;
+
+  @FindBy(tagName = "simple-snack-bar")
+  private WebElement snackBar;
 
   public CHUpdatePage() {
 
@@ -40,9 +50,16 @@ public class CHUpdatePage {
   public void ensureGeocoderIsPresent() {
     (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.visibilityOf(geocoder));
   }
+
   public void ensureUpdateButtonIsClickable() {
     (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(updateButton));
-}
+  }
+  public void ensureUpdateButtonIsNotClickable() {
+    (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(updateButton)));
+  }
+  public void ensureSnackBarIsPresent() {
+    (new WebDriverWait(webDriver, 10)).until(ExpectedConditions.elementToBeClickable(snackBar));
+  }
 
   public WebElement getEditButton() {
     return editButton;
@@ -51,11 +68,24 @@ public class CHUpdatePage {
   public WebElement getMap() {
     return map;
   }
+
   public WebElement getGeocoder() {
     return geocoder;
   }
 
   public WebElement getUpdateButton() {
     return updateButton;
+  }
+
+  public WebElement getNameInput() {
+    return nameInput;
+  }
+
+  public WebElement getSnackBar() {
+    return snackBar;
+  }
+
+  public WebElement getDescriptionInput(){
+    return descriptionInput;
   }
 }
