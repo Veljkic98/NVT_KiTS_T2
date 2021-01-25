@@ -2,6 +2,8 @@ package tim2.CulturalHeritage.e2e.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,7 +64,7 @@ public class CHUpdateE2ETest {
   }
 
   @Test
-  public void clickEditButton() throws InterruptedException{
+  public void clickEditButton() throws InterruptedException {
     logInAdmin();
     driver.get("http://localhost:4200/cultural-heritages");
     justWait(1000);
@@ -73,12 +75,12 @@ public class CHUpdateE2ETest {
   }
 
   @Test
-  public void updateLocation() throws InterruptedException{
+  public void updateLocation() throws InterruptedException {
     logInAdmin();
     driver.get("http://localhost:4200/update-ch/1");
     chUpdatePage.ensureMapIsPresent();
     chUpdatePage.ensureGeocoderIsPresent();
-    //Grazbachgasse, 8010 Graz, Austria
+    // Grazbachgasse, 8010 Graz, Austria
     chUpdatePage.getGeocoder().sendKeys("Grazbachgasse, 8010 Graz, Austria");
     justWait(2000);
     chUpdatePage.getGeocoder().sendKeys(Keys.RETURN);
@@ -88,7 +90,7 @@ public class CHUpdateE2ETest {
   }
 
   @Test
-  public void updateNameOk() throws InterruptedException{
+  public void updateNameOk() throws InterruptedException {
     logInAdmin();
     driver.get("http://localhost:4200/update-ch/1");
     justWait(1000);
@@ -101,7 +103,7 @@ public class CHUpdateE2ETest {
   }
 
   @Test
-  public void updateNameButtonShouldNotBeClickable() throws InterruptedException{
+  public void updateNameButtonShouldNotBeClickable() throws InterruptedException {
     logInAdmin();
     driver.get("http://localhost:4200/update-ch/1");
     justWait(1000);
@@ -111,7 +113,7 @@ public class CHUpdateE2ETest {
   }
 
   @Test
-  public void updateDescriptionOk() throws InterruptedException{
+  public void updateDescriptionOk() throws InterruptedException {
     logInAdmin();
     driver.get("http://localhost:4200/update-ch/2");
     justWait(1000);
@@ -124,12 +126,39 @@ public class CHUpdateE2ETest {
   }
 
   @Test
-  public void updateDescriptionButtonShouldNotBeClickable() throws InterruptedException{
+  public void updateDescriptionButtonShouldNotBeClickable() throws InterruptedException {
     logInAdmin();
     driver.get("http://localhost:4200/update-ch/1");
     justWait(1000);
     chUpdatePage.getDescriptionInput().clear();
     chUpdatePage.getDescriptionInput().sendKeys(Keys.SPACE, Keys.BACK_SPACE);
     chUpdatePage.ensureUpdateButtonIsNotClickable();
+  }
+
+  @Test
+  public void updateSubtype() throws InterruptedException {
+    logInAdmin();
+    driver.get("http://localhost:4200/update-ch/2");
+    justWait(1000);
+    chUpdatePage.getSubtypeSelect().click();
+    chUpdatePage.getSubtypeOption().click();
+    chUpdatePage.getUpdateButton().click();
+    chUpdatePage.ensureSnackBarIsPresent();
+    String snackBarText = chUpdatePage.getSnackBar().getText();
+    assertEquals("Successfuly updated La Tomatina Festival.\nDismiss", snackBarText);
+  }
+
+  @Test
+  public void updateImage() throws InterruptedException {
+    logInAdmin();
+    driver.get("http://localhost:4200/update-ch/2");
+    justWait(1000);
+    File file = new File("./src/test/resources/tree.jpg");
+    String absolutePath = file.getAbsolutePath();
+    chUpdatePage.getFileInput().sendKeys(absolutePath);
+    chUpdatePage.getUpdateButton().click();
+    chUpdatePage.ensureSnackBarIsPresent();
+    String snackBarText = chUpdatePage.getSnackBar().getText();
+    assertEquals("Successfuly updated La Tomatina Festival.\nDismiss", snackBarText);
   }
 }

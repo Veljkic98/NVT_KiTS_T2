@@ -28,6 +28,15 @@ public class CHUpdatePage {
   @FindBy(xpath = "//textarea[@id=\"description\"]")
   private WebElement descriptionInput;
 
+  @FindBy(xpath = "//*[@id=\"select-subtype\"]")
+  private WebElement subtypeSelect;
+
+  @FindBy(xpath = "//mat-option/span[contains(.,'festival')]")
+  private WebElement subtypeOption;
+
+  @FindBy(xpath = "//input[@id=\"ch-file-input\"]")
+  private WebElement fileInput;
+
   @FindBy(tagName = "simple-snack-bar")
   private WebElement snackBar;
 
@@ -54,9 +63,12 @@ public class CHUpdatePage {
   public void ensureUpdateButtonIsClickable() {
     (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(updateButton));
   }
+
   public void ensureUpdateButtonIsNotClickable() {
-    (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(updateButton)));
+    (new WebDriverWait(webDriver, 30))
+        .until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(updateButton)));
   }
+
   public void ensureSnackBarIsPresent() {
     (new WebDriverWait(webDriver, 10)).until(ExpectedConditions.elementToBeClickable(snackBar));
   }
@@ -85,7 +97,19 @@ public class CHUpdatePage {
     return snackBar;
   }
 
-  public WebElement getDescriptionInput(){
+  public WebElement getDescriptionInput() {
     return descriptionInput;
+  }
+
+  public WebElement getSubtypeSelect() {
+    return subtypeSelect;
+  }
+
+  public WebElement getSubtypeOption() {
+    return subtypeOption;
+  }
+
+  public WebElement getFileInput() {
+    return fileInput;
   }
 }
