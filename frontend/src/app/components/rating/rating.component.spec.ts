@@ -12,15 +12,15 @@ describe('RatingComponent', () => {
   let ratingService: RatingService;
 
   beforeEach(async () => {
-    let authServiceMock = {
+    const authServiceMock = {
         getRole: jasmine.createSpy('getRole')
-        .and.returnValue(of("USER")),
+        .and.returnValue(of('USER')),
 
         getId: jasmine.createSpy('getId')
         .and.returnValue(of(3))
-      }
+      };
 
-    let ratingServiceMock = {
+    const ratingServiceMock = {
       getUserRating: jasmine.createSpy('getUserRating')
         .and.returnValue(of(new Rating({
             id: 1,
@@ -28,7 +28,7 @@ describe('RatingComponent', () => {
             grade: 4,
             chID: 1
         }))),
-             
+
         postRating: jasmine.createSpy('postRating')
         .and.returnValue(of(new Rating({
             id: 1,
@@ -44,10 +44,10 @@ describe('RatingComponent', () => {
             grade: 5,
             chID: 1
         }))),
-      }
+      };
     await TestBed.configureTestingModule({
       declarations: [ RatingComponent ],
-      providers:    [ 
+      providers:    [
         {provide: AuthService, useValue: authServiceMock },
         {provide: RatingService, useValue: ratingServiceMock } ]
     })
@@ -73,16 +73,16 @@ describe('RatingComponent', () => {
     component.chID = 1;
     fixture.detectChanges();
     component.ngOnInit();
-    expect(ratingService.getUserRating).toHaveBeenCalledWith(1); 
+    expect(ratingService.getUserRating).toHaveBeenCalledWith(1);
     tick();
-    
+
     expect(component.chID).toBe(1);
     expect(component.userRated).toBe(true);
     expect(component.userRating).toEqual(4);
     expect(component.ratingID).toBe(1);
     expect(component.oldRating).toBe(4);
   }));
-  })
+  });
 
   describe('newRate()', () => {
     it('should add rating for chosen ch', fakeAsync(() => {
@@ -91,17 +91,17 @@ describe('RatingComponent', () => {
         spyOn(component.calcAvgAddedRating, 'emit');
         fixture.detectChanges();
         component.newRate();
-        expect(ratingService.postRating).toHaveBeenCalledWith(1, 5); 
+        expect(ratingService.postRating).toHaveBeenCalledWith(1, 5);
         tick();
 
-        expect(component.calcAvgAddedRating.emit).toHaveBeenCalledWith(5); 
+        expect(component.calcAvgAddedRating.emit).toHaveBeenCalledWith(5);
         expect(component.chID).toBe(1);
         expect(component.userRated).toBe(true);
         expect(component.userRating).toEqual(5);
         expect(component.ratingID).toBe(1);
         expect(component.oldRating).toBe(5);
     }));
-  })
+  });
 
   describe('changeRate()', () => {
     it('should change rating for chosen ch', fakeAsync(() => {
@@ -110,18 +110,18 @@ describe('RatingComponent', () => {
         spyOn(component.calcAvgChangedRating, 'emit');
         fixture.detectChanges();
         component.changeRate();
-        expect(ratingService.updateRating).toHaveBeenCalledWith(1, 1, 5); 
+        expect(ratingService.updateRating).toHaveBeenCalledWith(1, 1, 5);
         tick();
-        
+
         expect(component.calcAvgChangedRating.emit).toHaveBeenCalledWith({
             rating : 5,
             oldRating: 4
-        }); 
+        });
         expect(component.chID).toBe(1);
         expect(component.userRated).toBe(true);
         expect(component.userRating).toEqual(5);
         expect(component.ratingID).toBe(1);
         expect(component.oldRating).toBe(5);
     }));
-  })
+  });
 });

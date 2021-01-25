@@ -13,7 +13,7 @@ export class UpdateNewsComponent implements OnInit {
   newsID: number;
   news: News;
   // url: string;
-  isFileChosen: boolean = false;
+  isFileChosen = false;
 
   constructor(
     private router: Router,
@@ -32,22 +32,22 @@ export class UpdateNewsComponent implements OnInit {
     this.newsService.getOne(this.newsID)
       .subscribe(data => {
         this.news = data;
-        console.log(data)
-      })
+        console.log(data);
+      });
   }
 
   update() {
 
     this.newsService.update(this.news)
     .subscribe(response => {
-      console.log(response)
-    })
+      console.log(response);
+    });
   }
 
   /**
    * Take url of choosen image.
-   * 
-   * @param event 
+   *
+   * @param event
    */
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {
@@ -55,7 +55,7 @@ export class UpdateNewsComponent implements OnInit {
       // console.log(this.url)
       this.news.imageUri = event.target.files[0];
       this.isFileChosen = true;
-      console.log(this.news.imageUri)
+      console.log(this.news.imageUri);
     }
   }
 

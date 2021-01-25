@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output, SimpleChanges } from '@angular/core';
 import { LngLatLike, Map, Marker } from 'mapbox-gl';
-import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
-import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service'
-import { CulturalHeritage } from '../../models/cultural-heritage.model'
+import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service';
+import { CulturalHeritage } from '../../models/cultural-heritage.model';
 import { Page } from 'src/app/models/page.model';
-import { Location } from 'src/app/models/location.model'
+import { Location } from 'src/app/models/location.model';
 import { environment } from 'src/environments/environment';
 
 
@@ -14,17 +14,17 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./maps.component.css']
 })
 export class MapsComponent implements OnInit {
-  //default map values
-  zoom: number = 3;
-  latitude: number = 47;
-  longitude: number = 13;
+  // default map values
+  zoom = 3;
+  latitude = 47;
+  longitude = 13;
   center: [number, number] = [this.longitude, this.latitude];
   maxBounds: number[][] = [[-180, -85], [180, 85]];
-  style: string = 'mapbox://styles/tim2/ckjgzxl2koofq19qkxsa2ogt0';
+  style = 'mapbox://styles/tim2/ckjgzxl2koofq19qkxsa2ogt0';
   map: Map;
   markersArray: Marker[] = [];
   markerColors: string[];
-  currentPage: number = 0;
+  currentPage = 0;
   isPreviousButtonDisabled: boolean;
   isNextButtonDisabled: boolean;
 
@@ -58,8 +58,8 @@ export class MapsComponent implements OnInit {
    * Method is trigged when a map is fully loaded.
    * Initialize map when map is loaded.
    * Load CHs from backend when map is loaded.
-   * Add search for geocoding if and only if admin is logged in 
-   * and admin is managing CHs (adding new, updating existing). 
+   * Add search for geocoding if and only if admin is logged in
+   * and admin is managing CHs (adding new, updating existing).
    * @param map is object that represents the whole map.
    */
   onMapLoad(map: Map) {
@@ -69,17 +69,17 @@ export class MapsComponent implements OnInit {
       this.geocoder = new MapboxGeocoder({
         accessToken: environment.mapboxApiKey,
         minLength: 6,
-        types: "address",
+        types: 'address',
         zoom: 6,
         marker: false,
       });
       this._addGeocoderInputEventListener();
-      this.map.addControl(this.geocoder, "top-right");
-      //if admin is updating CH location
-      if(this.adminLocationForGeocoder){
+      this.map.addControl(this.geocoder, 'top-right');
+      // if admin is updating CH location
+      if (this.adminLocationForGeocoder){
         this._addMarkerFromGeocoder(this.adminLocationForGeocoder);
         this.map.setCenter([
-          parseFloat(this.adminLocationForGeocoder.longitude), 
+          parseFloat(this.adminLocationForGeocoder.longitude),
           parseFloat(this.adminLocationForGeocoder.latitude)
         ]);
       }
@@ -90,27 +90,27 @@ export class MapsComponent implements OnInit {
   /**
    * @param page should be a number of pageable object for backend.
    * Page starts from index 0,..
-   * Iterate over all CH.  
+   * Iterate over all CH.
    * Set coordinates for a specific ch.
    * Set a map marker color based on ch subtype.
-   * Each subtype should be represented with one and only one color. 
+   * Each subtype should be represented with one and only one color.
    * subtype ids start from index 1. markerColors start from index 0.
-   * => substract 1 from subtype in order to match begging of the markerColors array. 
+   * => substract 1 from subtype in order to match begging of the markerColors array.
    * Add marker function will render html markers on the map.
    * At the end check if previous and next buttons should be disabled.
    */
   async addCulturalHeritagesToMap() {
-    //let culturalHeritages: CulturalHeritage[];
+    // let culturalHeritages: CulturalHeritage[];
     let coords: [number, number];
     let color: string;
 
-    //let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
-    //culturalHeritages = retval.content;
+    // let retval: Page = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
+    // culturalHeritages = retval.content;
     if (this.culturalHeritages) {
       this.culturalHeritages.forEach(culturalHeritage => {
         coords = [
-          parseFloat(culturalHeritage.coordinates[0]), //longitude
-          parseFloat(culturalHeritage.coordinates[1]), //latitude
+          parseFloat(culturalHeritage.coordinates[0]), // longitude
+          parseFloat(culturalHeritage.coordinates[1]), // latitude
         ];
         color = this.markerColors[culturalHeritage.chsubtypeID - 1];
         this.addMarker(coords, color, culturalHeritage.id);
@@ -121,7 +121,7 @@ export class MapsComponent implements OnInit {
   }
 
   ngDoCheck() {
-    let changes = this.iterableDiffer.diff(this.culturalHeritages);
+    const changes = this.iterableDiffer.diff(this.culturalHeritages);
     if (changes) {
       this.removeCulturalHeritagesFromMap();
       this.addCulturalHeritagesToMap();
@@ -131,38 +131,38 @@ export class MapsComponent implements OnInit {
 
 
   /**
-   * 
+   *
    * @param coordinates LngLatLike object
    * @param color string. Select one el from markerColors.
-   * 
-   * Creates new html element (marker for the map). 
+   *
+   * Creates new html element (marker for the map).
    * The new element is pushed in the markersArray array.
    * Animation is set to each marker.
    * Each marker listens for a click event.
    * Each markerIcon has an id corresponding to cultural heritage id.
    * examples of id: "ch_1", "ch_2",...
    */
-  addMarker(coordinates: LngLatLike, color = "blue", culturalHeritageID: number = null) {
-    let markerIcon: HTMLDivElement = document.createElement('div');
-    markerIcon.id = "ch_" + culturalHeritageID;
+  addMarker(coordinates: LngLatLike, color = 'blue', culturalHeritageID: number = null) {
+    const markerIcon: HTMLDivElement = document.createElement('div');
+    markerIcon.id = 'ch_' + culturalHeritageID;
 
-    markerIcon.innerHTML = `  
+    markerIcon.innerHTML = `
     <button style="outline: none; border:none; background-color: rgba(0, 0, 0, 0); cursor: pointer;">
-      <i class="material-icons" 
+      <i class="material-icons"
         style="color: ${color}; font-size: 40px">
         place
       </i>
     </button>`;
 
-    let marker = new Marker(markerIcon).setLngLat(coordinates).addTo(this.map);
+    const marker = new Marker(markerIcon).setLngLat(coordinates).addTo(this.map);
 
-    //add marker to the array of markers 
+    // add marker to the array of markers
     this.markersArray.push(marker);
 
-    //set drop animation
-    markerIcon.style.animation = "dropMarker 0.7s ease-in";
+    // set drop animation
+    markerIcon.style.animation = 'dropMarker 0.7s ease-in';
 
-    //set hover and click events for a marker
+    // set hover and click events for a marker
     this.addMarkerEvents(markerIcon);
   }
 
@@ -172,14 +172,14 @@ export class MapsComponent implements OnInit {
    * When user hovers marker, hover animation is set.
    */
   addMarkerEvents(markerIcon: HTMLDivElement) {
-    //add animation on hover
+    // add animation on hover
     this._addHoverMarkerAnimation(markerIcon);
 
-    //add animation on click
+    // add animation on click
     markerIcon.addEventListener('click', () => {
       this._addSelectMarkerAnimation(markerIcon);
       this._showCHDetails(markerIcon);
-    })
+    });
   }
 
   removeCulturalHeritagesFromMap() {
@@ -195,56 +195,60 @@ export class MapsComponent implements OnInit {
     let page: number;
     let retval: Page;
 
-    //check if previous page button should be disabled
+    // check if previous page button should be disabled
     if (this.currentPage === 0) {
       this.isPreviousButtonDisabled = true;
     }
     else {
       page = this.currentPage - 1;
       retval = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
-      if (retval.content.length === 0)
+      if (retval.content.length === 0) {
         this.isPreviousButtonDisabled = true;
-      else
+      }
+      else {
         this.isPreviousButtonDisabled = false;
+      }
     }
 
-    //check if next page button should be disabled
+    // check if next page button should be disabled
     page = this.currentPage + 1;
     retval = await this.culturalHeritageService.getCulturalHeritages(page).toPromise();
-    if (retval.content.length === 0)
+    if (retval.content.length === 0) {
       this.isNextButtonDisabled = true;
-    else
+    }
+    else {
       this.isNextButtonDisabled = false;
+    }
   }
 
   _showCHDetails(markerIcon: HTMLDivElement) {
-    let id: number = parseInt(markerIcon.id.split('ch_')[1]);
+    const id: number = parseInt(markerIcon.id.split('ch_')[1]);
     this.chChangedEvent.emit(id);
   }
   _addHoverMarkerAnimation(markerIcon: HTMLDivElement) {
     markerIcon.addEventListener('mouseenter', () => {
       markerIcon.style.animation = null;
       markerIcon.offsetHeight; /* trigger reflow */
-      markerIcon.style.animation = "hoverMarker 0.2s linear";
-    })
+      markerIcon.style.animation = 'hoverMarker 0.2s linear';
+    });
   }
 
   _addSelectMarkerAnimation(markerIcon: HTMLDivElement) {
-    //if there is already selected marker, reset it's size 
+    // if there is already selected marker, reset it's size
     this.markersArray.forEach(element => {
-      let icon = element.getElement();
-      icon.getElementsByTagName("i")[0].style.fontSize = "40px";
+      const icon = element.getElement();
+      icon.getElementsByTagName('i')[0].style.fontSize = '40px';
     });
 
-    //increase size of a selected marker
-    let iconImg = markerIcon.getElementsByTagName("i")[0];
+    // increase size of a selected marker
+    const iconImg = markerIcon.getElementsByTagName('i')[0];
     iconImg.style.animation = null;
     iconImg.offsetHeight; /* trigger reflow */
-    iconImg.style.animation = "selectMarker 0.2s linear";
-    iconImg.style.fontSize = "50px";
+    iconImg.style.animation = 'selectMarker 0.2s linear';
+    iconImg.style.fontSize = '50px';
   }
 
-  //this is only for debuging so you can see colors array
+  // this is only for debuging so you can see colors array
   consoleLogColors() {
     for (let i = 0; i < this.markerColors.length; i++) {
       console.log(`%c ${this.markerColors[i]}`, `color: ${this.markerColors[i]}`);
@@ -254,41 +258,41 @@ export class MapsComponent implements OnInit {
 
   setMarkerColors() {
     this.markerColors = [
-      "Teal",
-      "PaleVioletRed",
-      "LightSalmon",
-      "Orange",
-      "YellowGreen",
-      "Indigo",
-      "DarkBlue",
-      "SeaGreen",
-      "LightSlateGray",
-      "DarkKhaki",
-      "DarkViolet",
-      "MediumPurple",
-      "DarkSlateGray",
-      "DarkOrange",
-      "LightGrey",
-      "DarkSalmon",
-      "Grey",
-      "SaddleBrown",
-      "DarkGray",
-      "Red",
-      "SlateGray",
-      "Chocolate",
-      "Turquoise",
-      "PowderBlue",
-      "Gold",
-      "MidnightBlue",
-      "SpringGreen",
-      "Peru",
-      "MediumAquaMarine",
-      "Blue",
-      "FireBrick",
-      "BurlyWood",
-      "Aquamarine",
-      "MediumSpringGreen",
-      "Fuchsia"
+      'Teal',
+      'PaleVioletRed',
+      'LightSalmon',
+      'Orange',
+      'YellowGreen',
+      'Indigo',
+      'DarkBlue',
+      'SeaGreen',
+      'LightSlateGray',
+      'DarkKhaki',
+      'DarkViolet',
+      'MediumPurple',
+      'DarkSlateGray',
+      'DarkOrange',
+      'LightGrey',
+      'DarkSalmon',
+      'Grey',
+      'SaddleBrown',
+      'DarkGray',
+      'Red',
+      'SlateGray',
+      'Chocolate',
+      'Turquoise',
+      'PowderBlue',
+      'Gold',
+      'MidnightBlue',
+      'SpringGreen',
+      'Peru',
+      'MediumAquaMarine',
+      'Blue',
+      'FireBrick',
+      'BurlyWood',
+      'Aquamarine',
+      'MediumSpringGreen',
+      'Fuchsia'
     ];
   }
 
@@ -301,8 +305,8 @@ export class MapsComponent implements OnInit {
   _addGeocoderInputEventListener() {
     this.geocoder.on('result', (event) => {
       this._removeMarkerFromGeocoder();
-      let location = this._getLocationFromGeocoder(event);
-      this.chLocationSelectedEvent.emit(location)
+      const location = this._getLocationFromGeocoder(event);
+      this.chLocationSelectedEvent.emit(location);
       this._addMarkerFromGeocoder(location);
     });
 
@@ -319,42 +323,42 @@ export class MapsComponent implements OnInit {
    * how place_name_en_GB looks like: "Фрушкогорска 20, Novi Sad 21203, South Bačka, Serbia"
    */
   _getLocationFromGeocoder(event: any): Location {
-    let result = event.result;
-    let place_name_en_GB = result['place_name_en-GB'];
-    let [street, city, region, country] = place_name_en_GB.split(", ");
+    const result = event.result;
+    const place_name_en_GB = result['place_name_en-GB'];
+    let [street, city, region, country] = place_name_en_GB.split(', ');
     if (!country) {
       country = region;
     }
 
-    let location: Location = {
+    const location: Location = {
       longitude: result.center[0].toString(),
       latitude: result.center[1].toString(),
-      country: country,
-      city: city,
-      street: street,
-    }
+      country,
+      city,
+      street,
+    };
     return location;
   }
 
   _addMarkerFromGeocoder(location: Location) {
-    let coordinates: [number, number] = [parseFloat(location.longitude), parseFloat(location.latitude)];
-    let color = "red";
-    let fontSize = "60px";
+    const coordinates: [number, number] = [parseFloat(location.longitude), parseFloat(location.latitude)];
+    const color = 'red';
+    const fontSize = '60px';
 
-    let markerIcon: HTMLDivElement = document.createElement('div');
-    markerIcon.id = "geocoder_marker";
-    markerIcon.innerHTML = `  
+    const markerIcon: HTMLDivElement = document.createElement('div');
+    markerIcon.id = 'geocoder_marker';
+    markerIcon.innerHTML = `
     <button style="outline: none; border:none; background-color: rgba(0, 0, 0, 0); cursor: pointer;">
-      <i class="material-icons" 
+      <i class="material-icons"
         style="color: ${color}; font-size: ${fontSize}">
         place
       </i>
     </button>`;
-    let marker = new Marker(markerIcon).setLngLat(coordinates).addTo(this.map);
+    const marker = new Marker(markerIcon).setLngLat(coordinates).addTo(this.map);
   }
   _removeMarkerFromGeocoder() {
     try {
-      let marker = document.getElementById("geocoder_marker");
+      const marker = document.getElementById('geocoder_marker');
       marker.remove();
     }
     catch (error) { }

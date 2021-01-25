@@ -1,9 +1,9 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { News, NewsRequest } from "src/app/models/news.model";
-import { Page, PageEnchanced } from "src/app/models/page.model";
-import { environment } from "src/environments/environment";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { News, NewsRequest } from 'src/app/models/news.model';
+import { Page, PageEnchanced } from 'src/app/models/page.model';
+import { environment } from 'src/environments/environment';
 import { NEWS_PER_PAGE } from '../../utils/constants';
 
 
@@ -12,7 +12,7 @@ const REST_ENDPOINT = {
     GET_ONE: '/news/',
     ADD_ONE: '/news',
     DELETE: '/news/',
-}
+};
 
 @Injectable({ providedIn: 'root' })
 export class NewsService {
@@ -34,14 +34,14 @@ export class NewsService {
     update(news: News) {
 
         // return this.httpClient.put(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, news);
-        var id = news.id;
-        var imageUri = news.imageUri;
-        var heading = news.heading;
-        var content = news.content;
-        var culturalHeritageID = news.culturalHeritageID;
-        var adminID = news.adminID;
+        const id = news.id;
+        const imageUri = news.imageUri;
+        const heading = news.heading;
+        const content = news.content;
+        const culturalHeritageID = news.culturalHeritageID;
+        const adminID = news.adminID;
 
-        const ch = { heading, content, culturalHeritageID, adminID }
+        const ch = { heading, content, culturalHeritageID, adminID };
         const formData = new FormData();
         formData.append('news', new Blob([JSON.stringify(ch)], {
             type: 'application/json'
@@ -54,13 +54,13 @@ export class NewsService {
     }
 
     add(news: NewsRequest) {
-        var imageUri = news.imageUri;
-        var heading = news.heading;
-        var content = news.content;
-        var culturalHeritageID = news.culturalHeritageID;
-        var adminID = news.adminID;
+        const imageUri = news.imageUri;
+        const heading = news.heading;
+        const content = news.content;
+        const culturalHeritageID = news.culturalHeritageID;
+        const adminID = news.adminID;
 
-        const ch = { heading, content, culturalHeritageID, adminID }
+        const ch = { heading, content, culturalHeritageID, adminID };
         const formData = new FormData();
         formData.append('news', new Blob([JSON.stringify(ch)], {
             type: 'application/json'

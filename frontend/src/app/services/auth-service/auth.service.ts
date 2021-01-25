@@ -9,7 +9,7 @@ import { JWT } from 'src/app/models/jwt.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    
+
     constructor(private http: HttpClient) { }
 
     register(user): Observable<any> {

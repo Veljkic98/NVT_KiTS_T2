@@ -60,7 +60,7 @@ export class CHTypesComponent implements OnInit {
 
     ngOnInit(): void {
         this.getTypes(this.page);
-        
+
     }
 
 
@@ -72,7 +72,7 @@ export class CHTypesComponent implements OnInit {
     getTypes(page: number): void{
         this.typeService.getTypes(page - 1).subscribe(
             data => {
-                console.log(data)
+                console.log(data);
                 this.chTypes = data.content;
                 this.lastPage = data.last;
                 this.total = data.totalElements;
@@ -150,7 +150,7 @@ export class CHTypesComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-               this.editType(selected, result)
+               this.editType(selected, result);
             }
 
         });
@@ -164,20 +164,24 @@ export class CHTypesComponent implements OnInit {
             },
             error => this.openSnackBar('Name already exist!')
         );
-    } 
+    }
+
+    editSubtype(subtype: CHSubtype, newName: string): void {
+        this.subtypeService.editSubtype({...subtype, name : newName}).subscribe(
+            data => {
+                this.openSnackBar('Successfuly changed name of subtype!');
+                subtype.name = newName;
+            },
+            error => this.openSnackBar('Name already exist!')
+        );
+    }
 
     openEditSubTypeDialog(selected: CHSubtype): void{
         const dialogRef = this.typeEditDialog.open(EditTypeDialog, {data: selected});
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.subtypeService.editSubtype({...selected, name : result}).subscribe(
-                    data => {
-                        this.openSnackBar('Successfuly changed name of subtype!');
-                        selected.name = result;
-                    },
-                    error => this.openSnackBar('Name already exist!')
-                );
+               this.editSubtype(selected, result);
             }
 
         });

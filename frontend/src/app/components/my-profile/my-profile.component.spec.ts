@@ -17,7 +17,7 @@ describe('MyProfileComponent', () => {
   let route: ActivatedRoute;
 
   beforeEach(async () => {
-    let authServiceMock = {
+    const authServiceMock = {
         getRole: jasmine.createSpy('getRole')
         .and.returnValue('ROLE_USER'),
 
@@ -27,9 +27,9 @@ describe('MyProfileComponent', () => {
         getProfile: jasmine.createSpy('getId')
         .and.returnValue(of(new User({
           id: 3,
-          firstName: "Sima",
-          lastName: "Matas",
-          email: "sima12@hotmail.com",
+          firstName: 'Sima',
+          lastName: 'Matas',
+          email: 'sima12@hotmail.com',
           approved: true
         }))),
 
@@ -64,15 +64,15 @@ describe('MyProfileComponent', () => {
 
 
 
-      }
-    let fakeActivatedRoute =  new ActivatedRouteStub();
-    fakeActivatedRoute.testParams = { index: 1 }; 
-  
+      };
+    const fakeActivatedRoute =  new ActivatedRouteStub();
+    fakeActivatedRoute.testParams = { index: 1 };
+
     await TestBed.configureTestingModule({
       declarations: [ MyProfileComponent ],
-      providers:    [ 
+      providers:    [
         {provide: AuthService, useValue: authServiceMock },
-        {provide: ActivatedRoute, useValue: fakeActivatedRoute}  
+        {provide: ActivatedRoute, useValue: fakeActivatedRoute}
       ]
     })
     .compileComponents();
@@ -83,7 +83,7 @@ describe('MyProfileComponent', () => {
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
     route = TestBed.inject(ActivatedRoute);
-  
+
     fixture.detectChanges();
   });
 
@@ -102,7 +102,7 @@ describe('MyProfileComponent', () => {
     expect(component.subscriptions[0].id).toEqual(1);
     expect(component.subscriptions[0].name).toEqual('ch1');
     expect(component.subscriptions[0].chsubtypeID).toEqual(3);
-  
+
     expect(component.subscriptions[1].id).toEqual(2);
     expect(component.subscriptions[1].name).toEqual('ch2');
     expect(component.subscriptions[1].chsubtypeID).toEqual(2);
@@ -110,7 +110,7 @@ describe('MyProfileComponent', () => {
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
-    let subsElements : DebugElement[] = fixture.debugElement.queryAll(By.css('.subs-label'));
+    const subsElements: DebugElement[] = fixture.debugElement.queryAll(By.css('.subs-label'));
     expect(subsElements.length).toBe(2);
 
 
@@ -119,24 +119,24 @@ describe('MyProfileComponent', () => {
   describe('ngOnInit()', () => {
   it('should fetch user profile details and subscriptions if user is not admin', fakeAsync(() => {
     component.ngOnInit();
-    expect(authService.getProfile).toHaveBeenCalled(); 
+    expect(authService.getProfile).toHaveBeenCalled();
     tick();
 
     expect(component.user.id).toBe(3);
-    expect(component.user.firstName).toBe("Sima");
-    expect(component.user.lastName).toEqual("Matas");
-    expect(component.user.email).toEqual("sima12@hotmail.com");
+    expect(component.user.firstName).toBe('Sima');
+    expect(component.user.lastName).toEqual('Matas');
+    expect(component.user.email).toEqual('sima12@hotmail.com');
     expect(component.user.approved).toEqual(true);
 
 
-    //should display fetched profile
+    // should display fetched profile
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
 
     const profile = fixture.debugElement.query(By.css('.profile-head')).nativeElement;
-    expect(profile.textContent).toContain("Sima Matas");
-    expect(profile.textContent).toContain("sima12@hotmail.com");
+    expect(profile.textContent).toContain('Sima Matas');
+    expect(profile.textContent).toContain('sima12@hotmail.com');
   }));
-})
+});
 });

@@ -13,7 +13,7 @@ import { NewsService } from 'src/app/services/news-service/news-service.service'
 export class AddNewsComponent implements OnInit {
 
   news: NewsRequest = new NewsRequest();
-  isFileChosen: boolean = true;
+  isFileChosen = true;
 
 
   constructor(
@@ -33,8 +33,8 @@ export class AddNewsComponent implements OnInit {
 
   /**
    * Take url of choosen image.
-   * 
-   * @param event 
+   *
+   * @param event
    */
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {
@@ -46,7 +46,7 @@ export class AddNewsComponent implements OnInit {
   add() {
     this.newsService.add(this.news)
       .subscribe(response => {
-        this.openSnackBar('Successfuly added the news!')
+        this.openSnackBar('Successfuly added the news!');
       }, error => this.openSnackBar('Can\'t add that news.'));
   }
 

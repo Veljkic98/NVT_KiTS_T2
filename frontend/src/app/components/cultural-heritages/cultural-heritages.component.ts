@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CulturalHeritageService } from 'src/app/services/cultural-heritage-service/cultural-heritage.service';
 import { PageEvent } from '@angular/material/paginator';
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 
 export interface PeriodicElement {
@@ -30,7 +30,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './cultural-heritages.component.html',
   styleUrls: ['./cultural-heritages.component.css']
 })
-export class CulturalHeritagesComponent implements OnInit { // AfterViewInit 
+export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
 
   totalPages = 0;
   length = 0;
@@ -38,7 +38,7 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
   pageIndex = 0;
   pageSizeOptions = [5, 10, 25];
   showFirstLastButtons = true;
-  
+
   error: string;
 
   displayedColumns: string[] = ['name', 'subtypeName', 'totalRatings', 'actions'];
@@ -51,7 +51,7 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
   constructor(
     private service: CulturalHeritageService,
     private modalService: NgbModal,
-    private _snackBar: MatSnackBar,   
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -61,7 +61,7 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
   getCulturalHeritages(page: number, size: number): void {
     this.service.getCulturalHeritagesWithSize(page, size).subscribe(
       data => {
-        console.log(data.content)
+        console.log(data.content);
         this.dataSource = data.content;
         this.length = data.totalElements;
         this.totalPages = data.totalPages;
@@ -81,26 +81,28 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
     this.getCulturalHeritages(this.pageIndex, this.pageSize);
   }
 
-  openDeleteModal(deleteModal, ch:CulturalHeritage){
+  openDeleteModal(deleteModal, ch: CulturalHeritage){
     this.selectedCH = ch;
     const activeModal = this.modalService.open(deleteModal, {ariaLabelledBy: 'modal-basic-title'});
 
-    activeModal.result.then( ()=> {
+    activeModal.result.then( () => {
       this.deleteCH(ch.id);
-    }, () => {})
+    }, () => {});
   }
 
-  async deleteCH(id:number){
+  async deleteCH(id: number){
     this.service.delete(id).subscribe(
       data =>  {
-        this.openSnackBar(`Successfuly deleted ${this.selectedCH.name}.`)
-        this.getCulturalHeritages(this.pageIndex -1, this.pageSize);
+        this.openSnackBar(`Successfuly deleted ${this.selectedCH.name}.`);
+        this.getCulturalHeritages(this.pageIndex - 1, this.pageSize);
       },
       error => {
-        if(error.status == 409)
-          this.openSnackBar(`Can\'t delete ${this.selectedCH.name} because there are subscribed users.`)
-        else
-          this.openSnackBar(`Can\'t delete ${this.selectedCH.name}.`)
+        if (error.status == 409) {
+          this.openSnackBar(`Can\'t delete ${this.selectedCH.name} because there are subscribed users.`);
+        }
+        else {
+          this.openSnackBar(`Can\'t delete ${this.selectedCH.name}.`);
+        }
       }
     );
   }

@@ -20,9 +20,9 @@ export class PageEnchanced<Type> implements PageInterface<Type> {
     public totalElements: number;
     public totalPages: number;
     public last: boolean;
-    
-    constructor (pageCfg: PageInterface<Type>){
-        this.content = pageCfg.content;    
+
+    constructor(pageCfg: PageInterface<Type>){
+        this.content = pageCfg.content;
         this.id = pageCfg.id;
         this.empty = pageCfg.empty;
         this.number = pageCfg.number;

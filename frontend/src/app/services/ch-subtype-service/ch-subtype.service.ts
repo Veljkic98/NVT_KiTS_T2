@@ -23,7 +23,7 @@ export class CHSubtypeService {
     }
 
     getAll() {
-        return this.httpClient.get<any>(`${environment.apiUrl}/${CH_SUBTYPES}`)
+        return this.httpClient.get<any>(`${environment.apiUrl}/${CH_SUBTYPES}`);
     }
 
     add(subtype: CHSubtype3) {

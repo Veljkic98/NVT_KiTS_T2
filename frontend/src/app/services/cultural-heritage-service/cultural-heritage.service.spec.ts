@@ -12,7 +12,7 @@ describe('CulturalHeritageService', () => {
   let httpMock: HttpTestingController;
   let httpClient: HttpClient;
 
-	beforeEach(() => {
+	 beforeEach(() => {
 
     TestBed.configureTestingModule({
         imports: [HttpClientTestingModule],
@@ -24,33 +24,33 @@ describe('CulturalHeritageService', () => {
     httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);
   });
-  
+
   afterEach(() => {
     httpMock.verify();
   });
- 	
+
  	it('should pass simple test', () => {
 	    expect(true).toBe(true);
-	}); 
+	});
 
   it('getOne(id: number) should return one cultural heritage with given id', fakeAsync(() => {
-    let ch : CulturalHeritage;
+    let ch: CulturalHeritage;
 
     const mockCH: CulturalHeritage = {
       id: 1,
       avgRating: 0,
       chsubtypeID: 1,
-      coordinates:  ["12.327145", "45.438759"],
-      description: "The Carnival of Venice (Italian: Carnevale di Venezia) is an annual festival, held in Venice, Italy. The Carnival starts forty days before Easter and ends on Shrove Tuesday (Fat Tuesday or MartedÃ¬ Grasso), the day before Ash Wednesday. Dove il gabinetto! In other words, At a carnival, every joke is disgraced!",
-      imageUri: "http://localhost:8080/api/files/1",
+      coordinates:  ['12.327145', '45.438759'],
+      description: 'The Carnival of Venice (Italian: Carnevale di Venezia) is an annual festival, held in Venice, Italy. The Carnival starts forty days before Easter and ends on Shrove Tuesday (Fat Tuesday or MartedÃ¬ Grasso), the day before Ash Wednesday. Dove il gabinetto! In other words, At a carnival, every joke is disgraced!',
+      imageUri: 'http://localhost:8080/api/files/1',
       locationID: 1,
-      locationName: "Italy Venice",
-      name: "Venice Carnival",
+      locationName: 'Italy Venice',
+      name: 'Venice Carnival',
       totalRatings: 0
-    }
+    };
 
     chService.getOne(1).subscribe(res => ch = res);
-    
+
     const req = httpMock.expectOne('http://localhost:8080/api/cultural-heritages/1');
     expect(req.request.method).toBe('GET');
     req.flush(mockCH);
@@ -58,12 +58,12 @@ describe('CulturalHeritageService', () => {
     tick();
     expect(ch).toBeDefined();
     expect(ch.id).toEqual(1);
-    expect(ch.name).toEqual("Venice Carnival");
-    expect(ch.locationName).toEqual("Italy Venice");
-    expect(ch.imageUri).toEqual("http://localhost:8080/api/files/1");
+    expect(ch.name).toEqual('Venice Carnival');
+    expect(ch.locationName).toEqual('Italy Venice');
+    expect(ch.imageUri).toEqual('http://localhost:8080/api/files/1');
     expect(ch.totalRatings).toEqual(0);
-    expect(ch.coordinates).toEqual(["12.327145", "45.438759"]);
+    expect(ch.coordinates).toEqual(['12.327145', '45.438759']);
   }));
 
-  it('filter()  ')
+  it('filter()  ');
 });

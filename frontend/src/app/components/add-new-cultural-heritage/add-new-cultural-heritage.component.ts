@@ -17,12 +17,12 @@ export class AddNewCulturalHeritageComponent implements OnInit {
 
   url: string;
 
-  name: string = "";
-  description: string = "";
+  name = '';
+  description = '';
 
-  isLocationChosen: boolean = false;
-  isSubtypeChosen: boolean = false;
-  isFileChosen: boolean = false;
+  isLocationChosen = false;
+  isSubtypeChosen = false;
+  isFileChosen = false;
 
   location: Location;
 
@@ -51,7 +51,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
   }
 
   /**
-   * 
+   *
    */
   addCH(): void {
     // First add location
@@ -78,8 +78,8 @@ export class AddNewCulturalHeritageComponent implements OnInit {
 
   /**
    * Take url of choosen image.
-   * 
-   * @param event 
+   *
+   * @param event
    */
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {
@@ -90,21 +90,21 @@ export class AddNewCulturalHeritageComponent implements OnInit {
   }
 
   /**
-   * 
-   * @param location location is passed from map component 
-   * after geocoder search 
+   *
+   * @param location location is passed from map component
+   * after geocoder search
    */
   setLocation(location: Location) {
     this.location = location;
-    if(location){
+    if (location){
       this.isLocationChosen = true;
       this.location = location;
     }
     else{
       this.isLocationChosen = false;
-      this.location = null
+      this.location = null;
     }
-    
+
     // console.log(this.location);
   }
 

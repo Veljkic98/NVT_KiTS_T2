@@ -13,9 +13,9 @@ export class AddSubtypeComponent implements OnInit {
 
   subtype: CHSubtype3 = new CHSubtype3();
 
-  nameValid: boolean = true;
+  nameValid = true;
 
-  takenNames: string = "";
+  takenNames = '';
 
   subtypes: Array<CHSubtype2> = [];
 
@@ -26,7 +26,7 @@ export class AddSubtypeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.subtype.name = "";
+    this.subtype.name = '';
     this.loadTypeId();
     this.loadSubtypes();
   }
@@ -47,10 +47,10 @@ export class AddSubtypeComponent implements OnInit {
   isNameValid() {
     this.nameValid = true;
 
-    this.takenNames = "";
+    this.takenNames = '';
 
     this.subtypes.forEach(element => {
-      this.takenNames += element.name + " - ";
+      this.takenNames += element.name + ' - ';
       if (element.name.toUpperCase() == this.subtype.name.toUpperCase()) {
         this.nameValid = false;
       }
@@ -67,10 +67,10 @@ export class AddSubtypeComponent implements OnInit {
       this.subtypeService.add(this.subtype)
         .subscribe(
           response => {
-            this.openSnackBar('Successfuly added the subtype!')
+            this.openSnackBar('Successfuly added the subtype!');
             this.subtypes.push(response);
           }
-        )
+        );
     }
   }
 
