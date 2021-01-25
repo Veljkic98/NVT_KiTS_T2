@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { CulturalHeritage } from '../../models/cultural-heritage.model';
-import { Page } from '../../models/page.model'
+import { Page, PageEnchanced } from '../../models/page.model'
 import { Observable } from 'rxjs';
 
 const REST_ENDPOINT = {
@@ -21,8 +21,8 @@ export class CulturalHeritageService {
 
   constructor(private http: HttpClient) { }
 
-  getCulturalHeritages(page: number): Observable<Page> {
-    return this.http.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${page}&size=10`);
+  getCulturalHeritages(page: number): Observable<PageEnchanced<CulturalHeritage>> {
+    return this.http.get<PageEnchanced<CulturalHeritage>>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${page}&size=10`);
   }
 
   getCulturalHeritagesWithSize(pageIndex: number, pageSize: number): Observable<Page> {
@@ -52,7 +52,7 @@ export class CulturalHeritageService {
   }
 
 
-  filterCulturalHeritages(payload: CHFilter, page: number): Observable<Page>{
+  filterCulturalHeritages(payload: CHFilter, page: number): Observable<PageEnchanced<CulturalHeritage>>{
     return this.http.post<Page>(`${environment.apiUrl}${REST_ENDPOINT.filter}/?page=${page}&size=10`, payload);
   }
   

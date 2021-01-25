@@ -3,7 +3,7 @@ import { LngLatLike, Map, Marker } from 'mapbox-gl';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service'
 import { CulturalHeritage } from '../../models/cultural-heritage.model'
-import { Page } from 'src/app/models/page.model';
+import { Page, PageEnchanced } from 'src/app/models/page.model';
 import { Location } from 'src/app/models/location.model'
 import { environment } from 'src/environments/environment';
 
@@ -193,7 +193,7 @@ export class MapsComponent implements OnInit {
 
   async checkIfButtonDisabled() {
     let page: number;
-    let retval: Page;
+    let retval: PageEnchanced<CulturalHeritage>;
 
     //check if previous page button should be disabled
     if (this.currentPage === 0) {
