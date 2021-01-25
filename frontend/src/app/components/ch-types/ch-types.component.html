@@ -16,7 +16,7 @@
               <button mat-stroked-button color="primary" (click)="toggleRow(element)" id="show{{element.id}}">SHOW</button>
             </td>
             <td>
-              <button mat-stroked-button color="primary" [routerLink]="['/add/subtype/', element.id]">ADD NEW</button>
+              <button id="add-new-subtype-btn-{{element.id}}" mat-stroked-button color="primary" [routerLink]="['/add/subtype/', element.id]">ADD NEW</button>
             </td>
           </tr>
 
