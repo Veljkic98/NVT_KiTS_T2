@@ -32,27 +32,27 @@ export class AddSubtypeComponent implements OnInit {
     this.loadSubtypes();
   }
 
-  loadTypeId() {
+  loadTypeId(): void {
     this.route.paramMap.subscribe(params => {
       this.subtype.chTypeID = +params.get('typeid');
     });
   }
 
-  loadSubtypes() {
+  loadSubtypes(): void {
     this.subtypeService.getAll()
       .subscribe(data => {
         this.subtypes = data;
       });
   }
 
-  isNameValid() {
+  isNameValid(): boolean {
     this.nameValid = true;
 
     this.takenNames = '';
 
     this.subtypes.forEach(element => {
       this.takenNames += element.name + ' - ';
-      if (element.name.toUpperCase() == this.subtype.name.toUpperCase()) {
+      if (element.name.toUpperCase() === this.subtype.name.toUpperCase()) {
         this.nameValid = false;
       }
     });
@@ -62,7 +62,7 @@ export class AddSubtypeComponent implements OnInit {
     } catch (error) { return this.nameValid; }
   }
 
-  add() {
+  add(): void {
 
     if (this.nameValid) {
       this.subtypeService.add(this.subtype)

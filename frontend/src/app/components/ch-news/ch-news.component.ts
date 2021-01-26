@@ -12,7 +12,7 @@ import { News } from 'src/app/models/news.model';
   templateUrl: './ch-news.component.html',
   styleUrls: ['./ch-news.component.css']
 })
-export class ChNewsComponent implements OnInit {
+export class ChNewsComponent implements OnInit, OnChanges {
 
   @Input() chID: number;
   newsList: News[];
