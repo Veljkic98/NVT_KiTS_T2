@@ -3,17 +3,17 @@
     <div class="new-ch">
         <button id="add-ch-button" mat-raised-button color="primary" [routerLink]="['/new-ch']">Add new CH</button>
     </div>
-    <div class="mat-elevation-z8">
+    <div class="mat-elevation-z8" id="proba">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" id="all-ch-table">
 
             <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Name </th>
-                <td mat-cell *matCellDef="let element" id="ch{{element.id}}"> {{element.name}} </td>
+                <td class="proba123" mat-cell *matCellDef="let element" id="ch{{element.id}}"> {{element.name}} </td>
             </ng-container>
 
             <!-- Subtype Column -->
-            <ng-container matColumnDef="subtypeName">
+            <ng-container matColumnDef="subtypeName" >
                 <th mat-header-cell *matHeaderCellDef> Subtype Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.subtypeName}} </td>
             </ng-container>
