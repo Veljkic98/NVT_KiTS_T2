@@ -51,7 +51,7 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
   constructor(
     private service: CulturalHeritageService,
     private modalService: NgbModal,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -108,7 +108,7 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
   }
 
   openSnackBar(message: string): void{
-    this._snackBar.open(message, 'Dismiss', {
+    this.snackBar.open(message, 'Dismiss', {
       duration: 4000,
     });
   }

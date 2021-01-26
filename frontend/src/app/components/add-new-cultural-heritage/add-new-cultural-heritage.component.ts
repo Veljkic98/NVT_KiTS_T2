@@ -34,7 +34,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
     private chService: CulturalHeritageService,
     private locationService: LocationService,
     private subtypeService: CHSubtypeService,
-    private _router: Router
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -63,7 +63,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
             .subscribe(
               data => {
                 // console.log(data);
-                this._router.navigate(['/cultural-heritages']);
+                this.router.navigate(['/cultural-heritages']);
               },
               error => {
                 console.log(error);
@@ -79,7 +79,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
   /**
    * Take url of choosen image.
    *
-   * @param event
+   * @param event event file selected
    */
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {
@@ -94,7 +94,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
    * @param location location is passed from map component
    * after geocoder search
    */
-  setLocation(location: Location) {
+  setLocation(location: Location): void {
     this.location = location;
     if (location){
       this.isLocationChosen = true;
@@ -104,8 +104,6 @@ export class AddNewCulturalHeritageComponent implements OnInit {
       this.isLocationChosen = false;
       this.location = null;
     }
-
-    // console.log(this.location);
   }
 
 }

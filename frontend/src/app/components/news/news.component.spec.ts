@@ -20,7 +20,7 @@ describe('NewsComponent', () => {
   let component: NewsComponent;
   let fixture: ComponentFixture<NewsComponent>;
   let service: any;
-  let _snackBar: any;
+  let snackBar: any;
   let modalService: any;
   let route: any;
 
