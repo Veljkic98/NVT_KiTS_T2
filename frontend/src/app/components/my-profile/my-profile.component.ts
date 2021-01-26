@@ -51,7 +51,7 @@ export class MyProfileComponent implements OnInit {
         });
   }
 
-  unsub(chid) {
+  unsub(chid): void {
     this.chService.unsubscribe(chid)
       .subscribe(
         response => {
