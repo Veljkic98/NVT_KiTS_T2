@@ -23,8 +23,8 @@ export class NewsService {
         return this.httpClient.get<PageEnchanced<News>>(`${environment.apiUrl}${REST_ENDPOINT.GET}${chID}/?page=${page}&size=${NEWS_PER_PAGE}&sort=id,ASC`);
     }
 
-    getOne(chID: number) {
-        return this.httpClient.get<any>(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${chID}`);
+    getOne(chID: number): Observable<News>  {
+        return this.httpClient.get<News>(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${chID}`);
     }
 
     deleteNews(id: number): Observable<Object> {

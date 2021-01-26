@@ -8,13 +8,15 @@ export class ActivatedRouteStub {
   private subject = new BehaviorSubject(this.testParams);
   paramMap = this.subject.asObservable();
 
-  private _testParams: {};
-  get testParams() { return this._testParams; }
-  set testParams(params: {}) {
-    this._testParams = params;
+  private privTestParams: {};
+  get testParams(): object { return this.privTestParams; }
+  set testParams(params: object) {
+    this.privTestParams = params;
     const map = new Map();
     for (const i in params){
-      map.set(i, params[i]);
+      if (params.hasOwnProperty(i)) {
+        map.set(i, params[i]);
+      }
     }
     this.subject.next(map);
   }

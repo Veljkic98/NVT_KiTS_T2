@@ -18,14 +18,14 @@ export class LocationService {
 
   constructor(private http: HttpClient) { }
 
-  post(location: Location) {
+  post(location: Location): Observable<Location> {
     // const location = { latitude, longitude, country, city, street }
     // const formData = new FormData();
     // formData.append('locationRequestDTO', new Blob([JSON.stringify(location)], {
     //   type: 'application/json'
     // }));
 
-    return this.http.post<any>(`${environment.apiUrl}/${LOCATIONS}`, location);
+    return this.http.post<Location>(`${environment.apiUrl}/${LOCATIONS}`, location);
   }
 
   getOne(id: number): Observable<Location> {
