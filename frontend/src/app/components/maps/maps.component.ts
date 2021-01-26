@@ -34,7 +34,7 @@ export class MapsComponent implements OnInit {
 
   @Output() chChangedEvent = new EventEmitter<number>();
   @Output() chLocationSelectedEvent = new EventEmitter<Location>();
-  @Input() adminManagesCH: boolean = false;
+  @Input() adminManagesCH = false;
   @Input() adminLocationForGeocoder: Location;
   @Input() culturalHeritages: CulturalHeritage[];
 
@@ -99,7 +99,7 @@ export class MapsComponent implements OnInit {
    * Add marker function will render html markers on the map.
    * At the end check if previous and next buttons should be disabled.
    */
-  async addCulturalHeritagesToMap():Promise<void> {
+  async addCulturalHeritagesToMap(): Promise<void> {
     // let culturalHeritages: CulturalHeritage[];
     let coords: [number, number];
     let color: string;
@@ -142,7 +142,7 @@ export class MapsComponent implements OnInit {
    * Each markerIcon has an id corresponding to cultural heritage id.
    * examples of id: "ch_1", "ch_2",...
    */
-  addMarker(coordinates: LngLatLike, color = 'blue', culturalHeritageID: number = null) : void{
+  addMarker(coordinates: LngLatLike, color = 'blue', culturalHeritageID: number = null): void{
     const markerIcon: HTMLDivElement = document.createElement('div');
     markerIcon.id = 'ch_' + culturalHeritageID;
 
@@ -182,7 +182,7 @@ export class MapsComponent implements OnInit {
     });
   }
 
-  removeCulturalHeritagesFromMap() : void{
+  removeCulturalHeritagesFromMap(): void{
     this.markersArray.forEach(marker => {
       marker.remove();
     });
