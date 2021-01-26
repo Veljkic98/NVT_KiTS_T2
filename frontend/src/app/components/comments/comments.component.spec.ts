@@ -152,13 +152,13 @@ describe('CommentsComponent', () => {
   describe('addComment()', () => {
     it('should delete', fakeAsync(() => {
       component.chID = 1;
-      component.content = 'This is awesome, we will pass 2 exams with one project!!';
+      component.content = 'This is awesome!!';
       component.url = null;
       fixture.detectChanges();
       component.addComment();
       tick();
 
-      expect(commService.postComment).toHaveBeenCalledWith(component.chID, 'This is awesome, we will pass 2 exams with one project!!', component.url);
+      expect(commService.postComment).toHaveBeenCalledWith(component.chID, 'This is awesome!!', component.url);
       tick();
       fixture.detectChanges();
 
@@ -166,7 +166,7 @@ describe('CommentsComponent', () => {
       expect(comments.length).toBe(3);
 
       expect(comments[2].nativeElement.textContent).toContain('Sima Matas');
-      expect(comments[2].nativeElement.textContent).toContain('This is awesome, we will pass 2 exams with one project');
+      expect(comments[2].nativeElement.textContent).toContain('This is awesome!!');
       expect(component.content).toBe('');
     }));
   });
