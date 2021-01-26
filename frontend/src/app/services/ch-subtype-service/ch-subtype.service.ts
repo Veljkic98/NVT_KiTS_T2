@@ -18,8 +18,8 @@ export class CHSubtypeService {
         return this.httpClient.delete<object>(`${environment.apiUrl}${REST_ENDPOINT.DELETE}${id}`);
     }
 
-    editSubtype(subtype: CHSubtype): Observable<any> {
-        return this.httpClient.put<any>(`${environment.apiUrl}/${CH_SUBTYPES}/${subtype.id}`, subtype);
+    editSubtype(subtype: CHSubtype): Observable<CHSubtype> {
+        return this.httpClient.put<CHSubtype>(`${environment.apiUrl}/${CH_SUBTYPES}/${subtype.id}`, subtype);
     }
 
     getAll(): Observable<CHSubtype[]> {
