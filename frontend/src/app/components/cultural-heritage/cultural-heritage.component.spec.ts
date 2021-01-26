@@ -2,6 +2,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
@@ -37,8 +38,9 @@ describe('CulturalHeritageComponent', () => {
           name: 'Venice Carnival',
           totalRatings: 0
         }))),
-        subscribe: jasmine.createSpy('subscribe')
-        .and.returnValue
+
+      subscribe: jasmine.createSpy('subscribe')
+        .and.returnValue(of())
     };
     const commentServiceMock = {
 
@@ -49,6 +51,9 @@ describe('CulturalHeritageComponent', () => {
         { provide: AuthService, useValue: authServiceMock },
         { provide: CulturalHeritageService, useValue: chServiceMock },
         MatSnackBar, Overlay
+      ],
+      imports: [
+        RouterTestingModule
       ]
     })
       .compileComponents();
@@ -100,13 +105,14 @@ describe('CulturalHeritageComponent', () => {
     }));
   });
 
-  describe('subscribe()', () => {
+  fdescribe('subscribe()', () => {
     it('should subscribe user to CH.', fakeAsync(() => {
+
+      spyOn(component, 'openSnackBar');
+
       component.chID = 1;
-      // component.ngOnInit();
-      tick();
       component.subscribe();
-      tick();
+      // expect(chService.subscribe).toHaveBeenCalledWith(component.chID);
 
     }));
   });
