@@ -47,6 +47,7 @@ public class CHTypePage {
     @FindBy(xpath = "//*[@id=\"mat-dialog-0\"]/app-dialog-content-example-dialog/mat-dialog-actions/button[2]")
     private WebElement confirmSubtypeDeleteButton;
 
+    // add new subtype
     @FindBy(xpath = "//*[@id=\"add-new-subtype-btn-1\"]")
     private WebElement addNewSubtypeBtn;
 
@@ -55,6 +56,16 @@ public class CHTypePage {
 
     @FindBy(xpath = "//*[@id=\"subtype name\"]")
     private WebElement subtypeInput;
+
+    // add new type
+    @FindBy(xpath = "//*[@id=\"add-new-type-btn\"]")
+    private WebElement addNewTypeBtn;
+    
+    @FindBy(xpath = "//*[@id=\"post-type-btn\"]")
+    private WebElement postTypeBtn;
+
+    @FindBy(xpath = "//*[@id=\"type name\"]")
+    private WebElement typeInput;
 
     public CHTypePage(){}
 
@@ -95,9 +106,21 @@ public class CHTypePage {
         (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(postSubtypeBtn));
       }
     
-      public void ensurePostSubtypeButtonIsNotClickable() {
+    public void ensurePostSubtypeButtonIsNotClickable() {
         (new WebDriverWait(webDriver, 30))
             .until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(postSubtypeBtn)));
+      }
+    public void ensureAddTypeButtonIsClickable() {
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(addNewTypeBtn));
+      }
+
+    public void ensurePostTypeButtonIsClickable() {
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(postTypeBtn));
+      }
+    
+    public void ensurePostTypeButtonIsNotClickable() {
+        (new WebDriverWait(webDriver, 30))
+            .until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(postTypeBtn)));
       }
 
       public void ensureSnackBarIsPresent() {
@@ -134,4 +157,10 @@ public class CHTypePage {
     public WebElement getPostSubtypeBtn(){ return postSubtypeBtn; }
     
     public WebElement getSubtypeInput(){ return subtypeInput; }
+
+    public WebElement getAddNewTypeBtn() { return addNewTypeBtn; }
+
+    public WebElement getPostTypeBtn(){ return postTypeBtn; }
+    
+    public WebElement getTypeInput(){ return typeInput; }
 }
