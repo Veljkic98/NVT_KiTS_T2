@@ -73,7 +73,7 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
     );
   }
 
-  handlePageEvent(event: PageEvent) {
+  handlePageEvent(event: PageEvent): void {
     this.length = event.length;
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
@@ -81,7 +81,7 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
     this.getCulturalHeritages(this.pageIndex, this.pageSize);
   }
 
-  openDeleteModal(deleteModal, ch: CulturalHeritage){
+  openDeleteModal(deleteModal, ch: CulturalHeritage): void{
     this.selectedCH = ch;
     const activeModal = this.modalService.open(deleteModal, {ariaLabelledBy: 'modal-basic-title'});
 
@@ -90,7 +90,7 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
     }, () => {});
   }
 
-  async deleteCH(id: number){
+  async deleteCH(id: number): void {
     this.service.delete(id).subscribe(
       data =>  {
         this.openSnackBar(`Successfuly deleted ${this.selectedCH.name}.`);

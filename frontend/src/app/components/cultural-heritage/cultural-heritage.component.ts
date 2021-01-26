@@ -16,7 +16,7 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   @Input() chID: number;
   @Output() closeDetails: EventEmitter<void> = new EventEmitter();
 
-  isSubscribed: Boolean = false;
+  isSubscribed =  false;
 
   loading = true;
   ch: CulturalHeritage;
@@ -48,7 +48,7 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   /**
    * check if user is subscribed to choosen CH
    */
-  isSub() {
+  isSub(): void {
     this.isSubscribed = false;
 
     this.authService.getSubscriptions()
@@ -68,11 +68,11 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   /**
    *
    */
-  subscribe() {
+  subscribe(): void {
     this.chService.subscribe(this.chID)
       .subscribe(
         response => {
-          if (response.statusText == 'OK') {
+          if (response.statusText === 'OK') {
             this.isSubscribed = true;
             this.openSnackBar('Successfuly subscribed!');
           } else {
@@ -85,11 +85,11 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   /**
    *
    */
-  unsubscribe() {
+  unsubscribe(): void {
     this.chService.unsubscribe(this.chID)
       .subscribe(
         response => {
-          if (response.statusText == 'OK') {
+          if (response.statusText === 'OK') {
             this.isSubscribed = false;
             this.openSnackBar('Successfuly unsubscribed!');
           } else {

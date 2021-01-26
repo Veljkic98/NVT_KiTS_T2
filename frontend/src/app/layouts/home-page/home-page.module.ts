@@ -24,7 +24,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { CommentsComponent } from '../../components/comments/comments.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import {MatTabsModule} from '@angular/material/tabs';
-import { CHTypesComponent, EditTypeDialog, SubtypeDeleteDialog } from 'src/app/components/ch-types/ch-types.component';
+import { CHTypesComponent, EditTypeDialogComponent, SubtypeDeleteDialogComponent } from 'src/app/components/ch-types/ch-types.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -76,8 +76,8 @@ import { AddSubtypeComponent } from 'src/app/components/add-subtype/add-subtype.
         MapsComponent,
         MyProfileComponent,
         CHTypesComponent,
-        SubtypeDeleteDialog,
-        EditTypeDialog,
+        SubtypeDeleteDialogComponent,
+        EditTypeDialogComponent,
         RegisterComponent,
         DashboardComponent,
         VerificationPageComponent,
