@@ -12,7 +12,7 @@ const REST_ENDPOINT = {
     GET_ONE: '/news/',
     ADD_ONE: '/news',
     DELETE: '/news/',
-}
+};
 
 @Injectable({ providedIn: 'root' })
 export class NewsService {
@@ -39,7 +39,7 @@ export class NewsService {
         var culturalHeritageID = news.culturalHeritageID;
         var adminID = news.adminID;
 
-        const ch = { heading, content, culturalHeritageID, adminID }
+        const ch = { heading, content, culturalHeritageID, adminID };
         const formData = new FormData();
         formData.append('news', new Blob([JSON.stringify(ch)], {
             type: 'application/json'
@@ -58,7 +58,7 @@ export class NewsService {
         var culturalHeritageID = news.culturalHeritageID;
         var adminID = news.adminID;
 
-        const ch = { heading, content, culturalHeritageID, adminID }
+        const ch = { heading, content, culturalHeritageID, adminID };
         const formData = new FormData();
         formData.append('news', new Blob([JSON.stringify(ch)], {
             type: 'application/json'

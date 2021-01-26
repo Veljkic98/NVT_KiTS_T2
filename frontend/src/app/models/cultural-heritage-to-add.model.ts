@@ -5,7 +5,7 @@ export class CulturalHeritageToAdd {
     public chsubtypeID: number;
 
     constructor(name: string, chsubtypeID: number, description: string,
-        locationID: number) {
+                locationID: number) {
         this.name = name;
         this.chsubtypeID = chsubtypeID;
         this.description = description;

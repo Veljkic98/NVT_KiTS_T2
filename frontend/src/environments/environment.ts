@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080/api',
   hostUrl: 'http://localhost:8080/',
-  mapboxApiKey: "pk.eyJ1IjoidGltMiIsImEiOiJja2pnNGNtYngzc2VkMnpucTFvaGtyOWFxIn0.2g9U-pNR5T-257lZJYf7cQ",
+  mapboxApiKey: 'pk.eyJ1IjoidGltMiIsImEiOiJja2pnNGNtYngzc2VkMnpucTFvaGtyOWFxIn0.2g9U-pNR5T-257lZJYf7cQ',
 };
 
 /*

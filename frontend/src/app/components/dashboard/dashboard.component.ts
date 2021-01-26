@@ -10,11 +10,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  //should be set to null
-  //for testing set to 1 (id of chosen CH)
+  // should be set to null
+  // for testing set to 1 (id of chosen CH)
   selectedCH: number = null;
-  filterValue:string;
-  filterType:string;
+  filterValue: string;
+  filterType: string;
   culturalHeritages: CulturalHeritage[];
   page = 1;
   totalPages: number;
@@ -29,10 +29,10 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private chService: CulturalHeritageService,
-    private _snackBar: MatSnackBar,      
+    private _snackBar: MatSnackBar,
   ) { }
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
     this.filterValue = '';
     this.getCulturalHeritages(this.page);
   }
@@ -51,17 +51,17 @@ export class DashboardComponent implements OnInit {
 }
 
   getCulturalHeritages(page: number): void {
-    if(this.filterValue !== ''){
-      this.filterData(page);      
+    if (this.filterValue !== ''){
+      this.filterData(page);
     }else{
-      this.chService.getCulturalHeritages(page-1)
+      this.chService.getCulturalHeritages(page - 1)
       .subscribe(
         data => {
             this.lastPage = data.last;
             this.culturalHeritages = data.content;
             this.total = data.totalElements;
             this.page = data.number + 1;
-            this.error = null
+            this.error = null;
         },
         error => {
           console.log(error);
@@ -70,8 +70,8 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  filterData(page: number):void {
-    this.chService.filterCulturalHeritages({type:this.filterType, value:this.filterValue}, page-1).subscribe(
+  filterData(page: number): void {
+    this.chService.filterCulturalHeritages({type: this.filterType, value: this.filterValue}, page - 1).subscribe(
       data => {
           this.lastPage = data.last;
           this.culturalHeritages = data.content;
@@ -89,8 +89,8 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  
-  resetData():void {
+
+  resetData(): void {
     this.filterValue = '';
     this.filterType = '';
     this.chService.getCulturalHeritages(0).subscribe(

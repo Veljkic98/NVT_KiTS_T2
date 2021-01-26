@@ -34,8 +34,8 @@ export class AddNewsComponent implements OnInit {
 
   /**
    * Take url of choosen image.
-   * 
-   * @param event 
+   *
+   * @param event
    */
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {

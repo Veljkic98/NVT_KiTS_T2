@@ -11,7 +11,7 @@ describe('RatingService', () => {
   let httpMock: HttpTestingController;
   let httpClient: HttpClient;
 
-	beforeEach(() => {
+	 beforeEach(() => {
 
     TestBed.configureTestingModule({
         imports: [HttpClientTestingModule],
@@ -23,27 +23,27 @@ describe('RatingService', () => {
     httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);
   });
-  
+
   afterEach(() => {
     httpMock.verify();
   });
- 	
+
  	it('should pass simple test', () => {
 	    expect(true).toBe(true);
-	}); 
+	});
 
   it(' getUserRating() should return user rating for ch with chID', fakeAsync(() => {
     let userRating: Rating;
-    const mockRating: Rating = 
+    const mockRating: Rating =
     {
         id: 11,
-        grade: 3, 
-        chID: 9, 
+        grade: 3,
+        chID: 9,
         userID: 3
-    }
+    };
 
     ratingService.getUserRating(1).subscribe(res => userRating = res);
-    
+
     const req = httpMock.expectOne('http://localhost:8080/api/ratings/?chID=1');
     expect(req.request.method).toBe('GET');
     req.flush(mockRating);
@@ -58,19 +58,19 @@ describe('RatingService', () => {
 
   it('postRating() should save a new rating', fakeAsync(() => {
     let newRating: Rating = new Rating({
-        grade: 3, 
+        grade: 3,
         chID: 1
     });
 
     const mockRating: Rating = {
-        id: 12, 
+        id: 12,
         grade: 3,
-        chID: 1, 
+        chID: 1,
         userID: 3
     };
 
     ratingService.postRating(newRating.chID, newRating.grade).subscribe(res => newRating = res);
-    
+
     const req = httpMock.expectOne('http://localhost:8080/api/ratings');
     expect(req.request.method).toBe('POST');
     req.flush(mockRating);
@@ -85,25 +85,25 @@ describe('RatingService', () => {
 
   it('updateRating() should query url and change existing rating', fakeAsync(() => {
     let rating: Rating = new Rating({
-        id: 12, 
-        grade: 3, 
+        id: 12,
+        grade: 3,
         chID: 1,
         userID: 3
     });
 
     const mockRating: Rating = {
-        id: 12, 
+        id: 12,
         grade: 3,
-        chID: 1, 
+        chID: 1,
         userID: 3
     };
 
     ratingService.updateRating(rating.id, rating.chID, rating.grade).subscribe(res => rating = res);
-    
+
     const req = httpMock.expectOne('http://localhost:8080/api/ratings/12');
     expect(req.request.method).toBe('PUT');
     req.flush(mockRating);
-    
+
     tick();
 
     expect(rating).toBeDefined();

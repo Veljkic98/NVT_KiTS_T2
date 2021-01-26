@@ -16,23 +16,23 @@ describe('RegisterComponent', () => {
   let authService: any;
 
   beforeEach(async () => {
-    let authServiceMock = {
+    const authServiceMock = {
       register: jasmine.createSpy('register')
       .and.returnValue(of({body: new User({
-        id: 1, 
-        firstName: 'Petar', 
-        lastName: 'Petrovic', 
-        email: "some1667@gmail.com"
+        id: 1,
+        firstName: 'Petar',
+        lastName: 'Petrovic',
+        email: 'some1667@gmail.com'
       })}))
-    }
+    };
 
-    let formBuilder = new FormBuilder();
-    
+    const formBuilder = new FormBuilder();
+
     await TestBed.configureTestingModule({
       declarations: [ RegisterComponent ],
       imports: [FormsModule, ReactiveFormsModule,
         BrowserModule, BrowserAnimationsModule, MatFormFieldModule, MatInputModule ],
-      providers:    [ 
+      providers:    [
         {provide: AuthService, useValue: authServiceMock },
         {provide: FormBuilder, useValue: formBuilder } ]
     })
@@ -55,7 +55,7 @@ describe('RegisterComponent', () => {
 
       component.ngOnInit();
       fixture.detectChanges();
-      expect(component.error).toBe("");
+      expect(component.error).toBe('');
       expect(component.success).toBe(false);
     });
   });
@@ -63,7 +63,7 @@ describe('RegisterComponent', () => {
   describe('onSubmit()', () => {
     it('should create new user', fakeAsync(() => {
       expect(component.registerForm.valid).toBeFalsy();
-     
+
       component.registerForm.controls.firstName.setValue('Petar');
       component.registerForm.controls.lastName.setValue('Petrovic');
       component.registerForm.controls.email.setValue('some1667@gmail.com');
@@ -75,12 +75,12 @@ describe('RegisterComponent', () => {
       fixture.detectChanges();
       expect(component.submitted).toBe(true);
       expect(component.success).toBe(true);
-      expect(component.error).toBe("");
+      expect(component.error).toBe('');
     }));
 
     it('should report validation errors', fakeAsync(() => {
       expect(component.registerForm.valid).toBeFalsy();
-     
+
       component.registerForm.controls.firstName.setValue('Petar');
       component.registerForm.controls.lastName.setValue('Petrovic');
       component.registerForm.controls.firstName.setValue('some1667@gmail.com');
@@ -88,11 +88,11 @@ describe('RegisterComponent', () => {
       component.registerForm.controls.confirmPass.setValue('123');
       expect(component.registerForm.valid).toBeFalsy();
       component.onSubmit();
-      
+
       expect(authService.register).not.toHaveBeenCalled();
       expect(component.submitted).toBe(true);
       expect(component.success).toBe(false);
-      expect(component.registerForm.controls.password.errors.minlength).toBeTruthy()
+      expect(component.registerForm.controls.password.errors.minlength).toBeTruthy();
     }));
 });
 });
