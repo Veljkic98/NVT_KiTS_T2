@@ -27,6 +27,7 @@ export class ChNewsComponent implements OnInit {
 
   constructor(
     private newsService: NewsService,
+    private authService: AuthService
 ) {}
 
 

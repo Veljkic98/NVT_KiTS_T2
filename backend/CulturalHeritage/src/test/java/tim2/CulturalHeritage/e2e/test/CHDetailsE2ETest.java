@@ -270,6 +270,59 @@ public class CHDetailsE2ETest {
     }
 
     @Test
+    public void seeNewsForCh() throws InterruptedException {
+
+        logInUserHelen();
+        clickOnMap();
+
+        chDetailsPage.ensureIsPresentNewsSection();
+
+        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getNewsSectionButton());
+        justWait(1000);
+
+        chDetailsPage.getNewsSectionButton().click();
+
+        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getLastNews());
+        justWait(1000);
+
+    }
+
+    @Test
+    public void seeNewsForChNoNews() throws InterruptedException {
+
+        logInUserHelen();
+        
+        driver.get("http://localhost:4200/");
+        chDetailsPage.ensureIsPresentMarker();
+        chDetailsPage.getChMarkerId6().click();
+        chDetailsPage.ensureIsPresentDetailSection();
+
+        chDetailsPage.ensureIsPresentNewsSection();
+
+        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getNewsSectionButton());
+        justWait(1000);
+
+        chDetailsPage.getNewsSectionButton().click();
+    }
+
+    @Test
+    public void seeNewsForChUnauthenticatedUser() throws InterruptedException {
+
+        clickOnMap();
+
+        chDetailsPage.ensureIsPresentNewsSection();
+
+        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getNewsSectionButton());
+        justWait(1000);
+
+        chDetailsPage.getNewsSectionButton().click();
+
+        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getLastNews());
+        justWait(1000);
+
+    }
+
+    @Test
     public void addCommentWithImageTest() throws InterruptedException, URISyntaxException {
         logInUser();
         clickOnMap();

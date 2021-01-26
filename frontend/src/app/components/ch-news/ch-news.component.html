@@ -7,7 +7,7 @@
             <ul>
                 <li>
                     <div class="manage-button-div">
-                        <button mat-button class="manage-button" [routerLink]="['/manage/news/', chID]">Manage news</button>
+                        <button mat-button class="manage-button" [routerLink]="['/manage/news/', chID]" *ngIf="authService.getRole() === 'ROLE_ADMIN'">Manage news</button>
                     </div>
                 </li>
                 <li
@@ -16,7 +16,7 @@
                         <div class="header">
                             <span class="author">{{ news.heading }}</span>
                         </div>
-                        <p style="color:aliceblue">{{news.content}}</p>
+                        <p class="news-content" style="color:aliceblue">{{news.content}}</p>
                         <img *ngIf="news.imageUri" mat-card-image [src]="news.imageUri" alt="png">
                     </mat-card>
                 </li>

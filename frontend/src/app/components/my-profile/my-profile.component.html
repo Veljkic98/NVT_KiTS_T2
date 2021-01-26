@@ -3,20 +3,20 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-                    <img src="../../../assets/avatar.jpg" alt=""/>
+                    <img src="../../../assets/avatar.jpg" alt="" />
                 </div>
             </div>
             <div class="col-md-6" *ngIf="user">
                 <div class="profile-head">
-                            <h5>
-                                {{user.firstName}} {{user.lastName}}
-                            </h5>
-                            <h6 *ngIf="authService.getRole() === 'ROLE_ADMIN'">
-                                ADMIN
-                            </h6>
-                            <h6 *ngIf="authService.getRole() === 'ROLE_USER'">
-                                USER
-                            </h6>
+                    <h5>
+                        {{user.firstName}} {{user.lastName}}
+                    </h5>
+                    <h6 *ngIf="authService.getRole() === 'ROLE_ADMIN'">
+                        ADMIN
+                    </h6>
+                    <h6 *ngIf="authService.getRole() === 'ROLE_USER'">
+                        USER
+                    </h6>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <mat-tab-group class="tabs" [selectedIndex]="tabIndex">
                             <mat-tab label="About">
@@ -63,27 +63,27 @@
                                             </div>
                                         </div>
                                     </div>
-                            </div>
-                            </mat-tab>
-                            <mat-tab label="Subscriptions"  *ngIf="authService.getRole() == 'ROLE_USER'"> 
-                                <div class="tab-content profile-tab" id="myTabContent" >
-                                    <div class="subs">
-                            <div class="row" *ngFor="let ch of subscriptions">
-                                <div class="col-md-6">
-                                    <label class="subs-label">{{ch.name}}</label>
-                                </div> 
-                                <div class="col-md-6">
-                                    <button mat-raised-button color="warn">Unsubscribe</button>
                                 </div>
-                            </div>
-                            </div>
-                            </div>
-                            
                             </mat-tab>
-                          </mat-tab-group>
+                            <mat-tab label="Subscriptions" *ngIf="authService.getRole() == 'ROLE_USER'">
+                                <div class="tab-content profile-tab" id="myTabContent">
+                                    <div class="subs">
+                                        <div class="row" *ngFor="let ch of subscriptions">
+                                            <div class="col-md-6">
+                                                <label class="subs-label">{{ch.name}}</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button mat-raised-button color="warn" (click)="unsub(ch.id)">Unsubscribe</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </mat-tab>
+                        </mat-tab-group>
                     </ul>
                 </div>
             </div>
         </div>
-</form>           
+    </form>
 </div>
