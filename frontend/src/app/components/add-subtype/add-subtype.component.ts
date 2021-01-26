@@ -26,8 +26,8 @@ export class AddSubtypeComponent implements OnInit {
     private snackBar: MatSnackBar,
   ) { }
 
-  ngOnInit(): void {        
-    this.subtype = new CHSubtype({name:''});
+  ngOnInit(): void {
+    this.subtype = new CHSubtype({name: ''});
     this.loadTypeId();
     this.loadSubtypes();
   }

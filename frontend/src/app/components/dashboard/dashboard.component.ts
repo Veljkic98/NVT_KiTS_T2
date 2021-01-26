@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
   closeDetails(): void {
     this.selectedCH = null;
   }
-  setChId($event){
+  setChId($event): void {
     this.selectedCH = $event;
   }
 
@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
           this.page = data.number + 1;
           this.error = null;
 
-          const append = this.total == 1 ? '' : 's';
+          const append = this.total === 1 ? '' : 's';
           this.openSnackBar(`Found ${this.total} result${append}.`);
 
       },

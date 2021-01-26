@@ -34,7 +34,7 @@ export class MapsComponent implements OnInit {
 
   @Output() chChangedEvent = new EventEmitter<number>();
   @Output() chLocationSelectedEvent = new EventEmitter<Location>();
-  @Input() adminManagesCH: Boolean = false;
+  @Input() adminManagesCH: boolean = false;
   @Input() adminLocationForGeocoder: Location;
   @Input() culturalHeritages: CulturalHeritage[];
 
@@ -62,7 +62,7 @@ export class MapsComponent implements OnInit {
    * and admin is managing CHs (adding new, updating existing).
    * @param map is object that represents the whole map.
    */
-  onMapLoad(map: Map) {
+  onMapLoad(map: Map): void {
     this.map = map;
     this.addCulturalHeritagesToMap();
     if (this.adminManagesCH === true) {
@@ -99,7 +99,7 @@ export class MapsComponent implements OnInit {
    * Add marker function will render html markers on the map.
    * At the end check if previous and next buttons should be disabled.
    */
-  async addCulturalHeritagesToMap() {
+  async addCulturalHeritagesToMap():Promise<void> {
     // let culturalHeritages: CulturalHeritage[];
     let coords: [number, number];
     let color: string;
@@ -120,7 +120,7 @@ export class MapsComponent implements OnInit {
     }
   }
 
-  ngDoCheck() {
+  ngDoCheck(): void {
     const changes = this.iterableDiffer.diff(this.culturalHeritages);
     if (changes) {
       this.removeCulturalHeritagesFromMap();
@@ -142,7 +142,7 @@ export class MapsComponent implements OnInit {
    * Each markerIcon has an id corresponding to cultural heritage id.
    * examples of id: "ch_1", "ch_2",...
    */
-  addMarker(coordinates: LngLatLike, color = 'blue', culturalHeritageID: number = null) {
+  addMarker(coordinates: LngLatLike, color = 'blue', culturalHeritageID: number = null) : void{
     const markerIcon: HTMLDivElement = document.createElement('div');
     markerIcon.id = 'ch_' + culturalHeritageID;
 
@@ -171,7 +171,7 @@ export class MapsComponent implements OnInit {
    * Method shows CH component on the right side when user clicks on a marker.
    * When user hovers marker, hover animation is set.
    */
-  addMarkerEvents(markerIcon: HTMLDivElement) {
+  addMarkerEvents(markerIcon: HTMLDivElement): void {
     // add animation on hover
     this._addHoverMarkerAnimation(markerIcon);
 
@@ -182,7 +182,7 @@ export class MapsComponent implements OnInit {
     });
   }
 
-  removeCulturalHeritagesFromMap() {
+  removeCulturalHeritagesFromMap() : void{
     this.markersArray.forEach(marker => {
       marker.remove();
     });
@@ -191,7 +191,7 @@ export class MapsComponent implements OnInit {
 
 
 
-  async checkIfButtonDisabled() {
+  async checkIfButtonDisabled(): void {
     let page: number;
     let retval: PageEnchanced<CulturalHeritage>;
 
@@ -221,7 +221,7 @@ export class MapsComponent implements OnInit {
     }
   }
 
-  _showCHDetails(markerIcon: HTMLDivElement) {
+  _showCHDetails(markerIcon: HTMLDivElement): void {
     const id: number = parseInt(markerIcon.id.split('ch_')[1]);
     this.chChangedEvent.emit(id);
   }
