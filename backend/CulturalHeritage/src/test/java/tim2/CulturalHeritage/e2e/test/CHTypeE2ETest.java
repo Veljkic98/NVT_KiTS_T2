@@ -298,5 +298,36 @@ public class CHTypeE2ETest {
         chTypePage.ensurePostSubtypeButtonIsNotClickable();
     }
 
+    @Test
+    public void addTypeBtnCheck() throws InterruptedException{
+        logInAdmin();
+        driver.get("http://localhost:4200/manage/types");    
+        chTypePage.ensureAddTypeButtonIsClickable();
+        chTypePage.getAddNewTypeBtn().click();
+        assertEquals("http://localhost:4200/new-type", driver.getCurrentUrl());
+    }
+
+    @Test
+    public void addTypeOk()throws InterruptedException {
+        logInAdmin();
+        driver.get("http://localhost:4200/new-type");    
+        chTypePage.getTypeInput().clear();
+        chTypePage.getTypeInput().sendKeys("Moj Novi Tip");
+        chTypePage.ensurePostTypeButtonIsClickable();
+        chTypePage.getPostTypeBtn().click();
+
+        chTypePage.ensureSnackBarIsPresent();
+        String snackBarText = chTypePage.getSnackBar().getText();
+        assertEquals("Successfuly added Moj Novi Tip type.\nDismiss", snackBarText);
+    }
+
+    @Test
+    public void addTypeFail() throws InterruptedException{
+        logInAdmin();
+        driver.get("http://localhost:4200/new-type");    
+        chTypePage.getTypeInput().clear();
+        chTypePage.getTypeInput().sendKeys("Manifestation");
+        chTypePage.ensurePostTypeButtonIsNotClickable();
+    }
 
 }
