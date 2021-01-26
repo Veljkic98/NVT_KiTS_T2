@@ -59,7 +59,7 @@ export class AddSubtypeComponent implements OnInit {
     try {
       this.takenNames = this.takenNames.slice(0, -2);
       return this.nameValid;
-    } catch (error) { return this.nameValid;}
+    } catch (error) { return this.nameValid; }
   }
 
   add() {
@@ -69,7 +69,7 @@ export class AddSubtypeComponent implements OnInit {
         .subscribe(
           response => {
             this._router.navigate(['/manage/types']);
-            this.openSnackBar('Successfuly added the subtype!')
+            this.openSnackBar('Successfuly added the subtype!');
             this.subtypes.push(response);
           }
         );

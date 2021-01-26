@@ -13,7 +13,7 @@ import { NewsService } from 'src/app/services/news-service/news-service.service'
 export class AddNewsComponent implements OnInit {
 
   news: News = new News();
-  isFileChosen: boolean = true;
+  isFileChosen = true;
 
 
   constructor(
@@ -48,7 +48,7 @@ export class AddNewsComponent implements OnInit {
     this.newsService.add(this.news)
       .subscribe(() => {
         this._router.navigate(['/cultural-heritages']);
-        this.openSnackBar(`Successfuly added ${this.news.heading} news.`)
+        this.openSnackBar(`Successfuly added ${this.news.heading} news.`);
       }, () => this.openSnackBar(`Can\'t add ${this.news.heading} news.`));
   }
 

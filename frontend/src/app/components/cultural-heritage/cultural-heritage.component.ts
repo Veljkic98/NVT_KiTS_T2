@@ -74,11 +74,11 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
         response => {
           if (response.statusText == 'OK') {
             this.isSubscribed = true;
-            this.openSnackBar("Successfuly subscribed!");
+            this.openSnackBar('Successfuly subscribed!');
           } else {
-            this.openSnackBar("Unsuccessfuly subscribed!")
+            this.openSnackBar('Unsuccessfuly subscribed!');
           }
-        }, error => { this.openSnackBar("Unsuccessfuly subscribed!") }
+        }, error => { this.openSnackBar('Unsuccessfuly subscribed!'); }
       );
   }
 
@@ -91,11 +91,11 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
         response => {
           if (response.statusText == 'OK') {
             this.isSubscribed = false;
-            this.openSnackBar("Successfuly unsubscribed!");
+            this.openSnackBar('Successfuly unsubscribed!');
           } else {
-            this.openSnackBar("Unsuccessfuly unsubscribed!");
+            this.openSnackBar('Unsuccessfuly unsubscribed!');
           }
-        }, error => {this.openSnackBar("Unsuccessfuly unsubscribed!");}
+        }, error => {this.openSnackBar('Unsuccessfuly unsubscribed!'); }
       );
   }
 

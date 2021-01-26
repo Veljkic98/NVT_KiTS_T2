@@ -1,9 +1,9 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { News } from "src/app/models/news.model";
-import { Page, PageEnchanced } from "src/app/models/page.model";
-import { environment } from "src/environments/environment";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { News } from 'src/app/models/news.model';
+import { Page, PageEnchanced } from 'src/app/models/page.model';
+import { environment } from 'src/environments/environment';
 import { NEWS_PER_PAGE } from '../../utils/constants';
 
 
@@ -33,11 +33,11 @@ export class NewsService {
 
     update(news: News, file: File) {
 
-        var id = news.id;
-        var heading = news.heading;
-        var content = news.content;
-        var culturalHeritageID = news.culturalHeritageID;
-        var adminID = news.adminID;
+        const id = news.id;
+        const heading = news.heading;
+        const content = news.content;
+        const culturalHeritageID = news.culturalHeritageID;
+        const adminID = news.adminID;
 
         const ch = { heading, content, culturalHeritageID, adminID };
         const formData = new FormData();
@@ -52,11 +52,11 @@ export class NewsService {
     }
 
     add(news: News) {
-        var imageUri = news.imageUri;
-        var heading = news.heading;
-        var content = news.content;
-        var culturalHeritageID = news.culturalHeritageID;
-        var adminID = news.adminID;
+        const imageUri = news.imageUri;
+        const heading = news.heading;
+        const content = news.content;
+        const culturalHeritageID = news.culturalHeritageID;
+        const adminID = news.adminID;
 
         const ch = { heading, content, culturalHeritageID, adminID };
         const formData = new FormData();

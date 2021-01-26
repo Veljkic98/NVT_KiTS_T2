@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CHSubtype2 } from 'src/app/models/ch-subtype.model';
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { Location } from 'src/app/models/location.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
@@ -42,7 +42,7 @@ export class UpdateChComponent implements OnInit {
     private subtypeService: CHSubtypeService,
     private _router: Router,
     private _route: ActivatedRoute,
-    private _snackBar: MatSnackBar, 
+    private _snackBar: MatSnackBar,
   ) { }
 
   async ngOnInit() {
@@ -97,8 +97,8 @@ export class UpdateChComponent implements OnInit {
     }
 
 
-    let ch: CulturalHeritage = await this.chService.put(this.culturalHeritage, file).toPromise();
-    if(ch){
+    const ch: CulturalHeritage = await this.chService.put(this.culturalHeritage, file).toPromise();
+    if (ch){
       this._router.navigate(['/cultural-heritages']);
       this.openSnackBar(`Successfuly updated ${ch.name}.`);
     }

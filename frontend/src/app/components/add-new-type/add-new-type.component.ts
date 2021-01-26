@@ -73,8 +73,8 @@ export class AddNewTypeComponent implements OnInit {
             this._router.navigate(['/manage/types']);
             this.openSnackBar(`Successfuly added ${this.name} type.`);
           },
-          () => {this.openSnackBar(`Problem occured while adding ${this.name} type.`);}
-        )
+          () => {this.openSnackBar(`Problem occured while adding ${this.name} type.`); }
+        );
     }
   }
 

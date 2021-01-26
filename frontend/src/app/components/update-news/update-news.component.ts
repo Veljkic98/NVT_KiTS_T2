@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { News } from 'src/app/models/news.model';
 import { NewsService } from 'src/app/services/news-service/news-service.service';
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-update-news',
@@ -14,7 +14,7 @@ export class UpdateNewsComponent implements OnInit {
   newsID: number;
   news: News;
   url: File;
-  isFileChosen: boolean = false;
+  isFileChosen = false;
 
   constructor(
     private router: Router,
@@ -35,26 +35,26 @@ export class UpdateNewsComponent implements OnInit {
       .subscribe(data => {
         this.news = data;
         // console.log(data)
-      })
+      });
   }
 
   async update() {
 
     let file: File;
-    //if new file hasn't been chosen then create file from existing image    
+    // if new file hasn't been chosen then create file from existing image
     if (!this.url) {
 
-      //If no image is present, then file shoould be null
+      // If no image is present, then file shoould be null
       if (!this.news.imageUri) {
         file = null;
       }
       else {
         file = await fetch(this.news.imageUri)
           .then(r => r.blob())
-          .then(blobFile => new File([blobFile], "slika.png", { type: "image/png" }));
+          .then(blobFile => new File([blobFile], 'slika.png', { type: 'image/png' }));
       }
     }
-    //if file has been chosen
+    // if file has been chosen
     else {
       file = this.url;
     }
@@ -66,7 +66,7 @@ export class UpdateNewsComponent implements OnInit {
         this.router.navigate([`/manage/news/${this.news.culturalHeritageID}`]);
         this.openSnackBar(`Successfuly updated ${this.news.heading}.`);
       },
-        (error) => {this.openSnackBar(`There was a problem updating ${this.news.heading}.`); })
+        (error) => {this.openSnackBar(`There was a problem updating ${this.news.heading}.`); });
   }
 
   /**
