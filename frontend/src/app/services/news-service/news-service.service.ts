@@ -31,11 +31,9 @@ export class NewsService {
         return this.httpClient.delete(`${environment.apiUrl}${REST_ENDPOINT.DELETE}${id}`);
     }
 
-    update(news: News) {
+    update(news: News, file: File) {
 
-        // return this.httpClient.put(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, news);
         var id = news.id;
-        var imageUri = news.imageUri;
         var heading = news.heading;
         var content = news.content;
         var culturalHeritageID = news.culturalHeritageID;
@@ -46,8 +44,8 @@ export class NewsService {
         formData.append('news', new Blob([JSON.stringify(ch)], {
             type: 'application/json'
         }));
-        if (imageUri) {
-            formData.append('file', imageUri);
+        if (file) {
+            formData.append('file', file);
         }
 
         return this.httpClient.put(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, formData);

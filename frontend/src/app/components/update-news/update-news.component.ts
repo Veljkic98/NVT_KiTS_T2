@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { News } from 'src/app/models/news.model';
 import { NewsService } from 'src/app/services/news-service/news-service.service';
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-update-news',
@@ -12,13 +13,14 @@ export class UpdateNewsComponent implements OnInit {
 
   newsID: number;
   news: News;
-  // url: string;
+  url: File;
   isFileChosen: boolean = false;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private newsService: NewsService
+    private newsService: NewsService,
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -32,16 +34,39 @@ export class UpdateNewsComponent implements OnInit {
     this.newsService.getOne(this.newsID)
       .subscribe(data => {
         this.news = data;
-        console.log(data)
+        // console.log(data)
       })
   }
 
-  update() {
+  async update() {
 
-    this.newsService.update(this.news)
-    .subscribe(response => {
-      console.log(response)
-    })
+    let file: File;
+    //if new file hasn't been chosen then create file from existing image    
+    if (!this.url) {
+
+      //If no image is present, then file shoould be null
+      if (!this.news.imageUri) {
+        file = null;
+      }
+      else {
+        file = await fetch(this.news.imageUri)
+          .then(r => r.blob())
+          .then(blobFile => new File([blobFile], "slika.png", { type: "image/png" }));
+      }
+    }
+    //if file has been chosen
+    else {
+      file = this.url;
+    }
+
+
+    this.newsService.update(this.news, file)
+      .subscribe(() => {
+        // console.log(response)
+        this.router.navigate([`/manage/news/${this.news.culturalHeritageID}`]);
+        this.openSnackBar(`Successfuly updated ${this.news.heading}.`);
+      },
+        (error) => {this.openSnackBar(`There was a problem updating ${this.news.heading}.`); })
   }
 
   /**
@@ -51,12 +76,15 @@ export class UpdateNewsComponent implements OnInit {
    */
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {
-      // this.url = event.target.files[0];
-      // console.log(this.url)
-      this.news.imageUri = event.target.files[0];
+      this.url = event.target.files[0];
       this.isFileChosen = true;
-      console.log(this.news.imageUri)
     }
   }
 
+
+  openSnackBar(message: string): void {
+    this._snackBar.open(message, 'Dismiss', {
+      duration: 4000,
+    });
+  }
 }

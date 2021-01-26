@@ -1,5 +1,5 @@
 <div class="main">
-    <div>
+    <div *ngIf="news">
         <table class="example-full-width" cellspacing="0">
             <tr>
                 <td>
@@ -17,6 +17,13 @@
                         <textarea matInput [(ngModel)]="news.content"></textarea>
                     </mat-form-field>
                 </td>
+            </tr>
+
+            <tr *ngIf="!isFileChosen && news.imageUri">
+                Current Image
+            </tr>
+            <tr *ngIf="!isFileChosen && news.imageUri">
+                <img [src]="news.imageUri" style="width: 300px;">
             </tr>
             <tr>
                 <td>
