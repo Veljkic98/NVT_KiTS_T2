@@ -11,12 +11,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Overlay } from '@angular/cdk/overlay';
 import {CulturalHeritagesComponent} from '../cultural-heritages/cultural-heritages.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 
 describe('AddNewsComponent', () => {
   let component: AddNewsComponent;
   let fixture: ComponentFixture<AddNewsComponent>;
   let authService: AuthService;
   let route: ActivatedRoute;
+  let router: Router;
   let newsService: NewsService;
   let _snackBar: MatSnackBar;
 
@@ -80,6 +82,7 @@ describe('AddNewsComponent', () => {
     fixture.detectChanges();
     authService = TestBed.inject(AuthService);
     newsService = TestBed.inject(NewsService);
+    router = TestBed.inject(Router);
   });
 
   it('should create', () => {
@@ -97,6 +100,7 @@ describe('AddNewsComponent', () => {
   fdescribe('add()', () => {
     it('should add news', fakeAsync(() => {
       spyOn(component, 'openSnackBar');
+      const navigateSpy = spyOn(router, 'navigate');
 
       fixture.detectChanges();
       component.ngOnInit();
@@ -109,7 +113,7 @@ describe('AddNewsComponent', () => {
 
 
       expect(component.openSnackBar).toHaveBeenCalledWith(`Successfuly added ${component.news.heading} news.`);
-      
+      expect(navigateSpy).toHaveBeenCalledWith(['/cultural-heritages'])
       flush();
     }))
   })
