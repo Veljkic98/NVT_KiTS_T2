@@ -84,7 +84,7 @@ describe('UpdateNewsComponent', () => {
     }))
   })
 
-  fdescribe('update()', () => {
+  describe('update()', () => {
     it('should update news with id 3', fakeAsync(() =>{
       spyOn(component, 'openSnackBar');
       const navigateSpy = spyOn(router, 'navigate')
