@@ -1,16 +1,4 @@
-export class Page {
-    public content: [];
-    public id: number;
-    public empty: boolean;
-    public number: number;
-    public numberOfElements: number;
-    public size: number;
-    public totalElements: number;
-    public totalPages: number;
-    public last: boolean;
-}
-
-export class PageEnchanced<Type> implements PageInterface<Type> {
+export class Page<Type> implements PageInterface<Type> {
     public content: Type[];
     public id: number;
     public empty: boolean;

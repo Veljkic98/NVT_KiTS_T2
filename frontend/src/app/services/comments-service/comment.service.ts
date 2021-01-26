@@ -10,8 +10,8 @@ import { Observable } from 'rxjs';
 export class CommentService {
     constructor(private http: HttpClient) { }
 
-    getComments(chID: number, page: number): Observable<Page> {
-        return this.http.get<Page>(`${environment.apiUrl}/${COMMENTS}/by-page/${chID}/?page=${page}&size=${COMMENTS_PER_PAGE}&sort=id,ASC`);
+    getComments(chID: number, page: number): Observable<Page<Comment>> {
+        return this.http.get<Page<Comment>>(`${environment.apiUrl}/${COMMENTS}/by-page/${chID}/?page=${page}&size=${COMMENTS_PER_PAGE}&sort=id,ASC`);
     }
 
     postComment(chID: number, content: string, image: string): Observable<any> {
