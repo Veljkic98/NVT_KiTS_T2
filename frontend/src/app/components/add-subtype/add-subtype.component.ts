@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CHSubtype2, CHSubtype3 } from 'src/app/models/ch-subtype.model';
+import { CHSubtype, CHSubtype } from 'src/app/models/ch-subtype.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
 
 @Component({
@@ -11,13 +11,13 @@ import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype
 })
 export class AddSubtypeComponent implements OnInit {
 
-  subtype: CHSubtype3 = new CHSubtype3();
+  subtype: CHSubtype;
 
   nameValid = true;
 
   takenNames = '';
 
-  subtypes: Array<CHSubtype2> = [];
+  subtypes: Array<CHSubtype> = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -26,8 +26,8 @@ export class AddSubtypeComponent implements OnInit {
     private snackBar: MatSnackBar,
   ) { }
 
-  ngOnInit(): void {
-    this.subtype.name = '';
+  ngOnInit(): void {        
+    this.subtype = new CHSubtype({name:''});
     this.loadTypeId();
     this.loadSubtypes();
   }

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CHSubtype, CHSubtype3 } from 'src/app/models/ch-subtype.model';
+import { PageEnchanced } from 'src/app/models/page.model';
 import { environment } from 'src/environments/environment';
 import { CH_SUBTYPES } from '../../utils/constants';
 
@@ -22,11 +23,11 @@ export class CHSubtypeService {
         return this.httpClient.put<any>(`${environment.apiUrl}/${CH_SUBTYPES}/${subtype.id}`, subtype);
     }
 
-    getAll() {
-        return this.httpClient.get<any>(`${environment.apiUrl}/${CH_SUBTYPES}`);
+    getAll(): Observable<CHSubtype[]> {
+        return this.httpClient.get<CHSubtype[]>(`${environment.apiUrl}/${CH_SUBTYPES}`);
     }
 
-    add(subtype: CHSubtype3) {
-        return this.httpClient.post<any>(`${environment.apiUrl}/${CH_SUBTYPES}`, subtype);
+    add(subtype: CHSubtype): Observable<CHSubtype> {
+        return this.httpClient.post<CHSubtype>(`${environment.apiUrl}/${CH_SUBTYPES}`, subtype);
     }
 }

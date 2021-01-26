@@ -27,11 +27,11 @@ export class NewsService {
         return this.httpClient.get<News>(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${chID}`);
     }
 
-    deleteNews(id: number): Observable<Object> {
+    deleteNews(id: number): Observable<object> {
         return this.httpClient.delete(`${environment.apiUrl}${REST_ENDPOINT.DELETE}${id}`);
     }
 
-    update(news: News, file: File) {
+    update(news: News, file: File): Observable<News> {
 
         const id = news.id;
         const heading = news.heading;
@@ -48,10 +48,10 @@ export class NewsService {
             formData.append('file', file);
         }
 
-        return this.httpClient.put(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, formData);
+        return this.httpClient.put<News>(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, formData);
     }
 
-    add(news: News) {
+    add(news: News): Observable<News> {
         const imageUri = news.imageUri;
         const heading = news.heading;
         const content = news.content;
@@ -67,7 +67,7 @@ export class NewsService {
             formData.append('file', imageUri);
         }
 
-        return this.httpClient.post(`${environment.apiUrl}${REST_ENDPOINT.ADD_ONE}`, formData);
+        return this.httpClient.post<News>(`${environment.apiUrl}${REST_ENDPOINT.ADD_ONE}`, formData);
     }
 
 }
