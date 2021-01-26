@@ -60,7 +60,7 @@ export class CHTypesComponent implements OnInit {
 
     ngOnInit(): void {
         this.getTypes(this.page);
-        
+
     }
 
 
@@ -72,7 +72,7 @@ export class CHTypesComponent implements OnInit {
     getTypes(page: number): void{
         this.typeService.getTypes(page - 1).subscribe(
             data => {
-                console.log(data)
+                console.log(data);
                 this.chTypes = data.content;
                 this.lastPage = data.last;
                 this.total = data.totalElements;
@@ -150,16 +150,30 @@ export class CHTypesComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.typeService.editType({...selected, name : result}).subscribe(
-                    data => {
-                        this.openSnackBar('Successfuly changed name of type!');
-                        selected.name = result;
-                    },
-                    error => this.openSnackBar('Name already exist!')
-                );
+               this.editType(selected, result);
             }
 
         });
+    }
+
+    editType(type: CHType, newName: string): void {
+        this.typeService.editType({...type, name: newName}).subscribe(
+            data => {
+                this.openSnackBar('Successfuly changed name of type!');
+                type.name = newName;
+            },
+            error => this.openSnackBar('Name already exist!')
+        );
+    }
+
+    editSubtype(subtype: CHSubtype, newName: string): void {
+        this.subtypeService.editSubtype({...subtype, name : newName}).subscribe(
+            data => {
+                this.openSnackBar('Successfuly changed name of subtype!');
+                subtype.name = newName;
+            },
+            error => this.openSnackBar('Name already exist!')
+        );
     }
 
     openEditSubTypeDialog(selected: CHSubtype): void{
@@ -167,13 +181,7 @@ export class CHTypesComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.subtypeService.editSubtype({...selected, name : result}).subscribe(
-                    data => {
-                        this.openSnackBar('Successfuly changed name of subtype!');
-                        selected.name = result;
-                    },
-                    error => this.openSnackBar('Name already exist!')
-                );
+               this.editSubtype(selected, result);
             }
 
         });

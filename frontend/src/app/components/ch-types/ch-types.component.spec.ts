@@ -1,23 +1,19 @@
 import { Overlay } from '@angular/cdk/overlay';
-import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Observable, of } from 'rxjs';
+import { CHSubtype } from 'src/app/models/ch-subtype.model';
 import { CHType } from 'src/app/models/ch-type.model';
-import { News } from 'src/app/models/news.model';
-import { Page, PageEnchanced } from 'src/app/models/page.model';
+import { PageEnchanced } from 'src/app/models/page.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
 import { CHTypeService } from 'src/app/services/ch-type-service/ch-type.service';
-import { NewsService } from 'src/app/services/news-service/news-service.service';
-import { ActivatedRouteStub } from 'src/app/testing/router-stubs';
 import { CHTypesComponent } from './ch-types.component';
 
 
@@ -32,46 +28,63 @@ describe('CHTypesComponent', () => {
 
 
   beforeEach(() => {
-    let chTypesService = {
+    const chTypesService = {
         getTypes: jasmine.createSpy('getTypes').and
                         .returnValue(of(new PageEnchanced<CHType>(
                             {
-                                content:[{
+                                content: [{
                                   id: 1,
-                                  name: "type1",
+                                  name: 'type1',
                                   subtypes: []
                                 },
                                 {
                                   id: 2,
-                                  name: "type2",
+                                  name: 'type2',
                                   subtypes: []
                                 },
                                 {
                                   id: 3,
-                                  name: "type3",
-                                  subtypes: []
+                                  name: 'type3',
+                                  subtypes: [new CHSubtype({
+                                    id: 1,
+                                    name: 'subtype',
+                                    parentId: 3
+                                  })]
                                 }],
                                 id: 1,
                                 empty: false,
-                                number:0,
-                                numberOfElements:3,
-                                size:3,
-                                totalElements:12,
-                                totalPages:6,
-                                last:false
-                              }                     
+                                number: 0,
+                                numberOfElements: 3,
+                                size: 3,
+                                totalElements: 12,
+                                totalPages: 6,
+                                last: false
+                              }
                         ))),
-       
-    }
+        editType: jasmine.createSpy('editType').and
+        .returnValue(of(new CHType({
+          id: 1,
+          name: 'new name',
+          subtypes: []
+        }))),
 
-    let subtypeServices = {
-        deleteSubtype: jasmine.createSpy('deleteSubtype').and 
-                               .returnValue(of(new Observable())),
-    }
+        deleteType: jasmine.createSpy('editType').and
+        .returnValue(of({}))
+    };
+
+    const subtypeServices = {
+        deleteSubtype: jasmine.createSpy('deleteSubtype').and
+                    .returnValue(of(new Observable())),
+        editSubtype: jasmine.createSpy('editSubtype').and
+                    .returnValue(of(new CHSubtype({
+                      id: 1,
+                      name: 'new subtype name'
+                    }))),
+  };
 
 
- 
-    
+
+
     TestBed.configureTestingModule({
       declarations: [ CHTypesComponent ],
       imports: [NgxPaginationModule, MatDialogModule, MatTableModule, BrowserAnimationsModule ],
@@ -102,7 +115,7 @@ describe('CHTypesComponent', () => {
     expect(component.chTypes.length).toBe(3);
     expect(component.chTypes[0].id).toEqual(1);
     expect(component.chTypes[0].name).toEqual('type1');
-    
+
     expect(component.chTypes[1].id).toEqual(2);
     expect(component.chTypes[1].name).toEqual('type2');
 
@@ -111,9 +124,9 @@ describe('CHTypesComponent', () => {
     fixture.detectChanges();
 
 
-    let allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('table tr td'));
+    const allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('table tr td'));
     expect(allCells[0].nativeElement.textContent).toContain('Type1');
-    
+
 
   }));
 
@@ -122,7 +135,60 @@ describe('CHTypesComponent', () => {
     flush();
     expect(serviceSubtypes.deleteSubtype).toHaveBeenCalledWith(1); // brisanje s id-em 1
     expect(service.getTypes).toHaveBeenCalledWith(0);  // poziva za getTypes za page 0
-    
+
   }));
- 
+
+  it('should call delete type', fakeAsync( () => {
+    spyOn(component, 'openSnackBar');
+    component.ngOnInit();
+    tick();
+    fixture.detectChanges();
+
+    component.deleteType(1);
+    flush();
+    expect(service.deleteType).toHaveBeenCalledWith(1); // brisanje s id-em 1
+    fixture.detectChanges();
+
+    expect(component.openSnackBar).toHaveBeenCalledWith('Successfuly deleted the type!');
+    expect(component.chTypes.length).toEqual(2);
+
+    const allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('.type-name'));
+    expect(allCells[0].nativeElement.textContent).not.toContain('Type1');
+
+  }));
+
+  it('should edit type successfully', fakeAsync(() => {
+    spyOn(component, 'openSnackBar');
+    component.ngOnInit();
+    tick();
+    fixture.detectChanges();
+
+    component.editType(component.chTypes[0], 'new name');
+    flush();
+
+    expect(service.editType).toHaveBeenCalledWith({...component.chTypes[0], name : 'new name'});
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    expect(component.openSnackBar).toHaveBeenCalledWith('Successfuly changed name of type!');
+    const allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('.type-name'));
+    expect(allCells[0].nativeElement.textContent).toContain('New name');
+    expect(allCells[0].nativeElement.textContent).not.toContain('Type1');
+  }));
+
+  it('should edit subtype successfully', fakeAsync(() => {
+    spyOn(component, 'openSnackBar');
+    component.ngOnInit();
+    tick();
+    fixture.detectChanges();
+
+    component.editSubtype(component.chTypes[2].subtypes[0], 'new subtype name');
+    flush();
+
+    expect(serviceSubtypes.editSubtype).toHaveBeenCalledWith({...component.chTypes[2].subtypes[0], name : 'new subtype name'});
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+  }));
 });

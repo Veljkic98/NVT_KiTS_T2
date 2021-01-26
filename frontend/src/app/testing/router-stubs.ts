@@ -12,11 +12,11 @@ export class ActivatedRouteStub {
   get testParams() { return this._testParams; }
   set testParams(params: {}) {
     this._testParams = params;
-    let map = new Map();
-    for(let i in params){
+    const map = new Map();
+    for (const i in params){
       map.set(i, params[i]);
     }
     this.subject.next(map);
   }
-  
+
 }

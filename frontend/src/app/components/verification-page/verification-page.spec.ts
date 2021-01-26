@@ -13,21 +13,21 @@ describe('VerificationPageComponent', () => {
   let route: ActivatedRoute;
 
   beforeEach(async () => {
-    let authServiceMock = {
+    const authServiceMock = {
         verify: jasmine.createSpy('verify')
         .and.returnValue(of({}))
-      }
-    let fakeActivatedRoute = {
+      };
+    const fakeActivatedRoute = {
       snapshot: {
         paramMap: convertToParamMap({
           id: '2'
         })
       }
-    } 
+    };
 
     await TestBed.configureTestingModule({
       declarations: [ VerificationPageComponent ],
-      providers:    [ 
+      providers:    [
         {provide: AuthService, useValue: authServiceMock },
         {provide: ActivatedRoute,   useValue: fakeActivatedRoute }
       ]
@@ -47,23 +47,23 @@ describe('VerificationPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fdescribe('ngOnInit()', () => {
+  describe('ngOnInit()', () => {
   it('should verify user profile and display success message', fakeAsync(() => {
     component.ngOnInit();
-    expect(authService.verify).toHaveBeenCalledWith('2'); 
+    expect(authService.verify).toHaveBeenCalledWith('2');
     tick();
 
     expect(component.id).toBe('2');
     expect(component.error).toBe(undefined);
     expect(component.success).toBe(true);
 
-    //should display success message
+    // should display success message
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
 
     const message = fixture.debugElement.query(By.css('.success')).nativeElement;
-    expect(message.textContent).toContain("Your account has been successfully activated! Yo can login now.");
+    expect(message.textContent).toContain('Your account has been successfully activated! Yo can login now.');
   }));
-})
+});
 });

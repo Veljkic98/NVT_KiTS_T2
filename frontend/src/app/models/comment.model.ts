@@ -17,11 +17,10 @@ export class Comment {
 }
 
 export interface CommentInterface {
-    id? :number;
+    id?: number;
     authenticatedUserID?: number;
     content: string;
     imageUri?: string;
     userName?: string;
     culturaHeritageID: number;
 }
- 

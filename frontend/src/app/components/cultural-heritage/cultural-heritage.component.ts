@@ -30,15 +30,17 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.isSub()
+    this.isSub();
 
-    if (!changes.chID.firstChange)
+    if (!changes.chID.firstChange) {
       this.getCH();
+    }
   }
 
   ngOnInit(): void {
-    if (this.authService.getRole() === "ROLE_USER")
+    if (this.authService.getRole() === 'ROLE_USER') {
       this.isSub();
+    }
 
     this.getCH();
   }
@@ -64,13 +66,13 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   }
 
   /**
-   * 
+   *
    */
   subscribe() {
     this.chService.subscribe(this.chID)
       .subscribe(
         response => {
-          if (response.statusText == "OK") {
+          if (response.statusText == 'OK') {
             this.isSubscribed = true;
             this.openSnackBar("Successfuly subscribed!");
           } else {
@@ -81,13 +83,13 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   }
 
   /**
-   * 
+   *
    */
   unsubscribe() {
     this.chService.unsubscribe(this.chID)
       .subscribe(
         response => {
-          if (response.statusText == "OK") {
+          if (response.statusText == 'OK') {
             this.isSubscribed = false;
             this.openSnackBar("Successfuly unsubscribed!");
           } else {

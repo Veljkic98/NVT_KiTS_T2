@@ -5,7 +5,7 @@ export class User {
     public email: string;
     public approved: boolean;
 
-constructor(userCfg:UserInterface) {
+constructor(userCfg: UserInterface) {
     this.id = userCfg.id;
     this.firstName = userCfg.firstName;
     this.lastName = userCfg.lastName;
@@ -19,5 +19,5 @@ interface UserInterface{
     firstName: string;
     lastName: string;
     email: string;
-    approved?: boolean
+    approved?: boolean;
 }
