@@ -92,7 +92,7 @@ public class NewsController {
 
     @PutMapping(path = "/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> update(@RequestPart("file") MultipartFile file,
+    public ResponseEntity<?> update(@RequestPart(value = "file", required = false) MultipartFile file,
             @RequestPart("news") NewsRequestDTO newsRequestDTO, @PathVariable Long id) {
         try {
             News updatedNews = newsMapper.toEntity(newsRequestDTO);
