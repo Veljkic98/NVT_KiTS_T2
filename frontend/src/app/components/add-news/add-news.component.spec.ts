@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { News } from 'src/app/models/news.model';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
@@ -9,6 +9,8 @@ import { ActivatedRouteStub } from 'src/app/testing/router-stubs';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Overlay } from '@angular/cdk/overlay';
+import {CulturalHeritagesComponent} from '../cultural-heritages/cultural-heritages.component'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AddNewsComponent', () => {
   let component: AddNewsComponent;
@@ -48,7 +50,7 @@ describe('AddNewsComponent', () => {
         }
         )),
 
-      postComment: jasmine.createSpy('postComment')
+      add: jasmine.createSpy('add')
         .and.returnValue(of(new News(3, "heading 3", "content 3", 1, 1, "slika.jpg"))),
     };
 
@@ -63,7 +65,10 @@ describe('AddNewsComponent', () => {
         { provide: AuthService, useValue: authServiceMock },
         MatSnackBar, Overlay,
       ],
-      imports: [RouterTestingModule.withRoutes([])],
+      imports: [
+        RouterTestingModule.withRoutes([ { path: 'cultural-heritages', component: CulturalHeritagesComponent },]),
+        BrowserAnimationsModule
+      ],
     })
       .compileComponents();
   });
@@ -90,6 +95,22 @@ describe('AddNewsComponent', () => {
   })
 
   fdescribe('add()', () => {
+    it('should add news', fakeAsync(() => {
+      spyOn(component, 'openSnackBar');
 
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick();
+
+      component.news = new News(3, "heading 3", "content 3", 1, 1, "slika.jpg");
+      component.add();
+      
+      expect(newsService.add).toHaveBeenCalledWith(component.news);
+
+
+      expect(component.openSnackBar).toHaveBeenCalledWith(`Successfuly added ${component.news.heading} news.`);
+      
+      flush();
+    }))
   })
 });
