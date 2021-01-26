@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output, SimpleChanges } from '@angular/core';
 import { LngLatLike, Map, Marker } from 'mapbox-gl';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service';
@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
-export class MapsComponent implements OnInit {
+export class MapsComponent implements OnInit, DoCheck {
   // default map values
   zoom = 3;
   latitude = 47;

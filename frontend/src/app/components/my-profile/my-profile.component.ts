@@ -55,7 +55,7 @@ export class MyProfileComponent implements OnInit {
     this.chService.unsubscribe(chid)
       .subscribe(
         response => {
-          if (response.statusText == 'OK') {
+          if (response.statusText === 'OK') {
             this.subscriptions = this.subscriptions.filter(({ id }) => id !== chid);
             this.openSnackBar('Successfuly unsubscribed!');
           } else {

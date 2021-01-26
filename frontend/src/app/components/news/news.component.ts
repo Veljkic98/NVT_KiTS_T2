@@ -12,7 +12,7 @@ import { NewsService } from 'src/app/services/news-service/news-service.service'
     templateUrl: './news.component.html',
     styleUrls: ['./news.component.css'],
 })
-export class NewsComponent implements OnInit, OnChanges{ 
+export class NewsComponent implements OnInit, OnChanges{
     chID: number;
     news: News[] = [];
     page = 1;
