@@ -267,4 +267,36 @@ public class CHTypeE2ETest {
 
     }
 
+    @Test
+    public void addSubtypeBtnCheck()throws InterruptedException {
+        logInAdmin();
+        driver.get("http://localhost:4200/manage/types");    
+        chTypePage.ensureAreDisplayedShowButtons();
+        chTypePage.getAddNewSubtypeBtn().click();
+        assertEquals("http://localhost:4200/add/subtype/1", driver.getCurrentUrl());
+    }
+
+    @Test
+    public void addSubtypeOk()throws InterruptedException {
+        logInAdmin();
+        driver.get("http://localhost:4200/add/subtype/1");    
+        chTypePage.getSubtypeInput().clear();
+        chTypePage.getSubtypeInput().sendKeys("new subtype HHHHHH");
+        chTypePage.ensurePostSubtypeButtonIsClickable();
+        chTypePage.getPostSubtypeBtn().click();
+        chTypePage.ensureSnackBarIsPresent();
+        String snackBarText = chTypePage.getSnackBar().getText();
+        assertEquals("Successfuly added the subtype!\nDismiss", snackBarText);
+    }
+
+    @Test
+    public void addSubtypeFail()throws InterruptedException {
+        logInAdmin();
+        driver.get("http://localhost:4200/add/subtype/1");    
+        chTypePage.getSubtypeInput().clear();
+        chTypePage.getSubtypeInput().sendKeys("festival");
+        chTypePage.ensurePostSubtypeButtonIsNotClickable();
+    }
+
+
 }

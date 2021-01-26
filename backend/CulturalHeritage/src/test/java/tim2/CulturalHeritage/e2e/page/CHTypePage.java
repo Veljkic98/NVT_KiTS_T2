@@ -47,6 +47,15 @@ public class CHTypePage {
     @FindBy(xpath = "//*[@id=\"mat-dialog-0\"]/app-dialog-content-example-dialog/mat-dialog-actions/button[2]")
     private WebElement confirmSubtypeDeleteButton;
 
+    @FindBy(xpath = "//*[@id=\"add-new-subtype-btn-1\"]")
+    private WebElement addNewSubtypeBtn;
+
+    @FindBy(xpath = "//*[@id=\"post-subtype-btn\"]")
+    private WebElement postSubtypeBtn;
+
+    @FindBy(xpath = "//*[@id=\"subtype name\"]")
+    private WebElement subtypeInput;
+
     public CHTypePage(){}
 
 
@@ -82,6 +91,19 @@ public class CHTypePage {
         (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("app-ch-type-edit-form")));
     }
 
+    public void ensurePostSubtypeButtonIsClickable() {
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(postSubtypeBtn));
+      }
+    
+      public void ensurePostSubtypeButtonIsNotClickable() {
+        (new WebDriverWait(webDriver, 30))
+            .until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(postSubtypeBtn)));
+      }
+
+      public void ensureSnackBarIsPresent() {
+        (new WebDriverWait(webDriver, 10)).until(ExpectedConditions.elementToBeClickable(snackBar));
+      }
+
 
     public WebElement getEditTypeNameInput() { return editTypeNameInput; }
 
@@ -106,4 +128,10 @@ public class CHTypePage {
     public WebElement getDeleteSubtypesButtonFail() { return deleteSubtypesButtonFail; }
 
     public WebElement getConfirmSubtypeDeleteButton() { return confirmSubtypeDeleteButton; }
+
+    public WebElement getAddNewSubtypeBtn(){ return addNewSubtypeBtn; }
+
+    public WebElement getPostSubtypeBtn(){ return postSubtypeBtn; }
+    
+    public WebElement getSubtypeInput(){ return subtypeInput; }
 }
