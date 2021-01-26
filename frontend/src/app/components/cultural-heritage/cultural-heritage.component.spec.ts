@@ -40,6 +40,9 @@ describe('CulturalHeritageComponent', () => {
         }))),
 
       subscribe: jasmine.createSpy('subscribe')
+        .and.returnValue(of()),
+
+      unsubscribe: jasmine.createSpy('unsubscribe')
         .and.returnValue(of())
     };
     const commentServiceMock = {
@@ -105,15 +108,26 @@ describe('CulturalHeritageComponent', () => {
     }));
   });
 
-  fdescribe('subscribe()', () => {
+  describe('subscribe()', () => {
     it('should subscribe user to CH.', fakeAsync(() => {
 
       spyOn(component, 'openSnackBar');
 
       component.chID = 1;
       component.subscribe();
-      // expect(chService.subscribe).toHaveBeenCalledWith(component.chID);
+      expect(chService.subscribe).toHaveBeenCalledWith(component.chID);
 
+    }));
+  });
+
+  describe('unsubscribe()', () => {
+    it('should subscribe user to CH.', fakeAsync(() => {
+
+      spyOn(component, 'openSnackBar');
+
+      component.chID = 1;
+      component.unsubscribe();
+      expect(chService.unsubscribe).toHaveBeenCalledWith(component.chID);
     }));
   });
 });
