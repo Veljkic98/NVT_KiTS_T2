@@ -27,7 +27,7 @@ export class NewsComponent{
     constructor(
       private service: NewsService,
       private route: ActivatedRoute,
-      private _snackBar: MatSnackBar,
+      private snackBar: MatSnackBar,
       private modalService: NgbModal,
 
   ) {}
@@ -86,7 +86,7 @@ export class NewsComponent{
   }
 
     openSnackBar(message: string): void{
-      this._snackBar.open(message, 'Dismiss', {
+      this.snackBar.open(message, 'Dismiss', {
         duration: 4000,
       });
   }

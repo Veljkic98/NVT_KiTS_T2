@@ -18,10 +18,10 @@ export class AddNewsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private _router: Router,
+    private router: Router,
     private newsService: NewsService,
     private authService: AuthService,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +35,7 @@ export class AddNewsComponent implements OnInit {
   /**
    * Take url of choosen image.
    *
-   * @param event
+   * @param event file selected
    */
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {
@@ -44,16 +44,16 @@ export class AddNewsComponent implements OnInit {
     }
   }
 
-  add() {
+  add(): void {
     this.newsService.add(this.news)
       .subscribe(() => {
-        this._router.navigate(['/cultural-heritages']);
+        this.router.navigate(['/cultural-heritages']);
         this.openSnackBar(`Successfuly added ${this.news.heading} news.`);
       }, () => this.openSnackBar(`Can\'t add ${this.news.heading} news.`));
   }
 
   openSnackBar(message: string): void {
-    this._snackBar.open(message, 'Dismiss', {
+    this.snackBar.open(message, 'Dismiss', {
       duration: 4000,
     });
   }

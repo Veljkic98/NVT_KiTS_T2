@@ -53,7 +53,7 @@ export class CHTypesComponent implements OnInit {
         public typeService: CHTypeService,
         public subtypeService: CHSubtypeService,
         public subtypeDeleteDialog: MatDialog,
-        private _snackBar: MatSnackBar,
+        private snackBar: MatSnackBar,
         private typeEditDialog: MatDialog
 
     ){}
@@ -140,7 +140,7 @@ export class CHTypesComponent implements OnInit {
 
 
     openSnackBar(message: string): void{
-        this._snackBar.open(message, 'Dismiss', {
+        this.snackBar.open(message, 'Dismiss', {
           duration: 4000,
         });
     }

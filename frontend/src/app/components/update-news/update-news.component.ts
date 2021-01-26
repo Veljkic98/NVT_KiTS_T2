@@ -20,7 +20,7 @@ export class UpdateNewsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private newsService: NewsService,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -83,7 +83,7 @@ export class UpdateNewsComponent implements OnInit {
 
 
   openSnackBar(message: string): void {
-    this._snackBar.open(message, 'Dismiss', {
+    this.snackBar.open(message, 'Dismiss', {
       duration: 4000,
     });
   }

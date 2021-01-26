@@ -26,7 +26,7 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   constructor(
     private chService: CulturalHeritageService,
     private authService: AuthService,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -127,7 +127,7 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   }
 
   openSnackBar(message: string): void {
-    this._snackBar.open(message, 'Dismiss', {
+    this.snackBar.open(message, 'Dismiss', {
       duration: 4000,
     });
   }

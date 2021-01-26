@@ -22,7 +22,7 @@ describe('CHTypesComponent', () => {
   let fixture: ComponentFixture<CHTypesComponent>;
   let service: any;
   let serviceSubtypes: any;
-  let _snackBar: any;
+  let snackBar: any;
   let modalService: any;
   let route: any;
 

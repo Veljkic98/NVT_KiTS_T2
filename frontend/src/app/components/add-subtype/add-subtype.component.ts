@@ -21,9 +21,9 @@ export class AddSubtypeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private _router: Router,
+    private router: Router,
     private subtypeService: CHSubtypeService,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -68,7 +68,7 @@ export class AddSubtypeComponent implements OnInit {
       this.subtypeService.add(this.subtype)
         .subscribe(
           response => {
-            this._router.navigate(['/manage/types']);
+            this.router.navigate(['/manage/types']);
             this.openSnackBar('Successfuly added the subtype!');
             this.subtypes.push(response);
           }
@@ -77,7 +77,7 @@ export class AddSubtypeComponent implements OnInit {
   }
 
   openSnackBar(message: string): void {
-    this._snackBar.open(message, 'Dismiss', {
+    this.snackBar.open(message, 'Dismiss', {
       duration: 4000,
     });
   }
