@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { News } from 'src/app/models/news.model';
-import { Page, PageEnchanced } from 'src/app/models/page.model';
+import { Page } from 'src/app/models/page.model';
 import { environment } from 'src/environments/environment';
 import { NEWS_PER_PAGE } from '../../utils/constants';
 
@@ -18,9 +18,9 @@ const REST_ENDPOINT = {
 export class NewsService {
     constructor(private httpClient: HttpClient) { }
 
-    getNews(chID: number, page: number): Observable<PageEnchanced<News>> {
+    getNews(chID: number, page: number): Observable<Page<News>> {
         // return this.httpClient.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.GET}${chID}/?page=${page}&size=${NEWS_PER_PAGE}`);
-        return this.httpClient.get<PageEnchanced<News>>(`${environment.apiUrl}${REST_ENDPOINT.GET}${chID}/?page=${page}&size=${NEWS_PER_PAGE}&sort=id,ASC`);
+        return this.httpClient.get<Page<News>>(`${environment.apiUrl}${REST_ENDPOINT.GET}${chID}/?page=${page}&size=${NEWS_PER_PAGE}&sort=id,ASC`);
     }
 
     getOne(chID: number): Observable<News>  {

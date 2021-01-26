@@ -14,8 +14,8 @@ const REST_ENDPOINT = {
 export class CHTypeService {
     constructor(private httpClient: HttpClient){}
 
-    getTypes(page: number): Observable<PageEnchanced<CHType>> {
-        return this.httpClient.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.GET}?page=0&size=10&sort=id,ASC`);
+    getTypes(page: number): Observable<Page<CHType>> {
+        return this.httpClient.get<Page<CHType>>(`${environment.apiUrl}${REST_ENDPOINT.GET}?page=0&size=10&sort=id,ASC`);
     }
 
     deleteType(typeID: number): Observable<object> {

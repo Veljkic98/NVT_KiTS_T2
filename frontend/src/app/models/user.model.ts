@@ -5,13 +5,13 @@ export class User {
     public email: string;
     public approved: boolean;
 
-constructor(userCfg: UserInterface) {
-    this.id = userCfg.id;
-    this.firstName = userCfg.firstName;
-    this.lastName = userCfg.lastName;
-    this.email = userCfg.email;
-    this.approved = userCfg.approved;
-}
+    constructor(userCfg: UserInterface) {
+        this.id = userCfg.id;
+        this.firstName = userCfg.firstName;
+        this.lastName = userCfg.lastName;
+        this.email = userCfg.email;
+        this.approved = userCfg.approved;
+    }
 }
 
 interface UserInterface{
