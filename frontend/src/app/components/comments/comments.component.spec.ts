@@ -17,34 +17,34 @@ describe('CommentsComponent', () => {
   let commService: CommentService;
 
   beforeEach(async () => {
-    let authServiceMock = {
+    const authServiceMock = {
         getRole: jasmine.createSpy('getRole')
-        .and.returnValue(of("USER")),
+        .and.returnValue(of('USER')),
 
         getId: jasmine.createSpy('getId')
         .and.returnValue(of(3))
-      }
-    
-    const mockComments = [ 
+      };
+
+    const mockComments = [
         new Comment({
             id: 1,
             authenticatedUserID: 4,
-            content: "Duis at velit eu est congue elementum. In hac habitasse platea dictumst.",
+            content: 'Duis at velit eu est congue elementum. In hac habitasse platea dictumst.',
             culturaHeritageID: 1,
-            imageUri: "http://localhost:8080/api/files/1",
-            userName: "Margene Weatherwax"
+            imageUri: 'http://localhost:8080/api/files/1',
+            userName: 'Margene Weatherwax'
         }),
         new Comment({
             id: 2,
             authenticatedUserID: 3,
-            content: "Duis bibendum.",
+            content: 'Duis bibendum.',
             culturaHeritageID: 1,
             imageUri: null,
-            userName: "Sima Matas",
+            userName: 'Sima Matas',
         })
     ];
 
-    let commServiceMock = {
+    const commServiceMock = {
       getComments: jasmine.createSpy('getComments')
         .and.returnValue(of({
             content: mockComments,
@@ -67,16 +67,16 @@ describe('CommentsComponent', () => {
         postComment: jasmine.createSpy('postComment')
         .and.returnValue(of(new Comment({
           id: 5,
-          content: "This is awesome, we will pass 2 exams with one project!!",
+          content: 'This is awesome, we will pass 2 exams with one project!!',
           authenticatedUserID: 3,
           culturaHeritageID: 1,
           imageUri: null,
-          userName: "Sima Matas"
+          userName: 'Sima Matas'
         })))
-      }
+      };
     await TestBed.configureTestingModule({
       declarations: [ CommentsComponent ],
-      providers:    [ 
+      providers:    [
         {provide: AuthService, useValue: authServiceMock },
         {provide: CommentService, useValue: commServiceMock } ],
         imports : [ NgxPaginationModule ]
@@ -103,34 +103,34 @@ describe('CommentsComponent', () => {
     component.chID = 1;
     fixture.detectChanges();
     component.ngOnInit();
-    expect(commService.getComments).toHaveBeenCalledWith(1, 0); 
+    expect(commService.getComments).toHaveBeenCalledWith(1, 0);
     tick();
-    
+
     expect(component.chID).toBe(1);
     expect(component.lastPage).toBe(true);
     expect(component.totalPages).toEqual(1);
     expect(component.total).toEqual(2);
     expect(component.page).toEqual(1);
     expect(component.error).toEqual(null);
-  
+
     expect(component.commentList.length).toBe(2);
     expect(component.error).toBe(null);
 
-    //should display fetched comments
+    // should display fetched comments
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
 
 
-    let comments: DebugElement[] = fixture.debugElement.queryAll(By.css('.comment-root'));
-    expect(comments.length).toBe(2); 
-    expect(comments[0].nativeElement.textContent).toContain("Margene Weatherwax");
-    expect(comments[0].nativeElement.textContent).toContain("Duis at velit eu est congue elementum. In hac habitasse platea dictumst.");
+    const comments: DebugElement[] = fixture.debugElement.queryAll(By.css('.comment-root'));
+    expect(comments.length).toBe(2);
+    expect(comments[0].nativeElement.textContent).toContain('Margene Weatherwax');
+    expect(comments[0].nativeElement.textContent).toContain('Duis at velit eu est congue elementum. In hac habitasse platea dictumst.');
 
-    expect(comments[1].nativeElement.textContent).toContain("Sima Matas");
-    expect(comments[1].nativeElement.textContent).toContain("Duis bibendum.");
+    expect(comments[1].nativeElement.textContent).toContain('Sima Matas');
+    expect(comments[1].nativeElement.textContent).toContain('Duis bibendum.');
   }));
-})
+});
 
   describe('deleteComment()', () => {
     it('should delete', fakeAsync(() => {
@@ -139,35 +139,35 @@ describe('CommentsComponent', () => {
       component.deleteComment(2);
       tick();
 
-      expect(commService.deleteComment).toHaveBeenCalledWith(2); 
+      expect(commService.deleteComment).toHaveBeenCalledWith(2);
 
-  
+
       fixture.detectChanges();
-    
-      let comments: DebugElement[] = fixture.debugElement.queryAll(By.css('.comment-root'));
-      expect(comments.length).toBe(1); 
-    
+
+      const comments: DebugElement[] = fixture.debugElement.queryAll(By.css('.comment-root'));
+      expect(comments.length).toBe(1);
+
     }));
-  })
+  });
   describe('addComment()', () => {
     it('should delete', fakeAsync(() => {
       component.chID = 1;
-      component.content = "This is awesome, we will pass 2 exams with one project!!";
+      component.content = 'This is awesome, we will pass 2 exams with one project!!';
       component.url = null;
       fixture.detectChanges();
       component.addComment();
       tick();
 
-      expect(commService.postComment).toHaveBeenCalledWith(component.chID, "This is awesome, we will pass 2 exams with one project!!", component.url); 
+      expect(commService.postComment).toHaveBeenCalledWith(component.chID, 'This is awesome, we will pass 2 exams with one project!!', component.url);
       tick();
       fixture.detectChanges();
-    
-      let comments: DebugElement[] = fixture.debugElement.queryAll(By.css('.comment-root'));
-      expect(comments.length).toBe(3); 
 
-      expect(comments[2].nativeElement.textContent).toContain("Sima Matas");
-      expect(comments[2].nativeElement.textContent).toContain("This is awesome, we will pass 2 exams with one project");
+      const comments: DebugElement[] = fixture.debugElement.queryAll(By.css('.comment-root'));
+      expect(comments.length).toBe(3);
+
+      expect(comments[2].nativeElement.textContent).toContain('Sima Matas');
+      expect(comments[2].nativeElement.textContent).toContain('This is awesome, we will pass 2 exams with one project');
       expect(component.content).toBe('');
     }));
-  })
+  });
 });

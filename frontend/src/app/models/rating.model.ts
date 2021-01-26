@@ -4,7 +4,7 @@ export class Rating {
     public chID: number;
     public userID: number;
 
-    constructor(ratingCfg:RatingInterface) {
+    constructor(ratingCfg: RatingInterface) {
         this.id = ratingCfg.id;
         this.grade = ratingCfg.grade;
         this.chID = ratingCfg.chID;

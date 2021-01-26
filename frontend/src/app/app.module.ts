@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from './interceptors/intercept.service';
 
-import {environment} from "../environments/environment"
+import {environment} from '../environments/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 

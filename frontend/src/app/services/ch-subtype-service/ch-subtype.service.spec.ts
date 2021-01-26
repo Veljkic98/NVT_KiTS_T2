@@ -10,7 +10,7 @@ describe('CHSubtypeService', () => {
   let httpMock: HttpTestingController;
   let httpClient: HttpClient;
 
-	beforeEach(() => {
+	 beforeEach(() => {
 
     TestBed.configureTestingModule({
         imports: [HttpClientTestingModule],
@@ -22,18 +22,18 @@ describe('CHSubtypeService', () => {
     httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);
   });
-  
+
   afterEach(() => {
     httpMock.verify();
   });
- 	
+
  	it('should pass simple test', () => {
 	    expect(true).toBe(true);
-    }); 
-    
-    it('deleteSubtype() should query url and delete subtype', fakeAsync(() => {
+    });
+
+  it('deleteSubtype() should query url and delete subtype', fakeAsync(() => {
         chSubtypeService.deleteSubtype(2).subscribe(res => { });
-        
+
         const req = httpMock.expectOne('http://localhost:8080/api/ch-subtypes/2');
         expect(req.request.method).toBe('DELETE');
         req.flush({});

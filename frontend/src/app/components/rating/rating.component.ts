@@ -35,7 +35,7 @@ export class RatingComponent implements OnInit, OnChanges {
     this.ratingService.getUserRating(this.chID)
     .subscribe(
         data => {
-          if(data) {
+          if (data) {
             this.userRating = data.grade;
             this.userRated = true;
             this.ratingID = data.id;

@@ -18,12 +18,12 @@ export class UpdateChComponent implements OnInit {
 
   url: File;
 
-  name: string = "";
-  description: string = "";
+  name = '';
+  description = '';
 
-  isLocationChosen: boolean = false;
-  isSubtypeChosen: boolean = false;
-  isFileChosen: boolean = false;
+  isLocationChosen = false;
+  isSubtypeChosen = false;
+  isFileChosen = false;
 
   location: Location;
 
@@ -52,45 +52,45 @@ export class UpdateChComponent implements OnInit {
       this.chService.getOne(this.chid)
         .subscribe(async response => {
 
-          //set CH based
+          // set CH based
           this.culturalHeritage = response;
 
-          //set location
+          // set location
           this.locationService
             .getOne(this.culturalHeritage.locationID)
             .subscribe(loc => {
               this.location = loc;
-            })
+            });
 
-          //get all subtypes
+          // get all subtypes
           this.subtypeService.getAll().subscribe(
             data => {
               this.subtypes = data;
-              //set this.subtype
+              // set this.subtype
               this.subtype = this.subtypes.find(subtype =>
                 subtype.id == this.culturalHeritage.chsubtypeID);
             }
           );
-        })
+        });
     });
   }
 
   /**
-   * 
+   *
    */
   async updateCH() {
 
-    let location: Location = await this.locationService.post(this.location).toPromise();
+    const location: Location = await this.locationService.post(this.location).toPromise();
 
     this.culturalHeritage.locationID = location.id;
     this.culturalHeritage.chsubtypeID = this.subtype.id;
 
     let file: File;
-    //if new file hasn't been chosen then create file from existing image    
+    // if new file hasn't been chosen then create file from existing image
     if (!this.url) {
       file = await fetch(this.culturalHeritage.imageUri)
         .then(r => r.blob())
-        .then(blobFile => new File([blobFile], "slika.png", { type: "image/png" }));
+        .then(blobFile => new File([blobFile], 'slika.png', { type: 'image/png' }));
     }
     else {
       file = this.url;
@@ -110,8 +110,8 @@ export class UpdateChComponent implements OnInit {
 
   /**
    * Take url of choosen image.
-   * 
-   * @param event 
+   *
+   * @param event
    */
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {
@@ -122,9 +122,9 @@ export class UpdateChComponent implements OnInit {
   }
 
   /**
-   * 
-   * @param location location is passed from map component 
-   * after geocoder search 
+   *
+   * @param location location is passed from map component
+   * after geocoder search
    */
   setLocation(location: Location) {
     this.location = location;
