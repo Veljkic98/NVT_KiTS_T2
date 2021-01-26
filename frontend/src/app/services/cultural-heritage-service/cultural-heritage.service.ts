@@ -33,7 +33,7 @@ export class CulturalHeritageService {
     return this.http.get<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${id}`);
   }
 
-  addNew(ch: CulturalHeritageToAdd) {
+  addNew(ch: CulturalHeritageToAdd): Observable<CulturalHeritage> {
     return this.http.post<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}`, ch);
   }
 
@@ -57,11 +57,11 @@ export class CulturalHeritageService {
   }
 
 
-  subscribe(chID: number) {
+  subscribe(chID: number): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/subscribe/${chID}`, null, { observe: 'response' });
   }
 
-  unsubscribe(chID: number) {
+  unsubscribe(chID: number): Observable<any> {
     return this.http.delete<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/unsubscribe/${chID}`, { observe: 'response' });
   }
 
@@ -76,7 +76,7 @@ export class CulturalHeritageService {
     return this.http.put<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${ch.id}`, formData);
   }
 
-  delete(id: number): Observable<Object> {
+  delete(id: number): Observable<object> {
     return this.http.delete(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${id}`);
   }
 }

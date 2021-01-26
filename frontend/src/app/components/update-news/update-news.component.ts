@@ -30,7 +30,7 @@ export class UpdateNewsComponent implements OnInit {
     });
   }
 
-  loadNews() {
+  loadNews(): void {
     this.newsService.getOne(this.newsID)
       .subscribe(data => {
         this.news = data;
@@ -38,7 +38,7 @@ export class UpdateNewsComponent implements OnInit {
       });
   }
 
-  async update() {
+  async update(): Promise<void> {
 
     let file: File;
     // if new file hasn't been chosen then create file from existing image
@@ -72,7 +72,7 @@ export class UpdateNewsComponent implements OnInit {
   /**
    * Take url of choosen image.
    *
-   * @param event
+   * @param event file selected
    */
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {

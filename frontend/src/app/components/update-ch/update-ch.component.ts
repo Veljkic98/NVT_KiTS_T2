@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CHSubtype2 } from 'src/app/models/ch-subtype.model';
+import { CHSubtype } from 'src/app/models/ch-subtype.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { Location } from 'src/app/models/location.model';
@@ -27,9 +27,9 @@ export class UpdateChComponent implements OnInit {
 
   location: Location;
 
-  subtypes: Array<CHSubtype2> = [];
+  subtypes: Array<CHSubtype> = [];
 
-  subtype: CHSubtype2;  // selected value - subtype
+  subtype: CHSubtype;  // selected value - subtype
 
   chid: number;
 

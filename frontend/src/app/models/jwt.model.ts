@@ -1,4 +1,4 @@
 export interface JWT {
     accessToken: string;
-    expiresIn: Number;
+    expiresIn: number;
 }

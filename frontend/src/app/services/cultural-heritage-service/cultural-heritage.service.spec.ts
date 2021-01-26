@@ -69,7 +69,6 @@ describe('CulturalHeritageService', () => {
   it('filterCulturalHeritages() should return cultural heritages that match the filter', fakeAsync(() => {
 
     let CHs: CulturalHeritage[];
-    let page: number;
     let last: boolean;
     let totalElements: number;
     let totalPages: number;

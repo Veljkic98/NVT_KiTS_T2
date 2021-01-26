@@ -38,7 +38,6 @@ describe('CHTypeService', () => {
 
   it('getTypes() should return Page object with CH types', fakeAsync(() => {
     let types: CHType[];
-    let page: number;
     let last: boolean;
     let totalElements: number;
     let totalPages: number;

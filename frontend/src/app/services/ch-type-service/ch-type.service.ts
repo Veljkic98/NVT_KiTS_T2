@@ -26,8 +26,8 @@ export class CHTypeService {
         return this.httpClient.put<any>(`${environment.apiUrl}/${CH_TYPES}/${type.id}`, type);
     }
 
-    addType(type: CHTypeToAdd) {
-        return this.httpClient.post<any>(`${environment.apiUrl}/${CH_TYPES}`, type);
+    addType(type: CHTypeToAdd): Observable<CHType> {
+        return this.httpClient.post<CHType>(`${environment.apiUrl}/${CH_TYPES}`, type);
     }
 
 }
