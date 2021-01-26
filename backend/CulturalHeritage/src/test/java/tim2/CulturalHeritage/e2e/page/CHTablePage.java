@@ -61,8 +61,8 @@ public class CHTablePage {
 
 	public void ensureVisibleErrorModal() {
         (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("errorModal")));
-	}
-
+    }
+    
     // endregion
 
     // region get

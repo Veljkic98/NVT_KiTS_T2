@@ -68,10 +68,20 @@ public class CHDetailsE2ETest {
             driver.wait(howLong);
         }
     }
+
     public void logInUser() throws InterruptedException {
         driver.get("http://localhost:4200/login");
 
         loginPage.getEmail().sendKeys("sima12@hotmail.com");
+        loginPage.getPassword().sendKeys("123");
+        loginPage.getLoginBtn().click();
+        justWait(1500);
+    }
+
+    public void logInUserHelen() throws InterruptedException {
+        driver.get("http://localhost:4200/login");
+
+        loginPage.getEmail().sendKeys("helen@gmail.com");
         loginPage.getPassword().sendKeys("123");
         loginPage.getLoginBtn().click();
         justWait(1500);
@@ -140,6 +150,54 @@ public class CHDetailsE2ETest {
         chDetailsPage.ensureIsPresentAddComment();
 
         justWait(1000);
+    }
+
+    @Test
+    public void subscribeTest() throws InterruptedException {
+
+        logInUser();
+
+        driver.get("http://localhost:4200/");
+
+        justWait(700);
+
+        chDetailsPage.ensureIsPresentMarker();
+        chDetailsPage.getChMarkerId6().click();
+        chDetailsPage.ensureIsPresentDetailSection();
+
+        chDetailsPage.ensureIsPresentSubscribeButton6();
+
+        chDetailsPage.getSubscribeButton6().click();
+
+        chDetailsPage.ensureIsPresentUnsubscribeButton6();
+
+        String snackBarText = chDetailsPage.getSnackBar().getText();
+
+        assertEquals("Successfuly subscribed!\nDismiss", snackBarText);
+    }
+
+    @Test
+    public void unsubscribeTest() throws InterruptedException {
+
+        logInUserHelen();
+
+        driver.get("http://localhost:4200/");
+
+        justWait(700);
+
+        chDetailsPage.ensureIsPresentMarker();
+        chDetailsPage.getChMarkerId2().click();
+        chDetailsPage.ensureIsPresentDetailSection();
+
+        chDetailsPage.ensureIsPresentUnsubscribeButton2();
+
+        chDetailsPage.getUnsubscribeButton2().click();
+
+        chDetailsPage.ensureIsPresentSubscribeButton2();
+
+        String snackBarText = chDetailsPage.getSnackBar().getText();
+
+        assertEquals("Successfuly unsubscribed!\nDismiss", snackBarText);
     }
 
     @Test
