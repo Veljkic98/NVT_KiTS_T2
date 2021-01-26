@@ -5,18 +5,19 @@
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>Name</mat-label>
-                        <input matInput class="name-input" [(ngModel)]="name">
+                        <input id="type name" autocomplete="off" matInput class="name-input" [(ngModel)]="name">
                     </mat-form-field>
                 </td>
             </tr>
             <tr>
                 <td style="padding-bottom: 1rem;">
-                    <button type="button" class="btn btn-outline-dark" (click)="addType()"
-                        [disabled]="name === ''">Post</button>
+                    <button id="post-type-btn"
+                     type="button" class="btn btn-outline-dark" (click)="addType()"
+                        [disabled]="!name || !isNameValid()">Post</button>
                 </td>
             </tr>
-            <p *ngIf="nameValid == false" style="color: red;">Name cannot be same</p>
-            <p *ngIf="nameValid == false" style="color: red;">Taken names are: {{takenNames}}</p>
+            <p *ngIf="nameValid == false" style="color: rgb(175, 11, 11);;">Name cannot be same</p>
+            <p *ngIf="nameValid == false" style="color: rgb(175, 11, 11);;">Taken names are: {{takenNames}}</p>
         </table>
     </div>
 
