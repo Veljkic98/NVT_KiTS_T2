@@ -191,7 +191,7 @@ export class MapsComponent implements OnInit {
 
 
 
-  async checkIfButtonDisabled(): void {
+  async checkIfButtonDisabled(): Promise<void> {
     let page: number;
     let retval: PageEnchanced<CulturalHeritage>;
 
@@ -225,7 +225,7 @@ export class MapsComponent implements OnInit {
     const id: number = parseInt(markerIcon.id.split('ch_')[1]);
     this.chChangedEvent.emit(id);
   }
-  _addHoverMarkerAnimation(markerIcon: HTMLDivElement) {
+  _addHoverMarkerAnimation(markerIcon: HTMLDivElement): void {
     markerIcon.addEventListener('mouseenter', () => {
       markerIcon.style.animation = null;
       markerIcon.offsetHeight; /* trigger reflow */
@@ -233,7 +233,7 @@ export class MapsComponent implements OnInit {
     });
   }
 
-  _addSelectMarkerAnimation(markerIcon: HTMLDivElement) {
+  _addSelectMarkerAnimation(markerIcon: HTMLDivElement): void {
     // if there is already selected marker, reset it's size
     this.markersArray.forEach(element => {
       const icon = element.getElement();
@@ -256,7 +256,7 @@ export class MapsComponent implements OnInit {
     }
   }
 
-  setMarkerColors() {
+  setMarkerColors(): void {
     this.markerColors = [
       'Teal',
       'PaleVioletRed',
@@ -302,7 +302,7 @@ export class MapsComponent implements OnInit {
    * then find the location properties.
    * then add marker to the map
    */
-  _addGeocoderInputEventListener() {
+  _addGeocoderInputEventListener(): void {
     this.geocoder.on('result', (event) => {
       this._removeMarkerFromGeocoder();
       const location = this._getLocationFromGeocoder(event);
@@ -340,7 +340,7 @@ export class MapsComponent implements OnInit {
     return location;
   }
 
-  _addMarkerFromGeocoder(location: Location) {
+  _addMarkerFromGeocoder(location: Location): void {
     const coordinates: [number, number] = [parseFloat(location.longitude), parseFloat(location.latitude)];
     const color = 'red';
     const fontSize = '60px';
