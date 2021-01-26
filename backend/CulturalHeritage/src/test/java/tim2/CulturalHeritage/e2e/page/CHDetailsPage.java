@@ -23,6 +23,9 @@ public class CHDetailsPage {
     @FindBy(xpath = "//mat-accordion//mat-expansion-panel[@id=\"comment-section\"]")
     private WebElement commentSectionButton;
 
+    @FindBy(xpath = "//mat-accordion//mat-expansion-panel[@id=\"news-section\"]")
+    private WebElement newsSectionButton;
+
     @FindBy(xpath = "//button[@id=\"add-com-modal-btn\"]")
     private WebElement addComModalBtn;
 
@@ -58,6 +61,9 @@ public class CHDetailsPage {
 
     @FindBy(xpath = "//app-comments//*[@class=\"comment-content\"][last()]")
     private WebElement lastComment;
+
+    @FindBy(xpath = "//app-ch-news//*[@class=\"news-content\"][last()]")
+    private WebElement lastNews;
 
     @FindBy(xpath = "//*[@id=\"delete-comment-icon\"][last()]")
     private WebElement deleteCommentIcon;
@@ -167,6 +173,8 @@ public class CHDetailsPage {
 
     public WebElement getCommentSectionButton() { return commentSectionButton; }
 
+    public WebElement getNewsSectionButton() { return newsSectionButton; }
+
     public WebElement getAddComModalBtn() { return addComModalBtn; }
 
     public WebElement getAddCommentBtn() { return addCommentBtn; }
@@ -182,6 +190,8 @@ public class CHDetailsPage {
     public WebElement getNextPage() { return nextPage; }
 
     public WebElement getLastComment() { return lastComment; }
+
+    public WebElement getLastNews() { return lastNews; }
 
     public WebElement getDeleteCommentIcon() { return deleteCommentIcon; }
 
