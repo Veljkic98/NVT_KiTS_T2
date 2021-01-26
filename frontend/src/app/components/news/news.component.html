@@ -34,7 +34,7 @@
                     <p id="content{{news.indexOf(element) + 1}}">{{element.content}}</p>
                     <img *ngIf="element.imageUri" mat-card-image [src]="element.imageUri" alt="png">
                     <div id="btn-div">
-                        <button  mat-raised-button color="accent" [routerLink]="['/update/news/', element.id]">EDIT</button>
+                        <button id="edit-news-btn-{{element.id}}"  mat-raised-button color="accent" [routerLink]="['/update/news/', element.id]">EDIT</button>
                         <button  mat-raised-button color="warn" (click)="openDeleteModal(deleteModal, element)">DELETE</button>
                     </div>
                 </mat-card>
