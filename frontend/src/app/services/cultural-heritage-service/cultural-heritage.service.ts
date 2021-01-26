@@ -57,15 +57,15 @@ export class CulturalHeritageService {
   }
 
 
-  subscribe(chID: number): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/subscribe/${chID}`, null, { observe: 'response' });
+  subscribe(chID: number): Observable<object> {
+    return this.http.post<object>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/subscribe/${chID}`, null, { observe: 'response' });
   }
 
-  unsubscribe(chID: number): Observable<any> {
-    return this.http.delete<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/unsubscribe/${chID}`, { observe: 'response' });
+  unsubscribe(chID: number): Observable<object> {
+    return this.http.delete<object>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/unsubscribe/${chID}`, { observe: 'response' });
   }
 
-  put(ch: CulturalHeritage, image: any): Observable<any> {
+  put(ch: CulturalHeritage, image: any): Observable<CulturalHeritage> {
 
     const formData = new FormData();
     formData.append('culturalHeritageRequestDTO', new Blob([JSON.stringify(ch)], {
