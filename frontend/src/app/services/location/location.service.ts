@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 const REST_ENDPOINT = {
   getOne: '/locations/',
   getByPage: '/locations/by-page',
-}
+};
 
 import { LOCATIONS } from '../../utils/constants';
 

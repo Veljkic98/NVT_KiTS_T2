@@ -11,14 +11,14 @@ import {  Router } from '@angular/router';
 })
 export class AddNewTypeComponent implements OnInit {
 
-  name: string = "";
-  page: number = 1;
+  name = '';
+  page = 1;
 
-  nameValid: boolean = true;
+  nameValid = true;
 
   type: CHTypeToAdd;
 
-  takenNames: string = "";
+  takenNames = '';
 
   constructor(
     private typeService: CHTypeService,
@@ -45,10 +45,10 @@ export class AddNewTypeComponent implements OnInit {
   isNameValid() {
     this.nameValid = true;
 
-    this.takenNames = "";
+    this.takenNames = '';
 
     this.chTypes.forEach(element => {
-      this.takenNames += element.name + " - ";
+      this.takenNames += element.name + ' - ';
       if (element.name.toUpperCase() == this.name.toUpperCase()) {
         this.nameValid = false;
       }
