@@ -22,7 +22,7 @@ export class MyProfileComponent implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute,
     private chService: CulturalHeritageService,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -51,22 +51,22 @@ export class MyProfileComponent implements OnInit {
         });
   }
 
-  unsub(chid) {
+  unsub(chid): void {
     this.chService.unsubscribe(chid)
       .subscribe(
         response => {
-          if (response.statusText == "OK") {
+          if (response.statusText === 'OK') {
             this.subscriptions = this.subscriptions.filter(({ id }) => id !== chid);
-            this.openSnackBar("Successfuly unsubscribed!");
+            this.openSnackBar('Successfuly unsubscribed!');
           } else {
-            this.openSnackBar("Unsuccessfuly unsubscribed!");
+            this.openSnackBar('Unsuccessfuly unsubscribed!');
           }
-        }, error => { this.openSnackBar("Unsuccessfuly unsubscribed!"); }
+        }, error => { this.openSnackBar('Unsuccessfuly unsubscribed!'); }
       );
   }
 
   openSnackBar(message: string): void {
-    this._snackBar.open(message, 'Dismiss', {
+    this.snackBar.open(message, 'Dismiss', {
       duration: 4000,
     });
   }

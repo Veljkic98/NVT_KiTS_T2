@@ -1,9 +1,9 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { News } from "src/app/models/news.model";
-import { Page, PageEnchanced } from "src/app/models/page.model";
-import { environment } from "src/environments/environment";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { News } from 'src/app/models/news.model';
+import { Page } from 'src/app/models/page.model';
+import { environment } from 'src/environments/environment';
 import { NEWS_PER_PAGE } from '../../utils/constants';
 
 
@@ -18,26 +18,26 @@ const REST_ENDPOINT = {
 export class NewsService {
     constructor(private httpClient: HttpClient) { }
 
-    getNews(chID: number, page: number): Observable<PageEnchanced<News>> {
+    getNews(chID: number, page: number): Observable<Page<News>> {
         // return this.httpClient.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.GET}${chID}/?page=${page}&size=${NEWS_PER_PAGE}`);
-        return this.httpClient.get<PageEnchanced<News>>(`${environment.apiUrl}${REST_ENDPOINT.GET}${chID}/?page=${page}&size=${NEWS_PER_PAGE}&sort=id,ASC`);
+        return this.httpClient.get<Page<News>>(`${environment.apiUrl}${REST_ENDPOINT.GET}${chID}/?page=${page}&size=${NEWS_PER_PAGE}&sort=id,ASC`);
     }
 
-    getOne(chID: number) {
-        return this.httpClient.get<any>(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${chID}`);
+    getOne(chID: number): Observable<News>  {
+        return this.httpClient.get<News>(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${chID}`);
     }
 
-    deleteNews(id: number): Observable<Object> {
+    deleteNews(id: number): Observable<object> {
         return this.httpClient.delete(`${environment.apiUrl}${REST_ENDPOINT.DELETE}${id}`);
     }
 
-    update(news: News, file: File) {
+    update(news: News, file: File): Observable<News> {
 
-        var id = news.id;
-        var heading = news.heading;
-        var content = news.content;
-        var culturalHeritageID = news.culturalHeritageID;
-        var adminID = news.adminID;
+        const id = news.id;
+        const heading = news.heading;
+        const content = news.content;
+        const culturalHeritageID = news.culturalHeritageID;
+        const adminID = news.adminID;
 
         const ch = { heading, content, culturalHeritageID, adminID };
         const formData = new FormData();
@@ -48,15 +48,15 @@ export class NewsService {
             formData.append('file', file);
         }
 
-        return this.httpClient.put(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, formData);
+        return this.httpClient.put<News>(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, formData);
     }
 
-    add(news: News) {
-        var imageUri = news.imageUri;
-        var heading = news.heading;
-        var content = news.content;
-        var culturalHeritageID = news.culturalHeritageID;
-        var adminID = news.adminID;
+    add(news: News): Observable<News> {
+        const imageUri = news.imageUri;
+        const heading = news.heading;
+        const content = news.content;
+        const culturalHeritageID = news.culturalHeritageID;
+        const adminID = news.adminID;
 
         const ch = { heading, content, culturalHeritageID, adminID };
         const formData = new FormData();
@@ -67,7 +67,7 @@ export class NewsService {
             formData.append('file', imageUri);
         }
 
-        return this.httpClient.post(`${environment.apiUrl}${REST_ENDPOINT.ADD_ONE}`, formData);
+        return this.httpClient.post<News>(`${environment.apiUrl}${REST_ENDPOINT.ADD_ONE}`, formData);
     }
 
 }

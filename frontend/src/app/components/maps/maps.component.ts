@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output, SimpleChanges } from '@angular/core';
 import { LngLatLike, Map, Marker } from 'mapbox-gl';
-import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
-import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service'
-import { CulturalHeritage } from '../../models/cultural-heritage.model'
+import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service';
+import { CulturalHeritage } from '../../models/cultural-heritage.model';
 import { Page, PageEnchanced } from 'src/app/models/page.model';
-import { Location } from 'src/app/models/location.model'
+import { Location } from 'src/app/models/location.model';
 import { environment } from 'src/environments/environment';
 
 
@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
-export class MapsComponent implements OnInit {
+export class MapsComponent implements OnInit, DoCheck {
   // default map values
   zoom = 3;
   latitude = 47;
@@ -34,7 +34,7 @@ export class MapsComponent implements OnInit {
 
   @Output() chChangedEvent = new EventEmitter<number>();
   @Output() chLocationSelectedEvent = new EventEmitter<Location>();
-  @Input() adminManagesCH: Boolean = false;
+  @Input() adminManagesCH = false;
   @Input() adminLocationForGeocoder: Location;
   @Input() culturalHeritages: CulturalHeritage[];
 
@@ -62,7 +62,7 @@ export class MapsComponent implements OnInit {
    * and admin is managing CHs (adding new, updating existing).
    * @param map is object that represents the whole map.
    */
-  onMapLoad(map: Map) {
+  onMapLoad(map: Map): void {
     this.map = map;
     this.addCulturalHeritagesToMap();
     if (this.adminManagesCH === true) {
@@ -99,7 +99,7 @@ export class MapsComponent implements OnInit {
    * Add marker function will render html markers on the map.
    * At the end check if previous and next buttons should be disabled.
    */
-  async addCulturalHeritagesToMap() {
+  async addCulturalHeritagesToMap(): Promise<void> {
     // let culturalHeritages: CulturalHeritage[];
     let coords: [number, number];
     let color: string;
@@ -120,7 +120,7 @@ export class MapsComponent implements OnInit {
     }
   }
 
-  ngDoCheck() {
+  ngDoCheck(): void {
     const changes = this.iterableDiffer.diff(this.culturalHeritages);
     if (changes) {
       this.removeCulturalHeritagesFromMap();
@@ -142,7 +142,7 @@ export class MapsComponent implements OnInit {
    * Each markerIcon has an id corresponding to cultural heritage id.
    * examples of id: "ch_1", "ch_2",...
    */
-  addMarker(coordinates: LngLatLike, color = 'blue', culturalHeritageID: number = null) {
+  addMarker(coordinates: LngLatLike, color = 'blue', culturalHeritageID: number = null): void{
     const markerIcon: HTMLDivElement = document.createElement('div');
     markerIcon.id = 'ch_' + culturalHeritageID;
 
@@ -171,7 +171,7 @@ export class MapsComponent implements OnInit {
    * Method shows CH component on the right side when user clicks on a marker.
    * When user hovers marker, hover animation is set.
    */
-  addMarkerEvents(markerIcon: HTMLDivElement) {
+  addMarkerEvents(markerIcon: HTMLDivElement): void {
     // add animation on hover
     this._addHoverMarkerAnimation(markerIcon);
 
@@ -182,7 +182,7 @@ export class MapsComponent implements OnInit {
     });
   }
 
-  removeCulturalHeritagesFromMap() {
+  removeCulturalHeritagesFromMap(): void{
     this.markersArray.forEach(marker => {
       marker.remove();
     });
@@ -191,7 +191,7 @@ export class MapsComponent implements OnInit {
 
 
 
-  async checkIfButtonDisabled() {
+  async checkIfButtonDisabled(): Promise<void> {
     let page: number;
     let retval: PageEnchanced<CulturalHeritage>;
 
@@ -221,11 +221,11 @@ export class MapsComponent implements OnInit {
     }
   }
 
-  _showCHDetails(markerIcon: HTMLDivElement) {
+  _showCHDetails(markerIcon: HTMLDivElement): void {
     const id: number = parseInt(markerIcon.id.split('ch_')[1]);
     this.chChangedEvent.emit(id);
   }
-  _addHoverMarkerAnimation(markerIcon: HTMLDivElement) {
+  _addHoverMarkerAnimation(markerIcon: HTMLDivElement): void {
     markerIcon.addEventListener('mouseenter', () => {
       markerIcon.style.animation = null;
       markerIcon.offsetHeight; /* trigger reflow */
@@ -233,7 +233,7 @@ export class MapsComponent implements OnInit {
     });
   }
 
-  _addSelectMarkerAnimation(markerIcon: HTMLDivElement) {
+  _addSelectMarkerAnimation(markerIcon: HTMLDivElement): void {
     // if there is already selected marker, reset it's size
     this.markersArray.forEach(element => {
       const icon = element.getElement();
@@ -256,7 +256,7 @@ export class MapsComponent implements OnInit {
     }
   }
 
-  setMarkerColors() {
+  setMarkerColors(): void {
     this.markerColors = [
       'Teal',
       'PaleVioletRed',
@@ -302,7 +302,7 @@ export class MapsComponent implements OnInit {
    * then find the location properties.
    * then add marker to the map
    */
-  _addGeocoderInputEventListener() {
+  _addGeocoderInputEventListener(): void {
     this.geocoder.on('result', (event) => {
       this._removeMarkerFromGeocoder();
       const location = this._getLocationFromGeocoder(event);
@@ -340,7 +340,7 @@ export class MapsComponent implements OnInit {
     return location;
   }
 
-  _addMarkerFromGeocoder(location: Location) {
+  _addMarkerFromGeocoder(location: Location): void {
     const coordinates: [number, number] = [parseFloat(location.longitude), parseFloat(location.latitude)];
     const color = 'red';
     const fontSize = '60px';

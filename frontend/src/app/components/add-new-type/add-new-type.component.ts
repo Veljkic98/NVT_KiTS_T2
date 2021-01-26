@@ -22,8 +22,8 @@ export class AddNewTypeComponent implements OnInit {
 
   constructor(
     private typeService: CHTypeService,
-    private _router: Router,
-    private _snackBar: MatSnackBar,
+    private router: Router,
+    private snackBar: MatSnackBar,
 
   ) { }
 
@@ -33,7 +33,7 @@ export class AddNewTypeComponent implements OnInit {
     this.loadTypes();
   }
 
-  loadTypes() {
+  loadTypes(): void {
     this.typeService.getTypes(this.page - 1)
       .subscribe(
         data => {
@@ -42,14 +42,14 @@ export class AddNewTypeComponent implements OnInit {
       );
   }
 
-  isNameValid() {
+  isNameValid(): boolean {
     this.nameValid = true;
 
     this.takenNames = '';
 
     this.chTypes.forEach(element => {
       this.takenNames += element.name + ' - ';
-      if (element.name.toUpperCase() == this.name.toUpperCase()) {
+      if (element.name.toUpperCase() === this.name.toUpperCase()) {
         this.nameValid = false;
       }
 
@@ -60,7 +60,7 @@ export class AddNewTypeComponent implements OnInit {
     return this.nameValid;
   }
 
-  addType() {
+  addType(): void {
     this.isNameValid();
 
     this.type = new CHTypeToAdd(this.name);
@@ -70,16 +70,16 @@ export class AddNewTypeComponent implements OnInit {
         .subscribe(
           response => {
             this.chTypes.push(response);
-            this._router.navigate(['/manage/types']);
+            this.router.navigate(['/manage/types']);
             this.openSnackBar(`Successfuly added ${this.name} type.`);
           },
-          () => {this.openSnackBar(`Problem occured while adding ${this.name} type.`);}
-        )
+          () => {this.openSnackBar(`Problem occured while adding ${this.name} type.`); }
+        );
     }
   }
 
   openSnackBar(message: string): void {
-    this._snackBar.open(message, 'Dismiss', {
+    this.snackBar.open(message, 'Dismiss', {
       duration: 4000,
     });
   }

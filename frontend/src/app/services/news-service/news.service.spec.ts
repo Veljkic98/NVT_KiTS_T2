@@ -42,7 +42,6 @@ describe('NewsService', () => {
 
     it('getNews() should return some news', fakeAsync(() => {
         let news: News[];
-        let page: number;
         let last: boolean;
         let totalElements: number;
         let totalPages: number;

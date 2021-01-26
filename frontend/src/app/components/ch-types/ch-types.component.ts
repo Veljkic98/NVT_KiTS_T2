@@ -53,7 +53,7 @@ export class CHTypesComponent implements OnInit {
         public typeService: CHTypeService,
         public subtypeService: CHSubtypeService,
         public subtypeDeleteDialog: MatDialog,
-        private _snackBar: MatSnackBar,
+        private snackBar: MatSnackBar,
         private typeEditDialog: MatDialog
 
     ){}
@@ -65,7 +65,8 @@ export class CHTypesComponent implements OnInit {
 
 
     toggleRow(element: CHType): void {
-        element.subtypes ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
+        this.expandedElement = element.subtypes ? (this.expandedElement === element ? null : element) : null;
+
         this.cd.detectChanges();
       }
 
@@ -118,7 +119,7 @@ export class CHTypesComponent implements OnInit {
     }
 
     openSubtypeDeleteDialog(selected: CHSubtype): void{
-        const dialogRef = this.subtypeDeleteDialog.open(SubtypeDeleteDialog, {data: selected});
+        const dialogRef = this.subtypeDeleteDialog.open(SubtypeDeleteDialogComponent, {data: selected});
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
@@ -140,7 +141,7 @@ export class CHTypesComponent implements OnInit {
 
 
     openSnackBar(message: string): void{
-        this._snackBar.open(message, 'Dismiss', {
+        this.snackBar.open(message, 'Dismiss', {
           duration: 4000,
         });
     }
@@ -193,7 +194,7 @@ export class CHTypesComponent implements OnInit {
     selector: 'app-dialog-content-example-dialog',
     templateUrl: './subtype-delete-dialog.html',
   })
-export class SubtypeDeleteDialog {
+export class SubtypeDeleteDialogComponent {
     constructor(@Inject(MAT_DIALOG_DATA) public data: CHSubtype) {}
 }
 
@@ -201,7 +202,7 @@ export class SubtypeDeleteDialog {
     selector: 'app-ch-type-edit-form',
     templateUrl: './ch-type-edit-form.html',
   })
-export class EditTypeDialog {
+export class EditTypeDialogComponent {
     changedName: string;
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: CHSubtype | CHType) {

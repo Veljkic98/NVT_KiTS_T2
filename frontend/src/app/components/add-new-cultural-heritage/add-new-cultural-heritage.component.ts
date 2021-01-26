@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CHSubtype2 } from 'src/app/models/ch-subtype.model';
+import { CHSubtype } from 'src/app/models/ch-subtype.model';
 import { CulturalHeritageToAdd } from 'src/app/models/cultural-heritage-to-add.model';
 import { Location } from 'src/app/models/location.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
@@ -26,15 +26,15 @@ export class AddNewCulturalHeritageComponent implements OnInit {
 
   location: Location;
 
-  subtypes: Array<CHSubtype2> = [];
+  subtypes: Array<CHSubtype> = [];
 
-  subtype: CHSubtype2;  // selected value - subtype
+  subtype: CHSubtype;  // selected value - subtype
 
   constructor(
     private chService: CulturalHeritageService,
     private locationService: LocationService,
     private subtypeService: CHSubtypeService,
-    private _router: Router
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -63,7 +63,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
             .subscribe(
               data => {
                 // console.log(data);
-                this._router.navigate(['/cultural-heritages']);
+                this.router.navigate(['/cultural-heritages']);
               },
               error => {
                 console.log(error);
@@ -79,7 +79,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
   /**
    * Take url of choosen image.
    *
-   * @param event
+   * @param event event file selected
    */
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {
@@ -94,7 +94,7 @@ export class AddNewCulturalHeritageComponent implements OnInit {
    * @param location location is passed from map component
    * after geocoder search
    */
-  setLocation(location: Location) {
+  setLocation(location: Location): void {
     this.location = location;
     if (location){
       this.isLocationChosen = true;
@@ -104,8 +104,6 @@ export class AddNewCulturalHeritageComponent implements OnInit {
       this.isLocationChosen = false;
       this.location = null;
     }
-
-    // console.log(this.location);
   }
 
 }

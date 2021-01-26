@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CHSubtype2, CHSubtype3 } from 'src/app/models/ch-subtype.model';
+import { CHSubtype, CHSubtype } from 'src/app/models/ch-subtype.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
 
 @Component({
@@ -11,65 +11,65 @@ import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype
 })
 export class AddSubtypeComponent implements OnInit {
 
-  subtype: CHSubtype3 = new CHSubtype3();
+  subtype: CHSubtype;
 
   nameValid = true;
 
   takenNames = '';
 
-  subtypes: Array<CHSubtype2> = [];
+  subtypes: Array<CHSubtype> = [];
 
   constructor(
     private route: ActivatedRoute,
-    private _router: Router,
+    private router: Router,
     private subtypeService: CHSubtypeService,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
-    this.subtype.name = '';
+    this.subtype = new CHSubtype({name: ''});
     this.loadTypeId();
     this.loadSubtypes();
   }
 
-  loadTypeId() {
+  loadTypeId(): void {
     this.route.paramMap.subscribe(params => {
       this.subtype.chTypeID = +params.get('typeid');
     });
   }
 
-  loadSubtypes() {
+  loadSubtypes(): void {
     this.subtypeService.getAll()
       .subscribe(data => {
         this.subtypes = data;
       });
   }
 
-  isNameValid() {
+  isNameValid(): boolean {
     this.nameValid = true;
 
     this.takenNames = '';
 
     this.subtypes.forEach(element => {
       this.takenNames += element.name + ' - ';
-      if (element.name.toUpperCase() == this.subtype.name.toUpperCase()) {
+      if (element.name.toUpperCase() === this.subtype.name.toUpperCase()) {
         this.nameValid = false;
       }
     });
     try {
       this.takenNames = this.takenNames.slice(0, -2);
       return this.nameValid;
-    } catch (error) { return this.nameValid;}
+    } catch (error) { return this.nameValid; }
   }
 
-  add() {
+  add(): void {
 
     if (this.nameValid) {
       this.subtypeService.add(this.subtype)
         .subscribe(
           response => {
-            this._router.navigate(['/manage/types']);
-            this.openSnackBar('Successfuly added the subtype!')
+            this.router.navigate(['/manage/types']);
+            this.openSnackBar('Successfuly added the subtype!');
             this.subtypes.push(response);
           }
         );
@@ -77,7 +77,7 @@ export class AddSubtypeComponent implements OnInit {
   }
 
   openSnackBar(message: string): void {
-    this._snackBar.open(message, 'Dismiss', {
+    this.snackBar.open(message, 'Dismiss', {
       duration: 4000,
     });
   }

@@ -10,11 +10,11 @@ import { Observable } from 'rxjs';
 export class CommentService {
     constructor(private http: HttpClient) { }
 
-    getComments(chID: number, page: number): Observable<Page> {
-        return this.http.get<Page>(`${environment.apiUrl}/${COMMENTS}/by-page/${chID}/?page=${page}&size=${COMMENTS_PER_PAGE}&sort=id,ASC`);
+    getComments(chID: number, page: number): Observable<Page<Comment>> {
+        return this.http.get<Page<Comment>>(`${environment.apiUrl}/${COMMENTS}/by-page/${chID}/?page=${page}&size=${COMMENTS_PER_PAGE}&sort=id,ASC`);
     }
 
-    postComment(chID: number, content: string, image: string): Observable<any> {
+    postComment(chID: number, content: string, image: string): Observable<Comment> {
         const comment = { content, culturalHeritageID: chID };
         const formData = new FormData();
         console.log(image);
@@ -25,7 +25,7 @@ export class CommentService {
             formData.append('file', image);
         }
 
-        return this.http.post<any>(`${environment.apiUrl}/${COMMENTS}`, formData);
+        return this.http.post<Comment>(`${environment.apiUrl}/${COMMENTS}`, formData);
     }
 
     deleteComment(commentID: number): Observable<object> {

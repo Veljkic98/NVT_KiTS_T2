@@ -14,20 +14,20 @@ const REST_ENDPOINT = {
 export class CHTypeService {
     constructor(private httpClient: HttpClient){}
 
-    getTypes(page: number): Observable<Page> {
-        return this.httpClient.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.GET}?page=0&size=10&sort=id,ASC`);
+    getTypes(page: number): Observable<Page<CHType>> {
+        return this.httpClient.get<Page<CHType>>(`${environment.apiUrl}${REST_ENDPOINT.GET}?page=0&size=10&sort=id,ASC`);
     }
 
     deleteType(typeID: number): Observable<object> {
         return this.httpClient.delete(`${environment.apiUrl}/${CH_TYPES}/${typeID}`);
     }
 
-    editType(type: CHType): Observable<any> {
-        return this.httpClient.put<any>(`${environment.apiUrl}/${CH_TYPES}/${type.id}`, type);
+    editType(type: CHType): Observable<CHType> {
+        return this.httpClient.put<CHType>(`${environment.apiUrl}/${CH_TYPES}/${type.id}`, type);
     }
 
-    addType(type: CHTypeToAdd) {
-        return this.httpClient.post<any>(`${environment.apiUrl}/${CH_TYPES}`, type);
+    addType(type: CHTypeToAdd): Observable<CHType> {
+        return this.httpClient.post<CHType>(`${environment.apiUrl}/${CH_TYPES}`, type);
     }
 
 }

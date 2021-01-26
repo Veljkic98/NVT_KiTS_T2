@@ -22,42 +22,42 @@ describe('CulturalHeritagesComponent', () => {
 
   beforeEach(async () => {
 
-    let authServiceMock = {
+    const authServiceMock = {
       getRole: jasmine.createSpy('getRole')
-        .and.returnValue(of("ADMIN")),
+        .and.returnValue(of('ADMIN')),
 
       // getId: jasmine.createSpy('getId')
       // .and.returnValue(of(3))
-    }
+    };
 
     const mockCulturalHeritages = [
       new CulturalHeritage({
         id: 1,
         avgRating: 2,
         chsubtypeID: 1,
-        description: "opis1",
-        imageUri: "http://localhost:8080/api/files/1",
+        description: 'opis1',
+        imageUri: 'http://localhost:8080/api/files/1',
         locationID: 1,
-        name: "naziv1",
-        coordinates: ["12", "12"],
+        name: 'naziv1',
+        coordinates: ['12', '12'],
         totalRatings: 3,
-        locationName: "lokacija1",
+        locationName: 'lokacija1',
       }),
       new CulturalHeritage({
         id: 2,
         avgRating: undefined,
         chsubtypeID: 1,
-        description: "opis2",
+        description: 'opis2',
         imageUri: undefined,
         locationID: 2,
-        name: "naziv2",
-        coordinates: ["15", "15"],
+        name: 'naziv2',
+        coordinates: ['15', '15'],
         totalRatings: undefined,
-        locationName: "lokacija2",
+        locationName: 'lokacija2',
       })
     ];
 
-    let chServiceMock = {
+    const chServiceMock = {
       getCulturalHeritagesWithSize: jasmine.createSpy('getCulturalHeritagesWithSize')
         .and.returnValue(of({
           content: mockCulturalHeritages,
@@ -86,7 +86,7 @@ describe('CulturalHeritagesComponent', () => {
       //   imageUri: null,
       //   userName: "Sima Matas"
       // })))
-    }
+    };
 
 
 
@@ -95,7 +95,7 @@ describe('CulturalHeritagesComponent', () => {
       providers: [
         { provide: AuthService, useValue: authServiceMock },
         { provide: CulturalHeritageService, useValue: chServiceMock },
-        MatSnackBar, Overlay, NgbModal, MatPaginator, 
+        MatSnackBar, Overlay, NgbModal, MatPaginator,
       ],
       imports:
         [
@@ -126,7 +126,7 @@ describe('CulturalHeritagesComponent', () => {
     it('should fetch all cultural heritages on init (with paggination)', fakeAsync(() => {
       fixture.detectChanges();
       component.ngOnInit();
-      expect(chService.getCulturalHeritagesWithSize).toHaveBeenCalledWith(0, 10); // page index is 0 
+      expect(chService.getCulturalHeritagesWithSize).toHaveBeenCalledWith(0, 10); // page index is 0
       tick();
 
       expect(component.totalPages).toEqual(1);
@@ -136,7 +136,7 @@ describe('CulturalHeritagesComponent', () => {
       expect(component.dataSource.length).toBe(2);
       expect(component.error).toBe(undefined);
 
-      //should display fetched cultural heritages
+      // should display fetched cultural heritages
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -146,20 +146,20 @@ describe('CulturalHeritagesComponent', () => {
       fixture.detectChanges();
 
       // let chs: DebugElement[] = fixture.debugElement.queryAll(By.css('ng-container'));
-      // expect(chs.length).toBe(0); 
+      // expect(chs.length).toBe(0);
       // expect(chs[0].nativeElement.textContent).toContain("opis1");
-      // console.log("----------------------------") 
+      // console.log("----------------------------")
       // console.log(chs[0].nativeElement)
       // expect(chs[0].nativeElement.textContent).toContain("naziv1");
 
       // expect(chs[1].nativeElement.textContent).toContain("opis2");
       // expect(chs[1].nativeElement.textContent).toContain("naziv2");
     }));
-  })
+  });
 
   fdescribe('deleteCH()', () => {
     it('should delete', fakeAsync(() => {
-      
+
       component.ngOnInit();
 
       tick();
@@ -179,7 +179,7 @@ describe('CulturalHeritagesComponent', () => {
       // expect(comments.length).toBe(1);
 
     }));
-  })
+  });
 
 
 });

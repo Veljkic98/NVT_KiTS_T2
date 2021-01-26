@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private chService: CulturalHeritageService,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -40,12 +40,12 @@ export class DashboardComponent implements OnInit {
   closeDetails(): void {
     this.selectedCH = null;
   }
-  setChId($event){
+  setChId($event): void {
     this.selectedCH = $event;
   }
 
   openSnackBar(message: string): void{
-    this._snackBar.open(message, 'Dismiss', {
+    this.snackBar.open(message, 'Dismiss', {
       duration: 4000,
     });
 }
@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
           this.page = data.number + 1;
           this.error = null;
 
-          const append = this.total == 1 ? '' : 's';
+          const append = this.total === 1 ? '' : 's';
           this.openSnackBar(`Found ${this.total} result${append}.`);
 
       },

@@ -1,4 +1,4 @@
-import { Input, SimpleChanges } from '@angular/core';
+import { Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { NewsService } from 'src/app/services/news-service/news-service.service'
     templateUrl: './news.component.html',
     styleUrls: ['./news.component.css'],
 })
-export class NewsComponent{
+export class NewsComponent implements OnInit, OnChanges{
     chID: number;
     news: News[] = [];
     page = 1;
@@ -27,7 +27,7 @@ export class NewsComponent{
     constructor(
       private service: NewsService,
       private route: ActivatedRoute,
-      private _snackBar: MatSnackBar,
+      private snackBar: MatSnackBar,
       private modalService: NgbModal,
 
   ) {}
@@ -55,7 +55,7 @@ export class NewsComponent{
       this.service.getNews(this.chID, page - 1)
       .subscribe(
         data => {
-            // console.log(data, ' je lasttaaa');        
+            // console.log(data, ' je lasttaaa');
             this.lastPage = data.last;
             this.news = data.content;
             this.total = data.totalElements;
@@ -86,7 +86,7 @@ export class NewsComponent{
   }
 
     openSnackBar(message: string): void{
-      this._snackBar.open(message, 'Dismiss', {
+      this.snackBar.open(message, 'Dismiss', {
         duration: 4000,
       });
   }

@@ -16,7 +16,7 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   @Input() chID: number;
   @Output() closeDetails: EventEmitter<void> = new EventEmitter();
 
-  isSubscribed: Boolean = false;
+  isSubscribed =  false;
 
   loading = true;
   ch: CulturalHeritage;
@@ -26,7 +26,7 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   constructor(
     private chService: CulturalHeritageService,
     private authService: AuthService,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -48,7 +48,7 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   /**
    * check if user is subscribed to choosen CH
    */
-  isSub() {
+  isSub(): void {
     this.isSubscribed = false;
 
     this.authService.getSubscriptions()
@@ -68,34 +68,34 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   /**
    *
    */
-  subscribe() {
+  subscribe(): void {
     this.chService.subscribe(this.chID)
       .subscribe(
         response => {
-          if (response.statusText == 'OK') {
+          if (response.statusText === 'OK') {
             this.isSubscribed = true;
-            this.openSnackBar("Successfuly subscribed!");
+            this.openSnackBar('Successfuly subscribed!');
           } else {
-            this.openSnackBar("Unsuccessfuly subscribed!")
+            this.openSnackBar('Unsuccessfuly subscribed!');
           }
-        }, error => { this.openSnackBar("Unsuccessfuly subscribed!") }
+        }, error => { this.openSnackBar('Unsuccessfuly subscribed!'); }
       );
   }
 
   /**
    *
    */
-  unsubscribe() {
+  unsubscribe(): void {
     this.chService.unsubscribe(this.chID)
       .subscribe(
         response => {
-          if (response.statusText == 'OK') {
+          if (response.statusText === 'OK') {
             this.isSubscribed = false;
-            this.openSnackBar("Successfuly unsubscribed!");
+            this.openSnackBar('Successfuly unsubscribed!');
           } else {
-            this.openSnackBar("Unsuccessfuly unsubscribed!");
+            this.openSnackBar('Unsuccessfuly unsubscribed!');
           }
-        }, error => {this.openSnackBar("Unsuccessfuly unsubscribed!");}
+        }, error => {this.openSnackBar('Unsuccessfuly unsubscribed!'); }
       );
   }
 
@@ -127,7 +127,7 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   }
 
   openSnackBar(message: string): void {
-    this._snackBar.open(message, 'Dismiss', {
+    this.snackBar.open(message, 'Dismiss', {
       duration: 4000,
     });
   }
