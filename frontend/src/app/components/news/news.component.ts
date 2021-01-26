@@ -1,4 +1,4 @@
-import { Input, SimpleChanges } from '@angular/core';
+import { Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { NewsService } from 'src/app/services/news-service/news-service.service'
     templateUrl: './news.component.html',
     styleUrls: ['./news.component.css'],
 })
-export class NewsComponent{
+export class NewsComponent implements OnInit, OnChanges{ 
     chID: number;
     news: News[] = [];
     page = 1;

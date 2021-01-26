@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CHSubtype2 } from 'src/app/models/ch-subtype.model';
+import { CHSubtype } from 'src/app/models/ch-subtype.model';
 import { CulturalHeritageToAdd } from 'src/app/models/cultural-heritage-to-add.model';
 import { Location } from 'src/app/models/location.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
@@ -26,9 +26,9 @@ export class AddNewCulturalHeritageComponent implements OnInit {
 
   location: Location;
 
-  subtypes: Array<CHSubtype2> = [];
+  subtypes: Array<CHSubtype> = [];
 
-  subtype: CHSubtype2;  // selected value - subtype
+  subtype: CHSubtype;  // selected value - subtype
 
   constructor(
     private chService: CulturalHeritageService,
