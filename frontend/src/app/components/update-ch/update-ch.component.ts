@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CHSubtype2 } from 'src/app/models/ch-subtype.model';
-import { CulturalHeritageToAdd } from 'src/app/models/cultural-heritage-to-add.model';
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { Location } from 'src/app/models/location.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
@@ -41,7 +41,8 @@ export class UpdateChComponent implements OnInit {
     private locationService: LocationService,
     private subtypeService: CHSubtypeService,
     private _router: Router,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _snackBar: MatSnackBar, 
   ) { }
 
   async ngOnInit() {
@@ -96,7 +97,14 @@ export class UpdateChComponent implements OnInit {
     }
 
 
-    const ch: CulturalHeritage = await this.chService.put(this.culturalHeritage, file).toPromise();
+    let ch: CulturalHeritage = await this.chService.put(this.culturalHeritage, file).toPromise();
+    if(ch){
+      this._router.navigate(['/cultural-heritages']);
+      this.openSnackBar(`Successfuly updated ${ch.name}.`);
+    }
+    else{
+      this.openSnackBar(`Cannot updated cultural heritage.`);
+    }
 
   }
 
@@ -121,5 +129,11 @@ export class UpdateChComponent implements OnInit {
   setLocation(location: Location) {
     this.location = location;
     // console.log(location);
+  }
+
+  openSnackBar(message: string): void{
+    this._snackBar.open(message, 'Dismiss', {
+      duration: 4000,
+    });
   }
 }

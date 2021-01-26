@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { News, NewsRequest } from 'src/app/models/news.model';
-import { Page, PageEnchanced } from 'src/app/models/page.model';
-import { environment } from 'src/environments/environment';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { News } from "src/app/models/news.model";
+import { Page, PageEnchanced } from "src/app/models/page.model";
+import { environment } from "src/environments/environment";
 import { NEWS_PER_PAGE } from '../../utils/constants';
 
 
@@ -31,34 +31,32 @@ export class NewsService {
         return this.httpClient.delete(`${environment.apiUrl}${REST_ENDPOINT.DELETE}${id}`);
     }
 
-    update(news: News) {
+    update(news: News, file: File) {
 
-        // return this.httpClient.put(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, news);
-        const id = news.id;
-        const imageUri = news.imageUri;
-        const heading = news.heading;
-        const content = news.content;
-        const culturalHeritageID = news.culturalHeritageID;
-        const adminID = news.adminID;
+        var id = news.id;
+        var heading = news.heading;
+        var content = news.content;
+        var culturalHeritageID = news.culturalHeritageID;
+        var adminID = news.adminID;
 
         const ch = { heading, content, culturalHeritageID, adminID };
         const formData = new FormData();
         formData.append('news', new Blob([JSON.stringify(ch)], {
             type: 'application/json'
         }));
-        if (imageUri) {
-            formData.append('file', imageUri);
+        if (file) {
+            formData.append('file', file);
         }
 
         return this.httpClient.put(`${environment.apiUrl}${REST_ENDPOINT.GET_ONE}${id}`, formData);
     }
 
-    add(news: NewsRequest) {
-        const imageUri = news.imageUri;
-        const heading = news.heading;
-        const content = news.content;
-        const culturalHeritageID = news.culturalHeritageID;
-        const adminID = news.adminID;
+    add(news: News) {
+        var imageUri = news.imageUri;
+        var heading = news.heading;
+        var content = news.content;
+        var culturalHeritageID = news.culturalHeritageID;
+        var adminID = news.adminID;
 
         const ch = { heading, content, culturalHeritageID, adminID };
         const formData = new FormData();

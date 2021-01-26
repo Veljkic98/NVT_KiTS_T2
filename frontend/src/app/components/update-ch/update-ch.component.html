@@ -5,7 +5,7 @@
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>Name</mat-label>
-                        <input matInput [(ngModel)]="culturalHeritage.name">
+                        <input id="name" matInput  [(ngModel)]="culturalHeritage.name">
                     </mat-form-field>
                 </td>
 
@@ -14,7 +14,7 @@
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>Description</mat-label>
-                        <textarea matInput [(ngModel)]="culturalHeritage.description"></textarea>
+                        <textarea id="description" matInput [(ngModel)]="culturalHeritage.description"></textarea>
                     </mat-form-field>
                 </td>
             </tr>
@@ -22,7 +22,7 @@
                 <td>
                     <mat-form-field appearance="fill">
                         <mat-label>Choose a subtype</mat-label>
-                        <mat-select [(ngModel)]="subtype" name="subtype">
+                        <mat-select id="select-subtype" [(ngModel)]="subtype" name="subtype">
                             <mat-option *ngFor="let subtype of subtypes" [value]="subtype"
                                 (click)="isSubtypeChosen = true">
                                 {{ subtype.name }}
@@ -44,7 +44,7 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-group">
-                                <input type='file' (change)="onSelectFile($event)">
+                                <input id="ch-file-input" type='file' (change)="onSelectFile($event)">
                             </div>
                         </form>
                     </div>
@@ -52,7 +52,9 @@
             </tr>
             <tr>
                 <td style="padding-bottom: 1rem; padding-top: 3rem;">
-                    <button type="button" class="btn btn-outline-dark" (click)="updateCH()" [disabled]="
+                    <button
+                    id="update-btn" 
+                    type="button" class="btn btn-outline-dark" (click)="updateCH()" [disabled]="
                     culturalHeritage.name === '' 
                     || culturalHeritage.description === '' 
                     || location === null

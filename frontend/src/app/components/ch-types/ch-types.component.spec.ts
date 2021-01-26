@@ -17,7 +17,7 @@ import { CHTypeService } from 'src/app/services/ch-type-service/ch-type.service'
 import { CHTypesComponent } from './ch-types.component';
 
 
-fdescribe('CHTypesComponent', () => {
+describe('CHTypesComponent', () => {
   let component: CHTypesComponent;
   let fixture: ComponentFixture<CHTypesComponent>;
   let service: any;

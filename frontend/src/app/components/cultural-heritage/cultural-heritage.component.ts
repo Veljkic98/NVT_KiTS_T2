@@ -3,6 +3,7 @@ import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChange
 import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service';
 import { CulturalHeritage } from '../../models/cultural-heritage.model';
 import { AuthService } from '../../services/auth-service/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
 
   constructor(
     private chService: CulturalHeritageService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -72,8 +74,11 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
         response => {
           if (response.statusText == 'OK') {
             this.isSubscribed = true;
+            this.openSnackBar("Successfuly subscribed!");
+          } else {
+            this.openSnackBar("Unsuccessfuly subscribed!")
           }
-        }
+        }, error => { this.openSnackBar("Unsuccessfuly subscribed!") }
       );
   }
 
@@ -86,8 +91,11 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
         response => {
           if (response.statusText == 'OK') {
             this.isSubscribed = false;
+            this.openSnackBar("Successfuly unsubscribed!");
+          } else {
+            this.openSnackBar("Unsuccessfuly unsubscribed!");
           }
-        }
+        }, error => {this.openSnackBar("Unsuccessfuly unsubscribed!");}
       );
   }
 
@@ -116,5 +124,11 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   calcAvgAddedRating(rating: number): void {
     this.ch.avgRating = (this.ch.avgRating * this.ch.totalRatings + rating) / (this.ch.totalRatings + 1);
     this.ch.totalRatings++;
+  }
+
+  openSnackBar(message: string): void {
+    this._snackBar.open(message, 'Dismiss', {
+      duration: 4000,
+    });
   }
 }

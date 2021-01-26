@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CHTypeToAdd } from 'src/app/models/ch-type.model';
 import { CHTypeService } from 'src/app/services/ch-type-service/ch-type.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {  Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-new-type',
@@ -19,7 +21,10 @@ export class AddNewTypeComponent implements OnInit {
   takenNames = '';
 
   constructor(
-    private typeService: CHTypeService
+    private typeService: CHTypeService,
+    private _router: Router,
+    private _snackBar: MatSnackBar,
+
   ) { }
 
   chTypes: Array<any> = [];
@@ -52,6 +57,7 @@ export class AddNewTypeComponent implements OnInit {
     try {
       this.takenNames = this.takenNames.slice(0, -2);
     } catch (error) { }
+    return this.nameValid;
   }
 
   addType() {
@@ -64,8 +70,17 @@ export class AddNewTypeComponent implements OnInit {
         .subscribe(
           response => {
             this.chTypes.push(response);
-          }
-        );
+            this._router.navigate(['/manage/types']);
+            this.openSnackBar(`Successfuly added ${this.name} type.`);
+          },
+          () => {this.openSnackBar(`Problem occured while adding ${this.name} type.`);}
+        )
     }
+  }
+
+  openSnackBar(message: string): void {
+    this._snackBar.open(message, 'Dismiss', {
+      duration: 4000,
+    });
   }
 }

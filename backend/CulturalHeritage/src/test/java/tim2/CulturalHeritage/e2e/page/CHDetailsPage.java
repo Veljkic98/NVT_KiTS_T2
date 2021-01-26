@@ -14,11 +14,32 @@ public class CHDetailsPage {
     @FindBy(xpath = "//div[@id=\"ch_1\"]/button")
     private WebElement chMarker;
 
+    @FindBy(xpath = "//div[@id=\"ch_6\"]/button")
+    private WebElement chMarkerId6;
+
+    @FindBy(xpath = "//div[@id=\"ch_2\"]/button")
+    private WebElement chMarkerId2;
+
     @FindBy(xpath = "//mat-accordion//mat-expansion-panel[@id=\"comment-section\"]")
     private WebElement commentSectionButton;
 
+    @FindBy(xpath = "//mat-accordion//mat-expansion-panel[@id=\"news-section\"]")
+    private WebElement newsSectionButton;
+
     @FindBy(xpath = "//button[@id=\"add-com-modal-btn\"]")
     private WebElement addComModalBtn;
+
+    @FindBy(xpath = "//button[@id=\"sub2\"]")
+    private WebElement subscribeButton2;
+
+    @FindBy(xpath = "//button[@id=\"sub6\"]")
+    private WebElement subscribeButton6;
+
+    @FindBy(xpath = "//button[@id=\"unsub6\"]")
+    private WebElement unsubscribeButton6;
+
+    @FindBy(xpath = "//button[@id=\"unsub2\"]")
+    private WebElement unsubscribeButton2;
 
     @FindBy(xpath = "//ngb-rating/span[@class=\"ng-star-inserted\"][1]")
     private WebElement ratingStarFirst;
@@ -41,11 +62,17 @@ public class CHDetailsPage {
     @FindBy(xpath = "//app-comments//*[@class=\"comment-content\"][last()]")
     private WebElement lastComment;
 
+    @FindBy(xpath = "//app-ch-news//*[@class=\"news-content\"][last()]")
+    private WebElement lastNews;
+
     @FindBy(xpath = "//*[@id=\"delete-comment-icon\"][last()]")
     private WebElement deleteCommentIcon;
 
     @FindBy(xpath = "//button[@id=\"delete-comment-btn\"]")
     private WebElement confirmDeleteComm;
+
+    @FindBy(tagName = "simple-snack-bar")
+    private WebElement snackBar;
 
 
     public CHDetailsPage() {
@@ -119,10 +146,34 @@ public class CHDetailsPage {
         (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(deleteCommentIcon));
     }
 
+    public void ensureIsPresentSubscribeButton6() {
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(subscribeButton6));
+    }
+
+    public void ensureIsPresentSubscribeButton2() {
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(subscribeButton2));
+    }
+    
+    public void ensureIsPresentUnsubscribeButton6() {
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(unsubscribeButton6));
+    }
+    
+    public void ensureIsPresentUnsubscribeButton2() {
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(unsubscribeButton2));
+	}
+
 
     public WebElement getChMarker() { return chMarker; }
 
+    public WebElement getChMarkerId6() { return chMarkerId6; }
+
+    public WebElement getSubscribeButton6() { return subscribeButton6; }
+
+    public WebElement getSubscribeButton2() { return subscribeButton2; }
+
     public WebElement getCommentSectionButton() { return commentSectionButton; }
+
+    public WebElement getNewsSectionButton() { return newsSectionButton; }
 
     public WebElement getAddComModalBtn() { return addComModalBtn; }
 
@@ -140,8 +191,20 @@ public class CHDetailsPage {
 
     public WebElement getLastComment() { return lastComment; }
 
+    public WebElement getLastNews() { return lastNews; }
+
     public WebElement getDeleteCommentIcon() { return deleteCommentIcon; }
 
     public WebElement getConfirmDeleteComm() { return confirmDeleteComm; }
+
+	public WebElement getSnackBar() { return snackBar; }
+
+	public WebElement getUnsubscribeButton2() { return unsubscribeButton2; }
+
+	public WebElement getChMarkerId2() { return chMarkerId2; }
+
+	
+
+	
 
 }

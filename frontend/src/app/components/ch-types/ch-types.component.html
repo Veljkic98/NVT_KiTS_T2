@@ -1,7 +1,7 @@
 <div class='main'>
   <h1>Cultural Heritage Types</h1>
   <div class="new-type">
-    <button mat-raised-button color="primary" [routerLink]="'/new-type'">Add new</button>
+    <button id="add-new-type-btn" mat-raised-button color="primary" [routerLink]="'/new-type'">Add new</button>
   </div>
 
 
@@ -16,7 +16,7 @@
               <button mat-stroked-button color="primary" (click)="toggleRow(element)" id="show{{element.id}}">SHOW</button>
             </td>
             <td>
-              <button mat-stroked-button color="primary" [routerLink]="['/add/subtype/', element.id]">ADD NEW</button>
+              <button id="add-new-subtype-btn-{{element.id}}" mat-stroked-button color="primary" [routerLink]="['/add/subtype/', element.id]">ADD NEW</button>
             </td>
           </tr>
 
