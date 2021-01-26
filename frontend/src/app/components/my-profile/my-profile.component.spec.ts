@@ -9,12 +9,16 @@ import { ActivatedRouteStub } from 'src/app/testing/router-stubs';
 import { User } from 'src/app/models/user.model';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { DebugElement } from '@angular/core';
+import { CulturalHeritageService } from 'src/app/services/cultural-heritage-service/cultural-heritage.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Overlay } from '@angular/cdk/overlay';
 
 describe('MyProfileComponent', () => {
   let component: MyProfileComponent;
   let fixture: ComponentFixture<MyProfileComponent>;
   let authService: AuthService;
   let route: ActivatedRoute;
+  let chService: CulturalHeritageService;
 
   beforeEach(async () => {
     const authServiceMock = {
@@ -24,7 +28,7 @@ describe('MyProfileComponent', () => {
         getId: jasmine.createSpy('getId')
         .and.returnValue(of(3)),
 
-        getProfile: jasmine.createSpy('getId')
+        getProfile: jasmine.createSpy('getProfile')
         .and.returnValue(of(new User({
           id: 3,
           firstName: 'Sima',
@@ -66,13 +70,17 @@ describe('MyProfileComponent', () => {
 
       };
     const fakeActivatedRoute =  new ActivatedRouteStub();
+
+    const chServiceMock = {};
     fakeActivatedRoute.testParams = { index: 1 };
 
     await TestBed.configureTestingModule({
       declarations: [ MyProfileComponent ],
       providers:    [
         {provide: AuthService, useValue: authServiceMock },
-        {provide: ActivatedRoute, useValue: fakeActivatedRoute}
+        {provide: ActivatedRoute, useValue: fakeActivatedRoute},
+        {provide: CulturalHeritageService, useValue: chServiceMock },
+        MatSnackBar, Overlay
       ]
     })
     .compileComponents();
@@ -83,7 +91,7 @@ describe('MyProfileComponent', () => {
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
     route = TestBed.inject(ActivatedRoute);
-
+    chService = TestBed.inject(CulturalHeritageService);
     fixture.detectChanges();
   });
 

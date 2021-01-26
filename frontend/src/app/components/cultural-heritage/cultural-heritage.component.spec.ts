@@ -1,10 +1,10 @@
+import { Overlay } from '@angular/cdk/overlay';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { of } from 'rxjs';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
-import { CommentService } from 'src/app/services/comments-service/comment.service';
 import { CulturalHeritageService } from 'src/app/services/cultural-heritage-service/cultural-heritage.service';
 
 import { CulturalHeritageComponent } from './cultural-heritage.component';
@@ -45,7 +45,8 @@ describe('CulturalHeritageComponent', () => {
       declarations: [ CulturalHeritageComponent ],
       providers:    [
         {provide: AuthService, useValue: authServiceMock },
-        {provide: CulturalHeritageService, useValue: chServiceMock }
+        {provide: CulturalHeritageService, useValue: chServiceMock },
+        MatSnackBar, Overlay
       ]
     })
     .compileComponents();

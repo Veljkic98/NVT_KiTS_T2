@@ -47,7 +47,7 @@ describe('VerificationPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fdescribe('ngOnInit()', () => {
+  describe('ngOnInit()', () => {
   it('should verify user profile and display success message', fakeAsync(() => {
     component.ngOnInit();
     expect(authService.verify).toHaveBeenCalledWith('2');
