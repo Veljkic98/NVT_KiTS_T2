@@ -7,10 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from './interceptors/intercept.service';
 
-import {environment} from '../environments/environment';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,8 +16,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     HomePageModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-    NgbModule,
+    HttpClientModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true}],
   bootstrap: [AppComponent],
