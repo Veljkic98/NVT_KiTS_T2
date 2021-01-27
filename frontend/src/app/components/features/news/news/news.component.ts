@@ -1,10 +1,9 @@
-import { Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { News } from 'src/app/models/news.model';
-import { AuthService } from 'src/app/services/auth-service/auth.service';
 import { NewsService } from 'src/app/services/news-service/news-service.service';
 
 @Component({
