@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { CHType } from 'src/app/models/ch-type.model';
 import { Page } from 'src/app/models/page.model';
 
-fdescribe('CHTypeService', () => {
+describe('CHTypeService', () => {
   let injector;
   let chTypeService: CHTypeService;
   let httpMock: HttpTestingController;
