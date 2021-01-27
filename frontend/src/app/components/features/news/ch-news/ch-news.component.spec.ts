@@ -75,7 +75,6 @@ describe('ChNewsComponent', () => {
         { provide: NewsService, useValue: newsServiceMock },
         {provide: AuthService, useValue: authServiceMock },
       ],
-      // imports: [HttpClientTestingModule],
       imports:
       [
         NgxPaginationModule,
@@ -96,12 +95,48 @@ describe('ChNewsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fdescribe('ngOnInit()', () => {
+  describe('ngOnInit()', () => {
     it('should fetch all new on init (with paggination)', fakeAsync(() => {
       component.chID = 1;
       component.ngOnInit();
       tick();
       expect(newsService.getNews).toHaveBeenCalledWith(component.chID, 0);
+    }));
+  })
+  describe('getNews()', () => {
+    it('should get news', fakeAsync(() => {
+      component.chID = 1;
+      component.ngOnInit();
+      tick();
+      expect(newsService.getNews).toHaveBeenCalledWith(component.chID, 0);
+      expect(component.lastPage).toEqual(false);
+      expect(component.newsList).toEqual([{
+        adminID: 1,
+        content: 'sadrzaj1',
+        culturalHeritageID: 1,
+        heading: 'naslov1',
+        id: 5,
+        imageUri: 'http://localhost:8080/api/files/2'
+      },
+      {
+        adminID: 1,
+        content: 'sadrzaj2',
+        culturalHeritageID: 1,
+        heading: 'naslov2',
+        id: 6,
+        imageUri: 'http://localhost:8080/api/files/2'
+      },
+      {
+        adminID: 1,
+        content: 'sadrzaj3',
+        culturalHeritageID: 1,
+        heading: 'naslov3',
+        id: 7,
+        imageUri: 'http://localhost:8080/api/files/2'
+      }]);
+
+      expect(component.total).toEqual(12);
+      expect(component.page).toEqual(1);
     }));
   })
 });
