@@ -5,14 +5,12 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { accessToken } from 'mapbox-gl';
-import { of } from 'rxjs';
-import { JWT } from 'src/app/models/jwt.model';
+import { of, throwError } from 'rxjs';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
 
 import { LoginComponent } from './login.component';
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let authService: any;
@@ -90,3 +88,68 @@ fdescribe('LoginComponent', () => {
 
 
 });
+
+
+
+
+
+
+describe('LoginComponentFailure', () => {
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
+  let authService: any;
+
+  beforeEach(async () => {
+
+
+    const authServiceMock = {
+      login: jasmine.createSpy('login')
+      .and.returnValue(throwError(new Error('error')))}
+    
+
+    const formBuilder = new FormBuilder();
+
+    await TestBed.configureTestingModule({
+      declarations: [ LoginComponent ],
+      imports: [FormsModule, ReactiveFormsModule, RouterTestingModule,
+        BrowserModule, BrowserAnimationsModule, MatFormFieldModule, MatInputModule ],
+      providers:    [
+        {provide: AuthService, useValue: authServiceMock },
+        {provide: FormBuilder, useValue: formBuilder } ]
+    })
+    .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(LoginComponent);
+    component = fixture.componentInstance;
+    authService = TestBed.inject(AuthService);
+    fixture.detectChanges();
+  });
+
+  it('should set error and should not set local storage after failed login ', fakeAsync(() => {
+    const store = {};
+
+    spyOn(localStorage, 'getItem').and.callFake(function (key) {
+      return store[key];
+    });
+    spyOn(localStorage, 'setItem').and.callFake(function (key, value) {
+      return store[key] = value + '';
+    });
+
+    expect(component.loginForm.valid).toBeFalsy();
+
+    component.loginForm.controls.email.setValue('admin@gmail.com');
+    component.loginForm.controls.password.setValue('123');
+    component.onSubmit();
+    tick();
+
+    expect(authService.login).toHaveBeenCalled();
+    expect(component.submitted).toBe(true);
+    expect(component.success).toBe(false);
+    expect(localStorage.setItem).not.toHaveBeenCalled();
+    expect(component.error).not.toBe(''); // erro nije prazan
+  }));
+
+});
+
