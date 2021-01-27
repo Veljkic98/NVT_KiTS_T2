@@ -29,7 +29,7 @@
 <div class="root" *ngIf="commentList">
   <ul>
     <li class="comment-root"
-      *ngFor="let comment of commentList  | paginate: { id: 'server1', itemsPerPage: 3, currentPage: page, totalItems: total }  ">
+      *ngFor="let comment of commentList  | paginate: { id: 'comment-pagination', itemsPerPage: 3, currentPage: page, totalItems: total }  ">
       <i class="close-icon large material-icons">account_circle</i>
       <mat-card style="background-color:  rgba(48, 106, 182, 0.808);">
         <div class="header">
@@ -65,7 +65,7 @@
       </mat-card>
                 </li>
             </ul>
-            <pagination-controls (pageChange)="getComments($event)" id="server1"></pagination-controls>
+            <pagination-controls (pageChange)="getComments($event)" id="comment-pagination"></pagination-controls>
           </div>
     </ng-template>
 </div>

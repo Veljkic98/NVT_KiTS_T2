@@ -94,6 +94,14 @@ public class CHDetailsPage {
         (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.visibilityOfElementLocated(By.tagName("mat-card-title")));
     }
 
+    public void ensureIsClickableBtn() {
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(commentSectionButton));
+    }
+
+    public void ensureIsClickableNewsBtn() {
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(newsSectionButton));
+    }
+
     public void ensureIsPresentRateSection() {
         (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.visibilityOfElementLocated(By.className("rate-section")));
     }

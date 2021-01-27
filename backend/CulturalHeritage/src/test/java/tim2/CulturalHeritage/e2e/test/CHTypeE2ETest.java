@@ -132,6 +132,7 @@ public class CHTypeE2ETest {
 
         chTypePage.ensureIsVisibleEditModal();
         justWait(500);
+        String oldName = chTypePage.getEditTypeNameInput().getAttribute("value");
         chTypePage.getEditTypeNameInput().clear();
         chTypePage.getEditTypeNameInput().sendKeys("New name");
         justWait(1000);
@@ -140,6 +141,23 @@ public class CHTypeE2ETest {
         justWait(1000);
 
         String snackBarText = chTypePage.getSnackBar().getText();
+
+        assertEquals("Successfuly changed name of type!\nDismiss", snackBarText);
+
+        //ROLLBACK
+        chTypePage.ensureAreDisplayedEditButtons();
+        chTypePage.getEditTypeButton().click();
+
+        chTypePage.ensureIsVisibleEditModal();
+        justWait(500);
+        chTypePage.getEditTypeNameInput().clear();
+        chTypePage.getEditTypeNameInput().sendKeys(oldName);
+        justWait(1000);
+        chTypePage.getSaveChangesBtn().click();
+
+        justWait(1000);
+
+        snackBarText = chTypePage.getSnackBar().getText();
 
         assertEquals("Successfuly changed name of type!\nDismiss", snackBarText);
     }
@@ -181,6 +199,7 @@ public class CHTypeE2ETest {
 
         justWait(200);
         chTypePage.getEditSubtypesButton().click();
+        String oldName = chTypePage.getEditTypeNameInput().getAttribute("value");
         chTypePage.getEditTypeNameInput().clear();
         chTypePage.getEditTypeNameInput().sendKeys("New subtype name");
         justWait(1000);
@@ -189,6 +208,20 @@ public class CHTypeE2ETest {
         justWait(1000);
 
         String snackBarText = chTypePage.getSnackBar().getText();
+
+        assertEquals("Successfuly changed name of subtype!\nDismiss", snackBarText);
+
+        //ROLLBACK
+        justWait(200);
+        chTypePage.getEditSubtypesButton().click();
+        chTypePage.getEditTypeNameInput().clear();
+        chTypePage.getEditTypeNameInput().sendKeys(oldName);
+        justWait(1000);
+        chTypePage.getSaveChangesBtn().click();
+
+        justWait(1000);
+
+        snackBarText = chTypePage.getSnackBar().getText();
 
         assertEquals("Successfuly changed name of subtype!\nDismiss", snackBarText);
     }

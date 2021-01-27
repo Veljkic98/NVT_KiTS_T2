@@ -162,42 +162,30 @@ public class CHDetailsE2ETest {
         justWait(700);
 
         chDetailsPage.ensureIsPresentMarker();
-        chDetailsPage.getChMarkerId6().click();
+        chDetailsPage.getChMarkerId2().click();
         chDetailsPage.ensureIsPresentDetailSection();
 
-        chDetailsPage.ensureIsPresentSubscribeButton6();
+        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getSubscribeButton2());
+        Thread.sleep(1000);
+        chDetailsPage.ensureIsPresentSubscribeButton2();
+        justWait(2000);
+        chDetailsPage.getSubscribeButton2().click();
+        justWait(2000);
 
-        chDetailsPage.getSubscribeButton6().click();
-
-        chDetailsPage.ensureIsPresentUnsubscribeButton6();
+        chDetailsPage.ensureIsPresentUnsubscribeButton2();
 
         String snackBarText = chDetailsPage.getSnackBar().getText();
 
         assertEquals("Successfuly subscribed!\nDismiss", snackBarText);
-    }
 
-    @Test
-    public void unsubscribeTest() throws InterruptedException {
-
-        logInUserHelen();
-
-        driver.get("http://localhost:4200/");
-
-        justWait(700);
-
-        chDetailsPage.ensureIsPresentMarker();
-        chDetailsPage.getChMarkerId2().click();
-        chDetailsPage.ensureIsPresentDetailSection();
-
-        chDetailsPage.ensureIsPresentUnsubscribeButton2();
-
+        //ROLLBACK
         chDetailsPage.getUnsubscribeButton2().click();
+        justWait(3000);
 
-        chDetailsPage.ensureIsPresentSubscribeButton2();
-
-        String snackBarText = chDetailsPage.getSnackBar().getText();
+        snackBarText = chDetailsPage.getSnackBar().getText();
 
         assertEquals("Successfuly unsubscribed!\nDismiss", snackBarText);
+        justWait(2000);
     }
 
     @Test
@@ -207,52 +195,28 @@ public class CHDetailsE2ETest {
         chDetailsPage.ensureIsPresentRateSection();
         chDetailsPage.ensureIsPresentAddRating();
 
-        String secondStarState =   chDetailsPage.getRatingStarSecond().getText();
-        String firstStarState =   chDetailsPage.getRatingStarFirst().getText();
-        String expectedStateFirstStar;
-        //if user already grated ch with rate 1 after click he/she will remove his/hers rate
-        if (firstStarState.equals("★") && secondStarState.equals("☆")) {
-            expectedStateFirstStar = ("☆");
-        } else {
-            //in all other cases grade will be 1
-            expectedStateFirstStar = ("★");
-        }
-
+        //rate with grade 1
        chDetailsPage.getRatingStarFirst().click();
        justWait(1000);
-       assertEquals(expectedStateFirstStar, chDetailsPage.getRatingStarFirst().getText());
-    }
+       assertEquals(("★"), chDetailsPage.getRatingStarFirst().getText());
 
-    @Test
-    public void changeRatingTest() throws InterruptedException {
-        logInUser();
-        clickOnMap();
-        chDetailsPage.ensureIsPresentRateSection();
-        chDetailsPage.ensureIsPresentAddRating();
-
-        String secondStarState =   chDetailsPage.getRatingStarSecond().getText();
-        String firstStarState =   chDetailsPage.getRatingStarFirst().getText();
-        String expectedFullstate = ("★");
-
-        //if ch is not graded with grade 1 make required conditions
-        if (!(firstStarState.equals("★") && secondStarState.equals("☆"))) {
-            chDetailsPage.getRatingStarFirst().click();
-            justWait(1000);
-        }
-        chDetailsPage.getRatingStarSecond().click();
+        //ROLLBACK
+        //clicking again on first star will remove rating
+        chDetailsPage.getRatingStarFirst().click();
         justWait(1000);
-        assertEquals(expectedFullstate, chDetailsPage.getRatingStarFirst().getText());
-        assertEquals(expectedFullstate, chDetailsPage.getRatingStarSecond().getText());
-    }
+        assertEquals(("☆"), chDetailsPage.getRatingStarFirst().getText());
 
+    }
 
     @Test
     public void addCommentTest() throws InterruptedException {
         logInUser();
         clickOnMap();
+
         chDetailsPage.ensureIsPresentCommentsSection();
         js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getCommentSectionButton());
         Thread.sleep(500);
+        chDetailsPage.ensureIsClickableBtn();
         chDetailsPage.getCommentSectionButton().click();
         chDetailsPage.ensureIsClickableLastPage();
 
@@ -267,6 +231,19 @@ public class CHDetailsE2ETest {
         justWait(1000);
         goToLastPage();
         assertEquals("This is new comment!", chDetailsPage.getLastComment().getText());
+
+        //ROLLBACK
+        chDetailsPage.ensureIsPresentDeleteIcon();
+        chDetailsPage.getDeleteCommentIcon().click();
+        chDetailsPage.getConfirmDeleteComm().click();
+        justWait(1000);
+        String lastCommText = "";
+        try {
+            lastCommText = chDetailsPage.getLastComment().getText();
+        } catch (Exception e) {
+
+        }
+        assertNotEquals("This is new comment!", lastCommText);
     }
 
     @Test
@@ -278,13 +255,11 @@ public class CHDetailsE2ETest {
         chDetailsPage.ensureIsPresentNewsSection();
 
         js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getNewsSectionButton());
-        justWait(1000);
+        Thread.sleep(6000);
 
+        chDetailsPage.ensureIsClickableNewsBtn();
         chDetailsPage.getNewsSectionButton().click();
-
-        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getLastNews());
-        justWait(1000);
-
+        justWait(2000);
     }
 
     @Test
@@ -301,7 +276,7 @@ public class CHDetailsE2ETest {
 
         js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getNewsSectionButton());
         justWait(1000);
-
+        chDetailsPage.ensureIsClickableNewsBtn();
         chDetailsPage.getNewsSectionButton().click();
     }
 
@@ -313,12 +288,10 @@ public class CHDetailsE2ETest {
         chDetailsPage.ensureIsPresentNewsSection();
 
         js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getNewsSectionButton());
-        justWait(1000);
-
+        Thread.sleep(6000);
+        chDetailsPage.ensureIsClickableNewsBtn();
         chDetailsPage.getNewsSectionButton().click();
-
-        js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getLastNews());
-        justWait(1000);
+        justWait(2000);
 
     }
 
@@ -328,7 +301,8 @@ public class CHDetailsE2ETest {
         clickOnMap();
         chDetailsPage.ensureIsPresentCommentsSection();
         js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getCommentSectionButton());
-        Thread.sleep(500);
+        Thread.sleep(4000);
+        chDetailsPage.ensureIsClickableBtn();
         chDetailsPage.getCommentSectionButton().click();
 
         chDetailsPage.ensureIsPresentAddComment();
@@ -351,6 +325,20 @@ public class CHDetailsE2ETest {
         goToLastPage();
         assertEquals("This is new comment!", chDetailsPage.getLastComment().getText());
         chDetailsPage.ensureIsPresentLastImage();
+
+
+        //ROLLBACK
+        chDetailsPage.ensureIsPresentDeleteIcon();
+        chDetailsPage.getDeleteCommentIcon().click();
+        chDetailsPage.getConfirmDeleteComm().click();
+        justWait(1000);
+        String lastCommText = "";
+        try {
+            lastCommText = chDetailsPage.getLastComment().getText();
+        } catch (Exception e) {
+
+        }
+        assertNotEquals("This is new comment!", lastCommText);
     }
 
     @Test
@@ -360,7 +348,8 @@ public class CHDetailsE2ETest {
         chDetailsPage.ensureIsPresentCommentsSection();
 
         js.executeScript("arguments[0].scrollIntoView(true);", chDetailsPage.getCommentSectionButton());
-        Thread.sleep(500);
+        Thread.sleep(4000);
+        chDetailsPage.ensureIsClickableBtn();
         chDetailsPage.getCommentSectionButton().click();
 
         chDetailsPage.ensureIsPresentAddComment();
