@@ -26,68 +26,68 @@ describe('CHTypesComponent', () => {
 
   beforeEach(() => {
     const chTypesService = {
-        getTypes: jasmine.createSpy('getTypes').and
-                        .returnValue(of(new Page<CHType>(
-                            {
-                                content: [{
-                                  id: 1,
-                                  name: 'type1',
-                                  subtypes: []
-                                },
-                                {
-                                  id: 2,
-                                  name: 'type2',
-                                  subtypes: []
-                                },
-                                {
-                                  id: 3,
-                                  name: 'type3',
-                                  subtypes: [new CHSubtype({
-                                    id: 1,
-                                    name: 'subtype',
-                                    chTypeID: 3
-                                  })]
-                                }],
-                                id: 1,
-                                empty: false,
-                                number: 0,
-                                numberOfElements: 3,
-                                size: 3,
-                                totalElements: 12,
-                                totalPages: 6,
-                                last: false
-                              }
-                        ))),
-        editType: jasmine.createSpy('editType').and
+      getTypes: jasmine.createSpy('getTypes').and
+        .returnValue(of(new Page<CHType>(
+          {
+            content: [{
+              id: 1,
+              name: 'type1',
+              subtypes: []
+            },
+            {
+              id: 2,
+              name: 'type2',
+              subtypes: []
+            },
+            {
+              id: 3,
+              name: 'type3',
+              subtypes: [new CHSubtype({
+                id: 1,
+                name: 'subtype',
+                chTypeID: 3
+              })]
+            }],
+            id: 1,
+            empty: false,
+            number: 0,
+            numberOfElements: 3,
+            size: 3,
+            totalElements: 12,
+            totalPages: 6,
+            last: false
+          }
+        ))),
+      editType: jasmine.createSpy('editType').and
         .returnValue(of(new CHType({
           id: 1,
           name: 'new name',
           subtypes: []
         }))),
 
-        deleteType: jasmine.createSpy('editType').and
+      deleteType: jasmine.createSpy('editType').and
         .returnValue(of({}))
     };
 
     const subtypeServices = {
-        deleteSubtype: jasmine.createSpy('deleteSubtype').and
-                    .returnValue(of(new Observable())),
-        editSubtype: jasmine.createSpy('editSubtype').and
-                    .returnValue(of(new CHSubtype({
-                      id: 1,
-                      name: 'new subtype name'
-                    }))),
-  };
+      deleteSubtype: jasmine.createSpy('deleteSubtype').and
+        .returnValue(of(new Observable())),
+      editSubtype: jasmine.createSpy('editSubtype').and
+        .returnValue(of(new CHSubtype({
+          id: 1,
+          name: 'new subtype name'
+        }))),
+    };
 
 
 
 
     TestBed.configureTestingModule({
-      declarations: [ CHTypesComponent ],
-      imports: [NgxPaginationModule, MatDialogModule, MatTableModule, BrowserAnimationsModule ],
+      declarations: [CHTypesComponent],
+      imports: [NgxPaginationModule, MatDialogModule, MatTableModule, BrowserAnimationsModule],
       providers: [
-        {provide: CHTypeService, useValue: chTypesService},
-        {provide: CHSubtypeService, useValue: subtypeServices},
+        { provide: CHTypeService, useValue: chTypesService },
+        { provide: CHSubtypeService, useValue: subtypeServices },
         MatSnackBar, Overlay, NgbModal,
       ]
     });
@@ -127,7 +127,7 @@ describe('CHTypesComponent', () => {
 
   }));
 
-  it('should call delete subtype', fakeAsync( () => {
+  it('should call delete subtype', fakeAsync(() => {
     component.deleteSubtype(1);
     flush();
     expect(serviceSubtypes.deleteSubtype).toHaveBeenCalledWith(1); // brisanje s id-em 1
@@ -135,7 +135,7 @@ describe('CHTypesComponent', () => {
 
   }));
 
-  it('should call delete type', fakeAsync( () => {
+  it('should call delete type', fakeAsync(() => {
     spyOn(component, 'openSnackBar');
     component.ngOnInit();
     tick();
@@ -163,7 +163,7 @@ describe('CHTypesComponent', () => {
     component.editType(component.chTypes[0], 'new name');
     flush();
 
-    expect(service.editType).toHaveBeenCalledWith({...component.chTypes[0], name : 'new name'});
+    expect(service.editType).toHaveBeenCalledWith({ ...component.chTypes[0], name: 'new name' });
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -183,9 +183,43 @@ describe('CHTypesComponent', () => {
     component.editSubtype(component.chTypes[2].subtypes[0], 'new subtype name');
     flush();
 
-    expect(serviceSubtypes.editSubtype).toHaveBeenCalledWith({...component.chTypes[2].subtypes[0], name : 'new subtype name'});
+    expect(serviceSubtypes.editSubtype).toHaveBeenCalledWith({ ...component.chTypes[2].subtypes[0], name: 'new subtype name' });
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
   }));
+
+  describe('toggleRow()', () => {
+    it('should show subtype for a chosen type', fakeAsync(() => {
+      component.ngOnInit();
+      tick();
+      let element: CHType = new CHType({
+        id: 3,
+        name: 'type3',
+        subtypes: [new CHSubtype({ id: 1, name: 'subtype', chTypeID: 3 })]
+      });
+
+      component.toggleRow(element);
+      expect(component.expandedElement).toEqual(element);
+
+      const allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('.subtype-name'));
+      expect(allCells[0].nativeElement.textContent).toContain('Subtype');
+    }))
+
+    it('should not exists subtype for a chosen type', fakeAsync(() => {
+      component.ngOnInit();
+      tick();
+      let element: CHType = new CHType(            {
+        id: 2,
+        name: 'type2',
+        subtypes: []
+      });
+
+      component.toggleRow(element);
+      expect(component.expandedElement).toEqual(element);
+
+      const allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('.subtype-name'));
+      expect(allCells[1]).toBe(undefined);
+    }))
+  })
 });
