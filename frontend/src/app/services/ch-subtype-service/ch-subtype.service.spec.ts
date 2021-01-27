@@ -83,5 +83,20 @@ describe('CHSubtypeService', () => {
     expect(subtype).toBeDefined();
     expect(subtype.id).toEqual(3);
     expect(subtype.name).toEqual('festival 3');
+  }));
+
+  it('edit() should edit ch subtype', fakeAsync(() =>{
+    let subtype: CHSubtype = new CHSubtype({ name: 'festival 33', chTypeID: 1, id: 3 });
+    let mockType:CHSubtype = new CHSubtype({ name: 'festival 33', chTypeID: 1, id: 3 });
+
+    chSubtypeService.editSubtype(subtype).subscribe( response => subtype = response);
+
+    const req = httpMock.expectOne('http://localhost:8080/api/ch-subtypes/3');
+    expect(req.request.method).toBe('PUT');
+    req.flush(mockType);
+
+    expect(subtype).toBeDefined();
+    expect(subtype.id).toEqual(3);
+    expect(subtype.name).toEqual('festival 33');
   }))
 });
