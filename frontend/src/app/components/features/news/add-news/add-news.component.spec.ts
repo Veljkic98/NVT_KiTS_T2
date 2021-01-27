@@ -57,7 +57,7 @@ describe('AddNewsComponent', () => {
     };
 
     const activatedRouteStub: ActivatedRouteStub = new ActivatedRouteStub();
-    activatedRouteStub.testParams = { index: 1 }; // we edit a student with id 1. Its id is in route url
+    activatedRouteStub.testParams = { index: 1 }; // we edit a news with id 1. Its id is in route url
 
     await TestBed.configureTestingModule({
       declarations: [AddNewsComponent],
