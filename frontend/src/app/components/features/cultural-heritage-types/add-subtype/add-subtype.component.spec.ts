@@ -83,10 +83,9 @@ describe('AddSubtypeComponent', () => {
       tick();
       expect(subtypeService.getAll).toHaveBeenCalled();
       expect(component.subtypes.length).toEqual(2);
-    }))
-  })
-
-  describe('add()', () => {
+    }));
+  
+  
     it('should add subtypes ', fakeAsync(() => {
       spyOn(component, 'openSnackBar');
       const navigateSpy = spyOn(router, 'navigate');
@@ -100,7 +99,6 @@ describe('AddSubtypeComponent', () => {
       expect(subtypeService.add).toHaveBeenCalledWith(component.subtype);
       expect(component.openSnackBar).toHaveBeenCalledWith('Successfuly added the subtype!');
       expect(navigateSpy).toHaveBeenCalledWith(['/manage/types'])
-      flush();
-    }))
+    }));
   })
 });

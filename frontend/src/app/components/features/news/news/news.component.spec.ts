@@ -131,9 +131,14 @@ describe('NewsComponent', () => {
   }));
 
   it('should call delete news', () => {
+    spyOn(component, 'openSnackBar');
+
+    
     component.deleteNews(1);
     expect(service.deleteNews).toHaveBeenCalledWith(1);
+    fixture.detectChanges()
 
+    expect(component.openSnackBar).toHaveBeenCalledWith('Successfuly deleted the news!');
   });
 });
 

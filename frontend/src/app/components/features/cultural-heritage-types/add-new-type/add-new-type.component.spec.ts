@@ -98,12 +98,13 @@ describe('AddNewTypeComponent', () => {
 
       component.loadTypes();
       tick();
+      
       expect(typeService.getTypes).toHaveBeenCalled();
       expect(component.chTypes.length).toEqual(3);
     }))
-  })
 
-  describe('add()', () => {
+
+
     it('should add types ', fakeAsync(() => {
       spyOn(component, 'openSnackBar');
       const navigateSpy = spyOn(router, 'navigate');

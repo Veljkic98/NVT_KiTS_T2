@@ -6,7 +6,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import {of} from 'rxjs';
+import {of, throwError} from 'rxjs';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
 import { User } from 'src/app/models/user.model';
 
@@ -94,5 +94,64 @@ describe('RegisterComponent', () => {
       expect(component.success).toBe(false);
       expect(component.registerForm.controls.password.errors.minlength).toBeTruthy();
     }));
+});
+});
+
+
+
+
+describe('RegisterComponentFailure', () => {
+  let component: RegisterComponent;
+  let fixture: ComponentFixture<RegisterComponent>;
+  let authService: any;
+
+  beforeEach(async () => {
+    const authServiceMock = {
+      register: jasmine.createSpy('register')
+      .and.returnValue(throwError(new Error('can\'t register')))
+    };
+
+    const formBuilder = new FormBuilder();
+
+    await TestBed.configureTestingModule({
+      declarations: [ RegisterComponent ],
+      imports: [FormsModule, ReactiveFormsModule,
+        BrowserModule, BrowserAnimationsModule, MatFormFieldModule, MatInputModule ],
+      providers:    [
+        {provide: AuthService, useValue: authServiceMock },
+        {provide: FormBuilder, useValue: formBuilder } ]
+    })
+      .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(RegisterComponent);
+    component = fixture.componentInstance;
+    authService = TestBed.inject(AuthService);
+    fixture.detectChanges();
+  });
+
+
+
+  describe('onSubmit()', () => {
+    it('should fail at creating a new user and set an error', fakeAsync(() => {
+      expect(component.registerForm.valid).toBeFalsy();
+
+      component.registerForm.controls.firstName.setValue('Petar');
+      component.registerForm.controls.lastName.setValue('Petrovic');
+      component.registerForm.controls.email.setValue('some1667@gmail.com');
+      component.registerForm.controls.password.setValue('12345678');
+      component.registerForm.controls.confirmPass.setValue('12345678');
+      expect(component.registerForm.valid).toBeTruthy();
+      component.onSubmit();
+      expect(authService.register).toHaveBeenCalled();
+      fixture.detectChanges();
+      expect(component.submitted).toBe(true);
+      expect(component.success).toBe(false);
+      expect(component.error).not.toBe('');
+
+
+    }));
+
 });
 });

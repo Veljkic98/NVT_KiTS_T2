@@ -8,7 +8,7 @@ import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { Page } from 'src/app/models/page.model';
 import { CulturalHeritageToAdd } from 'src/app/models/cultural-heritage-to-add.model';
 
-fdescribe('CulturalHeritageService', () => {
+describe('CulturalHeritageService', () => {
   let injector;
   let chService: CulturalHeritageService;
   let httpMock: HttpTestingController;

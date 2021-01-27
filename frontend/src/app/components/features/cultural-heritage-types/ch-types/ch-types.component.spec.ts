@@ -270,24 +270,17 @@ describe('CHTypesComponentFailure', () => {
           }
         ))),
       editType: jasmine.createSpy('editType').and
-        .returnValue(of(new CHType({
-          id: 1,
-          name: 'new name',
-          subtypes: []
-        }))),
+        .returnValue(throwError(new Error('error'))),
 
-      deleteType: jasmine.createSpy('editType').and
-        .returnValue(of({}))
+      deleteType: jasmine.createSpy('deleteType').and
+        .returnValue(throwError(new Error('error')))
     };
 
     const subtypeServices = {
       deleteSubtype: jasmine.createSpy('deleteSubtype').and.returnValue(throwError(new Error('can\'t delete'))),
 
       editSubtype: jasmine.createSpy('editSubtype').and
-        .returnValue(of(new CHSubtype({
-          id: 1,
-          name: 'new subtype name'
-        }))),
+        .returnValue(throwError(new Error('error'))),
     };
 
 
@@ -331,6 +324,53 @@ describe('CHTypesComponentFailure', () => {
 
     expect(component.openSnackBar).toHaveBeenCalledWith('Can\'t delete that subtype. There are cultural heritages of that subtype.');
 
+  }));
+
+  it('should call delete type and display a message', fakeAsync(() => {
+    spyOn(component, 'openErrorModal');
+
+    component.ngOnInit();
+    tick();
+    fixture.detectChanges();
+
+    component.deleteType(1);
+    flush();
+    
+    expect(service.deleteType).toHaveBeenCalledWith(1); // brisanje s id-em 1
+    fixture.detectChanges()
+
+    expect(component.openErrorModal).toHaveBeenCalledWith('You can\'t delete this type because there are cultural heritages of selected type. Please delete all data associated with this type first and try again.');
+
+  }));
+
+
+  it('should edit subtype unsuccessfully and display a message', fakeAsync(() => {
+    spyOn(component, 'openSnackBar');
+    component.ngOnInit();
+    tick();
+    fixture.detectChanges();
+
+    component.editSubtype(component.chTypes[2].subtypes[0], component.chTypes[2].subtypes[0].name);
+    flush();
+
+    expect(serviceSubtypes.editSubtype).toHaveBeenCalledWith({ ...component.chTypes[2].subtypes[0], name: component.chTypes[2].subtypes[0].name });    
+    fixture.detectChanges();
+    expect(component.openSnackBar).toHaveBeenCalledWith('Name already exist!');    
+  }));
+
+
+  it('should edit type unsuccessfully and display a message', fakeAsync(() => {
+    spyOn(component, 'openSnackBar');
+    component.ngOnInit();
+    tick();
+    fixture.detectChanges();
+
+    component.editType(component.chTypes[0], component.chTypes[0].name);
+    flush();
+
+    expect(service.editType).toHaveBeenCalledWith({ ...component.chTypes[0], name: component.chTypes[0].name });    
+    fixture.detectChanges();
+    expect(component.openSnackBar).toHaveBeenCalledWith('Name already exist!');    
   }));
 
 });
