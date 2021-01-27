@@ -76,16 +76,6 @@ describe('CulturalHeritagesComponent', () => {
 
       delete: jasmine.createSpy('delete')
         .and.returnValue(of({})),
-
-      // postComment: jasmine.createSpy('postComment')
-      // .and.returnValue(of(new Comment({
-      //   id: 5,
-      //   content: "This is awesome, we will pass 2 exams with one project!!",
-      //   authenticatedUserID: 3,
-      //   culturaHeritageID: 1,
-      //   imageUri: null,
-      //   userName: "Sima Matas"
-      // })))
     }
 
 
