@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
@@ -144,25 +144,23 @@ describe('UpdateChComponent', () => {
 
       component.ngOnInit();
 
+      console.log(component.culturalHeritage)
+
       component.subtype.id = 1;
-      component.culturalHeritage.imageUri = "http://localhost:8080/api/files/1";
       component.culturalHeritage.locationID = 1;
       component.culturalHeritage.chsubtypeID = 1;
-      
+
       let file: File = new File([""], "slika123.jpg");
       component.url = file;
 
+      fixture.detectChanges();
+
       component.updateCH();
-      
 
-      // file = await fetch(component.culturalHeritage.imageUri)
-      // .then(r => r.blob())
-      // .then(blobFile => new File([blobFile], 'slika.png', { type: 'image/png' }));
-
+      tick();
       expect(locationService.post).toHaveBeenCalledWith(component.location);
-      // expect(chService.put).toHaveBeenCalledWith(component.culturalHeritage, file);
-
-      // expect(navigateSpy).toHaveBeenCalledWith(['/cultural-heritages'])
+      expect(chService.put).toHaveBeenCalledWith(component.culturalHeritage, file);
+      expect(navigateSpy).toHaveBeenCalledWith(['/cultural-heritages'])
     }));
   })
 });

@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { of } from 'rxjs';
 import { News } from 'src/app/models/news.model';
+import { PageEnchanced } from 'src/app/models/page.model';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
 import { NewsService } from 'src/app/services/news-service/news-service.service';
 
@@ -45,21 +46,42 @@ describe('ChNewsComponent', () => {
     const mockNews = [n1, n2];
 
     let newsServiceMock = {
-      getNews: jasmine.createSpy('getNews')
-        .and.returnValue(of({
-          content: mockNews,
-          empty: false,
-          first: true,
-          last: true,
-          number: 0,
-          numberOfElements: 2,
-          pageable: { sort: { sorted: true, unsorted: false, empty: false }, offset: 0, pageNumber: 0, pageSize: 2 },
-          size: 2,
-          sort: { sorted: true, unsorted: false, empty: false },
-          totalElements: 2,
-          totalPages: 1
-        }
-        )),
+      getNews: jasmine.createSpy('getNews').and
+        .returnValue(of(new PageEnchanced<News>(
+          {
+            content: [{
+              adminID: 1,
+              content: 'sadrzaj1',
+              culturalHeritageID: 1,
+              heading: 'naslov1',
+              id: 5,
+              imageUri: 'http://localhost:8080/api/files/2'
+            },
+            {
+              adminID: 1,
+              content: 'sadrzaj2',
+              culturalHeritageID: 1,
+              heading: 'naslov2',
+              id: 6,
+              imageUri: 'http://localhost:8080/api/files/2'
+            },
+            {
+              adminID: 1,
+              content: 'sadrzaj3',
+              culturalHeritageID: 1,
+              heading: 'naslov3',
+              id: 7,
+              imageUri: 'http://localhost:8080/api/files/2'
+            }],
+            id: 1,
+            empty: false,
+            number: 0,
+            numberOfElements: 3,
+            size: 3,
+            totalElements: 12,
+            totalPages: 6,
+            last: false
+          }))),
     }
 
 
@@ -68,7 +90,7 @@ describe('ChNewsComponent', () => {
       providers: [
         { provide: AuthService, useValue: authServiceMock },
         { provide: newsService, useValue: newsServiceMock },
-        MatSnackBar, Overlay, NgbModal, MatPaginator, 
+        MatSnackBar, Overlay, NgbModal, MatPaginator,
       ],
       imports:
         [
@@ -95,7 +117,7 @@ describe('ChNewsComponent', () => {
 
   fdescribe('ngOnInit()', () => {
     it('should fetch all new on init (with paggination)', fakeAsync(() => {
-      
+
       component.chID = 1;
       component.ngOnInit();
 
