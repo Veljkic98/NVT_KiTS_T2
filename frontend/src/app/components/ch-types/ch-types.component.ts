@@ -147,7 +147,7 @@ export class CHTypesComponent implements OnInit {
     }
 
     openEditTypeDialog(selected: CHType): void{
-        const dialogRef = this.typeEditDialog.open(EditTypeDialog, {data: selected});
+        const dialogRef = this.typeEditDialog.open(EditTypeDialogComponent, {data: selected});
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
@@ -178,7 +178,7 @@ export class CHTypesComponent implements OnInit {
     }
 
     openEditSubTypeDialog(selected: CHSubtype): void{
-        const dialogRef = this.typeEditDialog.open(EditTypeDialog, {data: selected});
+        const dialogRef = this.typeEditDialog.open(EditTypeDialogComponent, {data: selected});
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {

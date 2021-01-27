@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CHSubtype, CHSubtype } from 'src/app/models/ch-subtype.model';
+import { CHSubtype } from 'src/app/models/ch-subtype.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
 
 @Component({

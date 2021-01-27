@@ -12,6 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import {MatMenuModule} from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -20,15 +22,8 @@ import { MatTableModule } from '@angular/material/table';
   imports: [
     CommonModule,
     RouterModule,
-    MatToolbarModule,
-    MatListModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
     FormsModule,
-    MatMenuModule,
-    MatTableModule
+    MaterialModule
   ],
   exports: [
     ToolbarComponent

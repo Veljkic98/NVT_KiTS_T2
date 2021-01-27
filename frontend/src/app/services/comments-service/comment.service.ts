@@ -5,6 +5,7 @@ import { COMMENTS_PER_PAGE } from '../../utils/constants';
 import { Page } from '../../models/page.model';
 import { COMMENTS } from '../../utils/constants';
 import { Observable } from 'rxjs';
+import {Comment } from '../../models/comment.model';
 
 @Injectable({ providedIn: 'root' })
 export class CommentService {

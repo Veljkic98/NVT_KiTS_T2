@@ -20,8 +20,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     HomePageModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-    NgbModule,
+    HttpClientModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true}],
   bootstrap: [AppComponent],

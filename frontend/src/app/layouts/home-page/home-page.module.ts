@@ -44,31 +44,21 @@ import { ChNewsComponent } from 'src/app/components/ch-news/ch-news.component';
 import { UpdateNewsComponent } from 'src/app/components/update-news/update-news.component';
 import { AddNewsComponent } from 'src/app/components/add-news/add-news.component';
 import { AddSubtypeComponent } from 'src/app/components/add-subtype/add-subtype.component';
+import { MaterialModule } from 'src/app/components/shared/material.module';
 
 @NgModule({
     imports: [
+        MaterialModule,
         CommonModule,
         RouterModule,
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
-        MatCardModule,
-        MatInputModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatProgressSpinnerModule,
-        MatExpansionModule,
         NgxPaginationModule,
-        MatTabsModule,
         NgxMapboxGLModule.withConfig({
           accessToken: environment.mapboxApiKey
         }),
-        MatTableModule,
-        MatPaginatorModule,
-        MatDialogModule,
-        MatSnackBarModule,
         NgbModule,
-        MatSelectModule,
     ],
     declarations: [
         HomePageComponent,
