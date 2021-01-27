@@ -121,7 +121,7 @@ public class CulturalHeritageServiceIntegrationTest {
     @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
     public void delete_ValidID_ShouldDelete() {
 
-        culturalHeritageService.deleteById(CH_ID);
+        culturalHeritageService.deleteById(CH_ID_VALID);
     }
 
     @Test(expected = EntityNotFoundException.class)
