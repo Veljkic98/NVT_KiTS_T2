@@ -6,7 +6,7 @@ import { Rating } from 'src/app/models/rating.model';
 import { LocationService } from './location.service';
 import { Location } from 'src/app/models/location.model';
 
-fdescribe('LocationService', () => {
+describe('LocationService', () => {
     let injector;
     let locationService: LocationService;
     let httpMock: HttpTestingController;
