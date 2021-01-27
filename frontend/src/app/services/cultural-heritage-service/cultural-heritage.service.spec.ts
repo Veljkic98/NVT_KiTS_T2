@@ -5,7 +5,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import {fakeAsync, tick} from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
-import { PageEnchanced } from 'src/app/models/page.model';
+import { Page } from 'src/app/models/page.model';
 
 describe('CulturalHeritageService', () => {
   let injector;
@@ -75,7 +75,7 @@ describe('CulturalHeritageService', () => {
     let numberOfElements: number;
     let size: number;
 
-    const mockResponse: PageEnchanced<CulturalHeritage> = {
+    const mockResponse: Page<CulturalHeritage> = {
       id: 1,
       empty: false,
       number: 0,

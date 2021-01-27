@@ -76,16 +76,6 @@ describe('CulturalHeritagesComponent', () => {
 
       delete: jasmine.createSpy('delete')
         .and.returnValue(of({})),
-
-      // postComment: jasmine.createSpy('postComment')
-      // .and.returnValue(of(new Comment({
-      //   id: 5,
-      //   content: "This is awesome, we will pass 2 exams with one project!!",
-      //   authenticatedUserID: 3,
-      //   culturaHeritageID: 1,
-      //   imageUri: null,
-      //   userName: "Sima Matas"
-      // })))
     };
 
 
@@ -122,7 +112,7 @@ describe('CulturalHeritagesComponent', () => {
 
   // testing methods (functionalities)
 
-  fdescribe('ngOnInit()', () => {
+  describe('ngOnInit()', () => {
     it('should fetch all cultural heritages on init (with paggination)', fakeAsync(() => {
       fixture.detectChanges();
       component.ngOnInit();
@@ -157,7 +147,7 @@ describe('CulturalHeritagesComponent', () => {
     }));
   });
 
-  fdescribe('deleteCH()', () => {
+  describe('deleteCH()', () => {
     it('should delete', fakeAsync(() => {
 
       component.ngOnInit();
@@ -174,10 +164,6 @@ describe('CulturalHeritagesComponent', () => {
       expect(chService.delete).toHaveBeenCalledWith(2);
 
       fixture.detectChanges();
-
-      // let comments: DebugElement[] = fixture.debugElement.queryAll(By.css('.comment-root'));
-      // expect(comments.length).toBe(1);
-
     }));
   });
 

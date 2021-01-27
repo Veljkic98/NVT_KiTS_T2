@@ -8,7 +8,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { of } from 'rxjs';
 import { CHFilter } from 'src/app/models/ch-filter.model';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
-import { PageEnchanced } from 'src/app/models/page.model';
+import { Page } from 'src/app/models/page.model';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
 import { CulturalHeritageService } from 'src/app/services/cultural-heritage-service/cultural-heritage.service';
 
@@ -30,7 +30,7 @@ describe('DashboardComponent', () => {
       };
     const chServiceMock = {
         getCulturalHeritages: jasmine.createSpy('getCulturalHeritages').and
-                                     .returnValue(of(new PageEnchanced<CulturalHeritage>({
+                                     .returnValue(of(new Page<CulturalHeritage>({
                     id: 1,
                     empty: false,
                     number: 0,
@@ -65,7 +65,7 @@ describe('DashboardComponent', () => {
                         }], }))),
 
         filterCulturalHeritages: jasmine.createSpy('filterCulturalHeritages').and
-                                        .returnValue(of(new PageEnchanced<CulturalHeritage>({
+                                        .returnValue(of(new Page<CulturalHeritage>({
                                             id: 1,
                                             empty: false,
                                             number: 0,

@@ -11,7 +11,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { Observable, of } from 'rxjs';
 import { CHSubtype } from 'src/app/models/ch-subtype.model';
 import { CHType } from 'src/app/models/ch-type.model';
-import { PageEnchanced } from 'src/app/models/page.model';
+import { Page } from 'src/app/models/page.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
 import { CHTypeService } from 'src/app/services/ch-type-service/ch-type.service';
 import { CHTypesComponent } from './ch-types.component';
@@ -27,7 +27,7 @@ describe('CHTypesComponent', () => {
   beforeEach(() => {
     const chTypesService = {
         getTypes: jasmine.createSpy('getTypes').and
-                        .returnValue(of(new PageEnchanced<CHType>(
+                        .returnValue(of(new Page<CHType>(
                             {
                                 content: [{
                                   id: 1,
@@ -45,7 +45,7 @@ describe('CHTypesComponent', () => {
                                   subtypes: [new CHSubtype({
                                     id: 1,
                                     name: 'subtype',
-                                    parentId: 3
+                                    chTypeID: 3
                                   })]
                                 }],
                                 id: 1,

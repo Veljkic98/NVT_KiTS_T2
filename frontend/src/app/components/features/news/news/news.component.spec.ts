@@ -10,7 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { of } from 'rxjs';
 import { News } from 'src/app/models/news.model';
-import { Page, PageEnchanced } from 'src/app/models/page.model';
+import { Page } from 'src/app/models/page.model';
 import { NewsService } from 'src/app/services/news-service/news-service.service';
 import { ActivatedRouteStub } from 'src/app/testing/router-stubs';
 
@@ -20,12 +20,12 @@ describe('NewsComponent', () => {
   let component: NewsComponent;
   let fixture: ComponentFixture<NewsComponent>;
   let service: any;
-
+  let route: any;
 
   beforeEach(() => {
     const newsServiceMock = {
         getNews: jasmine.createSpy('getNews').and
-                        .returnValue(of(new PageEnchanced<News>(
+                        .returnValue(of(new Page<News>(
                         {
                           content: [{
                             adminID: 1,
@@ -69,7 +69,7 @@ describe('NewsComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [ NewsComponent ],
-      imports: [NgxPaginationModule],
+      imports: [NgxPaginationModule, BrowserAnimationsModule],
       providers: [
         {provide: NewsService, useValue: newsServiceMock},
         {provide: ActivatedRoute, useValue: activatedRouteStub},

@@ -67,7 +67,7 @@ describe('CommentsComponent', () => {
         postComment: jasmine.createSpy('postComment')
         .and.returnValue(of(new Comment({
           id: 5,
-          content: 'This is awesome, we will pass 2 exams with one project!!',
+          content: 'This is awesome!!',
           authenticatedUserID: 3,
           culturaHeritageID: 1,
           imageUri: null,
