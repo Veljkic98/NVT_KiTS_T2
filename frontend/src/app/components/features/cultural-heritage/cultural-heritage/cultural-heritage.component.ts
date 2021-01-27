@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 
-import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service';
-import { CulturalHeritage } from '../../models/cultural-heritage.model';
-import { AuthService } from '../../services/auth-service/auth.service';
+import { CulturalHeritageService } from '../../../../services/cultural-heritage-service/cultural-heritage.service';
+import { CulturalHeritage } from '../../../../models/cultural-heritage.model';
+import { AuthService } from '../../../../services/auth-service/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 

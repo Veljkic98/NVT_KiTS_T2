@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MapsComponent } from './components/maps/maps.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
-import { NotificationsComponent } from './components/notifications/notifications.component';
 import { HomePageComponent } from './layouts/home-page/home-page.component';
 import { RegisterComponent } from './components/register/register.component';
 import { VerificationPageComponent } from './components/verification-page/verification-page.component';
@@ -11,14 +10,16 @@ import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './guards/login.guard';
 import { RoleGuard } from './guards/role.guard';
 import { CHTypesComponent } from './components/ch-types/ch-types.component';
-import { CulturalHeritagesComponent } from './components/features/cultural-heritage/cultural-heritages/cultural-heritages.component';
-import { AddNewCulturalHeritageComponent } from './components/add-new-cultural-heritage/add-new-cultural-heritage.component';
 import { NewsComponent } from './components/news/news.component';
 import { UpdateChComponent } from './components/update-ch/update-ch.component';
 import { AddNewTypeComponent } from './components/add-new-type/add-new-type.component';
 import { UpdateNewsComponent } from './components/update-news/update-news.component';
 import { AddNewsComponent } from './components/add-news/add-news.component';
 import { AddSubtypeComponent } from './components/add-subtype/add-subtype.component';
+import { CulturalHeritageModule } from './components/features/cultural-heritage/cultural-heritage.module';
+import { CulturalHeritagesComponent } from './components/features/cultural-heritage/cultural-heritages/cultural-heritages.component';
+import { AddNewCulturalHeritageComponent } from './components/features/cultural-heritage/add-new-cultural-heritage/add-new-cultural-heritage.component';
+import { SharedModule } from './components/shared/shared.module';
 
 const routes: Routes = [
   {
@@ -113,7 +114,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes),
+    CulturalHeritageModule,
+    SharedModule
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
