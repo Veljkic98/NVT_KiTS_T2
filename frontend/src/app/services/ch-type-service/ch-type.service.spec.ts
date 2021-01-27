@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import {fakeAsync, tick} from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { CHType } from 'src/app/models/ch-type.model';
-import { PageEnchanced } from 'src/app/models/page.model';
+import { Page } from 'src/app/models/page.model';
 
 describe('CHTypeService', () => {
   let injector;
@@ -38,14 +38,13 @@ describe('CHTypeService', () => {
 
   it('getTypes() should return Page object with CH types', fakeAsync(() => {
     let types: CHType[];
-    let page: number;
     let last: boolean;
     let totalElements: number;
     let totalPages: number;
     let numberOfElements: number;
     let size: number;
 
-    const mockResponse: PageEnchanced<CHType> = new PageEnchanced<CHType>(
+    const mockResponse: Page<CHType> = new Page<CHType>(
       {
         content: [{
           id: 1,
@@ -121,9 +120,9 @@ describe('CHTypeService', () => {
             id: 1,
            name: 'manifestation',
            subtypes : [
-               {id: 9, name: 'CAN BE DELETED', parentId: 1},
-               {id: 2, name: 'fair', parentId: 1},
-               {id: 1, name: 'festival', parentId: 1}
+               {id: 9, name: 'CAN BE DELETED', chTypeID: 1},
+               {id: 2, name: 'fair', chTypeID: 1},
+               {id: 1, name: 'festival', chTypeID: 1}
            ]
         });
 

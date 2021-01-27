@@ -12,15 +12,15 @@ export class RatingService {
         return this.http.get<Rating>(`${environment.apiUrl}/ratings/?chID=${chID}`);
     }
 
-    postRating(chID: number, grade: number): Observable<any> {
-        return this.http.post(`${environment.apiUrl}/ratings`, {
+    postRating(chID: number, grade: number): Observable<Rating> {
+        return this.http.post<Rating>(`${environment.apiUrl}/ratings`, {
             grade,
             culturalHeritageId : chID
         });
     }
 
-    updateRating(ratingID: number, chID: number, grade: number): Observable<any> {
-        return this.http.put(`${environment.apiUrl}/ratings/${ratingID}`, {
+    updateRating(ratingID: number, chID: number, grade: number): Observable<Rating> {
+        return this.http.put<Rating>(`${environment.apiUrl}/ratings/${ratingID}`, {
             grade,
             culturalHeritageId : chID
         });
