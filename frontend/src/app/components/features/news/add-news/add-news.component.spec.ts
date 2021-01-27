@@ -9,7 +9,7 @@ import { ActivatedRouteStub } from 'src/app/testing/router-stubs';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Overlay } from '@angular/cdk/overlay';
-import {CulturalHeritagesComponent} from '../cultural-heritages/cultural-heritages.component'
+import {CulturalHeritagesComponent} from 'src/app/components/features/cultural-heritage/cultural-heritages/cultural-heritages.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 
