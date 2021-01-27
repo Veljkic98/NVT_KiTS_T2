@@ -9,6 +9,7 @@ public class CulturalHeritageConstants {
   public static final Long  LOCATION_ID = 1L;
   public static final Long  CH_SUBTYPE_ID = 1L;
   public static final Long CH_ID = 1L;
+  public static final Long CH_ID_VALID = 2L;
   public static final Long CH_ID_NOT_FOUND = 100L;
   public static final int PAGE_SIZE = 5;
   public static final Long UNSUBSCRIBE_ID = 1L;
