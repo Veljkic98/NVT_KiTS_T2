@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { fakeAsync, getTestBed, TestBed, tick } from '@angular/core/testing';
 import { News } from 'src/app/models/news.model';
-import { PageEnchanced } from 'src/app/models/page.model';
+import { Page } from 'src/app/models/page.model';
 import { NewsService } from './news-service.service';
 
 
@@ -48,7 +48,7 @@ describe('NewsService', () => {
         let numberOfElements: number;
         let size: number;
 
-        const mockResponse: PageEnchanced<News> = new PageEnchanced<News>(
+        const mockResponse: Page<News> = new Page<News>(
             {
                 content: [{
                   adminID: 1,

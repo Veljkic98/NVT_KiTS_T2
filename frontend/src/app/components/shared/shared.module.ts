@@ -2,31 +2,37 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RouterModule } from '@angular/router';
-
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
-import {MatMenuModule} from '@angular/material/menu';
-import { MatTableModule } from '@angular/material/table';
-import { MatCardModule } from '@angular/material/card';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
+import { MapsComponent } from './maps/maps.component';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { environment } from 'src/environments/environment';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
-    ToolbarComponent
+    ToolbarComponent, MapsComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    NgbModule,
+    NgxPaginationModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: environment.mapboxApiKey
+    }),
   ],
   exports: [
-    ToolbarComponent
+    ToolbarComponent,
+    CommonModule,
+    FormsModule,
+    MapsComponent,
+    RouterModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
   ]
 })
 export class SharedModule { }

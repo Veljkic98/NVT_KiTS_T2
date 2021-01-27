@@ -34,7 +34,7 @@ describe('CommentService', () => {
     });
 
   it('getComments() should return list of comments for chosen ch', fakeAsync(() => {
-        let commentsPage: Page;
+        let commentsPage: Page<Comment>;
 
         const mockComments = [
             new Comment({
