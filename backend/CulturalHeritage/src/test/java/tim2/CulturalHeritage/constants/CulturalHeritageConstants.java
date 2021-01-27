@@ -34,4 +34,6 @@ public class CulturalHeritageConstants {
   public static final int FILTER_COUNTRY_RESULTS = 2;
 
   public static final String FILTER_INVALID = "sdsddsdsdsd";
+
+  public static final long CH_ID_DELETE_SHOULD = 2l;
 }

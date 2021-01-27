@@ -15,7 +15,7 @@ public class CHUpdatePage {
   @FindBy(xpath = "//div[@class=\"mapboxgl-map\"]")
   private WebElement map;
 
-  @FindBy(xpath = "//input[@class=\"mapboxgl-ctrl-geocoder--input\"]")
+  @FindBy(xpath = "//*[@id=\"map-wrapper\"]/mgl-map/div/div[3]/div[2]/div/input")
   private WebElement geocoder;
 
   @FindBy(xpath = "//button[@id=\"update-btn\"]")
