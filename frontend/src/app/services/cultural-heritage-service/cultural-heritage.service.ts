@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { CulturalHeritage } from '../../models/cultural-heritage.model';
-import { Page, PageEnchanced } from '../../models/page.model'
+import { Page } from '../../models/page.model';
 import { Observable } from 'rxjs';
 
 const REST_ENDPOINT = {
@@ -21,19 +21,19 @@ export class CulturalHeritageService {
 
   constructor(private http: HttpClient) { }
 
-  getCulturalHeritages(page: number): Observable<PageEnchanced<CulturalHeritage>> {
-    return this.http.get<PageEnchanced<CulturalHeritage>>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${page}&size=10`);
+  getCulturalHeritages(page: number): Observable<Page<CulturalHeritage>> {
+    return this.http.get<Page<CulturalHeritage>>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${page}&size=10`);
   }
 
-  getCulturalHeritagesWithSize(pageIndex: number, pageSize: number): Observable<Page> {
-    return this.http.get<Page>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${pageIndex}&size=${pageSize}`);
+  getCulturalHeritagesWithSize(pageIndex: number, pageSize: number): Observable<Page<CulturalHeritage>> {
+    return this.http.get<Page<CulturalHeritage>>(`${environment.apiUrl}${REST_ENDPOINT.getByPage}/?page=${pageIndex}&size=${pageSize}`);
   }
 
   getOne(id: number): Observable<CulturalHeritage> {
     return this.http.get<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${id}`);
   }
 
-  addNew(ch: CulturalHeritageToAdd) {
+  addNew(ch: CulturalHeritageToAdd): Observable<CulturalHeritage> {
     return this.http.post<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}`, ch);
   }
 
@@ -52,20 +52,20 @@ export class CulturalHeritageService {
   }
 
 
-  filterCulturalHeritages(payload: CHFilter, page: number): Observable<PageEnchanced<CulturalHeritage>>{
-    return this.http.post<Page>(`${environment.apiUrl}${REST_ENDPOINT.filter}/?page=${page}&size=10`, payload);
+  filterCulturalHeritages(payload: CHFilter, page: number): Observable<Page<CulturalHeritage>>{
+    return this.http.post<Page<CulturalHeritage>>(`${environment.apiUrl}${REST_ENDPOINT.filter}/?page=${page}&size=10`, payload);
   }
 
 
-  subscribe(chID: number) {
-    return this.http.post<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/subscribe/${chID}`, null, { observe: 'response' });
+  subscribe(chID: number): Observable<object> {
+    return this.http.post<object>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/subscribe/${chID}`, null, { observe: 'response' });
   }
 
-  unsubscribe(chID: number) {
-    return this.http.delete<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/unsubscribe/${chID}`, { observe: 'response' });
+  unsubscribe(chID: number): Observable<object> {
+    return this.http.delete<object>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/unsubscribe/${chID}`, { observe: 'response' });
   }
 
-  put(ch: CulturalHeritage, image: any): Observable<any> {
+  put(ch: CulturalHeritage, image: any): Observable<CulturalHeritage> {
 
     const formData = new FormData();
     formData.append('culturalHeritageRequestDTO', new Blob([JSON.stringify(ch)], {
@@ -76,7 +76,7 @@ export class CulturalHeritageService {
     return this.http.put<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${ch.id}`, formData);
   }
 
-  delete(id: number): Observable<Object> {
+  delete(id: number): Observable<object> {
     return this.http.delete(`${environment.apiUrl}/${CULTURAL_HERITAGES}/${id}`);
   }
 }

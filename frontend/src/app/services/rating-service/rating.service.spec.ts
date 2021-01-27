@@ -11,7 +11,7 @@ describe('RatingService', () => {
   let httpMock: HttpTestingController;
   let httpClient: HttpClient;
 
-	 beforeEach(() => {
+  beforeEach(() => {
 
     TestBed.configureTestingModule({
         imports: [HttpClientTestingModule],
@@ -28,9 +28,9 @@ describe('RatingService', () => {
     httpMock.verify();
   });
 
- 	it('should pass simple test', () => {
-	    expect(true).toBe(true);
-	});
+  it('should pass simple test', () => {
+      expect(true).toBe(true);
+  });
 
   it(' getUserRating() should return user rating for ch with chID', fakeAsync(() => {
     let userRating: Rating;

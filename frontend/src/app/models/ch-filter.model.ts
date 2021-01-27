@@ -1,4 +1,4 @@
-export interface CHFilter {
+export class CHFilter {
     type: string;
     value: string;
 }
