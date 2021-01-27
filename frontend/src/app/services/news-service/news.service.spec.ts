@@ -6,7 +6,7 @@ import { Page } from 'src/app/models/page.model';
 import { NewsService } from './news-service.service';
 
 
-describe('NewsService', () => {
+fdescribe('NewsService', () => {
     let injector;
     let newsService: NewsService;
     let httpMock: HttpTestingController;
@@ -126,4 +126,27 @@ describe('NewsService', () => {
 
 
     }));
+
+    //add news
+    it('add() should add news and save to db', fakeAsync(()=>{
+      let news: News = new News(undefined,'new heading', 'new content', 1, 1, 'http://localhost:8080/api/files/2');
+      let mockNews: News = new News(4,'new heading', 'new content', 1, 1, 'http://localhost:8080/api/files/2');
+
+      newsService.add(news).subscribe(response => news = response);
+
+      const req = httpMock.expectOne('http://localhost:8080/api/news');
+      expect(req.request.method).toBe('POST');
+      req.flush(mockNews);
+
+      tick();
+
+      expect(news).toBeDefined();
+      expect(news.id).toEqual(4);
+      expect(news.heading).toEqual('new heading');
+      expect(news.content).toEqual('new content');
+      expect(news.adminID).toEqual(1);
+      expect(news.culturalHeritageID).toEqual(1);
+      expect(news.imageUri).toEqual('http://localhost:8080/api/files/2');
+    }))
+
 });
