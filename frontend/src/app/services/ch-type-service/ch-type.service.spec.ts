@@ -157,7 +157,7 @@ describe('CHTypeService', () => {
       name: 'televisa presenta',
       subtypes: []
     };
-    chTypeService.addType(mockType).subscribe(res => type = res);
+    chTypeService.addType(type).subscribe(res => type = res);
 
     const req = httpMock.expectOne('http://localhost:8080/api/ch-types');
     expect(req.request.method).toBe('POST');
