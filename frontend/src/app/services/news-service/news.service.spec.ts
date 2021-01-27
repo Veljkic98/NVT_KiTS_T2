@@ -126,4 +126,50 @@ describe('NewsService', () => {
 
 
     }));
+
+    it('add() should add news and save to db', fakeAsync(()=>{
+      let news: News = new News(undefined,'new heading', 'new content', 1, 1, 'http://localhost:8080/api/files/2');
+      let mockNews: News = new News(4,'new heading', 'new content', 1, 1, 'http://localhost:8080/api/files/2');
+
+      newsService.add(news).subscribe(response => news = response);
+
+      const req = httpMock.expectOne('http://localhost:8080/api/news');
+      expect(req.request.method).toBe('POST');
+      req.flush(mockNews);
+
+      tick();
+
+      expect(news).toBeDefined();
+      expect(news.id).toEqual(4);
+      expect(news.heading).toEqual('new heading');
+      expect(news.content).toEqual('new content');
+      expect(news.adminID).toEqual(1);
+      expect(news.culturalHeritageID).toEqual(1);
+      expect(news.imageUri).toEqual('http://localhost:8080/api/files/2');
+    }));
+
+    it('update() should update news and save to db', fakeAsync(()=>{
+      let news: News = new News(4,'new heading', 'content', 1, 1, 'http://localhost:8080/api/files/2');
+      let mockNews: News = new News(4,'new heading', 'content', 1, 1, 'http://localhost:8080/api/files/2');
+      let file: File = new File([''], 'http://localhost:8080/api/files/2');
+
+
+      newsService.update(news, file).subscribe(response => news = response);
+
+      const req = httpMock.expectOne('http://localhost:8080/api/news/4');
+      expect(req.request.method).toBe('PUT');
+      req.flush(mockNews);
+
+      tick();
+
+      expect(news).toBeDefined();
+      expect(news.id).toEqual(4);
+      expect(news.heading).toEqual('new heading');
+      expect(news.content).toEqual('content');
+      expect(news.adminID).toEqual(1);
+      expect(news.culturalHeritageID).toEqual(1);
+      expect(news.imageUri).toEqual('http://localhost:8080/api/files/2');
+    }))
+
+
 });

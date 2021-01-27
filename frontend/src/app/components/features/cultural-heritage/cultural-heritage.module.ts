@@ -6,6 +6,7 @@ import { CommentsComponent } from './comments/comments.component';
 import { CulturalHeritageComponent } from './cultural-heritage/cultural-heritage.component';
 import { CulturalHeritagesComponent } from './cultural-heritages/cultural-heritages.component';
 import { RatingComponent } from './rating/rating.component';
+import { UpdateChComponent } from './update-ch/update-ch.component';
 
 @NgModule({
     imports: [SharedModule, MaterialModule],
@@ -14,14 +15,16 @@ import { RatingComponent } from './rating/rating.component';
         CulturalHeritageComponent,
         AddNewCulturalHeritageComponent,
         RatingComponent,
-        CommentsComponent
+        CommentsComponent,
+        UpdateChComponent
     ],
     declarations: [
         CulturalHeritagesComponent,
         CulturalHeritageComponent,
         AddNewCulturalHeritageComponent,
         RatingComponent,
-        CommentsComponent
+        CommentsComponent,
+        UpdateChComponent
     ]
 })
 export class CulturalHeritageModule { }

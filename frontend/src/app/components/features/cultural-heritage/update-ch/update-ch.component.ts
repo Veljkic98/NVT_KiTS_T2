@@ -47,8 +47,9 @@ export class UpdateChComponent implements OnInit {
 
   async ngOnInit() {
 
-    this.route.params.subscribe((params: Params) => {
-      this.chid = params.chid;
+    this.route.paramMap.subscribe(params => {
+      this.chid = +params.get('chid');
+
       this.chService.getOne(this.chid)
         .subscribe(async response => {
 
@@ -79,7 +80,6 @@ export class UpdateChComponent implements OnInit {
    *
    */
   async updateCH() {
-
     const location: Location = await this.locationService.post(this.location).toPromise();
 
     this.culturalHeritage.locationID = location.id;
@@ -102,7 +102,7 @@ export class UpdateChComponent implements OnInit {
       this.router.navigate(['/cultural-heritages']);
       this.openSnackBar(`Successfuly updated ${ch.name}.`);
     }
-    else{
+    else {
       this.openSnackBar(`Cannot updated cultural heritage.`);
     }
 
