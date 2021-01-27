@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
-import { CHSubtype, CHSubtype2, CHSubtype3 } from 'src/app/models/ch-subtype.model';
+import { CHSubtype } from 'src/app/models/ch-subtype.model';
 import { Location } from 'src/app/models/location.model';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { CHSubtypeService } from 'src/app/services/ch-subtype-service/ch-subtype.service';
@@ -58,12 +58,12 @@ describe('AddNewCulturalHeritageComponent', () => {
       new CHSubtype({
         id: 1,
         name: "naziv1",
-        parentId: 1,
+        chTypeID: 1,
       }),
       new CHSubtype({
         id: 2,
         name: "naziv2",
-        parentId: 2,
+        chTypeID: 2,
       }),
     ]
 
@@ -121,7 +121,7 @@ describe('AddNewCulturalHeritageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fdescribe('ngOnInit()', () => {
+  describe('ngOnInit()', () => {
     it('should fetch all subtypes on init', fakeAsync(() => {
       // fixture.detectChanges();
       component.ngOnInit();
@@ -132,10 +132,8 @@ describe('AddNewCulturalHeritageComponent', () => {
     }));
   })
 
-  fdescribe('addCH()', () => {
+  describe('addCH()', () => {
     it('should add', fakeAsync(() => {
-
-      // spyOn(component, '');
       const navigateSpy = spyOn(router, 'navigate');
 
       component.location = new Location("12", "12", "asd", "asd", "asd");
@@ -143,13 +141,15 @@ describe('AddNewCulturalHeritageComponent', () => {
 
       component.name = "naziv1";
       component.description = "opis1";
-      component.url = "asdasdasdad";
-      component.subtype = new CHSubtype2();
-      component.subtype.id = 1;
+      component.url = "adresa slike";
+      component.subtype = new CHSubtype({ name: "moj subtype", id: 1 });
 
+      tick();
       component.addCH();
+      tick();
       expect(locationService.post).toHaveBeenCalledWith(component.location);
-      // expect(chService.post).toHaveBeenCalledWith(component.location);
+      tick();
+      expect(chService.post).toHaveBeenCalledWith(component.name, component.description, component.location.id, component.subtype.id, component.url);
 
       expect(navigateSpy).toHaveBeenCalledWith(['/cultural-heritages'])
     }));

@@ -58,12 +58,12 @@ describe('UpdateChComponent', () => {
       new CHSubtype({
         id: 1,
         name: "naziv1",
-        parentId: 1,
+        chTypeID: 1,
       }),
       new CHSubtype({
         id: 2,
         name: "naziv2",
-        parentId: 2,
+        chTypeID: 2,
       }),
     ]
 
@@ -124,7 +124,7 @@ describe('UpdateChComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fdescribe('ngOnInit()', () => {
+  describe('ngOnInit()', () => {
     it('should fetch all subtypes on init', fakeAsync(() => {
       component.chid = 1;
 
@@ -137,7 +137,7 @@ describe('UpdateChComponent', () => {
     }));
   })
 
-  fdescribe('updateCH()', () => {
+  describe('updateCH()', () => {
     it('should update', fakeAsync(() => {
       spyOn(component, 'openSnackBar');
       const navigateSpy = spyOn(router, 'navigate');
