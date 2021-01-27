@@ -19,6 +19,7 @@ import { RegisterComponent } from './components/features/user/register/register.
 import { LoginComponent } from './components/features/user/login/login.component';
 import { VerificationPageComponent } from './components/features/user/verification-page/verification-page.component';
 import { AddSubtypeComponent } from './components/features/cultural-heritage-types/add-subtype/add-subtype.component';
+import { UpdateNewsComponent } from './components/features/news/update-news/update-news.component';
 
 const routes: Routes = [
   {
@@ -67,7 +68,7 @@ const routes: Routes = [
       },
       {
         path: 'update/news/:index',
-        component: UpdateChComponent,
+        component: UpdateNewsComponent,
         canActivate: [RoleGuard],
         data: {expectedRoles: 'ROLE_ADMIN'}
       },

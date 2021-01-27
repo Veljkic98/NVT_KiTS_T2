@@ -7,6 +7,7 @@ import java.io.File;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -23,6 +24,8 @@ public class CHUpdateE2ETest {
 
   private LoginPage loginPage;
 
+  private JavascriptExecutor js;
+
   @Before
   public void setUp() {
 
@@ -32,6 +35,7 @@ public class CHUpdateE2ETest {
     driver.manage().window().maximize();
     chUpdatePage = PageFactory.initElements(driver, CHUpdatePage.class);
     loginPage = PageFactory.initElements(driver, LoginPage.class);
+    js = (JavascriptExecutor) driver;
   }
 
   @After
@@ -79,6 +83,10 @@ public class CHUpdateE2ETest {
     logInAdmin();
     driver.get("http://localhost:4200/update-ch/1");
     chUpdatePage.ensureMapIsPresent();
+
+    justWait(7000);
+    js.executeScript("arguments[0].scrollIntoView(true);", chUpdatePage.getGeocoder());
+    Thread.sleep(4000);
     chUpdatePage.ensureGeocoderIsPresent();
     // Grazbachgasse, 8010 Graz, Austria
     chUpdatePage.getGeocoder().sendKeys("Grazbachgasse, 8010 Graz, Austria");
