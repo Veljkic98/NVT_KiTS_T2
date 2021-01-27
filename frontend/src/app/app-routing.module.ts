@@ -11,7 +11,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './guards/login.guard';
 import { RoleGuard } from './guards/role.guard';
 import { CHTypesComponent } from './components/ch-types/ch-types.component';
-import { CulturalHeritagesComponent } from './components/cultural-heritages/cultural-heritages.component';
+import { CulturalHeritagesComponent } from './components/features/cultural-heritage/cultural-heritages/cultural-heritages.component';
 import { AddNewCulturalHeritageComponent } from './components/add-new-cultural-heritage/add-new-cultural-heritage.component';
 import { NewsComponent } from './components/news/news.component';
 import { UpdateChComponent } from './components/update-ch/update-ch.component';
@@ -28,12 +28,6 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardComponent
-      },
-      {
-        path: 'notifications',
-        component: NotificationsComponent,
-        canActivate: [RoleGuard],
-        data: { expectedRoles: 'ROLE_ADMIN|ROLE_USER' }
       },
       {
         path: 'manage/types',
