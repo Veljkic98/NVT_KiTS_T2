@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges, Output, EventEmitter, OnChanges, } from '@angular/core';
 
-import { RatingService } from '../../services/rating-service/rating.service';
+import { RatingService } from '../../../../services/rating-service/rating.service';
 
 @Component({
   selector: 'app-rating',

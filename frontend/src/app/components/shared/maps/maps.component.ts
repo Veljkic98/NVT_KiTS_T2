@@ -1,8 +1,8 @@
 import { Component, DoCheck, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output, SimpleChanges } from '@angular/core';
 import { LngLatLike, Map, Marker } from 'mapbox-gl';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import { CulturalHeritageService } from '../../services/cultural-heritage-service/cultural-heritage.service';
-import { CulturalHeritage } from '../../models/cultural-heritage.model';
+import { CulturalHeritageService } from '../../../services/cultural-heritage-service/cultural-heritage.service';
+import { CulturalHeritage } from '../../../models/cultural-heritage.model';
 import { Page } from 'src/app/models/page.model';
 import { Location } from 'src/app/models/location.model';
 import { environment } from 'src/environments/environment';

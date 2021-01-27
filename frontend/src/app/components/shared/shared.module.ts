@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
-import { MapsComponent } from '../maps/maps.component';
+import { MapsComponent } from './maps/maps.component';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'src/environments/environment';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -17,12 +19,20 @@ import { environment } from 'src/environments/environment';
     RouterModule,
     FormsModule,
     MaterialModule,
+    NgbModule,
+    NgxPaginationModule,
     NgxMapboxGLModule.withConfig({
       accessToken: environment.mapboxApiKey
     }),
   ],
   exports: [
-    ToolbarComponent, CommonModule, FormsModule, MapsComponent, RouterModule 
+    ToolbarComponent,
+    CommonModule,
+    FormsModule,
+    MapsComponent,
+    RouterModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
   ]
 })
 export class SharedModule { }

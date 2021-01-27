@@ -1,9 +1,8 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { CommentService } from '../../services/comments-service/comment.service';
-import { AuthService } from '../../services/auth-service/auth.service';
-import { Comment } from '../../models/comment.model';
+import { AuthService } from 'src/app/services/auth-service/auth.service';
+import { CommentService } from 'src/app/services/comments-service/comment.service';
+import { Comment } from 'src/app/models/comment.model';
 
 @Component({
   selector: 'app-comments',

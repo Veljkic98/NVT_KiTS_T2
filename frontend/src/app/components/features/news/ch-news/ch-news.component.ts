@@ -1,11 +1,9 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { CommentService } from '../../services/comments-service/comment.service';
-import { AuthService } from '../../services/auth-service/auth.service';
-import { Comment } from '../../models/comment.model';
 import { NewsService } from 'src/app/services/news-service/news-service.service';
 import { News } from 'src/app/models/news.model';
+import { AuthService } from 'src/app/services/auth-service/auth.service';
 
 @Component({
   selector: 'app-ch-news',

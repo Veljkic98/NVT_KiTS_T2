@@ -1,11 +1,11 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { User } from '../../models/user.model';
-import { AuthService } from '../../services/auth-service/auth.service';
 import { CulturalHeritage } from 'src/app/models/cultural-heritage.model';
 import { CulturalHeritageService } from 'src/app/services/cultural-heritage-service/cultural-heritage.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth-service/auth.service';
 
 @Component({
   selector: 'app-my-profile',
