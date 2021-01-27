@@ -63,6 +63,7 @@ public class CHUpdatePage {
     (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.elementToBeClickable(updateButton));
   }
 
+
   public void ensureUpdateButtonIsNotClickable() {
     (new WebDriverWait(webDriver, 30))
         .until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(updateButton)));

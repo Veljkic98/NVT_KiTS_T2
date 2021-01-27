@@ -85,9 +85,9 @@ public class CHUpdateE2ETest {
     chUpdatePage.ensureMapIsPresent();
 
     justWait(7000);
-    js.executeScript("arguments[0].scrollIntoView(true);", chUpdatePage.getGeocoder());
+    js.executeScript("arguments[0].scrollIntoView(true);", chUpdatePage.getUpdateButton());
     Thread.sleep(4000);
-    chUpdatePage.ensureGeocoderIsPresent();
+   // chUpdatePage.ensureGeocoderIsPresent();
     // Grazbachgasse, 8010 Graz, Austria
     chUpdatePage.getGeocoder().sendKeys("Grazbachgasse, 8010 Graz, Austria");
     justWait(2000);
@@ -104,6 +104,9 @@ public class CHUpdateE2ETest {
     justWait(1000);
     chUpdatePage.getNameInput().clear();
     chUpdatePage.getNameInput().sendKeys("New CH name");
+    chUpdatePage.ensureUpdateButtonIsClickable();
+    js.executeScript("arguments[0].scrollIntoView(true);", chUpdatePage.getUpdateButton());
+    Thread.sleep(2000);
     chUpdatePage.getUpdateButton().click();
     chUpdatePage.ensureSnackBarIsPresent();
     String snackBarText = chUpdatePage.getSnackBar().getText();
@@ -127,6 +130,9 @@ public class CHUpdateE2ETest {
     justWait(1000);
     chUpdatePage.getDescriptionInput().clear();
     chUpdatePage.getDescriptionInput().sendKeys("New Description");
+    chUpdatePage.ensureUpdateButtonIsClickable();
+    js.executeScript("arguments[0].scrollIntoView(true);", chUpdatePage.getUpdateButton());
+    Thread.sleep(2000);
     chUpdatePage.getUpdateButton().click();
     chUpdatePage.ensureSnackBarIsPresent();
     String snackBarText = chUpdatePage.getSnackBar().getText();
