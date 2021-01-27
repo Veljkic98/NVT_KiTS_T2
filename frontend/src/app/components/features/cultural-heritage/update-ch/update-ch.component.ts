@@ -127,6 +127,7 @@ export class UpdateChComponent implements OnInit {
    * after geocoder search
    */
   setLocation(location: Location) {
+    console.log(location)
     this.location = location;
     // console.log(location);
   }

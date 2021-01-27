@@ -87,7 +87,7 @@ public class CHUpdateE2ETest {
     justWait(7000);
     js.executeScript("arguments[0].scrollIntoView(true);", chUpdatePage.getUpdateButton());
     Thread.sleep(4000);
-   // chUpdatePage.ensureGeocoderIsPresent();
+    chUpdatePage.ensureGeocoderIsPresent();
     // Grazbachgasse, 8010 Graz, Austria
     chUpdatePage.getGeocoder().sendKeys("Grazbachgasse, 8010 Graz, Austria");
     justWait(2000);
