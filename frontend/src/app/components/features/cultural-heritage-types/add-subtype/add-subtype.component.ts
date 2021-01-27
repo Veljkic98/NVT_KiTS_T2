@@ -63,7 +63,7 @@ export class AddSubtypeComponent implements OnInit {
   }
 
   add(): void {
-
+    console.log('ovdee');
     if (this.nameValid) {
       this.subtypeService.add(this.subtype)
         .subscribe(

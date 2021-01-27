@@ -27,6 +27,9 @@ public class AddNewsPage {
   @FindBy(xpath = "//input[@id=\"news-file-input\"]")
   private WebElement fileInput;
 
+  @FindBy(xpath = "//*[@id=\"delete-button17\"]")
+  private WebElement deleteButton;
+
   public AddNewsPage() {
 
   }
@@ -73,6 +76,9 @@ public class AddNewsPage {
 
   public WebElement getFileInput() {
     return fileInput;
+  }
+  public WebElement getDeleteButtonSuccess() {
+    return deleteButton;
   }
 
 }

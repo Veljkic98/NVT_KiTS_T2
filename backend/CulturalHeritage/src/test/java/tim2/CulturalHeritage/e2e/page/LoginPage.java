@@ -29,6 +29,9 @@ public class LoginPage {
     @FindBy(xpath = "//*[@id=\"signOutButton\"]")
     private WebElement signOutButton;
 
+    @FindBy(xpath = "//*[@id=\"user-menu\"]")
+    private WebElement menu;
+
 
     public LoginPage() {
     }
@@ -84,4 +87,8 @@ public class LoginPage {
     public WebElement getLoginBtn() { return loginBtn; }
 
     public WebElement getSignOutButton() { return signOutButton; }
+
+    public WebElement getMenu() {
+        return menu;
+    }
 }

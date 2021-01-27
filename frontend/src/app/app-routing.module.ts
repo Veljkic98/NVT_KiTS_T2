@@ -18,6 +18,7 @@ import { MyProfileComponent } from './components/features/user/my-profile/my-pro
 import { RegisterComponent } from './components/features/user/register/register.component';
 import { LoginComponent } from './components/features/user/login/login.component';
 import { VerificationPageComponent } from './components/features/user/verification-page/verification-page.component';
+import { AddSubtypeComponent } from './components/features/cultural-heritage-types/add-subtype/add-subtype.component';
 
 const routes: Routes = [
   {
@@ -60,7 +61,7 @@ const routes: Routes = [
       },
       {
         path: 'add/subtype/:typeid',
-        component: AddNewTypeComponent,
+        component: AddSubtypeComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: 'ROLE_ADMIN' }
       },

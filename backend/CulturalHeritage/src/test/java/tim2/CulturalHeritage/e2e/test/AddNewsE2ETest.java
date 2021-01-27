@@ -78,7 +78,16 @@ public class AddNewsE2ETest {
 
     addNewsPage.ensureSnackBarIsPresent();
     String snackBarText = addNewsPage.getSnackBar().getText();
-    assertEquals("Successfuly added Visit World's Most Popular Museum news.\nDismiss", snackBarText); 
+    assertEquals("Successfuly added Visit World's Most Popular Museum news.\nDismiss", snackBarText);
+
+    //ROLLBACK
+    justWait(3000); // wait 6 sec
+
+    driver.get("http://localhost:4200/manage/news/2");
+
+    justWait(1000);
+
+    addNewsPage.getDeleteButtonSuccess().click();
   }
 
   @Test
@@ -100,7 +109,16 @@ public class AddNewsE2ETest {
 
     addNewsPage.ensureSnackBarIsPresent();
     String snackBarText = addNewsPage.getSnackBar().getText();
-    assertEquals("Successfuly added Visit World's Most Popular Museum news.\nDismiss", snackBarText); 
+    assertEquals("Successfuly added Visit World's Most Popular Museum news.\nDismiss", snackBarText);
+
+    //ROLLBACK
+    justWait(3000); // wait 6 sec
+
+    driver.get("http://localhost:4200/manage/news/2");
+
+    justWait(1000);
+
+    addNewsPage.getDeleteButtonSuccess().click();
   }
 
   @Test

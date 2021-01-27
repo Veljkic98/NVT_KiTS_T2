@@ -320,6 +320,23 @@ public class CHTypeE2ETest {
         chTypePage.ensureSnackBarIsPresent();
         String snackBarText = chTypePage.getSnackBar().getText();
         assertEquals("Successfuly added the subtype!\nDismiss", snackBarText);
+
+        //ROLLBACK
+        justWait(3000);
+        chTypePage.ensureAreDisplayedShowButtons();
+        chTypePage.getShowSubtypesButton().click();
+        justWait(2000);
+        chTypePage.ensureAreDisplayedDeleteButtons();
+        chTypePage.getDeleteSubtypesButtonLast().click();
+        justWait(2000);
+
+        chTypePage.getConfirmSubtypeDeleteButton().click();
+
+        justWait(1000);
+
+        snackBarText = chTypePage.getSnackBar().getText();
+
+        assertEquals("Successfuly deleted the subtype!\nDismiss", snackBarText);
     }
 
     @Test

@@ -20,6 +20,9 @@ public class CHTypePage {
     @FindBy(xpath = "//*[@id=\"delete4\"]")
     private WebElement deleteButtonSuccess;
 
+    @FindBy(xpath = "//*[@id=\"delete9\"]")
+    private WebElement deleteButtonLast;
+
     @FindBy(xpath = "//*[@id=\"delete1\"]")
     private WebElement deleteButtonFail;
 
@@ -40,6 +43,9 @@ public class CHTypePage {
 
     @FindBy(xpath = "//*[@id=\"inner-table\"]/tbody/tr[1]/td[3]/div/button")
     private WebElement deleteSubtypesButton;
+
+    @FindBy(xpath = "//*[@id=\"inner-table\"]/tbody/tr[last()]/td[3]/div/button")
+    private WebElement deleteSubtypesButtonLast;
 
     @FindBy(xpath = "//*[@id=\"inner-table\"]/tbody/tr[2]/td[3]/div/button")
     private WebElement deleteSubtypesButtonFail;
@@ -163,4 +169,8 @@ public class CHTypePage {
     public WebElement getPostTypeBtn(){ return postTypeBtn; }
     
     public WebElement getTypeInput(){ return typeInput; }
+
+    public WebElement getDeleteSubtypesButtonLast(){ return deleteSubtypesButtonLast; }
+
+    public WebElement getDeleteButtonLast() { return deleteButtonLast; }
 }

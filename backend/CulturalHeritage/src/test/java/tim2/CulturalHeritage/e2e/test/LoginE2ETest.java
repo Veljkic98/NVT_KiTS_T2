@@ -137,8 +137,10 @@ public class LoginE2ETest {
         loginPage.getEmail().sendKeys("helen@gmail.com");
         loginPage.getPassword().sendKeys("123");
         loginPage.getLoginBtn().click();
-        justWait(2500);
+        justWait(4000);
 
+        loginPage.getMenu().click();
+        justWait(2000);
         loginPage.getSignOutButton().click();
         justWait(500);
 
