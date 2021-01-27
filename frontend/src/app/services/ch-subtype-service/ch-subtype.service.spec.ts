@@ -5,7 +5,7 @@ import { fakeAsync, tick } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { CHSubtype } from 'src/app/models/ch-subtype.model';
 
-fdescribe('CHSubtypeService', () => {
+describe('CHSubtypeService', () => {
   let injector;
   let chSubtypeService: CHSubtypeService;
   let httpMock: HttpTestingController;
@@ -36,12 +36,12 @@ fdescribe('CHSubtypeService', () => {
     expect(true).toBe(true);
     let subtypes: CHSubtype[];
 
-    let mockResponse : CHSubtype[] = [
+    let mockResponse: CHSubtype[] = [
       new CHSubtype({ name: 'festival 1', chTypeID: 1, id: 1 }),
       new CHSubtype({ name: 'festival 2', chTypeID: 1, id: 2 })
     ];
 
-    chSubtypeService.getAll().subscribe( response => {
+    chSubtypeService.getAll().subscribe(response => {
       subtypes = response
     });
 
@@ -68,4 +68,20 @@ fdescribe('CHSubtypeService', () => {
     req.flush({});
 
   }));
+
+  it('add() should add post new ch subtype', fakeAsync(() => {
+    let subtype: CHSubtype = new CHSubtype({ name: 'festival 3', chTypeID: 1 });
+
+    let mockType:CHSubtype = new CHSubtype({ name: 'festival 3', chTypeID: 1, id: 3 });
+
+    chSubtypeService.add(subtype).subscribe( response => subtype = response);
+
+    const req = httpMock.expectOne('http://localhost:8080/api/ch-subtypes');
+    expect(req.request.method).toBe('POST');
+    req.flush(mockType);
+
+    expect(subtype).toBeDefined();
+    expect(subtype.id).toEqual(3);
+    expect(subtype.name).toEqual('festival 3');
+  }))
 });
