@@ -48,7 +48,7 @@ export class UpdateChComponent implements OnInit {
   async ngOnInit() {
 
     this.route.params.subscribe((params: Params) => {
-      this.chid = params.chid;
+      this.chid = +params['index'];
 
       this.chService.getOne(this.chid)
         .subscribe(async response => {
