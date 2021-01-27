@@ -1,6 +1,6 @@
 import { Overlay } from '@angular/cdk/overlay';
-import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { of } from 'rxjs';
 import { News } from 'src/app/models/news.model';
-import { PageEnchanced } from 'src/app/models/page.model';
+import { Page } from 'src/app/models/page.model';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
 import { NewsService } from 'src/app/services/news-service/news-service.service';
 
@@ -17,37 +17,21 @@ import { ChNewsComponent } from './ch-news.component';
 describe('ChNewsComponent', () => {
   let component: ChNewsComponent;
   let fixture: ComponentFixture<ChNewsComponent>;
+  let newsService: NewsService;
   let authService: AuthService;
-  let newsService: NewsService
 
   beforeEach(async () => {
-
-    let authServiceMock = {
+    const authServiceMock = {
       getRole: jasmine.createSpy('getRole')
-        .and.returnValue(of("ADMIN")),
-    }
+      .and.returnValue(of('USER')),
 
-    let n1 = new News();
-    n1.id = 1;
-    n1.heading = "h1";
-    n1.content = "c1";
-    n1.culturalHeritageID = 1;
-    n1.adminID = 1;
-    n1.imageUri = "http://localhost:8080/api/files/1";
+      getId: jasmine.createSpy('getId')
+      .and.returnValue(of(3))
+    };
 
-    let n2 = new News();
-    n2.id = 2;
-    n2.heading = "h2";
-    n2.content = "c2";
-    n2.culturalHeritageID = 1;
-    n2.adminID = 1;
-    n2.imageUri = "http://localhost:8080/api/files/1";
-
-    const mockNews = [n1, n2];
-
-    let newsServiceMock = {
+    const newsServiceMock = {
       getNews: jasmine.createSpy('getNews').and
-        .returnValue(of(new PageEnchanced<News>(
+        .returnValue(of(new Page<News>(
           {
             content: [{
               adminID: 1,
@@ -82,33 +66,30 @@ describe('ChNewsComponent', () => {
             totalPages: 6,
             last: false
           }))),
-    }
+    };
 
 
     await TestBed.configureTestingModule({
       declarations: [ChNewsComponent],
       providers: [
-        { provide: AuthService, useValue: authServiceMock },
-        { provide: newsService, useValue: newsServiceMock },
-        MatSnackBar, Overlay, NgbModal, MatPaginator,
+        { provide: NewsService, useValue: newsServiceMock },
+        {provide: AuthService, useValue: authServiceMock },
       ],
+      // imports: [HttpClientTestingModule],
       imports:
-        [
-          NgxPaginationModule,
-          BrowserAnimationsModule,
-          HttpClientModule
-        ]
-    })
-      .compileComponents();
+      [
+        NgxPaginationModule,
+        BrowserAnimationsModule,
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ChNewsComponent);
     component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService);
-    newsService = TestBed.inject(NewsService);
-    expect(component.newsList).toEqual(undefined);
     fixture.detectChanges();
+    newsService = TestBed.inject(NewsService);
+    authService = TestBed.inject(AuthService);
   });
 
   it('should create', () => {
@@ -117,11 +98,10 @@ describe('ChNewsComponent', () => {
 
   fdescribe('ngOnInit()', () => {
     it('should fetch all new on init (with paggination)', fakeAsync(() => {
-
       component.chID = 1;
       component.ngOnInit();
-
-
+      tick();
+      expect(newsService.getNews).toHaveBeenCalledWith(component.chID, 0);
     }));
   })
 });
