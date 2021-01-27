@@ -24,6 +24,7 @@ describe('CulturalHeritageComponent', () => {
       getSubscriptions: jasmine.createSpy('getSubscriptions')
         .and.returnValue(of([]))
     };
+    
     const chServiceMock = {
       getOne: jasmine.createSpy('getOne')
         .and.returnValue(of(new CulturalHeritage({

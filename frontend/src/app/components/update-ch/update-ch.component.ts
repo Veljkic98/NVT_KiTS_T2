@@ -42,13 +42,14 @@ export class UpdateChComponent implements OnInit {
     private subtypeService: CHSubtypeService,
     private _router: Router,
     private _route: ActivatedRoute,
-    private _snackBar: MatSnackBar, 
+    private _snackBar: MatSnackBar,
   ) { }
 
   async ngOnInit() {
 
     this._route.params.subscribe((params: Params) => {
       this.chid = params.chid;
+
       this.chService.getOne(this.chid)
         .subscribe(async response => {
 
@@ -79,7 +80,6 @@ export class UpdateChComponent implements OnInit {
    *
    */
   async updateCH() {
-
     const location: Location = await this.locationService.post(this.location).toPromise();
 
     this.culturalHeritage.locationID = location.id;
@@ -96,13 +96,13 @@ export class UpdateChComponent implements OnInit {
       file = this.url;
     }
 
-
     let ch: CulturalHeritage = await this.chService.put(this.culturalHeritage, file).toPromise();
-    if(ch){
+
+    if (ch) {
       this._router.navigate(['/cultural-heritages']);
       this.openSnackBar(`Successfuly updated ${ch.name}.`);
     }
-    else{
+    else {
       this.openSnackBar(`Cannot updated cultural heritage.`);
     }
 
@@ -131,7 +131,7 @@ export class UpdateChComponent implements OnInit {
     // console.log(location);
   }
 
-  openSnackBar(message: string): void{
+  openSnackBar(message: string): void {
     this._snackBar.open(message, 'Dismiss', {
       duration: 4000,
     });

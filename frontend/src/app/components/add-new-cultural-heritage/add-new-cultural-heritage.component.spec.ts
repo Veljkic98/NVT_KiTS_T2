@@ -49,7 +49,7 @@ describe('AddNewCulturalHeritageComponent', () => {
         locationName: "lokacija1",
       })
 
-    const l = new Location("12", "12", "asd", "asd", "asd");
+    const l = new Location("12", "12", "Srbija", "Novi Sad", "Ulica 1");
     l.id = 1;
 
     const mockLocation = l;
@@ -149,6 +149,7 @@ describe('AddNewCulturalHeritageComponent', () => {
 
       component.addCH();
       expect(locationService.post).toHaveBeenCalledWith(component.location);
+      // expect(chService.post).toHaveBeenCalledWith(component.location);
 
       expect(navigateSpy).toHaveBeenCalledWith(['/cultural-heritages'])
     }));
