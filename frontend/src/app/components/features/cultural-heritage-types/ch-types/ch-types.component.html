@@ -78,7 +78,7 @@
               <ng-container matColumnDef="{{innerColumn}}" *ngFor="let innerColumn of innerDisplayedColumns">
                 <th mat-header-cell *matHeaderCellDef> {{innerColumn}} </th>
                 <td mat-cell *matCellDef="let element">
-                  <div *ngIf="innerColumn === 'Name'"> {{element.name.charAt(0).toUpperCase() + element.name.slice(1)}}
+                  <div class="subtype-name" *ngIf="innerColumn === 'Name'"> {{element.name.charAt(0).toUpperCase() + element.name.slice(1)}}
                   </div>
 
                   <div *ngIf="innerColumn === 'Edit'">
