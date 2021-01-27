@@ -8,7 +8,7 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { CHSubtype } from 'src/app/models/ch-subtype.model';
 import { CHType } from 'src/app/models/ch-type.model';
 import { Page } from 'src/app/models/page.model';
@@ -222,4 +222,115 @@ describe('CHTypesComponent', () => {
       expect(allCells[1]).toBe(undefined);
     }))
   })
+});
+
+
+
+
+
+describe('CHTypesComponentFailure', () => {
+  let component: CHTypesComponent;
+  let fixture: ComponentFixture<CHTypesComponent>;
+  let service: any;
+  let serviceSubtypes: any;
+
+
+  beforeEach(() => {
+    const chTypesService = {
+      getTypes: jasmine.createSpy('getTypes').and
+        .returnValue(of(new Page<CHType>(
+          {
+            content: [{
+              id: 1,
+              name: 'type1',
+              subtypes: []
+            },
+            {
+              id: 2,
+              name: 'type2',
+              subtypes: []
+            },
+            {
+              id: 3,
+              name: 'type3',
+              subtypes: [new CHSubtype({
+                id: 1,
+                name: 'subtype',
+                chTypeID: 3
+              })]
+            }],
+            id: 1,
+            empty: false,
+            number: 0,
+            numberOfElements: 3,
+            size: 3,
+            totalElements: 12,
+            totalPages: 6,
+            last: false
+          }
+        ))),
+      editType: jasmine.createSpy('editType').and
+        .returnValue(of(new CHType({
+          id: 1,
+          name: 'new name',
+          subtypes: []
+        }))),
+
+      deleteType: jasmine.createSpy('editType').and
+        .returnValue(of({}))
+    };
+
+    const subtypeServices = {
+      deleteSubtype: jasmine.createSpy('deleteSubtype').and.returnValue(throwError(new Error('can\'t delete'))),
+
+      editSubtype: jasmine.createSpy('editSubtype').and
+        .returnValue(of(new CHSubtype({
+          id: 1,
+          name: 'new subtype name'
+        }))),
+    };
+
+
+
+
+    TestBed.configureTestingModule({
+      declarations: [CHTypesComponent],
+      imports: [NgxPaginationModule, MatDialogModule, MatTableModule, BrowserAnimationsModule],
+      providers: [
+        { provide: CHTypeService, useValue: chTypesService },
+        { provide: CHSubtypeService, useValue: subtypeServices },
+        MatSnackBar, Overlay, NgbModal,
+      ]
+    });
+
+    fixture = TestBed.createComponent(CHTypesComponent);
+    component = fixture.componentInstance;
+    service = TestBed.inject(CHTypeService);
+    serviceSubtypes = TestBed.inject(CHSubtypeService);
+
+  });
+
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  
+  it('should call delete subtype and display a message', fakeAsync(() => {
+    spyOn(component, 'openSnackBar');
+
+    component.ngOnInit();
+    tick();
+    fixture.detectChanges();
+
+    component.deleteSubtype(1);
+    flush();
+    
+    expect(serviceSubtypes.deleteSubtype).toHaveBeenCalledWith(1); // brisanje s id-em 1
+    fixture.detectChanges()
+
+    expect(component.openSnackBar).toHaveBeenCalledWith('Can\'t delete that subtype. There are cultural heritages of that subtype.');
+
+  }));
+
 });

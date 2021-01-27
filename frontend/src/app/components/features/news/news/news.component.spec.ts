@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { News } from 'src/app/models/news.model';
 import { Page } from 'src/app/models/page.model';
 import { NewsService } from 'src/app/services/news-service/news-service.service';
@@ -133,6 +133,98 @@ describe('NewsComponent', () => {
   it('should call delete news', () => {
     component.deleteNews(1);
     expect(service.deleteNews).toHaveBeenCalledWith(1);
+
+  });
+});
+
+
+
+
+
+
+describe('NewsComponentFailure', () => {
+  let component: NewsComponent;
+  let fixture: ComponentFixture<NewsComponent>;
+  let service: any;
+  let route: any;
+
+  beforeEach(() => {
+    const newsServiceMock = {   
+      getNews: jasmine.createSpy('getNews').and
+      .returnValue(of(new Page<News>(
+      {
+        content: [{
+          adminID: 1,
+          content: 'sadrzaj1',
+          culturalHeritageID: 1,
+          heading: 'naslov1',
+          id: 5,
+          imageUri: 'http://localhost:8080/api/files/2'
+        },
+        {
+          adminID: 1,
+          content: 'sadrzaj2',
+          culturalHeritageID: 1,
+          heading: 'naslov2',
+          id: 6,
+          imageUri: 'http://localhost:8080/api/files/2'
+        },
+        {
+          adminID: 1,
+          content: 'sadrzaj3',
+          culturalHeritageID: 1,
+          heading: 'naslov3',
+          id: 7,
+          imageUri: 'http://localhost:8080/api/files/2'
+        }],
+        id: 1,
+        empty: false,
+        number: 0,
+        numberOfElements: 3,
+        size: 3,
+        totalElements: 12,
+        totalPages: 6,
+        last: false
+      }))),
+
+          deleteNews: jasmine.createSpy('deleteNews').and
+                              .returnValue(throwError(new Error('can\'t')))
+    };
+
+    const activatedRouteStub: ActivatedRouteStub = new ActivatedRouteStub();
+    activatedRouteStub.testParams = { index: 1 }; // we edit a student with id 1. Its id is in route url
+
+    TestBed.configureTestingModule({
+      declarations: [ NewsComponent ],
+      imports: [NgxPaginationModule, BrowserAnimationsModule],
+      providers: [
+        {provide: NewsService, useValue: newsServiceMock},
+        {provide: ActivatedRoute, useValue: activatedRouteStub},
+        MatSnackBar, Overlay, NgbModal
+      ]
+    });
+
+    fixture = TestBed.createComponent(NewsComponent);
+    component = fixture.componentInstance;
+    service = TestBed.inject(NewsService);
+    route = TestBed.inject(ActivatedRoute);
+
+  });
+
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should call delete news and display snackbar error', () => {
+    spyOn(component, 'openSnackBar');
+
+    component.deleteNews(1);
+    expect(service.deleteNews).toHaveBeenCalledWith(1);
+
+    fixture.detectChanges()
+
+    expect(component.openSnackBar).toHaveBeenCalledWith('Can\'t delete that news.');
 
   });
 });
