@@ -16,7 +16,7 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   @Input() chID: number;
   @Output() closeDetails: EventEmitter<void> = new EventEmitter();
 
-  isSubscribed =  false;
+  isSubscribed = false;
 
   loading = true;
   ch: CulturalHeritage;
@@ -30,10 +30,12 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.isSub();
-
+    
     if (!changes.chID.firstChange) {
       this.getCH();
+      if (this.authService.getRole() === 'ROLE_USER') {
+        this.isSub();
+      }
     }
   }
 
@@ -87,7 +89,7 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
         response => {
           this.isSubscribed = false;
           this.openSnackBar('Successfuly unsubscribed!');
-        }, error => {this.openSnackBar('Unsuccessfuly unsubscribed!'); }
+        }, error => { this.openSnackBar('Unsuccessfuly unsubscribed!'); }
       );
   }
 

@@ -76,7 +76,7 @@ export class MapsComponent implements OnInit, DoCheck {
       this._addGeocoderInputEventListener();
       this.map.addControl(this.geocoder, 'top-right');
       // if admin is updating CH location
-      if (this.adminLocationForGeocoder){
+      if (this.adminLocationForGeocoder) {
         this._addMarkerFromGeocoder(this.adminLocationForGeocoder);
         this.map.setCenter([
           parseFloat(this.adminLocationForGeocoder.longitude),
@@ -142,7 +142,7 @@ export class MapsComponent implements OnInit, DoCheck {
    * Each markerIcon has an id corresponding to cultural heritage id.
    * examples of id: "ch_1", "ch_2",...
    */
-  addMarker(coordinates: LngLatLike, color = 'blue', culturalHeritageID: number = null): void{
+  addMarker(coordinates: LngLatLike, color = 'blue', culturalHeritageID: number = null): void {
     const markerIcon: HTMLDivElement = document.createElement('div');
     markerIcon.id = 'ch_' + culturalHeritageID;
 
@@ -182,7 +182,7 @@ export class MapsComponent implements OnInit, DoCheck {
     });
   }
 
-  removeCulturalHeritagesFromMap(): void{
+  removeCulturalHeritagesFromMap(): void {
     this.markersArray.forEach(marker => {
       marker.remove();
     });
@@ -222,7 +222,7 @@ export class MapsComponent implements OnInit, DoCheck {
   }
 
   _showCHDetails(markerIcon: HTMLDivElement): void {
-    const id: number = parseInt(markerIcon.id.split('ch_')[1]);
+    const id: number = parseInt(markerIcon.id.split('ch_')[1], 10);
     this.chChangedEvent.emit(id);
   }
   _addHoverMarkerAnimation(markerIcon: HTMLDivElement): void {
@@ -250,10 +250,10 @@ export class MapsComponent implements OnInit, DoCheck {
 
   // this is only for debuging so you can see colors array
   consoleLogColors(): void {
-    for (let i = 0; i < this.markerColors.length; i++) {
+    this.markerColors.forEach((element, i) => {
       console.log(`%c ${this.markerColors[i]}`, `color: ${this.markerColors[i]}`);
       console.log(`%c     `, `background-color: ${this.markerColors[i]}`);
-    }
+    });
   }
 
   setMarkerColors(): void {
@@ -326,15 +326,20 @@ export class MapsComponent implements OnInit, DoCheck {
     const result = event.result;
     console.log(result);
     const placeNameEnGB = result.place_name;
-    let [street, city, region, country] = placeNameEnGB.split(', ');
+    let c: string;
+
+    const [street, city, region, country] = placeNameEnGB.split(', ');
     if (!country) {
-      country = region;
+      c = region;
+    }
+    else {
+      c = country;
     }
 
     const location: Location = {
       longitude: result.center[0].toString(),
       latitude: result.center[1].toString(),
-      country,
+      country: c,
       city,
       street,
     };
