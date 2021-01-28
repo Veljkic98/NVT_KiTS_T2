@@ -30,7 +30,7 @@ export class CulturalHeritageComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    
+
     if (!changes.chID.firstChange) {
       this.getCH();
       if (this.authService.getRole() === 'ROLE_USER') {

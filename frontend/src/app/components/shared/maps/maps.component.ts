@@ -228,7 +228,7 @@ export class MapsComponent implements OnInit, DoCheck {
   _addHoverMarkerAnimation(markerIcon: HTMLDivElement): void {
     markerIcon.addEventListener('mouseenter', () => {
       markerIcon.style.animation = null;
-      markerIcon.offsetHeight; /* trigger reflow */
+      const l = markerIcon.offsetHeight; /* trigger reflow */
       markerIcon.style.animation = 'hoverMarker 0.2s linear';
     });
   }
@@ -243,7 +243,7 @@ export class MapsComponent implements OnInit, DoCheck {
     // increase size of a selected marker
     const iconImg = markerIcon.getElementsByTagName('i')[0];
     iconImg.style.animation = null;
-    iconImg.offsetHeight; /* trigger reflow */
+    const l = iconImg.offsetHeight; /* trigger reflow */
     iconImg.style.animation = 'selectMarker 0.2s linear';
     iconImg.style.fontSize = '50px';
   }
