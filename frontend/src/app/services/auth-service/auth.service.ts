@@ -12,8 +12,8 @@ export class AuthService {
 
     constructor(private http: HttpClient) { }
 
-    register(user): Observable<any> {
-        return this.http.post(`${environment.apiUrl}/${AUTHENTICATED_USERS}`, user);
+    register(user): Observable<User> {
+        return this.http.post<User>(`${environment.apiUrl}/${AUTHENTICATED_USERS}`, user);
     }
 
     login(email: string, password: string): Observable<JWT> {
@@ -36,8 +36,8 @@ export class AuthService {
         return localStorage.getItem('user') !== null;
     }
 
-    verify(id): Observable<any> {
-        return this.http.get(`${environment.apiUrl}/${AUTHENTICATED_USERS}/verify/${id}`);
+    verify(id): Observable<User> {
+        return this.http.get<User>(`${environment.apiUrl}/${AUTHENTICATED_USERS}/verify/${id}`);
     }
 
     getProfile(): Observable<User> {

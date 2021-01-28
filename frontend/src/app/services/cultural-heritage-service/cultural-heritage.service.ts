@@ -37,7 +37,7 @@ export class CulturalHeritageService {
     return this.http.post<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}`, ch);
   }
 
-  post(name: string, description: string, locationID: number, chsubtypeID: number, image: string): Observable<any> {
+  post(name: string, description: string, locationID: number, chsubtypeID: number, image: string): Observable<CulturalHeritage> {
     const ch = { name, description, locationID, chsubtypeID };
     const formData = new FormData();
     formData.append('culturalHeritageRequestDTO', new Blob([JSON.stringify(ch)], {
@@ -48,7 +48,7 @@ export class CulturalHeritageService {
       formData.append('file', image);
     }
 
-    return this.http.post<any>(`${environment.apiUrl}/${CULTURAL_HERITAGES}`, formData);
+    return this.http.post<CulturalHeritage>(`${environment.apiUrl}/${CULTURAL_HERITAGES}`, formData);
   }
 
 

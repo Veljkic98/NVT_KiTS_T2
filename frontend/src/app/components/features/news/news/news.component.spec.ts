@@ -19,7 +19,7 @@ import { NewsComponent } from './news.component';
 describe('NewsComponent', () => {
   let component: NewsComponent;
   let fixture: ComponentFixture<NewsComponent>;
-  let service: any;
+  let service: NewsService;
   let route: any;
 
   beforeEach(() => {
@@ -150,7 +150,7 @@ describe('NewsComponent', () => {
 describe('NewsComponentFailure', () => {
   let component: NewsComponent;
   let fixture: ComponentFixture<NewsComponent>;
-  let service: any;
+  let service: NewsService;
   let route: any;
 
   beforeEach(() => {

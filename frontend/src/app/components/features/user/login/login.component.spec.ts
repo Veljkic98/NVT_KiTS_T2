@@ -13,7 +13,7 @@ import { LoginComponent } from './login.component';
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let authService: any;
+  let authService: AuthService;
 
   beforeEach(async () => {
 
@@ -97,7 +97,7 @@ describe('LoginComponent', () => {
 describe('LoginComponentFailure', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let authService: any;
+  let authService: AuthService;
 
   beforeEach(async () => {
 
