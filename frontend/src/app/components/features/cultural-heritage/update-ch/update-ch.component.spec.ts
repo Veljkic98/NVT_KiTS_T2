@@ -23,7 +23,6 @@ describe('UpdateChComponent', () => {
   let subtypeService: CHSubtypeService;
   let locationService: LocationService;
   let router: Router;
-  let route: ActivatedRoute;
 
   beforeEach(async () => {
 

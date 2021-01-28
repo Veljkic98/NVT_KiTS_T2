@@ -353,7 +353,8 @@ describe('CHTypesComponentFailure', () => {
     component.editSubtype(component.chTypes[2].subtypes[0], component.chTypes[2].subtypes[0].name);
     flush();
 
-    expect(serviceSubtypes.editSubtype).toHaveBeenCalledWith({ ...component.chTypes[2].subtypes[0], name: component.chTypes[2].subtypes[0].name });
+    expect(serviceSubtypes.editSubtype)
+    .toHaveBeenCalledWith({ ...component.chTypes[2].subtypes[0], name: component.chTypes[2].subtypes[0].name });
     fixture.detectChanges();
     expect(component.openSnackBar).toHaveBeenCalledWith('Name already exist!');
   }));

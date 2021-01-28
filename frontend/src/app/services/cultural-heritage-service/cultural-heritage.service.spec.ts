@@ -211,7 +211,7 @@ describe('CulturalHeritageService', () => {
 
     const req = httpMock.expectOne('http://localhost:8080/api/cultural-heritages/1');
     expect(req.request.method).toBe('PUT');
-    req.flush;
+    req.flush({});
 
     tick();
     expect(chUpdated).toBeDefined();

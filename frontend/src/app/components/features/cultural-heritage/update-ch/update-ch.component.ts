@@ -69,7 +69,7 @@ export class UpdateChComponent implements OnInit {
               this.subtypes = data;
               // set this.subtype
               this.subtype = this.subtypes.find(subtype =>
-                subtype.id == this.culturalHeritage.chsubtypeID);
+                subtype.id === this.culturalHeritage.chsubtypeID);
             }
           );
         });
@@ -111,7 +111,7 @@ export class UpdateChComponent implements OnInit {
   /**
    * Take url of choosen image.
    *
-   * @param event
+   * @param event file selected
    */
   onSelectFile(event): void {
     if (event.target.files && event.target.files[0]) {
@@ -126,7 +126,7 @@ export class UpdateChComponent implements OnInit {
    * @param location location is passed from map component
    * after geocoder search
    */
-  setLocation(location: Location) {
+  setLocation(location: Location): void {
     console.log(location);
     this.location = location;
     // console.log(location);

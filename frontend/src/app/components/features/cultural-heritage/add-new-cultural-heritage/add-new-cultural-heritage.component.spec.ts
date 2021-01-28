@@ -23,7 +23,6 @@ describe('AddNewCulturalHeritageComponent', () => {
   let subtypeService: CHSubtypeService;
   let locationService: LocationService;
   let router: Router;
-  let route: ActivatedRoute;
 
   beforeEach(async () => {
 
@@ -149,7 +148,8 @@ describe('AddNewCulturalHeritageComponent', () => {
       tick();
       expect(locationService.post).toHaveBeenCalledWith(component.location);
       tick();
-      expect(chService.post).toHaveBeenCalledWith(component.name, component.description, component.location.id, component.subtype.id, component.url);
+      expect(chService.post)
+      .toHaveBeenCalledWith(component.name, component.description, component.location.id, component.subtype.id, component.url);
 
       expect(navigateSpy).toHaveBeenCalledWith(['/cultural-heritages']);
     }));

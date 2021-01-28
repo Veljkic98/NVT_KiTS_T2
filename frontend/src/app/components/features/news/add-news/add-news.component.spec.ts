@@ -17,10 +17,8 @@ describe('AddNewsComponent', () => {
   let component: AddNewsComponent;
   let fixture: ComponentFixture<AddNewsComponent>;
   let authService: AuthService;
-  let route: ActivatedRoute;
   let router: Router;
   let newsService: NewsService;
-  let _snackBar: MatSnackBar;
 
   beforeEach(async () => {
     const authServiceMock = {

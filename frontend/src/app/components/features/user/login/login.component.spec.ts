@@ -50,10 +50,10 @@ describe('LoginComponent', () => {
   it('should set local storage after successful login ', fakeAsync(() => {
     const store = {};
 
-    spyOn(localStorage, 'getItem').and.callFake(function(key) {
+    spyOn(localStorage, 'getItem').and.callFake(key => {
       return store[key];
     });
-    spyOn(localStorage, 'setItem').and.callFake(function(key, value) {
+    spyOn(localStorage, 'setItem').and.callFake((key, value) => {
       return store[key] = value + '';
     });
 
@@ -130,10 +130,10 @@ describe('LoginComponentFailure', () => {
   it('should set error and should not set local storage after failed login ', fakeAsync(() => {
     const store = {};
 
-    spyOn(localStorage, 'getItem').and.callFake(function(key) {
+    spyOn(localStorage, 'getItem').and.callFake(key => {
       return store[key];
     });
-    spyOn(localStorage, 'setItem').and.callFake(function(key, value) {
+    spyOn(localStorage, 'setItem').and.callFake((key, value) => {
       return store[key] = value + '';
     });
 

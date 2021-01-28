@@ -11,7 +11,6 @@ describe('MapsComponent', () => {
   let component: MapsComponent;
   let fixture: ComponentFixture<MapsComponent>;
   let culturalHeritageService: CulturalHeritageService;
-  let  iterableDiffers: IterableDiffers;
 
   beforeEach(async () => {
 
