@@ -90,7 +90,7 @@ export class CulturalHeritagesComponent implements OnInit { // AfterViewInit
     }, () => {});
   }
 
-  async deleteCH(id: number): Promise<void> {
+  deleteCH(id: number): void {
     this.service.delete(id).subscribe(
       data =>  {
         this.openSnackBar(`Successfuly deleted ${this.selectedCH.name}.`);

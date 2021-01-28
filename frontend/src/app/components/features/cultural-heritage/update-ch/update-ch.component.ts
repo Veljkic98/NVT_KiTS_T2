@@ -45,7 +45,7 @@ export class UpdateChComponent implements OnInit {
     private snackBar: MatSnackBar,
   ) { }
 
-  async ngOnInit() {
+  ngOnInit(): void {
 
     this.route.paramMap.subscribe(params => {
       this.chid = +params.get('chid');
@@ -79,33 +79,48 @@ export class UpdateChComponent implements OnInit {
   /**
    *
    */
-  async updateCH() {
-    const location: Location = await this.locationService.post(this.location).toPromise();
-
-    this.culturalHeritage.locationID = location.id;
-    this.culturalHeritage.chsubtypeID = this.subtype.id;
-
-    let file: File;
-    // if new file hasn't been chosen then create file from existing image
-    if (!this.url) {
-      file = await fetch(this.culturalHeritage.imageUri)
-        .then(r => r.blob())
-        .then(blobFile => new File([blobFile], 'slika.png', { type: 'image/png' }));
-    }
-    else {
-      file = this.url;
-    }
+  updateCH(): void {
 
 
-    const ch: CulturalHeritage = await this.chService.put(this.culturalHeritage, file).toPromise();
-    if (ch){
-      this.router.navigate(['/cultural-heritages']);
-      this.openSnackBar(`Successfuly updated ${ch.name}.`);
-    }
-    else {
-      this.openSnackBar(`Cannot updated cultural heritage.`);
-    }
+    this.locationService.post(this.location).subscribe(response => {
 
+      const location: Location = response;
+      this.culturalHeritage.locationID = location.id;
+      this.culturalHeritage.chsubtypeID = this.subtype.id;
+
+      // if new file hasn't been chosen then create file from existing image
+      if (!this.url) {
+        fetch(this.culturalHeritage.imageUri)
+          .then(r => r.blob())
+          .then(blobFile => new File([blobFile], 'slika.png', { type: 'image/png' }))
+          .then(file => {
+            this.chService.put(this.culturalHeritage, file).subscribe(chResponse => {
+              this.router.navigate(['/cultural-heritages']);
+              this.openSnackBar(`Successfuly updated ${chResponse.name}.`);
+            });
+          })
+          .catch(() => {
+            this.openSnackBar(`Cannot updated cultural heritage.`);
+            this.router.navigate(['/cultural-heritages']);
+          });
+      }
+      else {
+        const file = this.url;
+        this.chService.put(this.culturalHeritage, file).subscribe(chResponse => {
+          this.router.navigate(['/cultural-heritages']);
+          this.openSnackBar(`Successfuly updated ${chResponse.name}.`);
+        },
+          () => {
+            this.openSnackBar(`Cannot updated cultural heritage.`);
+            this.router.navigate(['/cultural-heritages']);
+          });
+      }
+
+    },
+      () => {
+        this.openSnackBar(`Cannot updated cultural heritage.`);
+        this.router.navigate(['/cultural-heritages']);
+      });
   }
 
   /**
@@ -132,7 +147,7 @@ export class UpdateChComponent implements OnInit {
     // console.log(location);
   }
 
-  openSnackBar(message: string): void{
+  openSnackBar(message: string): void {
     this.snackBar.open(message, 'Dismiss', {
       duration: 4000,
     });

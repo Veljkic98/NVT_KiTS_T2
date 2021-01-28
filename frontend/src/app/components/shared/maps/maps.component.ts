@@ -99,7 +99,7 @@ export class MapsComponent implements OnInit, DoCheck {
    * Add marker function will render html markers on the map.
    * At the end check if previous and next buttons should be disabled.
    */
-  async addCulturalHeritagesToMap(): Promise<void> {
+  addCulturalHeritagesToMap(): void {
     // let culturalHeritages: CulturalHeritage[];
     let coords: [number, number];
     let color: string;
