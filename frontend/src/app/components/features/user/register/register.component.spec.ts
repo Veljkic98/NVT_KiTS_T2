@@ -13,7 +13,7 @@ import { User } from 'src/app/models/user.model';
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
-  let authService: any;
+  let authService: AuthService;
 
   beforeEach(async () => {
     const authServiceMock = {
@@ -103,7 +103,7 @@ describe('RegisterComponent', () => {
 describe('RegisterComponentFailure', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
-  let authService: any;
+  let authService: AuthService;
 
   beforeEach(async () => {
     const authServiceMock = {

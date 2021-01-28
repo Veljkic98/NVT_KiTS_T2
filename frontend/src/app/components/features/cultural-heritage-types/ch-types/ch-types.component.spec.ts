@@ -20,8 +20,8 @@ import { CHTypesComponent } from './ch-types.component';
 describe('CHTypesComponent', () => {
   let component: CHTypesComponent;
   let fixture: ComponentFixture<CHTypesComponent>;
-  let service: any;
-  let serviceSubtypes: any;
+  let service: CHTypeService;
+  let serviceSubtypes: CHSubtypeService;
 
 
   beforeEach(() => {
@@ -231,8 +231,8 @@ describe('CHTypesComponent', () => {
 describe('CHTypesComponentFailure', () => {
   let component: CHTypesComponent;
   let fixture: ComponentFixture<CHTypesComponent>;
-  let service: any;
-  let serviceSubtypes: any;
+  let service: CHTypeService;
+  let serviceSubtypes: CHSubtypeService;
 
 
   beforeEach(() => {

@@ -249,7 +249,7 @@ export class MapsComponent implements OnInit, DoCheck {
   }
 
   // this is only for debuging so you can see colors array
-  consoleLogColors() {
+  consoleLogColors(): void {
     for (let i = 0; i < this.markerColors.length; i++) {
       console.log(`%c ${this.markerColors[i]}`, `color: ${this.markerColors[i]}`);
       console.log(`%c     `, `background-color: ${this.markerColors[i]}`);
@@ -320,13 +320,13 @@ export class MapsComponent implements OnInit, DoCheck {
    * @return value is a location with properties lng, lat, country, city, street
    * @param event is an event fired from geocoder
    * This function is extracting properties from an event.
-   * how place_name_en_GB looks like: "Фрушкогорска 20, Novi Sad 21203, South Bačka, Serbia"
+   * how placeNameEnGB looks like: "Фрушкогорска 20, Novi Sad 21203, South Bačka, Serbia"
    */
   _getLocationFromGeocoder(event: any): Location {
     const result = event.result;
     console.log(result);
-    const place_name_en_GB = result.place_name;
-    let [street, city, region, country] = place_name_en_GB.split(', ');
+    const placeNameEnGB = result.place_name;
+    let [street, city, region, country] = placeNameEnGB.split(', ');
     if (!country) {
       country = region;
     }
@@ -357,7 +357,7 @@ export class MapsComponent implements OnInit, DoCheck {
     </button>`;
     const marker = new Marker(markerIcon).setLngLat(coordinates).addTo(this.map);
   }
-  _removeMarkerFromGeocoder() {
+  _removeMarkerFromGeocoder(): void {
     try {
       const marker = document.getElementById('geocoder_marker');
       marker.remove();
