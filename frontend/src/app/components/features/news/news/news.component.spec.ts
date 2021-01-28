@@ -133,10 +133,10 @@ describe('NewsComponent', () => {
   it('should call delete news', () => {
     spyOn(component, 'openSnackBar');
 
-    
+
     component.deleteNews(1);
     expect(service.deleteNews).toHaveBeenCalledWith(1);
-    fixture.detectChanges()
+    fixture.detectChanges();
 
     expect(component.openSnackBar).toHaveBeenCalledWith('Successfuly deleted the news!');
   });
@@ -154,7 +154,7 @@ describe('NewsComponentFailure', () => {
   let route: any;
 
   beforeEach(() => {
-    const newsServiceMock = {   
+    const newsServiceMock = {
       getNews: jasmine.createSpy('getNews').and
       .returnValue(of(new Page<News>(
       {
@@ -227,7 +227,7 @@ describe('NewsComponentFailure', () => {
     component.deleteNews(1);
     expect(service.deleteNews).toHaveBeenCalledWith(1);
 
-    fixture.detectChanges()
+    fixture.detectChanges();
 
     expect(component.openSnackBar).toHaveBeenCalledWith('Can\'t delete that news.');
 

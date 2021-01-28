@@ -325,7 +325,7 @@ export class MapsComponent implements OnInit, DoCheck {
   _getLocationFromGeocoder(event: any): Location {
     const result = event.result;
     console.log(result);
-    const place_name_en_GB = result['place_name'];
+    const place_name_en_GB = result.place_name;
     let [street, city, region, country] = place_name_en_GB.split(', ');
     if (!country) {
       country = region;

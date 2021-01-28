@@ -20,8 +20,8 @@ describe('LoginComponent', () => {
 
     const authServiceMock = {
       login: jasmine.createSpy('login')
-      .and.returnValue(of({accessToken: 'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzcHJpbmctc2VjdXJpdHktZXhhbXBsZSIsInN1YiI6ImhlbGVuQGhvdG1haWwuY29tIiwiYXVkIjoid2ViIiwiaWF0IjoxNjA3NTM1NDMwLCJleHAiOjE2MDc1MzcyMzB9.eqYWSx436ToXTEXLMiRg4bf0S8iRcNxEQLkOocFC28WpG3NcE17I4YadXk8bOfDZ4Jw09NufsjbRDGtypLtcaw', expiresIn: 18000000000}))}
-    
+      .and.returnValue(of({accessToken: 'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzcHJpbmctc2VjdXJpdHktZXhhbXBsZSIsInN1YiI6ImhlbGVuQGhvdG1haWwuY29tIiwiYXVkIjoid2ViIiwiaWF0IjoxNjA3NTM1NDMwLCJleHAiOjE2MDc1MzcyMzB9.eqYWSx436ToXTEXLMiRg4bf0S8iRcNxEQLkOocFC28WpG3NcE17I4YadXk8bOfDZ4Jw09NufsjbRDGtypLtcaw', expiresIn: 18000000000}))};
+
 
     const formBuilder = new FormBuilder();
 
@@ -50,10 +50,10 @@ describe('LoginComponent', () => {
   it('should set local storage after successful login ', fakeAsync(() => {
     const store = {};
 
-    spyOn(localStorage, 'getItem').and.callFake(function (key) {
+    spyOn(localStorage, 'getItem').and.callFake(function(key) {
       return store[key];
     });
-    spyOn(localStorage, 'setItem').and.callFake(function (key, value) {
+    spyOn(localStorage, 'setItem').and.callFake(function(key, value) {
       return store[key] = value + '';
     });
 
@@ -104,8 +104,8 @@ describe('LoginComponentFailure', () => {
 
     const authServiceMock = {
       login: jasmine.createSpy('login')
-      .and.returnValue(throwError(new Error('error')))}
-    
+      .and.returnValue(throwError(new Error('error')))};
+
 
     const formBuilder = new FormBuilder();
 
@@ -130,10 +130,10 @@ describe('LoginComponentFailure', () => {
   it('should set error and should not set local storage after failed login ', fakeAsync(() => {
     const store = {};
 
-    spyOn(localStorage, 'getItem').and.callFake(function (key) {
+    spyOn(localStorage, 'getItem').and.callFake(function(key) {
       return store[key];
     });
-    spyOn(localStorage, 'setItem').and.callFake(function (key, value) {
+    spyOn(localStorage, 'setItem').and.callFake(function(key, value) {
       return store[key] = value + '';
     });
 

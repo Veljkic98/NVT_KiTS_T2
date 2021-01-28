@@ -9,7 +9,7 @@ import { ActivatedRouteStub } from 'src/app/testing/router-stubs';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Overlay } from '@angular/cdk/overlay';
-import {CulturalHeritagesComponent} from 'src/app/components/features/cultural-heritage/cultural-heritages/cultural-heritages.component'
+import {CulturalHeritagesComponent} from 'src/app/components/features/cultural-heritage/cultural-heritages/cultural-heritages.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 
@@ -31,8 +31,8 @@ describe('AddNewsComponent', () => {
     };
 
     const mockNews = [
-      new News(1, "heading 1", "content 1", 1, 1, "slika.jpg"),
-      new News(2, "heading 2", "content 2", 1, 1, "slika.jpg"),
+      new News(1, 'heading 1', 'content 1', 1, 1, 'slika.jpg'),
+      new News(2, 'heading 2', 'content 2', 1, 1, 'slika.jpg'),
     ];
 
     const newsServiceMock = {
@@ -53,7 +53,7 @@ describe('AddNewsComponent', () => {
         )),
 
       add: jasmine.createSpy('add')
-        .and.returnValue(of(new News(3, "heading 3", "content 3", 1, 1, "slika.jpg"))),
+        .and.returnValue(of(new News(3, 'heading 3', 'content 3', 1, 1, 'slika.jpg'))),
     };
 
     const activatedRouteStub: ActivatedRouteStub = new ActivatedRouteStub();
@@ -68,7 +68,7 @@ describe('AddNewsComponent', () => {
         MatSnackBar, Overlay,
       ],
       imports: [
-        RouterTestingModule.withRoutes([ { path: 'cultural-heritages', component: CulturalHeritagesComponent },]),
+        RouterTestingModule.withRoutes([ { path: 'cultural-heritages', component: CulturalHeritagesComponent }, ]),
         BrowserAnimationsModule
       ],
     })
@@ -94,8 +94,8 @@ describe('AddNewsComponent', () => {
       fixture.detectChanges();
       component.ngOnInit();
       tick();
-    }))
-  })
+    }));
+  });
 
   describe('add()', () => {
     it('should add news', fakeAsync(() => {
@@ -106,15 +106,15 @@ describe('AddNewsComponent', () => {
       component.ngOnInit();
       tick();
 
-      component.news = new News(3, "heading 3", "content 3", 1, 1, "slika.jpg");
+      component.news = new News(3, 'heading 3', 'content 3', 1, 1, 'slika.jpg');
       component.add();
-      
+
       expect(newsService.add).toHaveBeenCalledWith(component.news);
 
 
       expect(component.openSnackBar).toHaveBeenCalledWith(`Successfuly added ${component.news.heading} news.`);
-      expect(navigateSpy).toHaveBeenCalledWith(['/cultural-heritages'])
+      expect(navigateSpy).toHaveBeenCalledWith(['/cultural-heritages']);
       flush();
-    }))
-  })
+    }));
+  });
 });

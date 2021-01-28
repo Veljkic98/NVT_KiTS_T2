@@ -193,7 +193,7 @@ describe('CHTypesComponent', () => {
     it('should show subtype for a chosen type', fakeAsync(() => {
       component.ngOnInit();
       tick();
-      let element: CHType = new CHType({
+      const element: CHType = new CHType({
         id: 3,
         name: 'type3',
         subtypes: [new CHSubtype({ id: 1, name: 'subtype', chTypeID: 3 })]
@@ -204,12 +204,12 @@ describe('CHTypesComponent', () => {
 
       const allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('.subtype-name'));
       expect(allCells[0].nativeElement.textContent).toContain('Subtype');
-    }))
+    }));
 
     it('should not exists subtype for a chosen type', fakeAsync(() => {
       component.ngOnInit();
       tick();
-      let element: CHType = new CHType(            {
+      const element: CHType = new CHType(            {
         id: 2,
         name: 'type2',
         subtypes: []
@@ -220,8 +220,8 @@ describe('CHTypesComponent', () => {
 
       const allCells: DebugElement[] = fixture.debugElement.queryAll(By.css('.subtype-name'));
       expect(allCells[1]).toBe(undefined);
-    }))
-  })
+    }));
+  });
 });
 
 
@@ -308,7 +308,7 @@ describe('CHTypesComponentFailure', () => {
     expect(component).toBeTruthy();
   });
 
-  
+
   it('should call delete subtype and display a message', fakeAsync(() => {
     spyOn(component, 'openSnackBar');
 
@@ -318,9 +318,9 @@ describe('CHTypesComponentFailure', () => {
 
     component.deleteSubtype(1);
     flush();
-    
+
     expect(serviceSubtypes.deleteSubtype).toHaveBeenCalledWith(1); // brisanje s id-em 1
-    fixture.detectChanges()
+    fixture.detectChanges();
 
     expect(component.openSnackBar).toHaveBeenCalledWith('Can\'t delete that subtype. There are cultural heritages of that subtype.');
 
@@ -335,9 +335,9 @@ describe('CHTypesComponentFailure', () => {
 
     component.deleteType(1);
     flush();
-    
+
     expect(service.deleteType).toHaveBeenCalledWith(1); // brisanje s id-em 1
-    fixture.detectChanges()
+    fixture.detectChanges();
 
     expect(component.openErrorModal).toHaveBeenCalledWith('You can\'t delete this type because there are cultural heritages of selected type. Please delete all data associated with this type first and try again.');
 
@@ -353,9 +353,9 @@ describe('CHTypesComponentFailure', () => {
     component.editSubtype(component.chTypes[2].subtypes[0], component.chTypes[2].subtypes[0].name);
     flush();
 
-    expect(serviceSubtypes.editSubtype).toHaveBeenCalledWith({ ...component.chTypes[2].subtypes[0], name: component.chTypes[2].subtypes[0].name });    
+    expect(serviceSubtypes.editSubtype).toHaveBeenCalledWith({ ...component.chTypes[2].subtypes[0], name: component.chTypes[2].subtypes[0].name });
     fixture.detectChanges();
-    expect(component.openSnackBar).toHaveBeenCalledWith('Name already exist!');    
+    expect(component.openSnackBar).toHaveBeenCalledWith('Name already exist!');
   }));
 
 
@@ -368,9 +368,9 @@ describe('CHTypesComponentFailure', () => {
     component.editType(component.chTypes[0], component.chTypes[0].name);
     flush();
 
-    expect(service.editType).toHaveBeenCalledWith({ ...component.chTypes[0], name: component.chTypes[0].name });    
+    expect(service.editType).toHaveBeenCalledWith({ ...component.chTypes[0], name: component.chTypes[0].name });
     fixture.detectChanges();
-    expect(component.openSnackBar).toHaveBeenCalledWith('Name already exist!');    
+    expect(component.openSnackBar).toHaveBeenCalledWith('Name already exist!');
   }));
 
 });

@@ -20,7 +20,7 @@ describe('AddNewTypeComponent', () => {
   let typeService: CHTypeService;
 
 
-  let typeServiceMock = {
+  const typeServiceMock = {
     getTypes: jasmine.createSpy('getTypes').and.returnValue(of(new Page<CHType>(
       {
         content: [{
@@ -55,7 +55,7 @@ describe('AddNewTypeComponent', () => {
     addType: jasmine.createSpy('addType').and.returnValue(of(
       new CHType({ name: 'new type', subtypes: [], id: 4 }
     ))),
-  }
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -65,7 +65,7 @@ describe('AddNewTypeComponent', () => {
         MatSnackBar, Overlay,
       ],
       imports: [
-        RouterTestingModule.withRoutes([{ path: 'manage/types', component: CHTypesComponent },]),
+        RouterTestingModule.withRoutes([{ path: 'manage/types', component: CHTypesComponent }, ]),
         BrowserAnimationsModule
       ],
     })
@@ -88,8 +88,8 @@ describe('AddNewTypeComponent', () => {
     it('should call get all types', fakeAsync(() => {
       component.ngOnInit();
       expect(typeService.getTypes).toHaveBeenCalled();
-    }))
-  })
+    }));
+  });
 
   describe('loadTypes()', () => {
     it('should load types', fakeAsync(() => {
@@ -98,10 +98,10 @@ describe('AddNewTypeComponent', () => {
 
       component.loadTypes();
       tick();
-      
+
       expect(typeService.getTypes).toHaveBeenCalled();
       expect(component.chTypes.length).toEqual(3);
-    }))
+    }));
 
 
 
@@ -116,11 +116,11 @@ describe('AddNewTypeComponent', () => {
       component.name = 'new type';
       component.addType();
       tick();
-      
+
       expect(typeService.addType).toHaveBeenCalledWith(component.type);
       expect(component.openSnackBar).toHaveBeenCalledWith(`Successfuly added ${component.name} type.`);
-      expect(navigateSpy).toHaveBeenCalledWith(['/manage/types'])
+      expect(navigateSpy).toHaveBeenCalledWith(['/manage/types']);
       flush();
     }));
-  })
+  });
 });

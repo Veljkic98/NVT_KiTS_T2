@@ -34,10 +34,10 @@ describe('UpdateNewsComponent', () => {
     const newsServiceMock = {
 
       getOne: jasmine.createSpy('getOne')
-        .and.returnValue(of(new News(3, "heading 3", "content 3", 1, 1, "slika.jpg"))),
+        .and.returnValue(of(new News(3, 'heading 3', 'content 3', 1, 1, 'slika.jpg'))),
 
       update: jasmine.createSpy('update')
-        .and.returnValue(of(new News(3, "HEADING 3", "CONTENT 3", 1, 1, "slika.jpg"))),
+        .and.returnValue(of(new News(3, 'HEADING 3', 'CONTENT 3', 1, 1, 'slika.jpg'))),
     };
 
     const activatedRouteStub: ActivatedRouteStub = new ActivatedRouteStub();
@@ -52,7 +52,7 @@ describe('UpdateNewsComponent', () => {
         MatSnackBar, Overlay,
       ],
       imports: [
-        RouterTestingModule.withRoutes([{ path: 'manage/news/1', component: NewsComponent },]), 
+        RouterTestingModule.withRoutes([{ path: 'manage/news/1', component: NewsComponent }, ]),
         BrowserAnimationsModule
       ],
     })
@@ -80,28 +80,28 @@ describe('UpdateNewsComponent', () => {
       component.ngOnInit();
 
       expect(newsService.getOne).toHaveBeenCalledWith(3);
-      expect(component.news).toEqual(new News(3, "heading 3", "content 3", 1, 1, "slika.jpg"));
-    }))
-  })
+      expect(component.news).toEqual(new News(3, 'heading 3', 'content 3', 1, 1, 'slika.jpg'));
+    }));
+  });
 
   describe('update()', () => {
-    it('should update news with id 3', fakeAsync(() =>{
+    it('should update news with id 3', fakeAsync(() => {
       spyOn(component, 'openSnackBar');
-      const navigateSpy = spyOn(router, 'navigate')
+      const navigateSpy = spyOn(router, 'navigate');
 
       fixture.detectChanges();
       component.ngOnInit();
       tick();
 
-      component.news = new News(3, "HEADING 3", "CONTENT 3", 1, 1, null);
-      let file: File = null;
+      component.news = new News(3, 'HEADING 3', 'CONTENT 3', 1, 1, null);
+      const file: File = null;
       component.update();
       tick();
       expect(newsService.update).toHaveBeenCalledWith(component.news, file);
 
       expect(component.openSnackBar).toHaveBeenCalledWith(`Successfuly updated ${component.news.heading}.`);
-      expect(navigateSpy).toHaveBeenCalledWith(['/manage/news/1'])
+      expect(navigateSpy).toHaveBeenCalledWith(['/manage/news/1']);
       flush();
-    }))
-  })
+    }));
+  });
 });

@@ -102,7 +102,7 @@ describe('ChNewsComponent', () => {
       tick();
       expect(newsService.getNews).toHaveBeenCalledWith(component.chID, 0);
     }));
-  })
+  });
   describe('getNews()', () => {
     it('should get news', fakeAsync(() => {
       component.chID = 1;
@@ -138,5 +138,5 @@ describe('ChNewsComponent', () => {
       expect(component.total).toEqual(12);
       expect(component.page).toEqual(1);
     }));
-  })
+  });
 });

@@ -38,12 +38,12 @@ describe('LocationService', () => {
         let location: Location;
         const mockLocation: Location = {
             id: 1,
-            latitude: "12",
-            longitude: "12",
-            country: "Srbija",
-            city: "NS",
-            street: "ulica1",
-        }
+            latitude: '12',
+            longitude: '12',
+            country: 'Srbija',
+            city: 'NS',
+            street: 'ulica1',
+        };
 
 
         locationService.getOne(1).subscribe(res => location = res);
@@ -57,30 +57,30 @@ describe('LocationService', () => {
 
         expect(location).toBeDefined();
         expect(location.id).toEqual(1);
-        expect(location.latitude).toEqual("12");
-        expect(location.longitude).toEqual("12");
-        expect(location.city).toEqual("NS");
-        expect(location.country).toEqual("Srbija");
-        expect(location.street).toEqual("ulica1");
+        expect(location.latitude).toEqual('12');
+        expect(location.longitude).toEqual('12');
+        expect(location.city).toEqual('NS');
+        expect(location.country).toEqual('Srbija');
+        expect(location.street).toEqual('ulica1');
     }));
 
     it('post() should save a new location', fakeAsync(() => {
         let location: Location = {
-            latitude: "12",
-            longitude: "12",
-            country: "Srbija",
-            city: "NS",
-            street: "ulica1",
+            latitude: '12',
+            longitude: '12',
+            country: 'Srbija',
+            city: 'NS',
+            street: 'ulica1',
         };
 
         const mockLocation: Location = {
             id: 1,
-            latitude: "12",
-            longitude: "12",
-            country: "Srbija",
-            city: "NS",
-            street: "ulica1",
-        }
+            latitude: '12',
+            longitude: '12',
+            country: 'Srbija',
+            city: 'NS',
+            street: 'ulica1',
+        };
 
 
         locationService.post(location).subscribe(res => location = res);
@@ -91,14 +91,14 @@ describe('LocationService', () => {
         req.flush(mockLocation);
 
         tick();
-        
+
         expect(location).toBeDefined();
         expect(location.id).toEqual(1);
-        expect(location.latitude).toEqual("12");
-        expect(location.longitude).toEqual("12");
-        expect(location.city).toEqual("NS");
-        expect(location.country).toEqual("Srbija");
-        expect(location.street).toEqual("ulica1");
+        expect(location.latitude).toEqual('12');
+        expect(location.longitude).toEqual('12');
+        expect(location.city).toEqual('NS');
+        expect(location.country).toEqual('Srbija');
+        expect(location.street).toEqual('ulica1');
     }));
 
 });

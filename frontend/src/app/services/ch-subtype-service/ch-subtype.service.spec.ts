@@ -36,13 +36,13 @@ describe('CHSubtypeService', () => {
     expect(true).toBe(true);
     let subtypes: CHSubtype[];
 
-    let mockResponse: CHSubtype[] = [
+    const mockResponse: CHSubtype[] = [
       new CHSubtype({ name: 'festival 1', chTypeID: 1, id: 1 }),
       new CHSubtype({ name: 'festival 2', chTypeID: 1, id: 2 })
     ];
 
     chSubtypeService.getAll().subscribe(response => {
-      subtypes = response
+      subtypes = response;
     });
 
     const req = httpMock.expectOne('http://localhost:8080/api/ch-subtypes');
@@ -72,7 +72,7 @@ describe('CHSubtypeService', () => {
   it('add() should add post new ch subtype', fakeAsync(() => {
     let subtype: CHSubtype = new CHSubtype({ name: 'festival 3', chTypeID: 1 });
 
-    let mockType:CHSubtype = new CHSubtype({ name: 'festival 3', chTypeID: 1, id: 3 });
+    const mockType: CHSubtype = new CHSubtype({ name: 'festival 3', chTypeID: 1, id: 3 });
 
     chSubtypeService.add(subtype).subscribe( response => subtype = response);
 
@@ -85,9 +85,9 @@ describe('CHSubtypeService', () => {
     expect(subtype.name).toEqual('festival 3');
   }));
 
-  it('edit() should edit ch subtype', fakeAsync(() =>{
+  it('edit() should edit ch subtype', fakeAsync(() => {
     let subtype: CHSubtype = new CHSubtype({ name: 'festival 33', chTypeID: 1, id: 3 });
-    let mockType:CHSubtype = new CHSubtype({ name: 'festival 33', chTypeID: 1, id: 3 });
+    const mockType: CHSubtype = new CHSubtype({ name: 'festival 33', chTypeID: 1, id: 3 });
 
     chSubtypeService.editSubtype(subtype).subscribe( response => subtype = response);
 
@@ -98,5 +98,5 @@ describe('CHSubtypeService', () => {
     expect(subtype).toBeDefined();
     expect(subtype.id).toEqual(3);
     expect(subtype.name).toEqual('festival 33');
-  }))
+  }));
 });

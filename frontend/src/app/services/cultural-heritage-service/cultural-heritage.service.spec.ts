@@ -68,14 +68,14 @@ describe('CulturalHeritageService', () => {
   }));
 
   it('addNew(ch: CulturalHeritageToAdd) should send and return one cultural heritage', fakeAsync(() => {
-    let ch: CulturalHeritageToAdd = {
+    const ch: CulturalHeritageToAdd = {
       name: 'Venice Carnival',
       chsubtypeID: 1,
       description: 'The Carnival of Venice (Italian: Carnevale di Venezia) is an annual festival, held in Venice, Italy. The Carnival starts forty days before Easter and ends on Shrove Tuesday (Fat Tuesday or MartedÃ¬ Grasso), the day before Ash Wednesday. Dove il gabinetto! In other words, At a carnival, every joke is disgraced!',
       locationID: 1,
     };
 
-    let chAdded: CulturalHeritage; 
+    let chAdded: CulturalHeritage;
 
     const mockCH: CulturalHeritage = {
       id: 1,
@@ -107,19 +107,19 @@ describe('CulturalHeritageService', () => {
   }));
 
   it('post(name: string, description: string, locationID: number, chsubtypeID: number, image: string) should send and return one cultural heritage', fakeAsync(() => {
-    let ch: CulturalHeritageToAdd = {
+    const ch: CulturalHeritageToAdd = {
       name: 'Venice Carnival',
       chsubtypeID: 1,
       description: 'The Carnival of Venice (Italian: Carnevale di Venezia) is an annual festival, held in Venice, Italy. The Carnival starts forty days before Easter and ends on Shrove Tuesday (Fat Tuesday or MartedÃ¬ Grasso), the day before Ash Wednesday. Dove il gabinetto! In other words, At a carnival, every joke is disgraced!',
       locationID: 1,
     };
-    let name = "Venice Carnival";
-    let description = "desc1";
-    let locationId = 1;
-    let chsubtypeID = 1;
-    let image = "neka/putanja";
+    const name = 'Venice Carnival';
+    const description = 'desc1';
+    const locationId = 1;
+    const chsubtypeID = 1;
+    const image = 'neka/putanja';
 
-    let chAdded: CulturalHeritage; 
+    let chAdded: CulturalHeritage;
 
     const mockCH: CulturalHeritage = {
       id: 1,
@@ -159,7 +159,7 @@ describe('CulturalHeritageService', () => {
 
 }));
 
-it('unsubscribe() should query url and delete comment', fakeAsync(() => {
+  it('unsubscribe() should query url and delete comment', fakeAsync(() => {
   chService.unsubscribe(1).subscribe(res => { });
 
   const req = httpMock.expectOne('http://localhost:8080/api/cultural-heritages/unsubscribe/1');
@@ -168,7 +168,7 @@ it('unsubscribe() should query url and delete comment', fakeAsync(() => {
 
 }));
 
-it('subscribe() should query url and delete comment', fakeAsync(() => {
+  it('subscribe() should query url and delete comment', fakeAsync(() => {
   chService.delete(1).subscribe(res => { });
 
   const req = httpMock.expectOne('http://localhost:8080/api/cultural-heritages/1');
@@ -179,7 +179,7 @@ it('subscribe() should query url and delete comment', fakeAsync(() => {
 
   it('put(ch: CulturalHeritage, image: any) should subscribe to cultural heritage with chID', fakeAsync(() => {
 
-    let image = "neki/url";
+    const image = 'neki/url';
 
     let chUpdated: CulturalHeritage = {
       id: 1,
@@ -192,7 +192,7 @@ it('subscribe() should query url and delete comment', fakeAsync(() => {
       locationName: 'Italy Venice',
       name: 'Venice Carnival',
       totalRatings: 0
-    }; 
+    };
 
     const mockCH: CulturalHeritage = {
       id: 1,
@@ -211,7 +211,7 @@ it('subscribe() should query url and delete comment', fakeAsync(() => {
 
     const req = httpMock.expectOne('http://localhost:8080/api/cultural-heritages/1');
     expect(req.request.method).toBe('PUT');
-    req.flush
+    req.flush;
 
     tick();
     expect(chUpdated).toBeDefined();

@@ -27,29 +27,29 @@ describe('UpdateChComponent', () => {
 
   beforeEach(async () => {
 
-    let authServiceMock = {
+    const authServiceMock = {
       getRole: jasmine.createSpy('getRole')
-        .and.returnValue(of("ADMIN")),
+        .and.returnValue(of('ADMIN')),
 
       // getId: jasmine.createSpy('getId')
       // .and.returnValue(of(3))
-    }
+    };
 
     const mockCulturalHeritage =
       new CulturalHeritage({
         id: 1,
         avgRating: 2,
         chsubtypeID: 1,
-        description: "opis1",
-        imageUri: "http://localhost:8080/api/files/1",
+        description: 'opis1',
+        imageUri: 'http://localhost:8080/api/files/1',
         locationID: 1,
-        name: "naziv1",
-        coordinates: ["12", "12"],
+        name: 'naziv1',
+        coordinates: ['12', '12'],
         totalRatings: 3,
-        locationName: "a a",
-      })
+        locationName: 'a a',
+      });
 
-    const l = new Location("12", "12", "a", "a", "a");
+    const l = new Location('12', '12', 'a', 'a', 'a');
     l.id = 1;
 
     const mockLocation = l;
@@ -57,37 +57,37 @@ describe('UpdateChComponent', () => {
     const mockSubtypes = [
       new CHSubtype({
         id: 1,
-        name: "naziv1",
+        name: 'naziv1',
         chTypeID: 1,
       }),
       new CHSubtype({
         id: 2,
-        name: "naziv2",
+        name: 'naziv2',
         chTypeID: 2,
       }),
-    ]
+    ];
 
-    let subtypeServiceMock = {
+    const subtypeServiceMock = {
       getAll: jasmine.createSpy('getAll')
         .and.returnValue(of(
           mockSubtypes
         )),
 
-    }
+    };
 
-    let chServiceMock = {
+    const chServiceMock = {
       getOne: jasmine.createSpy('getOne')
         .and.returnValue(of(mockCulturalHeritage)),
       put: jasmine.createSpy('put')
         .and.returnValue(of(mockCulturalHeritage)),
-    }
+    };
 
-    let locationServiceMock = {
+    const locationServiceMock = {
       post: jasmine.createSpy('post')
         .and.returnValue(of(mockLocation)),
       getOne: jasmine.createSpy('getOne')
         .and.returnValue(of(mockLocation)),
-    }
+    };
 
     await TestBed.configureTestingModule({
       declarations: [UpdateChComponent],
@@ -99,7 +99,7 @@ describe('UpdateChComponent', () => {
       ],
       imports:
         [
-          RouterTestingModule.withRoutes([{ path: 'cultural-heritages', component: CulturalHeritagesComponent },]),
+          RouterTestingModule.withRoutes([{ path: 'cultural-heritages', component: CulturalHeritagesComponent }, ]),
           // RouterTestingModule
           // Router
           // HttpClient
@@ -135,7 +135,7 @@ describe('UpdateChComponent', () => {
       expect(subtypeService.getAll).toHaveBeenCalled();
       expect(component.subtypes.length).toBe(2);
     }));
-  })
+  });
 
   describe('updateCH()', () => {
     it('should update', fakeAsync(() => {
@@ -144,13 +144,13 @@ describe('UpdateChComponent', () => {
 
       component.ngOnInit();
 
-      console.log(component.culturalHeritage)
+      console.log(component.culturalHeritage);
 
       component.subtype.id = 1;
       component.culturalHeritage.locationID = 1;
       component.culturalHeritage.chsubtypeID = 1;
 
-      let file: File = new File([""], "slika123.jpg");
+      const file: File = new File([''], 'slika123.jpg');
       component.url = file;
 
       fixture.detectChanges();
@@ -160,7 +160,7 @@ describe('UpdateChComponent', () => {
       tick();
       expect(locationService.post).toHaveBeenCalledWith(component.location);
       expect(chService.put).toHaveBeenCalledWith(component.culturalHeritage, file);
-      expect(navigateSpy).toHaveBeenCalledWith(['/cultural-heritages'])
+      expect(navigateSpy).toHaveBeenCalledWith(['/cultural-heritages']);
     }));
-  })
+  });
 });

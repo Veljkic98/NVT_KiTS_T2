@@ -15,7 +15,7 @@ describe('MapsComponent', () => {
 
   beforeEach(async () => {
 
-    let chServiceMock = {}
+    const chServiceMock = {};
 
 
     await TestBed.configureTestingModule({
@@ -23,7 +23,7 @@ describe('MapsComponent', () => {
       providers: [
         {provide: CulturalHeritageService, userValue: chServiceMock}
       ],
-      imports: [HttpClientTestingModule], 
+      imports: [HttpClientTestingModule],
     })
     .compileComponents();
   });
@@ -39,23 +39,23 @@ describe('MapsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
+
   describe('addMarker()', () => {
     it('should put markers in the array of markers', fakeAsync(() => {
       fixture.detectChanges();
-      
+
       component.map = new Map({center: [44, 13], container: document.createElement('div')} );
       component.addMarker([47, 13], 'red', 1);
       tick();
 
       expect(component.markersArray.length).toEqual(1);
-    }))
-  })
+    }));
+  });
 
   describe('removeCulturalHeritagesFromMap()', () => {
     it('should remove markers from the array of markers', fakeAsync(() => {
       fixture.detectChanges();
-      
+
       component.map = new Map({center: [44, 13], container: document.createElement('div')} );
       component.addMarker([47, 13], 'red', 1);
       component.addMarker([48, 13], 'red', 1);
@@ -64,7 +64,7 @@ describe('MapsComponent', () => {
       tick();
 
       expect(component.markersArray.length).toEqual(0);
-    }))
-  })
+    }));
+  });
 
 });
