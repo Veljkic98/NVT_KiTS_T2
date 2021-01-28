@@ -38,35 +38,49 @@ export class UpdateNewsComponent implements OnInit {
       });
   }
 
-  async update(): Promise<void> {
+  update(): void {
 
-    let file: File;
+
     // if new file hasn't been chosen then create file from existing image
     if (!this.url) {
-
       // If no image is present, then file shoould be null
       if (!this.news.imageUri) {
-        file = null;
+        const file = null;
+        this.newsService.update(this.news, file)
+        .subscribe(() => {
+          // console.log(response)
+          this.router.navigate([`/manage/news/${this.news.culturalHeritageID}`]);
+          this.openSnackBar(`Successfuly updated ${this.news.heading}.`);
+        },
+          (error) => { this.openSnackBar(`There was a problem updating ${this.news.heading}.`); });
       }
       else {
-        file = await fetch(this.news.imageUri)
+        fetch(this.news.imageUri)
           .then(r => r.blob())
-          .then(blobFile => new File([blobFile], 'slika.png', { type: 'image/png' }));
+          .then(blobFile => new File([blobFile], 'slika.png', { type: 'image/png' }))
+          .then(file => {
+            this.newsService.update(this.news, file)
+              .subscribe(() => {
+                // console.log(response)
+                this.router.navigate([`/manage/news/${this.news.culturalHeritageID}`]);
+                this.openSnackBar(`Successfuly updated ${this.news.heading}.`);
+              },
+                () => { this.openSnackBar(`There was a problem updating ${this.news.heading}.`); });
+          })
+          .catch(() => this.openSnackBar(`There was a problem updating ${this.news.heading}.`));
       }
     }
     // if file has been chosen
     else {
-      file = this.url;
-    }
-
-
-    this.newsService.update(this.news, file)
+      const file = this.url;
+      this.newsService.update(this.news, file)
       .subscribe(() => {
         // console.log(response)
         this.router.navigate([`/manage/news/${this.news.culturalHeritageID}`]);
         this.openSnackBar(`Successfuly updated ${this.news.heading}.`);
       },
-        (error) => {this.openSnackBar(`There was a problem updating ${this.news.heading}.`); });
+        (error) => { this.openSnackBar(`There was a problem updating ${this.news.heading}.`); });
+    }
   }
 
   /**
